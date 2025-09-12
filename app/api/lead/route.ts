@@ -10,17 +10,22 @@ export async function POST(req: NextRequest) {
   const want = !!body.wantExamples
 
   const lines = [
-    'Новый лид (' + (body.source||'-') + ')',
-    'Имя: ' + name,
-    'Тел: ' + phone,
-    'Своя техника: ' + (own ? 'да' : 'нет'),
-    'Мессенджер: ' + messenger,
-    'Примеры: ' + (want ? 'да' : 'нет'),
+    `🔔 Новый лид с сайта ${body.source || 'https://lizing-phi.vercel.app/'}`,
+    `👤 Имя: ${name}`,
+    `📞 Тел: ${phone}`,
+    `🚗 Своя техника: ${own ? 'да' : 'нет'}`,
+    `💬 Мессенджер: ${messenger}`,
+    `🖼 Примеры: ${want ? 'да' : 'нет'}`,
   ]
-  if (body.type) lines.push('Тип: ' + String(body.type))
-  if (body.region) lines.push('Регион: ' + String(body.region))
-  if (body.term) lines.push('Срок: ' + String(body.term))
-  if (body.upfrontMode) lines.push('Формат аванса: ' + (body.upfrontMode==='firstpayment'?'первый платёж':'с авансом'))
+  if (body.type) lines.push(`🛠 Тип: ${String(body.type)}`)
+  if (body.region) lines.push(`📍 Регион: ${String(body.region)}`)
+  if (body.term) lines.push(`⏱ Срок: ${String(body.term)}`)
+  if (body.upfrontMode)
+    lines.push(
+      `💰 Формат аванса: ${
+        body.upfrontMode === 'firstpayment' ? 'первый платёж' : 'с авансом'
+      }`
+    )
   const text = lines.join('\n')
 
   try {
