@@ -1,20 +1,20 @@
 import Hero from '@/components/Hero'
-import WhyUs from '@/components/WhyUs'
-import Segments from '@/components/Segments'
+import Advantages from '@/components/Advantages'
 import HowItWorks from '@/components/HowItWorks'
-import Trust from '@/components/Trust'
-import FAQ from '@/components/FAQ'
+import CaseStudies from '@/components/CaseStudies'
+import LeadForm from '@/components/LeadForm'
+import Contacts from '@/components/Contacts'
 import Footer from '@/components/Footer'
 
 export default function Page() {
   return (
     <main>
       <Hero />
-      <WhyUs />
-      <Segments />
+      <Advantages />
       <HowItWorks />
-      <Trust />
-      <FAQ />
+      <CaseStudies />
+      <LeadForm />
+      <Contacts />
       <Footer />
     </main>
   )

@@ -6,7 +6,7 @@ export default {
     extend: {
       colors: {
         indigoBrand: '#0B3D91',
-        accent: '#1F6FEB',
+        accent: '#0EA5E9',
         dark: '#111827',
         bgsoft: '#F5F7FB'
       },
