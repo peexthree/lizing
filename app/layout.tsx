@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin', 'cyrillic'] })
+const inter = Inter({ subsets: ['latin', 'cyrillic'], display: 'swap' })
 
 export const metadata: Metadata = {
   title: 'Лизинг и точка — лизинг без лишних слов',
@@ -23,6 +23,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   )

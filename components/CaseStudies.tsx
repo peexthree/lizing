@@ -13,7 +13,14 @@ export default function CaseStudies() {
         <div className="mt-8 grid gap-6 md:grid-cols-3">
           {cases.map((c) => (
             <div key={c.src} className="overflow-hidden rounded-2xl">
-              <Image src={c.src} alt={c.alt} width={400} height={300} className="h-48 w-full object-cover" />
+              <Image
+                src={c.src}
+                alt={c.alt}
+                width={400}
+                height={300}
+                className="h-48 w-full object-cover"
+                loading="lazy"
+              />
             </div>
           ))}
         </div>
