@@ -6,16 +6,13 @@ export async function POST(req: NextRequest) {
   const name = typeof body.name === 'string' ? body.name : String(body.name ?? '')
   const phone = typeof body.phone === 'string' ? body.phone : String(body.phone ?? '')
   const own = !!body.ownEquipment
-  const messenger = typeof body.messenger === 'string' ? body.messenger : '-'
-  const want = !!body.wantExamples
-
+  
   const lines = [
-    `🔔 Новый лид с сайта ${body.source || 'https://lizing-phi.vercel.app/'}`,
+    `🔔 Новый лид с сайта 'https://lizing-phi.vercel.app'`,
     `👤 Имя: ${name}`,
     `📞 Тел: ${phone}`,
     `🚗 Своя техника: ${own ? 'да' : 'нет'}`,
-    `💬 Мессенджер: ${messenger}`,
-    `🖼 Примеры: ${want ? 'да' : 'нет'}`,
+   
   ]
   if (body.type) lines.push(`🛠 Тип: ${String(body.type)}`)
   if (body.region) lines.push(`📍 Регион: ${String(body.region)}`)
