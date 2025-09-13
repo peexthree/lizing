@@ -14,7 +14,7 @@ export default function HowItWorks() {
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {steps.map(({ icon: Icon, title, text }, i) => (
             <div key={i} className="flex flex-col items-center rounded-2xl bg-white p-6 text-center shadow">
-              <Icon className="h-10 w-10 text-accent" />
+              <Icon aria-hidden="true" className="h-10 w-10 text-accent" />
               <h3 className="mt-4 font-semibold">{title}</h3>
               <p className="mt-2 text-sm text-dark/70">{text}</p>
             </div>
@@ -25,9 +25,10 @@ export default function HowItWorks() {
             href="https://wa.me/79000000000?text=Здравствуйте!%20У%20меня%20вопрос%20по%20лизингу."
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-2xl border border-accent px-6 py-3 font-semibold text-accent transition-colors hover:bg-accent hover:text-white"
+            aria-label="Задать вопрос в WhatsApp"
+            className="inline-flex items-center gap-2 rounded-2xl border border-accent px-6 py-3 font-semibold text-accent transition-colors hover:bg-accent hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
           >
-            <MessageCircle className="h-5 w-5" />
+            <MessageCircle aria-hidden="true" className="h-5 w-5" />
             Задать вопрос
           </a>
         </div>
@@ -35,4 +36,3 @@ export default function HowItWorks() {
     </section>
   )
 }
-

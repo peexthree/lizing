@@ -11,7 +11,7 @@ export default function QuickForm() {
   const [messenger, setMessenger] = useState<'whatsapp'|'telegram'|''>('whatsapp')
   const [ex, setEx] = useState(true)
 
-  async function onSubmit(e: React.FormEvent) {
+   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
     setStatus('idle')
     const sName = toStr(name).trim()
@@ -35,12 +35,12 @@ export default function QuickForm() {
   return (
     <form onSubmit={onSubmit} className="rounded-2xl bg-white shadow p-6 space-y-4">
       <div>
-        <label className="text-sm font-medium">Имя</label>
-        <input className="mt-1 w-full rounded-lg border border-gray-200 p-3" value={name} onChange={e=>setName((e.target as HTMLInputElement).value)} />
+        <label htmlFor="q-name" className="text-sm font-medium">Имя</label>
+        <input id="q-name" className="mt-1 w-full rounded-lg border border-gray-200 p-3" value={name} onChange={e=>setName((e.target as HTMLInputElement).value)} />
       </div>
       <div>
-        <label className="text-sm font-medium">Телефон</label>
-        <input className="mt-1 w-full rounded-lg border border-gray-200 p-3" value={phone} onChange={e=>setPhone((e.target as HTMLInputElement).value)} />
+        <label htmlFor="q-phone" className="text-sm font-medium">Телефон</label>
+        <input id="q-phone" className="mt-1 w-full rounded-lg border border-gray-200 p-3" value={phone} onChange={e=>setPhone((e.target as HTMLInputElement).value)} />
       </div>
       <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={own} onChange={e=>setOwn((e.target as HTMLInputElement).checked)} /> Техника своя</label>
       <div className="flex items-center gap-4 text-sm">
@@ -49,7 +49,7 @@ export default function QuickForm() {
         <label className="inline-flex items-center gap-2"><input type="radio" checked={messenger==='telegram'} onChange={()=>setMessenger('telegram')} /> Telegram</label>
       </div>
       <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={ex} onChange={e=>setEx((e.target as HTMLInputElement).checked)} /> Прислать 2–3 примера сделок</label>
-      <button className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white hover:opacity-90">Получить расчёт</button>
+      <button className="w-full rounded-lg bg-accent py-3 font-semibold text-white hover:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent">Получить расчёт</button>
       {status==='ok' && <p className="text-sm text-green-700">Готово! Свяжемся в мессенджере.</p>}
       {status==='err' && <p className="text-sm text-red-600">Проверьте поля и попробуйте ещё раз.</p>}
       <p className="text-xs text-gray-500">Нажимая кнопку, вы соглашаетесь с политикой обработки персональных данных.</p>

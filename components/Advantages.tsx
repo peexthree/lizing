@@ -15,7 +15,7 @@ export default function Advantages() {
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
           {items.map(({ icon: Icon, text }) => (
             <div key={text} className="flex items-start gap-4 rounded-2xl border border-gray-200 p-6">
-              <Icon className="h-6 w-6 text-accent" />
+              <Icon aria-hidden="true" className="h-6 w-6 text-accent" />
               <p className="text-sm text-dark">{text}</p>
             </div>
           ))}

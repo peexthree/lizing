@@ -1,12 +1,17 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ArrowRight, Car, Truck, Tractor, Check } from 'lucide-react'
+import Image from 'next/image'
+import { ArrowRight, Check } from 'lucide-react'
 
 import Logo from './Logo'
 
 export default function Hero() {
-  const slides = [Car, Truck, Tractor]
+  const slides = [
+    { src: '/cases/car.webp', alt: 'Легковой автомобиль' },
+    { src: '/cases/truck.webp', alt: 'Грузовой автомобиль' },
+    { src: '/cases/excavator.webp', alt: 'Спецтехника' },
+  ]
   const [index, setIndex] = useState(0)
   const [startX, setStartX] = useState<number | null>(null)
 
@@ -45,22 +50,22 @@ export default function Hero() {
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center md:justify-start">
             <button
               onClick={() => scrollTo('calculator')}
-              className="inline-flex items-center justify-center rounded-2xl bg-accent px-8 py-4 font-semibold text-white shadow transition-colors hover:bg-accent/80"
+              className="inline-flex items-center justify-center rounded-2xl bg-accent px-8 py-4 font-semibold text-white shadow transition-colors hover:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
             >
-              Рассчитать платеж
+              Рассчитать платёж
             </button>
             <button
               onClick={() => scrollTo('lead-form')}
-              className="inline-flex items-center justify-center rounded-2xl border border-accent px-8 py-4 font-semibold text-accent transition-colors hover:bg-accent hover:text-white"
+              className="inline-flex items-center justify-center rounded-2xl border border-accent px-8 py-4 font-semibold text-accent transition-colors hover:bg-accent hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
             >
               Оставить заявку
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight aria-hidden="true" className="ml-2 h-5 w-5" />
             </button>
           </div>
           <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-dark/70 md:justify-start">
             {badges.map(b => (
               <div key={b} className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-accent" />
+                <Check aria-hidden="true" className="h-4 w-4 text-accent" />
                 {b}
               </div>
             ))}
@@ -72,10 +77,15 @@ export default function Hero() {
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            {slides.map((Icon, i) => (
-              <Icon
-                key={i}
-                className={`absolute inset-0 m-auto h-full w-full p-8 text-accent transition-opacity duration-700 ${i === index ? 'opacity-100' : 'opacity-0'}`}
+            {slides.map((s, i) => (
+              <Image
+                key={s.src}
+                src={s.src}
+                alt={s.alt}
+                fill
+                sizes="(min-width: 768px) 33vw, 100vw"
+                priority={i === 0}
+                className={`absolute inset-0 object-contain p-8 transition-opacity duration-700 ${i === index ? 'opacity-100' : 'opacity-0'}`}
               />
             ))}
           </div>
