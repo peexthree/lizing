@@ -1,4 +1,5 @@
 export default function FAQ() {
+export const faq = [
   const qa = [
     {
       q: 'С каким авансом можно оформить?',
@@ -102,7 +103,7 @@ export default function FAQ() {
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-2xl md:text-3xl font-bold">FAQ</h2>
         <div className="mt-8 space-y-4">
-          {qa.map((i) => (
+          {faq.map((i) => (
             <details key={i.q} className="rounded-2xl bg-white p-6 shadow">
               <summary className="cursor-pointer list-none font-semibold">{i.q}</summary>
               <p className="mt-2 text-sm text-dark/70">{i.a}</p>
