@@ -71,7 +71,127 @@ export default function LeadForm() {
   function handlePhone(e: React.ChangeEvent<HTMLInputElement>) {
     const digits = e.target.value.replace(/\D/g, '').slice(0, 10)
     let formatted = '+7'
-@@ -194,50 +195,48 @@ export default function LeadForm() {
+    if (digits.length > 0) formatted += ` (${digits.slice(0, 3)}`
+    if (digits.length >= 3) formatted += ')'
+    if (digits.length >= 4) formatted += ` ${digits.slice(3, 6)}`
+    if (digits.length >= 6) formatted += `-${digits.slice(6, 8)}`
+    if (digits.length >= 8) formatted += `-${digits.slice(8, 10)}`
+    setForm({ ...form, phone: formatted })
+  }
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setStatus('idle')
+    if (form.honeypot) return
+    const parsed = schema.safeParse(form)
+    if (!parsed.success) {
+      setStatus('err')
+      return
+    }
+    setSending(true)
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(parsed.data),
+      })
+      if (!res.ok) throw new Error('bad')
+      setStatus('ok')
+      setForm({
+        ...initialState,
+        utm_source: form.utm_source,
+        utm_medium: form.utm_medium,
+        utm_campaign: form.utm_campaign,
+        utm_content: form.utm_content,
+        referrer: form.referrer,
+        calc: form.calc,
+      })
+    } catch {
+      setStatus('err')
+    } finally {
+      setSending(false)
+    }
+  }
+
+  return (
+    <section id="lead-form" className="bg-white py-16">
+      <div className="mx-auto max-w-md px-4">
+        <h2 className="text-center text-2xl font-bold">Оставить заявку</h2>
+        <form onSubmit={onSubmit} className="mt-8 space-y-4">
+          <div>
+            <label htmlFor="lead-name" className="text-sm font-medium">
+              Имя
+            </label>
+            <input
+              id="lead-name"
+              className="mt-1 w-full rounded-lg border border-gray-200 p-3"
+              placeholder="Имя"
+              value={form.name}
+              onChange={handleChange('name')}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="lead-phone" className="text-sm font-medium">
+              Телефон
+            </label>
+            <input
+              id="lead-phone"
+              className="mt-1 w-full rounded-lg border border-gray-200 p-3"
+              placeholder="Телефон"
+              value={form.phone}
+              onChange={handlePhone}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="lead-client" className="text-sm font-medium">
+              Тип клиента
+            </label>
+            <select
+              id="lead-client"
+              className="mt-1 w-full rounded-lg border border-gray-200 p-3"
+              value={form.clientType}
+              onChange={handleChange('clientType')}
+              required
+            >
+              <option value="">Тип клиента</option>
+              <option>ООО</option>
+              <option>ИП</option>
+              <option>Самозанятый</option>
+              <option>Физлицо</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="lead-tech" className="text-sm font-medium">
+              Вид техники
+            </label>
+            <select
+              id="lead-tech"
+              className="mt-1 w-full rounded-lg border border-gray-200 p-3"
+              value={form.tech}
+              onChange={handleChange('tech')}
+              required
+            >
+              <option value="">Вид техники</option>
+              <option>легковой</option>
+              <option>грузовой</option>
+              <option>спец</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="lead-budget" className="text-sm font-medium">
+              Бюджет/стоимость
+            </label>
+            <input
+              id="lead-budget"
+              className="mt-1 w-full rounded-lg border border-gray-200 p-3"
+              placeholder="Бюджет/стоимость"
+              value={form.budget}
+              onChange={handleChange('budget')}
+            />
+          </div>
+          <div>
             <label htmlFor="lead-comment" className="text-sm font-medium">
               Комментарий
             </label>
@@ -97,7 +217,24 @@ export default function LeadForm() {
           <input type="hidden" value={form.utm_content} name="utm_content" />
           <input type="hidden" value={form.referrer} name="referrer" />
           <input type="hidden" value={form.calc} name="calc" />
-          <label className="inline-flex items-center gap-2 text-xs text-gray-500"><input type="checkbox" checked={agree} onChange={e=>setAgree((e.target as HTMLInputElement).checked)} /> <span>Согласен с <a href="/privacy" className="underline" target="_blank" rel="noopener noreferrer">политикой обработки персональных данных</a></span></label>
+          <label className="inline-flex items-center gap-2 text-xs text-gray-500">
+            <input
+              type="checkbox"
+              checked={agree}
+              onChange={e => setAgree((e.target as HTMLInputElement).checked)}
+            />{' '}
+            <span>
+              Согласен с{' '}
+              <a
+                href="/privacy"
+                className="underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                политикой обработки персональных данных
+              </a>
+            </span>
+          </label>
           <button
             type="submit"
             disabled={sending || !agree}
