@@ -3,6 +3,8 @@ import Advantages from '@/components/Advantages'
 import HowItWorks from '@/components/HowItWorks'
 import Calculator from '@/components/Calculator'
 import CaseStudies from '@/components/CaseStudies'
+import Testimonials from '@/components/Testimonials'
+import Partners from '@/components/Partners'
 import FAQ from '@/components/FAQ'
 import LeadForm from '@/components/LeadForm'
 import Contacts from '@/components/Contacts'
@@ -18,6 +20,8 @@ export default function Page() {
         <HowItWorks />
         <Calculator />
         <CaseStudies />
+        <Testimonials />
+        <Partners />
         <FAQ />
         <LeadForm />
         <Contacts />
