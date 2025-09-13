@@ -19,7 +19,11 @@ const schema = z.object({
   honeypot: z.string().optional(),
 })
 
-type FormState = z.infer<typeof schema>
+type SchemaType = z.infer<typeof schema>
+type FormState = Omit<SchemaType, 'clientType' | 'tech'> & {
+  clientType: '' | SchemaType['clientType']
+  tech: '' | SchemaType['tech']
+}
 
 const initialState: FormState = {
   name: '',
