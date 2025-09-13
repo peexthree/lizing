@@ -8,13 +8,27 @@ export default function LeadForm() {
   const [type, setType] = useState('')
   const [status, setStatus] = useState<'idle' | 'ok' | 'err'>('idle')
 
-  async function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    const fd = new FormData(e.currentTarget)
+    const payload = {
+      name,
+      phone,
+      type,
+      cost: fd.get('cost'),
+      advance: fd.get('advance'),
+      term: fd.get('term'),
+      rate: fd.get('rate'),
+      residual: fd.get('residual'),
+      monthly: fd.get('monthly'),
+      overpayment: fd.get('overpayment'),
+      total: fd.get('total'),
+    }
     try {
       const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, type }),
+        body: JSON.stringify(payload),
       })
       if (res.ok) {
         setStatus('ok')
@@ -52,6 +66,14 @@ export default function LeadForm() {
             value={type}
             onChange={(e) => setType((e.target as HTMLInputElement).value)}
           />
+          <input type="hidden" name="cost" />
+          <input type="hidden" name="advance" />
+          <input type="hidden" name="term" />
+          <input type="hidden" name="rate" />
+          <input type="hidden" name="residual" />
+          <input type="hidden" name="monthly" />
+          <input type="hidden" name="overpayment" />
+          <input type="hidden" name="total" />
           <button className="w-full rounded-2xl bg-accent py-3 font-semibold text-white shadow transition-colors hover:bg-accent/80">
             Отправить
           </button>
