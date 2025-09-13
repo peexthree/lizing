@@ -5,7 +5,12 @@ export default function Footer() {
         <div className="grid gap-6 md:grid-cols-2">
           <div>
             <div className="font-semibold text-dark">Лизинг и точка</div>
-            <p className="mt-2">Тел.: +7 (918) 37‑98‑548 · 8 800 444‑45‑84 · E‑mail: erevakshin@lizing-i-tochka.ru</p>
+            <p className="mt-2">
+              Тел.: +7 (967) 77‑28‑299 · +7 (918) 37‑98‑548 · 8 800 444‑45‑84 · E‑mail:
+              {' '}
+              erevakshin@lizing-i-tochka.ru, dpalenov@lizing-i-tochka.ru
+            </p>
+            <p className="mt-1">Telegram: @dpvlen</p>
             <p className="mt-1">ЭДО: Контур Диадок</p>
           </div>
           <div>
