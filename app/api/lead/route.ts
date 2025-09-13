@@ -5,13 +5,13 @@ export async function POST(req: NextRequest) {
   // sanitize incoming body to primitives
   const name = typeof body.name === 'string' ? body.name : String(body.name ?? '')
   const phone = typeof body.phone === 'string' ? body.phone : String(body.phone ?? '')
-  const own = !!body.ownEquipment
+ 
   
   const lines = [
     `🔔 Новый лид с сайта 'https://lizing-phi.vercel.app'`,
     `👤 Имя: ${name}`,
     `📞 Тел: ${phone}`,
-    `🚗 Своя техника: ${own ? 'да' : 'нет'}`,
+   
    
   ]
   if (body.type) lines.push(`🛠 Тип: ${String(body.type)}`)
