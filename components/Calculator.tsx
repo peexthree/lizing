@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Slider from './ui/Slider'
 import { z } from 'zod'
 
@@ -17,6 +17,19 @@ export default function Calculator() {
   const [showRate, setShowRate] = useState(false)
   const [residual, setResidual] = useState(10)
   const [error, setError] = useState('')
+useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<{ cost?: number; term?: number; advance?: number }>).detail
+      if (detail.cost !== undefined) setCost(detail.cost)
+      if (detail.term !== undefined) setTerm(detail.term)
+      if (detail.advance !== undefined) {
+        setAdvanceMode('percent')
+        setAdvance(detail.advance)
+      }
+    }
+    window.addEventListener('prefill-calculator', handler)
+    return () => window.removeEventListener('prefill-calculator', handler)
+  }, [])
 
   const schema = z.object({
     cost: z.number().min(100000),
