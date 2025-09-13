@@ -10,6 +10,7 @@ export default function QuickForm() {
   const [own, setOwn] = useState(false)
   const [messenger, setMessenger] = useState<'whatsapp'|'telegram'|''>('whatsapp')
   const [ex, setEx] = useState(true)
+  const [agree, setAgree] = useState(false)
 
    async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -49,10 +50,10 @@ export default function QuickForm() {
         <label className="inline-flex items-center gap-2"><input type="radio" checked={messenger==='telegram'} onChange={()=>setMessenger('telegram')} /> Telegram</label>
       </div>
       <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={ex} onChange={e=>setEx((e.target as HTMLInputElement).checked)} /> Прислать 2–3 примера сделок</label>
-      <button className="w-full rounded-lg bg-accent py-3 font-semibold text-white hover:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent">Получить расчёт</button>
+      <label className="inline-flex items-center gap-2 text-xs text-gray-500"><input type="checkbox" checked={agree} onChange={e=>setAgree((e.target as HTMLInputElement).checked)} /> <span>Согласен с <a href="/privacy" className="underline" target="_blank" rel="noopener noreferrer">политикой обработки персональных данных</a></span></label>
+      <button className="w-full rounded-lg bg-accent py-3 font-semibold text-white hover:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent disabled:opacity-50" disabled={!agree}>Получить расчёт</button>
       {status==='ok' && <p className="text-sm text-green-700">Готово! Свяжемся в мессенджере.</p>}
       {status==='err' && <p className="text-sm text-red-600">Проверьте поля и попробуйте ещё раз.</p>}
-      <p className="text-xs text-gray-500">Нажимая кнопку, вы соглашаетесь с политикой обработки персональных данных.</p>
     </form>
   )
 }
