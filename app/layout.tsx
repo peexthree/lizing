@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     'Лизинг для юрлиц, ИП и самозанятых. Быстрое одобрение, гибкие условия, выкуп. Работает по всей РФ. Оставьте заявку — посчитаем платёж и согласуем условия.',
   openGraph: {
-    title:
+   title:
       'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%',
     description:
       'Лизинг для юрлиц, ИП и самозанятых. Быстрое одобрение, гибкие условия, выкуп. Работает по всей РФ. Оставьте заявку — посчитаем платёж и согласуем условия.',
@@ -37,7 +37,10 @@ export const metadata: Metadata = {
     ]
   },
   manifest: '/site.webmanifest',
-  themeColor: '#ffffff'
+}
+
+export const viewport = {
+  themeColor: '#ffffff',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
