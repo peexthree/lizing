@@ -96,7 +96,15 @@ export default function LeadForm() {
       })
       if (!res.ok) throw new Error('bad')
       setStatus('ok')
-      setForm({ ...initialState, utm_source: form.utm_source, utm_medium: form.utm_medium, utm_campaign: form.utm_campaign, utm_content: form.utm_content, referrer: form.referrer, calc: form.calc })
+      setForm({
+        ...initialState,
+        utm_source: form.utm_source,
+        utm_medium: form.utm_medium,
+        utm_campaign: form.utm_campaign,
+        utm_content: form.utm_content,
+        referrer: form.referrer,
+        calc: form.calc,
+      })
     } catch {
       setStatus('err')
     } finally {
@@ -109,51 +117,91 @@ export default function LeadForm() {
       <div className="mx-auto max-w-md px-4">
         <h2 className="text-center text-2xl font-bold">Оставить заявку</h2>
         <form onSubmit={onSubmit} className="mt-8 space-y-4">
-          <input
-            className="w-full rounded-lg border border-gray-200 p-3"
-            placeholder="Имя"
-            value={form.name}
-            onChange={handleChange('name')}
-          />
-          <input
-            className="w-full rounded-lg border border-gray-200 p-3"
-            placeholder="Телефон"
-            value={form.phone}
-            onChange={handlePhone}
-          />
-          <select
-            className="w-full rounded-lg border border-gray-200 p-3"
-            value={form.clientType}
-            onChange={handleChange('clientType')}
-          >
-            <option value="">Тип клиента</option>
-            <option>ООО</option>
-            <option>ИП</option>
-            <option>Самозанятый</option>
-            <option>Физлицо</option>
-          </select>
-          <select
-            className="w-full rounded-lg border border-gray-200 p-3"
-            value={form.tech}
-            onChange={handleChange('tech')}
-          >
-            <option value="">Вид техники</option>
-            <option>легковой</option>
-            <option>грузовой</option>
-            <option>спец</option>
-          </select>
-          <input
-            className="w-full rounded-lg border border-gray-200 p-3"
-            placeholder="Бюджет/стоимость"
-            value={form.budget}
-            onChange={handleChange('budget')}
-          />
-          <textarea
-            className="w-full rounded-lg border border-gray-200 p-3"
-            placeholder="Комментарий"
-            value={form.comment}
-            onChange={handleChange('comment')}
-          />
+          <div>
+            <label htmlFor="lead-name" className="text-sm font-medium">
+              Имя
+            </label>
+            <input
+              id="lead-name"
+              className="mt-1 w-full rounded-lg border border-gray-200 p-3"
+              placeholder="Имя"
+              value={form.name}
+              onChange={handleChange('name')}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="lead-phone" className="text-sm font-medium">
+              Телефон
+            </label>
+            <input
+              id="lead-phone"
+              className="mt-1 w-full rounded-lg border border-gray-200 p-3"
+              placeholder="Телефон"
+              value={form.phone}
+              onChange={handlePhone}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="lead-client" className="text-sm font-medium">
+              Тип клиента
+            </label>
+            <select
+              id="lead-client"
+              className="mt-1 w-full rounded-lg border border-gray-200 p-3"
+              value={form.clientType}
+              onChange={handleChange('clientType')}
+              required
+            >
+              <option value="">Тип клиента</option>
+              <option>ООО</option>
+              <option>ИП</option>
+              <option>Самозанятый</option>
+              <option>Физлицо</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="lead-tech" className="text-sm font-medium">
+              Вид техники
+            </label>
+            <select
+              id="lead-tech"
+              className="mt-1 w-full rounded-lg border border-gray-200 p-3"
+              value={form.tech}
+              onChange={handleChange('tech')}
+              required
+            >
+              <option value="">Вид техники</option>
+              <option>легковой</option>
+              <option>грузовой</option>
+              <option>спец</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="lead-budget" className="text-sm font-medium">
+              Бюджет/стоимость
+            </label>
+            <input
+              id="lead-budget"
+              className="mt-1 w-full rounded-lg border border-gray-200 p-3"
+              placeholder="Бюджет/стоимость"
+              value={form.budget}
+              onChange={handleChange('budget')}
+            />
+          </div>
+          <div>
+            <label htmlFor="lead-comment" className="text-sm font-medium">
+              Комментарий
+            </label>
+            <textarea
+              id="lead-comment"
+              className="mt-1 w-full rounded-lg border border-gray-200 p-3"
+              placeholder="Комментарий"
+              value={form.comment}
+              onChange={handleChange('comment')}
+            />
+          </div>
           <input
             type="text"
             className="hidden"
@@ -169,18 +217,19 @@ export default function LeadForm() {
           <input type="hidden" value={form.referrer} name="referrer" />
           <input type="hidden" value={form.calc} name="calc" />
           <button
+            type="submit"
             disabled={sending}
-            className="w-full rounded-2xl bg-accent py-3 font-semibold text-white shadow transition-colors hover:bg-accent/80 disabled:opacity-50"
+            className="w-full rounded-2xl bg-accent py-3 font-semibold text-white shadow transition-colors hover:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent disabled:opacity-50"
           >
-            Отправить
+            Оставить заявку
           </button>
           {status === 'ok' && (
-            <p className="text-sm text-green-700">
+            <p className="text-sm text-green-700" role="status" aria-live="polite">
               Спасибо! Менеджер свяжется в течение 15 минут в рабочее время.
             </p>
           )}
           {status === 'err' && (
-            <p className="text-sm text-red-600">
+            <p className="text-sm text-red-600" role="status" aria-live="polite">
               Проверьте поля и попробуйте ещё раз.
             </p>
           )}
