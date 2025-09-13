@@ -1,4 +1,25 @@
-}
+'use client'
+import { useState } from 'react'
+
+export default function LeadForm() {
+  const [status, setStatus] = useState<'idle'|'ok'|'err'>('idle')
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [type, setType] = useState('')
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setStatus('idle')
+    const sName = name.trim()
+    const sPhone = phone.trim()
+    if (sName.length < 2 || sPhone.length < 6) { setStatus('err'); return }
+    const payload = { source: 'lead', name: sName, phone: sPhone, type: type.trim() || undefined }
+    try {
+      const res = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      if (!res.ok) throw new Error('bad')
+      setStatus('ok'); setName(''); setPhone(''); setType('')
+    } catch { setStatus('err') }
+  }
 
   return (
     <section id="lead-form" className="py-16 bg-white">
@@ -9,19 +30,19 @@
             className="w-full rounded-lg border border-gray-200 p-3"
             placeholder="Имя"
             value={name}
-            onChange={(e) => setName((e.target as HTMLInputElement).value)}
+            onChange={e => setName((e.target as HTMLInputElement).value)}
           />
           <input
             className="w-full rounded-lg border border-gray-200 p-3"
             placeholder="Телефон"
             value={phone}
-            onChange={(e) => setPhone((e.target as HTMLInputElement).value)}
+            onChange={e => setPhone((e.target as HTMLInputElement).value)}
           />
           <input
             className="w-full rounded-lg border border-gray-200 p-3"
             placeholder="Тип техники"
             value={type}
-            onChange={(e) => setType((e.target as HTMLInputElement).value)}
+            onChange={e => setType((e.target as HTMLInputElement).value)}
           />
           <button className="w-full rounded-2xl bg-accent py-3 font-semibold text-white shadow transition-colors hover:bg-accent/80">
             Отправить
