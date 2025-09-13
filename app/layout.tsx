@@ -4,21 +4,40 @@ import './globals.css'
 import Header from '@/components/Header'
 
 const inter = Inter({ subsets: ['latin', 'cyrillic'], display: 'swap' })
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
 export const metadata: Metadata = {
-  title: 'Лизинг и точка — лизинг без лишних слов',
-  description: 'Низкий аванс, быстрое одобрение, работаем с юр. и физ. лицами.',
+  metadataBase: new URL(baseUrl),
+  title: 'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%',
+  description:
+    'Лизинг для юрлиц, ИП и самозанятых. Быстрое одобрение, гибкие условия, выкуп. Работает по всей РФ. Оставьте заявку — посчитаем платёж и согласуем условия.',
   openGraph: {
-    title: 'Лизинг и точка — лизинг без лишних слов',
-    description: 'Низкий аванс, быстрое одобрение, работаем с юр. и физ. лицами.',
+    title:
+      'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%',
+    description:
+      'Лизинг для юрлиц, ИП и самозанятых. Быстрое одобрение, гибкие условия, выкуп. Работает по всей РФ. Оставьте заявку — посчитаем платёж и согласуем условия.',
     images: [{ url: '/og.jpg', width: 1200, height: 630, alt: 'Лизинг и точка' }]
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Лизинг и точка — лизинг без лишних слов',
-    description: 'Низкий аванс, быстрое одобрение, работаем с юр. и физ. лицами.',
+    title:
+      'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%',
+    description:
+      'Лизинг для юрлиц, ИП и самозанятых. Быстрое одобрение, гибкие условия, выкуп. Работает по всей РФ. Оставьте заявку — посчитаем платёж и согласуем условия.',
     images: ['/og.jpg']
-  }
+  },
+  alternates: {
+    canonical: '/'
+  },
+  icons: {
+    icon: [
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' }
+    ]
+  },
+  manifest: '/site.webmanifest',
+  themeColor: '#ffffff'
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
