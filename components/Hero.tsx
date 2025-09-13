@@ -1,4 +1,4 @@
-«Использовать клиент»
+"use client";
 
 import { useEffect, useState } из 'react' 
 импорт изображения из 'next/image' 
