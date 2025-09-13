@@ -19,7 +19,7 @@ export default function StickyBar() {
           className="flex flex-1 items-center justify-center gap-1 rounded-2xl bg-accent px-4 py-3 text-white shadow"
         >
           <Phone className="h-5 w-5" />
-          <span className="text-sm font-medium">Позвонить</span>
+          <span className="text-sm font-medium">Звонок</span>
         </a>
         <a
           href="https://wa.me/79677728299"

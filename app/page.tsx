@@ -1,7 +1,9 @@
 import Hero from '@/components/Hero'
 import Advantages from '@/components/Advantages'
 import HowItWorks from '@/components/HowItWorks'
+import Calculator from '@/components/Calculator'
 import CaseStudies from '@/components/CaseStudies'
+import FAQ from '@/components/FAQ'
 import LeadForm from '@/components/LeadForm'
 import Contacts from '@/components/Contacts'
 import Footer from '@/components/Footer'
@@ -14,7 +16,9 @@ export default function Page() {
         <Hero />
         <Advantages />
         <HowItWorks />
+        <Calculator />
         <CaseStudies />
+        <FAQ />
         <LeadForm />
         <Contacts />
         <Footer />

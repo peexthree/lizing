@@ -10,10 +10,9 @@ export default {
     },
     extend: {
       colors: {
-        indigoBrand: '#0B3D91',
-        accent: '#0EA5E9',
-        dark: '#111827',
-        bgsoft: '#F5F7FB'
+        accent: '#1E66FF',
+        dark: '#1A1F2B',
+        bgsoft: '#E6F2FF'
       },
       borderRadius: {
         '2xl': '1rem'

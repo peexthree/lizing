@@ -7,7 +7,7 @@ export default function CaseStudies() {
     { src: '/cases/excavator.webp', alt: 'Спецтехника' },
   ]
   return (
-    <section className="py-16">
+    <section id="examples" className="py-16">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-2xl md:text-3xl font-bold text-center">Примеры техники</h2>
         <div className="mt-8 grid gap-6 md:grid-cols-3">

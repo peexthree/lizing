@@ -1,6 +1,6 @@
 'use client'
-import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
+import Logo from './Logo'
 
 export default function Hero() {
   function scrollToForm() {
@@ -10,15 +10,15 @@ export default function Hero() {
     <section className="relative overflow-hidden">
       <div className="mx-auto max-w-6xl px-4 py-24 text-center">
         <div className="flex justify-center">
-          <Image src="/logo.svg" alt="Лизинг и точка" width={80} height={80} loading="lazy" />
+          <Logo />
         </div>
         <h1 className="mt-6 text-3xl md:text-5xl font-bold text-dark">Лизинг без лишних слов</h1>
         <button
           onClick={scrollToForm}
-          className={[
-            'mt-8 inline-flex items-center rounded-full bg-accent px-8 py-4 font-semibold text-white',
-            'transition-colors hover:bg-accent/80',
-          ].join(' ')}
+            className={[ 
+              'mt-8 inline-flex items-center rounded-2xl bg-accent px-8 py-4 font-semibold text-white shadow',
+              'transition-colors hover:bg-accent/80',
+            ].join(' ')}
         >
           Оставить заявку
           <ArrowRight className="ml-2 h-5 w-5" />

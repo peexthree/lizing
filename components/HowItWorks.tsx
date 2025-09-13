@@ -6,7 +6,7 @@ export default function HowItWorks() {
     { n: 4, t: 'Получение техники', d: 'Забираете автомобиль или оборудование' },
   ]
   return (
-    <section className="py-16">
+    <section id="how" className="py-16">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-2xl md:text-3xl font-bold">Как это работает</h2>
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">

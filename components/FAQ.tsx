@@ -6,7 +6,7 @@ export default function FAQ() {
     { q: 'Какие документы нужны?', a: 'Минимальный набор зависит от суммы. Подскажем чек‑лист для быстрого одобрения.' },
   ]
   return (
-    <section className="py-16">
+    <section id="faq" className="py-16">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-2xl md:text-3xl font-bold">FAQ</h2>
         <div className="mt-8 space-y-4">
