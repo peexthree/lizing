@@ -10,14 +10,14 @@ export default function Hero() {
   return (
     <section className="relative min-h-[75vh] overflow-hidden">
       <Image
-        src="/cases/car.webp"
-        alt="Премиальный автомобиль"
+        src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1920&q=80"
+        alt="Премиальный автомобиль крупным планом"
         fill
         priority
         sizes="100vw"
         className="object-cover"
       />
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-black/60" />
       <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col items-center justify-center px-4 text-center text-white">
         <h1 className="text-4xl font-bold md:text-6xl">
           Авто в лизинг на лучших условиях
@@ -32,4 +32,3 @@ export default function Hero() {
     </section>
   )
 }
-
