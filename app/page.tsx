@@ -24,7 +24,11 @@ export default function Page() {
           'erevakshin@lizing-i-tochka.ru'
         ],
         telephone: [
-@@ -32,26 +33,40 @@ export default function Page() {
+          '+7 (967) 77-28-299',
+          '+7 (918) 37-98-548',
+          '8 800 444-45-84'
+        ],
+      },
       ...['Лизинг автомобилей', 'Лизинг грузовой техники', 'Лизинг спецтехники'].map(
         (name) => ({
           '@type': 'Service',
@@ -50,18 +54,3 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main>
-        <HeroSection />
-        <Advantages />
-        <HowItWorks />
-        <Calculator />
-        <CaseStudies />
-        <FAQ />
-        <LeadForm />
-        <Contacts />
-        <Footer />
-      </main>
-      <StickyBar />
-    </>
-  )
-}
