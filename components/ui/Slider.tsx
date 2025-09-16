@@ -1,14 +1,13 @@
 'use client'
-import React from 'react'
+
+import { forwardRef, memo } from 'react'
 
 export interface SliderProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-export default function Slider({ className = '', ...props }: SliderProps) {
-  return (
-    <input
-      type="range"
-      className={`w-full cursor-pointer ${className}`}
-      {...props}
-    />
-  )
-}
+const Slider = memo(
+  forwardRef<HTMLInputElement, SliderProps>(function Slider({ className = '', ...props }, ref) {
+    return <input ref={ref} type="range" className={`w-full cursor-pointer ${className}`} {...props} />
+  })
+)
+
+export default Slider

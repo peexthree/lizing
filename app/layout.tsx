@@ -1,9 +1,17 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import Header from '@/components/Header'
 
-const inter = Inter({ subsets: ['latin', 'cyrillic'], display: 'swap' })
+const inter = localFont({
+  src: [
+    { path: '../public/fonts/inter-cyrillic-400-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../public/fonts/inter-cyrillic-500-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../public/fonts/inter-cyrillic-600-normal.woff2', weight: '600', style: 'normal' },
+    { path: '../public/fonts/inter-cyrillic-700-normal.woff2', weight: '700', style: 'normal' }
+  ],
+  display: 'swap'
+})
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
 export const metadata: Metadata = {
@@ -12,16 +20,14 @@ export const metadata: Metadata = {
   description:
     'Лизинг для юрлиц, ИП и самозанятых. Быстрое одобрение, гибкие условия, выкуп. Работает по всей РФ. Оставьте заявку — посчитаем платёж и согласуем условия.',
   openGraph: {
-   title:
-      'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%',
+    title: 'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%',
     description:
       'Лизинг для юрлиц, ИП и самозанятых. Быстрое одобрение, гибкие условия, выкуп. Работает по всей РФ. Оставьте заявку — посчитаем платёж и согласуем условия.',
     images: [{ url: '/og.jpg', width: 1200, height: 630, alt: 'Лизинг и точка' }]
   },
   twitter: {
     card: 'summary_large_image',
-    title:
-      'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%',
+    title: 'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%',
     description:
       'Лизинг для юрлиц, ИП и самозанятых. Быстрое одобрение, гибкие условия, выкуп. Работает по всей РФ. Оставьте заявку — посчитаем платёж и согласуем условия.',
     images: ['/og.jpg']
@@ -46,10 +52,6 @@ export const viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
       <body className={`${inter.className} antialiased`}>
         <Header />
         {children}
