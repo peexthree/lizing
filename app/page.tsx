@@ -1,7 +1,7 @@
 import HeroSection from '@/components/Hero'
 import Advantages from '@/components/Advantages'
 import HowItWorks from '@/components/HowItWorks'
-import Calculator from '@/components/Calculator'
+import CalculatorModal from '@/components/CalculatorModal'
 import CaseStudies from '@/components/CaseStudies'
 import FAQ, { faq } from '@/components/FAQ'
 import LeadForm from '@/components/LeadForm'
@@ -58,7 +58,7 @@ export default function Page() {
       <HeroSection />
       <Advantages />
       <HowItWorks />
-      <Calculator />
+      <CalculatorModal />
       <CaseStudies />
       <FAQ />
       <LeadForm />

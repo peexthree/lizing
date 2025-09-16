@@ -52,7 +52,7 @@ export default function CaseStudies() {
 
   function handleClick(preset: Preset) {
     window.dispatchEvent(new CustomEvent('prefill-calculator', { detail: preset }))
-    document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth' })
+       window.dispatchEvent(new Event('open-calculator'))
   }
 
   return (

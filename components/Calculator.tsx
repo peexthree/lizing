@@ -10,6 +10,11 @@ function formatRub(n: number) {
   return `${rubFormatter.format(Math.round(n))} ₽`
 }
 
+type CalculatorProps = {
+  variant?: 'page' | 'modal'
+  id?: string
+}
+
 const calculationSchema = z.object({
   cost: z.number().min(100_000),
   advance: z.number().min(0),
@@ -39,8 +44,8 @@ const SummaryCard = memo(function SummaryCard({ title, value, description, value
 
 SummaryCard.displayName = 'SummaryCard'
 
-export default function Calculator() {
-  const [cost, setCost] = useState(5_000_000)
+export default function Calculator({ variant = 'page', id = 'calculator' }: CalculatorProps) {
+  const isModal = variant === 'modal'  const [cost, setCost] = useState(5_000_000)
   const [advanceMode, setAdvanceMode] = useState<'percent' | 'currency'>('percent')
   const [advance, setAdvance] = useState(20)
   const [term, setTerm] = useState(36)
@@ -267,10 +272,12 @@ export default function Calculator() {
     ],
     [effectiveRate, financed, financedShare]
   )
+const wrapperClasses = isModal ? 'mx-auto max-w-4xl px-3 sm:px-4' : 'mx-auto max-w-4xl px-4'
+  const cardWrapperMargin = isModal ? 'mt-8' : 'mt-12'
 
   return (
-    <section id="calculator" className="py-24">
-      <div className="mx-auto max-w-4xl px-4">
+    <section id={id} className={isModal ? 'py-6 sm:py-8' : 'py-24'}>
+      <div className={wrapperClasses}>
         <div className="mx-auto max-w-2xl text-center animate-fade-up">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Калькулятор</span>
           <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Рассчитайте комфортный платёж за минуту</h2>
@@ -283,7 +290,7 @@ export default function Calculator() {
           </div>
         </div>
 
-        <div className="mt-12 rounded-[2.5rem] border border-white/60 bg-white/85 p-8 shadow-hero backdrop-blur-2xl animate-fade-up">
+        <div className={`${cardWrapperMargin} rounded-[2.5rem] border border-white/60 bg-white/85 p-8 shadow-hero backdrop-blur-2xl animate-fade-up`}>
           <div className="space-y-10">
             <div className="grid gap-6 md:grid-cols-2">
               <div>
