@@ -11,6 +11,7 @@ import LeadForm from '@/components/LeadForm'
 import Contacts from '@/components/Contacts'
 import Footer from '@/components/Footer'
 import StickyBar from '@/components/StickyBar'
+import Stats from '@/components/Stats'
 
 export default function Page() {
   const jsonLd = {
@@ -59,6 +60,7 @@ export default function Page() {
       ></script>
 
       <HeroSection />
+      <Stats />
       <Advantages />
       <HowItWorks />
       <Testimonials />
