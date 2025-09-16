@@ -25,7 +25,7 @@ export default function Calculator() {
       if (detail.term !== undefined) setTerm(detail.term)
       if (detail.advance !== undefined) {
         setAdvanceMode('percent')
-        setAdvance(detail.advance)
+     setAdvance(detail.advance)
       }
     }
     window.addEventListener('prefill-calculator', handler)
@@ -50,6 +50,8 @@ export default function Calculator() {
     : financed / term
   const total = advanceRub + residualRub + monthlyPayment * term
   const overpayment = total - cost
+  const effectiveRate = cost ? ((total / cost - 1) * 100) : 0
+  const financedShare = cost ? (financed / cost) * 100 : 0
 
   function toggleAdvanceMode() {
     if (advanceMode === 'percent') {
@@ -86,11 +88,34 @@ export default function Calculator() {
     document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const summary = [
+      `Стоимость: ${formatRub(cost)}`,
+      `Аванс: ${formatRub(advanceRub)} (${Math.round(advancePercent)}%)`,
+      `Срок: ${term} мес.`,
+      `Платёж: ${formatRub(monthlyPayment || 0)}`,
+      `Переплата: ${formatRub(overpayment || 0)}`,
+      `Итого: ${formatRub(total || 0)}`
+    ].join(' · ')
+    window.localStorage.setItem('calc', summary)
+  }, [
+    cost,
+    advanceRub,
+    advancePercent,
+    term,
+    monthlyPayment,
+    overpayment,
+    total
+  ])
+
   return (
     <section id="calculator" className="relative py-20">
       <div className="absolute inset-0 -z-10">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white/50 to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/40 to-transparent" />
+        <div className="floating-orb left-[15%] top-[12rem] hidden h-[300px] w-[300px] bg-accent/20 lg:block" />
+        <div className="floating-orb right-[18%] bottom-[-4rem] hidden h-[260px] w-[260px] bg-white/35 md:block" />
       </div>
       <div className="mx-auto max-w-4xl px-4">
         <div className="mx-auto max-w-2xl text-center animate-fade-up" style={{ animationDelay: '0.05s' }}>
@@ -99,6 +124,14 @@ export default function Calculator() {
           <p className="mt-4 text-lg text-dark/65">
             Подберите стоимость, аванс и срок — результаты сразу можно отправить в заявку на одобрение.
           </p>
+          <div className="mt-5 flex flex-wrap justify-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-dark/50">
+            <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">
+              Живое обновление
+            </span>
+            <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">
+              Сохраняем расчёт
+            </span>
+          </div>
         </div>
         <div
           className="mt-12 rounded-[2.5rem] border border-white/60 bg-white/85 p-8 shadow-hero backdrop-blur-2xl animate-fade-up"
@@ -125,6 +158,10 @@ export default function Calculator() {
                     value={cost}
                     onChange={e => setCost(Number((e.target as HTMLInputElement).value))}
                   />
+                  <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
+                    <span>100 тыс.</span>
+                    <span>20 млн</span>
+                  </div>
                 </div>
               </div>
               <div>
@@ -155,6 +192,10 @@ export default function Calculator() {
                     value={advance}
                     onChange={e => setAdvance(Number((e.target as HTMLInputElement).value))}
                   />
+                  <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
+                    <span>0%</span>
+                    <span>{advanceMode === 'percent' ? '90%' : `${formatRub(cost)}`}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -178,6 +219,10 @@ export default function Calculator() {
                     value={term}
                     onChange={e => setTerm(Number((e.target as HTMLInputElement).value))}
                   />
+                  <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
+                    <span>1 мес.</span>
+                    <span>60 мес.</span>
+                  </div>
                 </div>
               </div>
               <div>
@@ -199,6 +244,10 @@ export default function Calculator() {
                     value={residual}
                     onChange={e => setResidual(Number((e.target as HTMLInputElement).value))}
                   />
+                  <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
+                    <span>0%</span>
+                    <span>50%</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -236,6 +285,23 @@ export default function Calculator() {
               <div className="rounded-3xl border border-white/60 bg-white/80 p-5 text-center shadow-sm backdrop-blur">
                 <div className="text-xs font-semibold uppercase tracking-wide text-dark/50">Итого к выкупу</div>
                 <div className="mt-2 text-2xl font-semibold text-dark">{formatRub(total || 0)}</div>
+              </div>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="rounded-3xl border border-white/60 bg-white/80 p-5 text-center shadow-sm backdrop-blur">
+                <div className="text-xs font-semibold uppercase tracking-wide text-dark/50">Финансирование</div>
+                <div className="mt-2 text-lg font-semibold text-dark">{formatRub(financed > 0 ? financed : 0)}</div>
+                <p className="mt-1 text-xs text-dark/60">{financedShare.toFixed(0)}% от стоимости техники</p>
+              </div>
+              <div className="rounded-3xl border border-white/60 bg-white/80 p-5 text-center shadow-sm backdrop-blur">
+                <div className="text-xs font-semibold uppercase tracking-wide text-dark/50">Эффективная ставка</div>
+                <div className="mt-2 text-lg font-semibold text-dark">{effectiveRate.toFixed(1)}%</div>
+                <p className="mt-1 text-xs text-dark/60">С учётом аванса и остаточного платежа</p>
+              </div>
+              <div className="rounded-3xl border border-white/60 bg-white/80 p-5 text-center shadow-sm backdrop-blur">
+                <div className="text-xs font-semibold uppercase tracking-wide text-dark/50">Храним расчёт</div>
+                <div className="mt-2 text-lg font-semibold text-dark">В форме заявки</div>
+                <p className="mt-1 text-xs text-dark/60">Передадим менеджеру вместе с контактами</p>
               </div>
             </div>
 

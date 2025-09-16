@@ -23,26 +23,26 @@ export default function Header() {
           <a
             href="tel:+79677728299"
             aria-label="Позвонить"
-            className="flex items-center gap-1 rounded-2xl bg-accent px-4 py-2 text-white shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+            className="flex items-center gap-2 rounded-full border border-white/70 bg-white/90 px-4 py-2 text-sm font-semibold text-dark shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
           >
-            <Phone aria-hidden="true" className="h-4 w-4" />
-            <span className="text-sm font-medium">Позвонить</span>
+            <Phone aria-hidden="true" className="h-4 w-4 text-accent" />
+            <span>Позвонить</span>
           </a>
           <a
             href="https://wa.me/79677728299"
             aria-label="WhatsApp"
-            className="flex items-center gap-1 rounded-2xl bg-accent px-4 py-2 text-white shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+            className="flex items-center gap-2 rounded-full border border-white/70 bg-white/90 px-4 py-2 text-sm font-semibold text-dark shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
           >
-            <MessageCircle aria-hidden="true" className="h-4 w-4" />
-            <span className="text-sm font-medium">WhatsApp</span>
+            <MessageCircle aria-hidden="true" className="h-4 w-4 text-accent" />
+            <span>WhatsApp</span>
           </a>
           <button
             onClick={scrollToForm}
             aria-label="Оставить заявку"
-            className="flex items-center gap-1 rounded-2xl bg-accent px-4 py-2 text-white shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+            className="flex items-center gap-2 rounded-full border border-white/70 bg-white/90 px-4 py-2 text-sm font-semibold text-dark shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
           >
-            <PenLine aria-hidden="true" className="h-4 w-4" />
-            <span className="text-sm font-medium">Оставить заявку</span>
+            <PenLine aria-hidden="true" className="h-4 w-4 text-accent" />
+            <span>Оставить заявку</span>
           </button>
         </div>
       </div>

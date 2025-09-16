@@ -1,99 +1,4 @@
-'use client'
-
-import { useState, useEffect } from 'react'
-import { z } from 'zod'
-
-const schema = z.object({
-  name: z.string().min(1),
-  phone: z.string().regex(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/),
-  clientType: z.enum(['ООО', 'ИП', 'Самозанятый', 'Физлицо']),
-  tech: z.enum(['легковой', 'грузовой', 'спец']),
-  budget: z.string().optional(),
-  comment: z.string().optional(),
-  utm_source: z.string().optional(),
-  utm_medium: z.string().optional(),
-  utm_campaign: z.string().optional(),
-  utm_content: z.string().optional(),
-  referrer: z.string().optional(),
-  calc: z.string().optional(),
-  honeypot: z.string().optional(),
-})
-
-type SchemaType = z.infer<typeof schema>
-type FormState = Omit<SchemaType, 'clientType' | 'tech'> & {
-  clientType: '' | SchemaType['clientType']
-  tech: '' | SchemaType['tech']
-}
-
-const initialState: FormState = {
-  name: '',
-  phone: '',
-  clientType: '',
-  tech: '',
-  budget: '',
-  comment: '',
-  utm_source: '',
-  utm_medium: '',
-  utm_campaign: '',
-  utm_content: '',
-  referrer: '',
-  calc: '',
-  honeypot: '',
-}
-
-export default function LeadForm() {
-  const [form, setForm] = useState<FormState>(initialState)
-  const [status, setStatus] = useState<'idle' | 'ok' | 'err'>('idle')
-  const [sending, setSending] = useState(false)
-  const [agree, setAgree] = useState(false)
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    setForm((f) => ({
-      ...f,
-      utm_source: params.get('utm_source') || '',
-      utm_medium: params.get('utm_medium') || '',
-      utm_campaign: params.get('utm_campaign') || '',
-      utm_content: params.get('utm_content') || '',
-      referrer: document.referrer || '',
-      calc: localStorage.getItem('calc') || '',
-    }))
-  }, [])
-
-  function handleChange<K extends keyof FormState>(key: K) {
-    return (
-      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-    ) => {
-      setForm({ ...form, [key]: (e.target as HTMLInputElement).value })
-    }
-  }
-
-  function handlePhone(e: React.ChangeEvent<HTMLInputElement>) {
-    const digits = e.target.value.replace(/\D/g, '').slice(0, 10)
-    let formatted = '+7'
-    if (digits.length > 0) formatted += ` (${digits.slice(0, 3)}`
-    if (digits.length >= 3) formatted += ')'
-    if (digits.length >= 4) formatted += ` ${digits.slice(3, 6)}`
-    if (digits.length >= 6) formatted += `-${digits.slice(6, 8)}`
-    if (digits.length >= 8) formatted += `-${digits.slice(8, 10)}`
-    setForm({ ...form, phone: formatted })
-  }
-
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setStatus('idle')
-    if (form.honeypot) return
-    const parsed = schema.safeParse(form)
-    if (!parsed.success) {
-      setStatus('err')
-      return
-    }
-    setSending(true)
-   try {
-      const res = await fetch('/api/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(parsed.data),
+body: JSON.stringify(parsed.data),
       })
       if (!res.ok) throw new Error('bad')
       setStatus('ok')
@@ -118,6 +23,8 @@ export default function LeadForm() {
       <div className="absolute inset-0 -z-10">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/45 to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white/35 to-transparent" />
+        <div className="floating-orb left-[18%] top-[10rem] hidden h-[280px] w-[280px] bg-white/35 md:block" />
+        <div className="floating-orb right-[15%] bottom-[-4rem] hidden h-[320px] w-[320px] bg-accent/20 lg:block" />
       </div>
       <div className="mx-auto max-w-4xl px-4">
         <div className="mx-auto max-w-2xl text-center animate-fade-up" style={{ animationDelay: '0.05s' }}>
@@ -126,12 +33,29 @@ export default function LeadForm() {
           <p className="mt-4 text-lg text-dark/70">
             Мы перезвоним в течение 15 минут в рабочее время, уточним детали и предложим лучшие варианты от партнёров.
           </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-dark/50">
+            <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">
+              Персональный менеджер
+            </span>
+            <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">
+              Проверка договоров
+            </span>
+            <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">
+              Сопровождение до выдачи
+            </span>
+          </div>
         </div>
         <form
           onSubmit={onSubmit}
           className="mt-12 rounded-[2.5rem] border border-white/60 bg-white/85 p-8 shadow-hero backdrop-blur-2xl animate-fade-up"
           style={{ animationDelay: '0.15s' }}
         >
+          {form.calc && (
+            <div className="mb-8 rounded-3xl border border-accent/20 bg-accent/10 p-5 text-left text-sm text-dark/70 shadow-inner">
+              <div className="text-xs font-semibold uppercase tracking-[0.3em] text-accent/80">Расчёт из калькулятора</div>
+              <p className="mt-2 leading-relaxed">{form.calc}</p>
+            </div>
+          )}
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <label htmlFor="lead-name" className="text-sm font-semibold text-dark">
@@ -157,86 +81,7 @@ export default function LeadForm() {
                 value={form.phone}
                 onChange={handlePhone}
                 required
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="lead-client" className="text-sm font-semibold text-dark">
-                Тип клиента
-              </label>
-              <select
-                id="lead-client"
-                className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
-                value={form.clientType}
-                onChange={handleChange('clientType')}
-                required
-              >
-                <option value="">Выберите тип</option>
-                <option>ООО</option>
-                <option>ИП</option>
-                <option>Самозанятый</option>
-                <option>Физлицо</option>
-              </select>
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="lead-tech" className="text-sm font-semibold text-dark">
-                Вид техники
-              </label>
-              <select
-                id="lead-tech"
-                className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
-                value={form.tech}
-                onChange={handleChange('tech')}
-                required
-              >
-                <option value="">Что планируете приобрести</option>
-                <option>легковой</option>
-                <option>грузовой</option>
-                <option>спец</option>
-              </select>
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="lead-budget" className="text-sm font-semibold text-dark">
-                Бюджет / стоимость
-              </label>
-              <input
-                id="lead-budget"
-                className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
-                placeholder="Например, 5 000 000 ₽"
-                value={form.budget}
-                onChange={handleChange('budget')}
-              />
-            </div>
-            <div className="space-y-2 md:col-span-2">
-              <label htmlFor="lead-comment" className="text-sm font-semibold text-dark">
-                Комментарий
-              </label>
-              <textarea
-                id="lead-comment"
-                className="h-28 w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
-                placeholder="Опишите задачу, сроки, предпочтения"
-                value={form.comment}
-                onChange={handleChange('comment')}
-              />
-            </div>
-          </div>
-          <input
-            type="text"
-            className="hidden"
-            tabIndex={-1}
-            autoComplete="off"
-            value={form.honeypot}
-            onChange={handleChange('honeypot')}
-          />
-          <input type="hidden" value={form.utm_source} name="utm_source" />
-          <input type="hidden" value={form.utm_medium} name="utm_medium" />
-          <input type="hidden" value={form.utm_campaign} name="utm_campaign" />
-          <input type="hidden" value={form.utm_content} name="utm_content" />
-          <input type="hidden" value={form.referrer} name="referrer" />
-          <input type="hidden" value={form.calc} name="calc" />
-          <div className="mt-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <label className="flex items-start gap-3 text-xs text-dark/70">
-              <input
-                type="checkbox"
+@@ -240,42 +259,51 @@ export default function LeadForm() {
                 className="mt-1 accent-accent"
                 checked={agree}
                 onChange={e => setAgree((e.target as HTMLInputElement).checked)}
@@ -261,6 +106,15 @@ export default function LeadForm() {
               <span className="relative z-[1]">Оставить заявку</span>
               <span className="absolute inset-0 translate-x-[-70%] bg-gradient-to-r from-white/30 via-white/60 to-transparent opacity-0 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100" />
             </button>
+          </div>
+          <div className="mt-6 flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-dark/50">
+            <span className="rounded-full border border-accent/30 bg-accent/10 px-4 py-2 text-accent">Одобрение 24 часа</span>
+            <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">
+              Подбор техники
+            </span>
+            <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">
+              Отчёт для бухгалтерии
+            </span>
           </div>
           <div className="mt-4 space-y-2 text-sm">
             {status === 'ok' && (

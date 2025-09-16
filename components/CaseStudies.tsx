@@ -6,7 +6,7 @@ import Image from 'next/image'
 interface Preset {
   cost: number
   term: number
-  advance: number
+    advance: number
 }
 
 export default function CaseStudies() {
@@ -31,7 +31,7 @@ export default function CaseStudies() {
     },
   ]
 
- const mini = [
+  const mini = [
     {
       model: 'Kia K5',
       amount: '2 100 000 ₽',
@@ -60,6 +60,8 @@ export default function CaseStudies() {
       <div className="absolute inset-0 -z-10">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/45 to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white/45 to-transparent" />
+        <div className="floating-orb left-[12%] top-[6rem] hidden h-[280px] w-[280px] bg-white/35 md:block" />
+        <div className="floating-orb right-[10%] bottom-[-3rem] hidden h-[320px] w-[320px] bg-accent/25 lg:block" />
       </div>
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-3xl text-center animate-fade-up" style={{ animationDelay: '0.05s' }}>
@@ -68,6 +70,14 @@ export default function CaseStudies() {
           <p className="mt-4 text-lg text-dark/70">
             От премиальных седанов до тяжёлой спецтехники — под каждую нишу найдём выгодный лизинговый сценарий и закрепим поставщика.
           </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-dark/50">
+            <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">
+              Сценарии 2025
+            </span>
+            <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">
+              Prefill калькулятора
+            </span>
+          </div>
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
@@ -87,6 +97,7 @@ export default function CaseStudies() {
                   loading="lazy"
                 />
                 <div className="absolute inset-x-4 top-4 rounded-full bg-white/80 px-3 py-1 text-center text-xs font-semibold text-dark shadow">{item.price}</div>
+                <div className="absolute inset-0 bg-gradient-to-t from-dark/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               </div>
               <div className="flex flex-col gap-4 p-6">
                 <h3 className="text-lg font-semibold text-dark">{item.title}</h3>
@@ -97,7 +108,12 @@ export default function CaseStudies() {
                   <span className="relative z-[1]">Рассчитать платёж</span>
                   <span className="absolute inset-0 translate-x-[-70%] bg-gradient-to-r from-white/30 via-white/60 to-transparent opacity-0 transition duration-500 group-hover/btn:translate-x-0 group-hover/btn:opacity-100" />
                 </button>
+                <p className="text-xs text-dark/60">
+                  Автоматически подставим параметры в калькулятор и сохраним расчёт в форме заявки.
+                </p>
               </div>
+              <div className="card-glow" aria-hidden="true" />
+              <div className="shine-overlay" aria-hidden="true" />
             </div>
           ))}
         </div>
@@ -117,12 +133,19 @@ export default function CaseStudies() {
                 <p>{m.rate}</p>
                 <p>{m.saving}</p>
               </div>
+              <div className="mt-4 flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+                Сопровождение сделки
+              </div>
             </div>
           ))}
+        </div>
+        <div className="mt-12 rounded-[2.2rem] border border-white/60 bg-white/85 p-6 text-sm text-dark/70 shadow-glow backdrop-blur-xl">
+          <p>
+            Нужен конкретный расчёт под вашу технику? Выберите сценарий выше или отправьте запрос — мы соберём несколько предложений и покажем, как снизить платёж с помощью аванса или остаточного платежа.
+          </p>
         </div>
       </div>
     </section>
   )
 }
-
 
