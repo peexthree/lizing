@@ -335,7 +335,7 @@ const handleResidualSliderChange = useCallback((value: number[]) => {
     [effectiveRate, financed, financedShare]
   )
 
-  const wrapperClasses = isModal ? 'mx-auto max-w-4xl px-3 sm:px-4' : 'mx-auto max-w-4xl px-4'
+
 const wrapperClasses = isModal ? 'mx-auto max-w-4xl px-3 sm:px-4' : 'mx-auto max-w-4xl px-4'
   const cardWrapperMargin = isModal ? 'mt-8' : 'mt-12'
 

@@ -42,4 +42,25 @@ export default function FAQ() {
               className="group relative overflow-hidden rounded-4xl border border-white/60 bg-white/85 p-6 shadow-glow backdrop-blur-xl transition focus-visible:outline-none animate-fade-up"
               style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-lg font-semibold text-dark">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-lg font-semibold text-dark">                <span className="flex items-center gap-3">
+                  <span className="hidden h-8 w-8 items-center justify-center rounded-full border border-accent/30 text-xs font-semibold uppercase tracking-[0.3em] text-accent/70 md:flex">
+                    FAQ
+                  </span>
+                  {item.q}
+                </span>
+                <span className="text-sm font-medium text-accent transition group-open:rotate-45">+</span>
+              </summary>
+              <p className="mt-3 text-sm leading-relaxed text-dark/70">{item.a}</p>
+              <div className="card-glow" aria-hidden="true" />
+            </details>
+          ))}
+        </div>
+        <div className="mt-10 rounded-[2rem] border border-white/60 bg-white/85 p-6 text-center text-sm text-dark/70 shadow-glow backdrop-blur-xl">
+          <p>
+            Не нашли ответ? Напишите нам в мессенджер или оставьте заявку — менеджер подключится и подберёт оптимальный формат финансирования.
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
