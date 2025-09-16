@@ -117,8 +117,7 @@ export default function Header() {
               <a href="#how" className="text-dark hover:text-accent transition">Как работает</a>
               <a href="#calculator" className="text-dark hover:text-accent transition">Калькулятор</a>
               <a href="#examples" className="text-dark hover:text-accent transition">Примеры</a>
-              <a href="#faq" className="text-dark hover:text-accent transition">FAQ</a>
-              <a href="#contacts" className="text-dark hover:text-accent transition">Контакты</a>
+              
               <a
                 href="tel:+79677728299"
                 className="flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-sm font-semibold text-accent hover:bg-accent hover:text-white transition"
