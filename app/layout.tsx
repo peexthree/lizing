@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import Header from '@/components/Header'
+import ScrollEffects from '@/components/ScrollEffects'
 
 const inter = localFont({
   src: [
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%',
+@@ -31,31 +32,32 @@ export const metadata: Metadata = {
     description:
       'Лизинг для юрлиц, ИП и самозанятых. Быстрое одобрение, гибкие условия, выкуп. Работает по всей РФ. Оставьте заявку — посчитаем платёж и согласуем условия.',
     images: ['/og.jpg']
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ru">
       <body className={`${inter.className} antialiased`}>
+        <ScrollEffects />
         <Header />
         {children}
       </body>
