@@ -1,7 +1,7 @@
 'use client'
+
 import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import Image from 'next/image'
-import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import {
   ArrowDown,
@@ -20,7 +20,7 @@ const features = [
 ]
 
 export default function HeroSection() {
- const sectionRef = useRef<HTMLElement | null>(null)
+  const sectionRef = useRef<HTMLElement | null>(null)
   const [interacting, setInteracting] = useState(false)
 
   useEffect(() => {
@@ -55,12 +55,22 @@ export default function HeroSection() {
     }
   }, [])
 
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start']
+  })
+
+  const illustrationY = useTransform(scrollYProgress, [0, 1], ['-8%', '10%'])
+  const glowY = useTransform(scrollYProgress, [0, 1], ['-5%', '8%'])
+
   function handlePointerMove(event: PointerEvent<HTMLElement>) {
     const target = sectionRef.current
     if (!target) return
+
     const rect = target.getBoundingClientRect()
     const x = ((event.clientX - rect.left) / rect.width) * 100
     const y = ((event.clientY - rect.top) / rect.height) * 100
+
     target.style.setProperty('--hero-pointer-x', `${x}%`)
     target.style.setProperty('--hero-pointer-y', `${y}%`)
     if (!interacting) setInteracting(true)
@@ -75,15 +85,6 @@ export default function HeroSection() {
     setInteracting(false)
   }
 
-  const sectionRef = useRef<HTMLElement | null>(null)
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start']
-  })
-
-  const illustrationY = useTransform(scrollYProgress, [0, 1], ['-8%', '10%'])
-  const glowY = useTransform(scrollYProgress, [0, 1], ['-5%', '8%'])
-
   function scrollToForm() {
     document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -97,6 +98,7 @@ export default function HeroSection() {
     >
       <div className="absolute inset-0 bg-gradient-to-br from-[#0b1220]/80 via-[#101b32]/70 to-[#0b1220]/30" />
       <div className="absolute inset-0 bg-hero-grid opacity-70" />
+
       <motion.div className="pointer-events-none absolute inset-0" style={{ y: glowY }} aria-hidden>
         <div className="absolute left-1/2 top-[-8rem] h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-accent/40 blur-3xl opacity-70 animate-pulse-glow" />
         <div className="absolute -left-40 top-40 h-[460px] w-[140%] -rotate-6 opacity-40">
@@ -104,10 +106,11 @@ export default function HeroSection() {
         </div>
         <div className="absolute right-[-6rem] bottom-24 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
         <div className="absolute inset-x-0 bottom-[-10rem] h-[18rem] bg-gradient-to-t from-[#0b1220]/70 to-transparent" />
- <div className="floating-orb -right-40 top-32 hidden h-[360px] w-[360px] bg-accent/30 md:block" />
+        <div className="floating-orb -right-40 top-32 hidden h-[360px] w-[360px] bg-accent/30 md:block" />
         <div className="floating-orb -left-48 bottom-10 hidden h-[320px] w-[320px] bg-white/20 md:block" />
       </motion.div>
- <div
+
+      <div
         aria-hidden="true"
         className={`pointer-events-none absolute inset-0 transition duration-500 ${
           interacting ? 'opacity-100' : 'opacity-0'
@@ -117,6 +120,7 @@ export default function HeroSection() {
             'radial-gradient(circle at var(--hero-pointer-x,50%) var(--hero-pointer-y,40%), rgba(30,102,255,0.25), transparent 55%)'
         }}
       />
+
       <div className="relative z-10 mx-auto max-w-6xl px-4">
         <div className="grid items-center gap-16 lg:grid-cols-[1.08fr_minmax(0,1fr)]">
           <div className="space-y-8 text-white">
@@ -130,6 +134,7 @@ export default function HeroSection() {
               <Sparkles className="h-3.5 w-3.5 text-accent" />
               Новый уровень лизинга
             </motion.span>
+
             <motion.h1
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -142,6 +147,7 @@ export default function HeroSection() {
                 и закройте сделку за 1 день
               </span>
             </motion.h1>
+
             <motion.p
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -149,9 +155,9 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
               className="mx-auto max-w-2xl text-base text-white/75 sm:text-lg text-center lg:mx-0 lg:text-left"
             >
-              Команда «Лизинг и точка» ведёт ваш проект от заявки до получения ключей. Мы сопоставляем десятки предложений,
-              ускоряем одобрение и оставляем фонды на развитие бизнеса.
+              Команда «Лизинг и точка» ведёт ваш проект от заявки до получения ключей. Мы сопоставляем десятки предложений, ускоряем одобрение и оставляем фонды на развитие бизнеса.
             </motion.p>
+
             <motion.ul
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -169,6 +175,7 @@ export default function HeroSection() {
                 </li>
               ))}
             </motion.ul>
+
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -183,7 +190,14 @@ export default function HeroSection() {
               className="flex flex-col items-stretch gap-4 sm:mx-auto sm:max-w-md md:max-w-none md:flex-row md:justify-center lg:mx-0 lg:justify-start"
             >
               <motion.button
-                variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } } }}
+                variants={{
+                  hidden: { opacity: 0, y: 40 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.5, ease: 'easeOut' }
+                  }
+                }}
                 onClick={scrollToForm}
                 className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full bg-accent px-8 py-3 text-base font-semibold text-white shadow-glow transition-transform duration-300 ease-out hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               >
@@ -193,15 +207,24 @@ export default function HeroSection() {
                 </span>
                 <span className="absolute inset-0 translate-x-[-70%] bg-gradient-to-r from-white/30 via-white/60 to-transparent opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100" />
               </motion.button>
+
               <motion.a
-                variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } } }}
+                variants={{
+                  hidden: { opacity: 0, y: 40 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.5, ease: 'easeOut' }
+                  }
+                }}
                 href="#calculator"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white/90 backdrop-blur-md transition hover:border-white/60 hover:bg-white/20"
               >
                 <GaugeCircle className="h-5 w-5" aria-hidden="true" />
-                Рассчитать платеж
+                Рассчитать платёж
               </motion.a>
             </motion.div>
+
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -217,18 +240,18 @@ export default function HeroSection() {
                 <span className="text-white/40">Срок сделки</span>
                 <p className="font-medium text-white">от 24 часов</p>
               </div>
+              <div
+                className="flex items-center gap-4 text-sm text-white/70 animate-fade-up"
+                style={{ animationDelay: '0.55s' }}
+              >
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10">
+                  <ArrowDown className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <p className="max-w-xs font-medium">
+                  Прокрутите вниз — мы подсветили ключевые условия, готовые к вашему сценарию.
+                </p>
+              </div>
             </motion.div>
- <div
-              className="flex items-center gap-4 text-sm text-white/70 animate-fade-up"
-              style={{ animationDelay: '0.55s' }}
-            >
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10">
-                <ArrowDown className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <p className="max-w-xs font-medium">
-                Прокрутите вниз — мы подсветили ключевые условия, готовые к вашему сценарию.
-              </p>
-            </div>
           </div>
 
           <div className="relative flex items-center justify-center">
@@ -274,7 +297,7 @@ export default function HeroSection() {
                   <Timer className="h-5 w-5 text-accent" aria-hidden="true" />
                   Одобрение за 1 день
                 </div>
-         <div className="card-glow" aria-hidden="true" />
+                <div className="card-glow" aria-hidden="true" />
                 <div className="shine-overlay" aria-hidden="true" />
               </div>
             </motion.div>

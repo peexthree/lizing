@@ -74,7 +74,7 @@ export default function Calculator() {
     if (form) {
       const set = (name: string, value: number) => {
         const input = form.querySelector(`input[name="${name}"]`) as HTMLInputElement | null
-        if (input) input.value = String(Math.round(value))
+       if (input) input.value = String(Math.round(value))
       }
       set('cost', cost)
       set('advance', advanceRub)
@@ -99,6 +99,7 @@ export default function Calculator() {
       `Итого: ${formatRub(total || 0)}`
     ].join(' · ')
     window.localStorage.setItem('calc', summary)
+    document.dispatchEvent(new CustomEvent('calc-summary', { detail: summary }))
   }, [
     cost,
     advanceRub,

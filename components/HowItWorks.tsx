@@ -1,9 +1,4 @@
-FileText,
-  CheckCircle2,
-  FileSignature,
-  Truck,
-  MessageCircle,
-} from 'lucide-react'
+import { CheckCircle2, FileSignature, FileText, MessageCircle, Truck } from 'lucide-react'
 
 export default function HowItWorks() {
   const steps = [
@@ -13,8 +8,8 @@ export default function HowItWorks() {
     {
       icon: Truck,
       title: 'Получение техники',
-      text: 'Забираете автомобиль или оборудование',
-    },
+      text: 'Забираете автомобиль или оборудование'
+    }
   ]
 
   return (
@@ -26,6 +21,7 @@ export default function HowItWorks() {
         <div className="floating-orb left-[10%] bottom-[-3rem] hidden h-[260px] w-[260px] bg-white/35 md:block" />
         <div className="floating-orb right-[6%] top-[8rem] hidden h-[320px] w-[320px] bg-accent/20 lg:block" />
       </div>
+
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-2xl text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Как мы работаем</span>
@@ -45,6 +41,7 @@ export default function HowItWorks() {
             </span>
           </div>
         </div>
+
         <div className="mt-14 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
           {steps.map(({ icon: Icon, title, text }, i) => (
             <div
@@ -65,6 +62,7 @@ export default function HowItWorks() {
             </div>
           ))}
         </div>
+
         <div className="mt-12 flex justify-center">
           <a
             href="https://wa.me/79000000000?text=Здравствуйте!%20У%20меня%20вопрос%20по%20лизингу."
@@ -77,6 +75,7 @@ export default function HowItWorks() {
             Задать вопрос
           </a>
         </div>
+
         <div className="mt-10 grid gap-4 rounded-[2.2rem] border border-white/60 bg-white/85 p-6 text-sm text-dark/70 shadow-glow backdrop-blur-xl md:grid-cols-3">
           <div className="space-y-1">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/45">Мониторинг</p>
