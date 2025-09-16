@@ -48,9 +48,9 @@ export default function Header() {
           <Image
             src="/logo.svg"
             alt="Лизинг и точка"
-            height={48}
-            width={48}
-            className="h-10 w-auto md:h-12"
+             height={96}
+            width={96}
+            className="h-12 w-auto md:h-16 lg:h-20"
             priority
           />
         </motion.div>
