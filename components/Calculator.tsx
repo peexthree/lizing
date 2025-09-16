@@ -30,7 +30,7 @@ type SummaryCardProps = {
   title: string
   value: string
   valueClassName?: string
-   description?: string
+  description?: string
 }
 
 const SummaryCard = memo(function SummaryCard({ title, value, description, valueClassName }: SummaryCardProps) {
@@ -55,9 +55,8 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
   const [showRate, setShowRate] = useState(false)
   const [residual, setResidual] = useState(10)
   const [error, setError] = useState('')
-  const [shareOpen, setShareOpen] = useState(false)
+const [shareOpen, setShareOpen] = useState(false)
   const shareRef = useRef<HTMLDivElement | null>(null)
-
   useEffect(() => {
     const handler = (event: Event) => {
       const detail = (event as CustomEvent<PrefillDetail>).detail
@@ -82,7 +81,76 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
     const safeAdvance = Number.isFinite(advance) ? Math.max(advance, 0) : 0
     const safeTerm = Number.isFinite(term) && term > 0 ? term : 1
     const safeRate = Number.isFinite(rate) ? Math.max(rate, 0) : 0
-@@ -153,292 +155,418 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
+    const safeResidual = Number.isFinite(residual) ? Math.max(residual, 0) : 0
+
+    const advanceRub = advanceMode === 'percent' ? (safeCost * safeAdvance) / 100 : safeAdvance
+    const advancePercent = safeCost > 0 ? (advanceRub / safeCost) * 100 : 0
+    const residualRub = (safeCost * safeResidual) / 100
+    const financed = safeCost - advanceRub - residualRub
+    const monthlyRate = safeRate / 12 / 100
+
+    let monthlyPayment = 0
+    if (financed > 0) {
+      if (monthlyRate > 0) {
+        const factor = Math.pow(1 + monthlyRate, safeTerm)
+        const denominator = factor - 1
+        monthlyPayment = denominator !== 0 ? financed * ((monthlyRate * factor) / denominator) : financed / safeTerm
+      } else {
+        monthlyPayment = financed / safeTerm
+      }
+    }
+
+    const total = advanceRub + residualRub + monthlyPayment * safeTerm
+    const overpayment = total - safeCost
+    const effectiveRate = safeCost > 0 ? (total / safeCost - 1) * 100 : 0
+    const financedShare = safeCost > 0 ? (financed / safeCost) * 100 : 0
+
+    const summary = [
+      `Стоимость: ${formatRub(safeCost)}`,
+      `Аванс: ${formatRub(advanceRub)} (${Math.round(advancePercent)}%)`,
+      `Срок: ${Math.max(1, Math.round(safeTerm))} мес.`,
+      `Платёж: ${formatRub(monthlyPayment || 0)}`,
+      `Переплата: ${formatRub(overpayment || 0)}`,
+      `Итого: ${formatRub(total || 0)}`
+    ].join(' · ')
+
+    return {
+      advanceRub,
+      advancePercent,
+      residualRub,
+      financed,
+      monthlyPayment,
+      total,
+      overpayment,
+      effectiveRate,
+      financedShare,
+      summary
+    }
+  }, [advance, advanceMode, cost, residual, rate, term])
+
+  const {
+    advanceRub,
+    advancePercent,
+    residualRub,
+    financed,
+    monthlyPayment,
+    total,
+    overpayment,
+    effectiveRate,
+    financedShare,
+    summary
+  } = calculations
+
+  const summaryCache = useRef<string | null>(null)
+  const summaryTimeout = useRef<number | null>(null)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (!summary || summary === summaryCache.current) return
+
+    summaryCache.current = summary
+
+    if (summaryTimeout.current !== null) {
       window.clearTimeout(summaryTimeout.current)
     }
 
@@ -107,8 +175,7 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
   const handleCostChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setCost(Number(event.target.value))
   }, [])
-
-  const handleCostSliderChange = useCallback((value: number[]) => {
+const handleCostSliderChange = useCallback((value: number[]) => {
     if (typeof value[0] === 'number' && Number.isFinite(value[0])) {
       setCost(Math.round(value[0]))
     }
@@ -118,17 +185,17 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
     setAdvance(Number(event.target.value))
   }, [])
 
-  const handleAdvanceSliderChange = useCallback((value: number[]) => {
+const handleAdvanceSliderChange = useCallback((value: number[]) => {
     if (typeof value[0] === 'number' && Number.isFinite(value[0])) {
       setAdvance(Math.round(value[0]))
     }
   }, [])
 
+
   const handleTermChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setTerm(Number(event.target.value))
   }, [])
-
-  const handleTermSliderChange = useCallback((value: number[]) => {
+const handleTermSliderChange = useCallback((value: number[]) => {
     if (typeof value[0] === 'number' && Number.isFinite(value[0])) {
       setTerm(Math.round(value[0]))
     }
@@ -137,8 +204,7 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
   const handleResidualChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setResidual(Number(event.target.value))
   }, [])
-
-  const handleResidualSliderChange = useCallback((value: number[]) => {
+const handleResidualSliderChange = useCallback((value: number[]) => {
     if (typeof value[0] === 'number' && Number.isFinite(value[0])) {
       setResidual(Math.round(value[0]))
     }
@@ -162,8 +228,7 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
       return 'percent'
     })
   }, [advancePercent, advanceRub])
-
-  useEffect(() => {
+ useEffect(() => {
     if (!shareOpen) return
 
     const handleClick = (event: MouseEvent) => {
@@ -222,7 +287,7 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
     }
 
     setError('')
-    openLeadForm({
+ openLeadForm({
       calcSummary: summary,
       fields: {
         cost: String(Math.round(cost)),
@@ -233,8 +298,10 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
         monthly: String(Math.round(monthlyPayment)),
         overpayment: String(Math.round(overpayment)),
         total: String(Math.round(total))
+
       }
-    })
+
+     })
   }, [advanceRub, cost, monthlyPayment, overpayment, residualRub, summary, term, rate, total])
 
   const primaryMetrics = useMemo(
@@ -269,6 +336,7 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
   )
 
   const wrapperClasses = isModal ? 'mx-auto max-w-4xl px-3 sm:px-4' : 'mx-auto max-w-4xl px-4'
+const wrapperClasses = isModal ? 'mx-auto max-w-4xl px-3 sm:px-4' : 'mx-auto max-w-4xl px-4'
   const cardWrapperMargin = isModal ? 'mt-8' : 'mt-12'
 
   return (
@@ -301,7 +369,7 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
                   <span className="text-sm text-dark/60">{formatRub(cost)}</span>
                 </div>
                 <div className="mt-3">
-                  <Slider
+                     <Slider
                     min={100_000}
                     max={20_000_000}
                     step={100_000}
@@ -338,9 +406,9 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
                 <div className="mt-3">
                   <Slider
                     min={0}
-                    max={advanceMode === 'percent' ? 90 : Math.max(cost, 0)}
+                     max={advanceMode === 'percent' ? 90 : Math.max(cost, 0)}
                     step={advanceMode === 'percent' ? 1 : 1_000}
-                    value={[Math.min(Math.max(advance, 0), advanceMode === 'percent' ? 90 : Math.max(cost, 0))]}
+                                 value={[Math.min(Math.max(advance, 0), advanceMode === 'percent' ? 90 : Math.max(cost, 0))]}
                     onValueChange={handleAdvanceSliderChange}
                   />
                   <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
@@ -442,8 +510,7 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
                 />
               ))}
             </div>
-
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="space-y-3">
                 {error ? <p className="text-sm font-medium text-red-500">{error}</p> : null}
                 <div ref={shareRef} className="relative">
