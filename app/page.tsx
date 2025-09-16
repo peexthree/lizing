@@ -1,4 +1,4 @@
-import Hero from '@/components/Hero'
+import HeroSection from '@/components/Hero'
 import Advantages from '@/components/Advantages'
 import HowItWorks from '@/components/HowItWorks'
 import Calculator from '@/components/Calculator'
@@ -24,13 +24,7 @@ export default function Page() {
           'erevakshin@lizing-i-tochka.ru'
         ],
         telephone: [
-          '+7 (967) 77-28-299',
-          '+7 (918) 37-98-548',
-          '8 800 444-45-84'
-        ],
-        sameAs: ['https://t.me/dpvlen']
-      },
-      ...['Лизинг автомобилей', 'Лизинг грузовой техники', 'Лизинг спецтехники'].map(
+@@ -34,39 +34,39 @@ export default function Page() {
         (name) => ({
           '@type': 'Service',
           name,
@@ -56,7 +50,7 @@ export default function Page() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <main>
-        <Hero />
+        <HeroSection />
         <Advantages />
         <HowItWorks />
         <Calculator />
