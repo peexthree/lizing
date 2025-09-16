@@ -126,7 +126,7 @@ const stats = [
 
 export default function Stats() {
   return (
-    <section className="relative py-16">
+    <section className="relative overflow-hidden py-16">
       <div className="absolute inset-0 -z-10">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/40 to-transparent" />
         <div className="floating-orb left-[10%] top-[2rem] hidden h-[220px] w-[220px] bg-white/30 md:block" />

@@ -29,7 +29,7 @@ export default function Advantages() {
   ]
 
   return (
-    <section className="relative py-20">
+ <section className="relative overflow-hidden py-20">
       <div className="absolute inset-0 -z-10">
         <div className="pointer-events-none absolute left-1/2 top-24 h-[460px] w-[460px] -translate-x-1/2 rounded-full bg-accent/15 blur-3xl opacity-70" />
         <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white/50 to-transparent" />

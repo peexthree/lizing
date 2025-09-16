@@ -7,7 +7,7 @@ export default function Segments() {
     { title: 'Возвратный лизинг', text: 'Деньги под собственные активы без остановки работы.' },
   ]
   return (
-    <section className="relative py-20">
+      <section className="relative overflow-hidden py-20">
       <div className="absolute inset-0 -z-10">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-white/40 to-transparent" />
         <div className="pointer-events-none absolute left-[10%] top-20 hidden h-[320px] w-[320px] rounded-full bg-white/30 blur-3xl opacity-70 md:block" />

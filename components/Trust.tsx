@@ -7,7 +7,7 @@ export default function Trust() {
   ]
 
   return (
-    <section className="relative py-20">
+      <section className="relative overflow-hidden py-20">
       <div className="absolute inset-0 -z-10">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/40 to-transparent" />
         <div className="pointer-events-none absolute left-[12%] top-[8rem] hidden h-[260px] w-[260px] rounded-full bg-accent/20 blur-3xl opacity-80 md:block" />
