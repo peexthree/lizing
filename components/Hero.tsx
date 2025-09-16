@@ -22,6 +22,8 @@ const features = [
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [interacting, setInteracting] = useState(false)
+  const pointerFrameRef = useRef<number | null>(null)
+  const pointerPositionRef = useRef<{ x: number; y: number } | null>(null)
 
   useEffect(() => {
     const target = sectionRef.current
@@ -52,6 +54,10 @@ export default function HeroSection() {
     return () => {
       window.removeEventListener('scroll', handleScroll)
       if (frame) window.cancelAnimationFrame(frame)
+      if (pointerFrameRef.current) {
+        window.cancelAnimationFrame(pointerFrameRef.current)
+        pointerFrameRef.current = null
+      }
     }
   }, [])
 
@@ -67,12 +73,21 @@ export default function HeroSection() {
     const target = sectionRef.current
     if (!target) return
 
-    const rect = target.getBoundingClientRect()
-    const x = ((event.clientX - rect.left) / rect.width) * 100
-    const y = ((event.clientY - rect.top) / rect.height) * 100
+    pointerPositionRef.current = { x: event.clientX, y: event.clientY }
 
-    target.style.setProperty('--hero-pointer-x', `${x}%`)
-    target.style.setProperty('--hero-pointer-y', `${y}%`)
+    if (pointerFrameRef.current === null) {
+      pointerFrameRef.current = window.requestAnimationFrame(() => {
+        pointerFrameRef.current = null
+        const position = pointerPositionRef.current
+        if (!position) return
+        const rect = target.getBoundingClientRect()
+        const x = rect.width ? ((position.x - rect.left) / rect.width) * 100 : 50
+        const y = rect.height ? ((position.y - rect.top) / rect.height) * 100 : 35
+        target.style.setProperty('--hero-pointer-x', `${x}%`)
+        target.style.setProperty('--hero-pointer-y', `${y}%`)
+      })
+    }
+
     if (!interacting) setInteracting(true)
   }
 
@@ -82,6 +97,7 @@ export default function HeroSection() {
       target.style.setProperty('--hero-pointer-x', '50%')
       target.style.setProperty('--hero-pointer-y', '35%')
     }
+    pointerPositionRef.current = null
     setInteracting(false)
   }
 
