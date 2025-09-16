@@ -113,8 +113,8 @@ export default function Calculator() {
     summary
   } = calculations
 
- const summaryCache = useRef<string | null>(null)
-const summaryTimeout = useRef<number | null>(null)
+  const summaryCache = useRef<string | null>(null)
+  const summaryTimeout = useRef<number | null>(null)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -122,12 +122,12 @@ const summaryTimeout = useRef<number | null>(null)
 
     summaryCache.current = summary
 
-    if (summaryTimeout.current) {
+    if (summaryTimeout.current !== null) {
       window.clearTimeout(summaryTimeout.current)
     }
 
     summaryTimeout.current = window.setTimeout(() => {
-      summaryTimeout.current = undefined
+      summaryTimeout.current = null
       try {
         window.localStorage.setItem('calc', summary)
       } catch (error) {
@@ -137,9 +137,9 @@ const summaryTimeout = useRef<number | null>(null)
     }, 160)
 
     return () => {
-      if (summaryTimeout.current) {
+      if (summaryTimeout.current !== null) {
         window.clearTimeout(summaryTimeout.current)
-        summaryTimeout.current = undefined
+        summaryTimeout.current = null
       }
     }
   }, [summary])
