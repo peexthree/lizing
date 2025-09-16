@@ -18,7 +18,7 @@ export default function HeroSection() {
     <section className="relative overflow-hidden py-24 sm:py-32 lg:py-36">
       <div className="absolute inset-0">
         <Image
-          src="https://plus.unsplash.com/premium_photo-1731701708674-41a2d0b28f69?auto=format&fit=crop&w=1920&q=80"
+          src="/herobg.webp"
           alt="Современный офис с автомобилем у стеклянного фасада"
           fill
           priority
