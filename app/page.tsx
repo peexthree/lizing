@@ -1,14 +1,13 @@
 'use client';
 import HeroSection from '@/components/Hero'
-import Calculator from '@/components/Calculator'
+import CalculatorModal from '@/components/CalculatorModal'
 import Advantages from '@/components/Advantages'
 import HowItWorks from '@/components/HowItWorks'
 import Testimonials from '@/components/Testimonials'
 import Partners from '@/components/Partners'
 import Trust from '@/components/Trust'
-import CalculatorModal from '@/components/CalculatorModal'
-import CaseStudies from '@/components/CaseStudies'
-import UsefulArticles from '@/components/UsefulArticles'
+import Calculator from '@/components/Calculator'
+
 import FAQ, { faq } from '@/components/FAQ'
 import LeadForm from '@/components/LeadForm'
 import StickyBar from '@/components/StickyBar'
@@ -61,16 +60,17 @@ export default function Page() {
       ></script>
 
       <HeroSection />
-       <Calculator />
+   
+ <CalculatorModal />
       <Stats />
       <Advantages />
       <HowItWorks />
       <Testimonials />
       <Partners />
       <Trust />
-      <CalculatorModal />
-      <CaseStudies />
-       <UsefulArticles />
+         <Calculator />
+
+
       <FAQ />
       <LeadForm />
       <StickyBar />
