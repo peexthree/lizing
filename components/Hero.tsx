@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { ArrowDown, CheckCircle2, GaugeCircle, Sparkles, Timer } from 'lucide-react'
-
+import { openLeadForm } from '@/lib/openLeadForm'
 const features = [
   'Аванс от 0% и одобрение в течение суток',
   'Легковые, грузовые и спецтехника для бизнеса и частных лиц',
@@ -77,14 +77,15 @@ export default function HeroSection() {
             </ul>
 
             <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:items-center">
-              <a
-                href="#lead-form"
+               <button
+                type="button"
+                onClick={() => openLeadForm()}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-10 py-4 text-base font-semibold text-white shadow-glow transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
                 style={{ animationDelay: '380ms' }}
               >
                 <Timer className="h-5 w-5" aria-hidden />
                 Оставить заявку
-              </a>
+             </button>
               <a
                 href="#calculator"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:border-white/40 hover:bg-white/20 opacity-0 animate-fade-up"

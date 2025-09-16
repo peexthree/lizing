@@ -1,11 +1,9 @@
 'use client'
 
 import { Phone, MessageCircle, PenLine } from 'lucide-react'
-import Logo from './Logo'
+import { openLeadForm } from '@/lib/openLeadForm'
 
-function scrollToForm() {
-  document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })
-}
+import Logo from './Logo'
 
 export default function Header() {
   return (
@@ -37,7 +35,7 @@ export default function Header() {
             <span>WhatsApp</span>
           </a>
           <button
-            onClick={scrollToForm}
+           onClick={() => openLeadForm()}
             aria-label="Оставить заявку"
             className="flex items-center gap-2 rounded-full border border-white/70 bg-white/90 px-4 py-2 text-sm font-semibold text-dark shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
           >

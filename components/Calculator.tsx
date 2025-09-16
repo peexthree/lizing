@@ -2,6 +2,7 @@
 
 import { ChangeEvent, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { z } from 'zod'
+import { openLeadForm } from '@/lib/openLeadForm'
 import Slider from './ui/Slider'
 
 const rubFormatter = new Intl.NumberFormat('ru-RU')
@@ -220,28 +221,22 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
     }
 
     setError('')
+openLeadForm({
+      calcSummary: summary,
+      fields: {
+        cost: String(Math.round(cost)),
+        advance: String(Math.round(advanceRub)),
+        term: String(Math.round(term)),
+        rate: String(Math.round(rate)),
+        residual: String(Math.round(residualRub)),
+        monthly: String(Math.round(monthlyPayment)),
+        overpayment: String(Math.round(overpayment)),
+        total: String(Math.round(total))
 
-    const form = document.querySelector('#lead-form form') as HTMLFormElement | null
-    if (form) {
-      const setValue = (name: string, value: number) => {
-        const input = form.querySelector(`input[name="${name}"]`) as HTMLInputElement | null
-        if (input) {
-          input.value = String(Math.round(value))
-        }
       }
 
-      setValue('cost', cost)
-      setValue('advance', advanceRub)
-      setValue('term', term)
-      setValue('rate', rate)
-      setValue('residual', residualRub)
-      setValue('monthly', monthlyPayment)
-      setValue('overpayment', overpayment)
-      setValue('total', total)
-    }
-
-    document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })
-  }, [advanceRub, cost, monthlyPayment, overpayment, residualRub, term, rate, total])
+     })
+  }, [advanceRub, cost, monthlyPayment, overpayment, residualRub, summary, term, rate, total])
 
   const primaryMetrics = useMemo(
     () => [
