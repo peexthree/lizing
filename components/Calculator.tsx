@@ -45,7 +45,8 @@ const SummaryCard = memo(function SummaryCard({ title, value, description, value
 SummaryCard.displayName = 'SummaryCard'
 
 export default function Calculator({ variant = 'page', id = 'calculator' }: CalculatorProps) {
-  const isModal = variant === 'modal'  const [cost, setCost] = useState(5_000_000)
+  const isModal = variant === 'modal'  
+  const [cost, setCost] = useState(5_000_000)
   const [advanceMode, setAdvanceMode] = useState<'percent' | 'currency'>('percent')
   const [advance, setAdvance] = useState(20)
   const [term, setTerm] = useState(36)
