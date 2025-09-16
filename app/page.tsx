@@ -53,4 +53,18 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      ></script>
+
+      <HeroSection />
+      <Advantages />
+      <HowItWorks />
+      <Calculator />
+      <CaseStudies />
+      <FAQ />
+      <LeadForm />
+      <Contacts />
+      <Footer />
+      <StickyBar />
+    </>
+  )
+}
