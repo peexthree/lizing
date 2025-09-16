@@ -5,6 +5,7 @@
 :root {
   --background: #E6F2FF;
   --foreground: #1A1F2B;
+  --background-image: url('/backgrounds/blueprint-city.svg');
   --scroll-y: 0px;
   --scroll-parallax: 0px;
   --scroll-soft: 0px;
@@ -21,7 +22,7 @@ body {
   position: relative;
   min-height: 100%;
   background-color: var(--background);
-  background-image: url('/bg.png');
+  background-image: var(--background-image);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center var(--scroll-parallax, 0px);

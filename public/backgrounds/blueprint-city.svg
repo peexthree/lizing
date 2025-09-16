@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f4f9ff" />
+      <stop offset="55%" stop-color="#e3eeff" />
+      <stop offset="100%" stop-color="#d5e6ff" />
+    </linearGradient>
+    <radialGradient id="glowNorth" cx="0.25" cy="0.05" r="0.6">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="55%" stop-color="#dbe7ff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#c5dcff" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glowEast" cx="0.9" cy="0.1" r="0.6">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#c8dcff" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#b4cffc" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glowSouth" cx="0.5" cy="0.85" r="0.65">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6" />
+      <stop offset="65%" stop-color="#cddfff" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#b3d0ff" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="waveGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7fbff" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#e1edff" stop-opacity="0.65" />
+    </linearGradient>
+    <linearGradient id="waveGrad2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eaf3ff" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#d8e8ff" stop-opacity="0.5" />
+    </linearGradient>
+    <linearGradient id="buildingGrad" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="#edf4ff" />
+      <stop offset="100%" stop-color="#cfdfff" />
+    </linearGradient>
+    <linearGradient id="towerGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f6faff" />
+      <stop offset="100%" stop-color="#dbe7ff" />
+    </linearGradient>
+    <linearGradient id="gridLine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b7cef6" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#95b6f0" stop-opacity="0.15" />
+    </linearGradient>
+    <linearGradient id="windowGlow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#d1e3ff" stop-opacity="0.45" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)" />
+  <rect width="1600" height="900" fill="url(#glowNorth)" />
+  <rect width="1600" height="900" fill="url(#glowEast)" />
+  <rect width="1600" height="900" fill="url(#glowSouth)" />
+
+  <path d="M0 630C180 580 360 600 540 640C760 690 1020 670 1200 630C1380 590 1490 600 1600 650V900H0Z" fill="url(#waveGrad)" />
+  <path d="M0 700C220 660 420 690 600 730C860 790 1110 770 1310 720C1470 680 1535 690 1600 720V900H0Z" fill="url(#waveGrad2)" opacity="0.8" />
+
+  <g opacity="0.25" stroke="url(#gridLine)" stroke-width="1">
+    <path d="M120 460V900" />
+    <path d="M260 440V900" />
+    <path d="M400 480V900" />
+    <path d="M540 450V900" />
+    <path d="M680 470V900" />
+    <path d="M820 430V900" />
+    <path d="M960 460V900" />
+    <path d="M1100 420V900" />
+    <path d="M1240 450V900" />
+    <path d="M1380 430V900" />
+    <path d="M1520 460V900" />
+    <path d="M0 560H1600" />
+    <path d="M0 620H1600" />
+    <path d="M0 680H1600" />
+    <path d="M0 740H1600" />
+  </g>
+
+  <g opacity="0.85">
+    <path d="M230 900V520L320 500V900Z" fill="url(#buildingGrad)" />
+    <path d="M350 900V470L420 450V900Z" fill="url(#towerGrad)" />
+    <path d="M470 900V540L570 520V900Z" fill="url(#buildingGrad)" />
+    <path d="M620 900V500L700 480V900Z" fill="url(#towerGrad)" />
+    <path d="M760 900V540L880 500V900Z" fill="url(#buildingGrad)" />
+    <path d="M910 900V470L980 450V900Z" fill="url(#towerGrad)" />
+    <path d="M1030 900V520L1120 500V900Z" fill="url(#buildingGrad)" />
+    <path d="M1170 900V490L1280 470V900Z" fill="url(#towerGrad)" />
+    <path d="M1340 900V520L1440 500V900Z" fill="url(#buildingGrad)" />
+  </g>
+
+  <g opacity="0.45">
+    <rect x="250" y="560" width="50" height="14" fill="url(#windowGlow)" />
+    <rect x="250" y="600" width="50" height="14" fill="url(#windowGlow)" />
+    <rect x="250" y="640" width="50" height="14" fill="url(#windowGlow)" />
+    <rect x="250" y="680" width="50" height="14" fill="url(#windowGlow)" />
+
+    <rect x="360" y="540" width="45" height="14" fill="url(#windowGlow)" />
+    <rect x="360" y="580" width="45" height="14" fill="url(#windowGlow)" />
+    <rect x="360" y="620" width="45" height="14" fill="url(#windowGlow)" />
+    <rect x="360" y="660" width="45" height="14" fill="url(#windowGlow)" />
+
+    <rect x="490" y="580" width="55" height="14" fill="url(#windowGlow)" />
+    <rect x="490" y="620" width="55" height="14" fill="url(#windowGlow)" />
+    <rect x="490" y="660" width="55" height="14" fill="url(#windowGlow)" />
+    <rect x="490" y="700" width="55" height="14" fill="url(#windowGlow)" />
+
+    <rect x="640" y="560" width="48" height="14" fill="url(#windowGlow)" />
+    <rect x="640" y="600" width="48" height="14" fill="url(#windowGlow)" />
+    <rect x="640" y="640" width="48" height="14" fill="url(#windowGlow)" />
+    <rect x="640" y="680" width="48" height="14" fill="url(#windowGlow)" />
+
+    <rect x="780" y="580" width="60" height="14" fill="url(#windowGlow)" />
+    <rect x="780" y="620" width="60" height="14" fill="url(#windowGlow)" />
+    <rect x="780" y="660" width="60" height="14" fill="url(#windowGlow)" />
+    <rect x="780" y="700" width="60" height="14" fill="url(#windowGlow)" />
+
+    <rect x="930" y="540" width="46" height="14" fill="url(#windowGlow)" />
+    <rect x="930" y="580" width="46" height="14" fill="url(#windowGlow)" />
+    <rect x="930" y="620" width="46" height="14" fill="url(#windowGlow)" />
+    <rect x="930" y="660" width="46" height="14" fill="url(#windowGlow)" />
+
+    <rect x="1060" y="560" width="54" height="14" fill="url(#windowGlow)" />
+    <rect x="1060" y="600" width="54" height="14" fill="url(#windowGlow)" />
+    <rect x="1060" y="640" width="54" height="14" fill="url(#windowGlow)" />
+    <rect x="1060" y="680" width="54" height="14" fill="url(#windowGlow)" />
+
+    <rect x="1210" y="540" width="60" height="14" fill="url(#windowGlow)" />
+    <rect x="1210" y="580" width="60" height="14" fill="url(#windowGlow)" />
+    <rect x="1210" y="620" width="60" height="14" fill="url(#windowGlow)" />
+    <rect x="1210" y="660" width="60" height="14" fill="url(#windowGlow)" />
+
+    <rect x="1380" y="560" width="52" height="14" fill="url(#windowGlow)" />
+    <rect x="1380" y="600" width="52" height="14" fill="url(#windowGlow)" />
+    <rect x="1380" y="640" width="52" height="14" fill="url(#windowGlow)" />
+    <rect x="1380" y="680" width="52" height="14" fill="url(#windowGlow)" />
+  </g>
+
+  <g fill="#b1c9ff" opacity="0.45">
+    <circle cx="220" cy="260" r="8" />
+    <circle cx="320" cy="180" r="6" />
+    <circle cx="420" cy="120" r="7" />
+    <circle cx="560" cy="190" r="5" />
+    <circle cx="680" cy="130" r="6" />
+    <circle cx="880" cy="200" r="7" />
+    <circle cx="980" cy="120" r="5" />
+    <circle cx="1100" cy="210" r="6" />
+    <circle cx="1240" cy="160" r="5" />
+    <circle cx="1420" cy="220" r="6" />
+  </g>
+
+  <path d="M0 900H1600" stroke="#bad2ff" stroke-opacity="0.6" stroke-width="6" />
+</svg>
