@@ -1,3 +1,4 @@
+
 import { Mail, MessageCircle, Phone, Send, type LucideIcon } from 'lucide-react'
 
 export default function Contacts() {
@@ -7,8 +8,7 @@ export default function Contacts() {
     { href: 'mailto:erevakshin@lizing-i-tochka.ru', label: 'E‑mail', icon: Mail, external: false },
     { href: 'https://t.me/dpvlen', label: 'Telegram', icon: Send, external: true }
   ]
-
-  const serviceCities = [
+ const serviceCities = [
     'Москва',
     'Санкт-Петербург',
     'Краснодар',
@@ -46,7 +46,41 @@ export default function Contacts() {
                     className="contact-pill w-full"
                     target={link.external ? '_blank' : undefined}
                     rel={link.external ? 'noopener noreferrer' : undefined}
-@@ -72,46 +84,64 @@ export default function Contacts() {
+                  >
+                    <Icon aria-hidden="true" />
+                    {link.label}
+                  </a>
+                )
+              })}
+            </div>
+
+            <div className="space-y-4">
+              <details className="rounded-3xl border border-white/60 bg-white/85 p-5 shadow-glow backdrop-blur">
+                <summary className="cursor-pointer font-semibold text-dark">Контактная информация</summary>
+                <div className="mt-2 space-y-1 text-dark/80">
+                  <div className="font-semibold text-dark">Лизинг и точка</div>
+                  <p className="mt-2">
+                    Тел.: +7 (967) 77‑28‑299, +7 (918) 37‑98‑548, 8 800 444‑45‑84
+                  </p>
+                  <p className="mt-1">
+                    E‑mail: erevakshin@lizing-i-tochka.ru, dpalenov@lizing-i-tochka.ru
+                  </p>
+                  <p className="mt-1">Telegram: @dpvlen</p>
+                  <p className="mt-1">ЭДО: Контур Диадок</p>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {contactLinks.map(link => {
+                      const Icon = link.icon
+                      return (
+                        <a
+                          key={link.label}
+                          href={link.href}
+                          className="contact-pill w-full"
+                          target={link.external ? '_blank' : undefined}
+                          rel={link.external ? 'noopener noreferrer' : undefined}
+                        >
+                          <Icon aria-hidden="true" />
+                          {link.label}
+                        </a>
                       )
                     })}
                   </div>
@@ -72,7 +106,7 @@ export default function Contacts() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-center gap-6 text-sm text-dark/70 md:items-end">
+ <div className="flex flex-col items-center gap-6 text-sm text-dark/70 md:items-end">
             <div className="map-shell relative w-full max-w-xl">
               <iframe
                 src="https://yandex.ru/map-widget/v1/?ll=99.115868%2C61.060099&z=3&l=map"
