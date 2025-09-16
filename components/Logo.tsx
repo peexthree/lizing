@@ -9,13 +9,12 @@ export default function Logo() {
       className="relative block h-16 w-16"
     >
       <Image
-        src="/logo.svg"
-        alt="Лизинг"
-        fill
-        sizes="4rem"
-        className="h-full w-full object-contain"
-        priority
-      />
+  src="/logo.svg"
+  alt="Лизинг и точка"
+  height={0}
+  width={0}
+  className="h-14 w-auto md:h-16"
+/>
     </Link>
   )
 }
