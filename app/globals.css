@@ -7,9 +7,9 @@
   --foreground: #1A1F2B;
   --background-image: url('/long.webp');
   --scroll-y: 0px;
-  --scroll-parallax: 1px;
-  --scroll-soft: 1px;
-  --scroll-overlay: 1px;
+  --scroll-parallax: 0px;
+  --scroll-soft: 0px;
+  --scroll-overlay: 0px;
 }
 html {
   width: 100%;
