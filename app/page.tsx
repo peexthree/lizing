@@ -1,6 +1,9 @@
 import HeroSection from '@/components/Hero'
 import Advantages from '@/components/Advantages'
 import HowItWorks from '@/components/HowItWorks'
+import Testimonials from '@/components/Testimonials'
+import Partners from '@/components/Partners'
+import Trust from '@/components/Trust'
 import CalculatorModal from '@/components/CalculatorModal'
 import CaseStudies from '@/components/CaseStudies'
 import FAQ, { faq } from '@/components/FAQ'
@@ -58,6 +61,9 @@ export default function Page() {
       <HeroSection />
       <Advantages />
       <HowItWorks />
+      <Testimonials />
+      <Partners />
+      <Trust />
       <CalculatorModal />
       <CaseStudies />
       <FAQ />

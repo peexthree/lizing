@@ -2,13 +2,30 @@ import { CheckCircle2, FileSignature, FileText, MessageCircle, Truck } from 'luc
 
 export default function HowItWorks() {
   const steps = [
-    { icon: FileText, title: 'Заявка', text: 'Заполняете форму или звоните' },
-    { icon: CheckCircle2, title: 'Одобрение', text: 'Получаете решение и расчёт' },
-    { icon: FileSignature, title: 'Договор', text: 'Подписываем документы' },
+    {
+      icon: FileText,
+      title: 'Оставляете заявку',
+      text: 'Передаёте информацию о технике и компании любым удобным способом — онлайн или по телефону.'
+    },
+    {
+      icon: MessageCircle,
+      title: 'Консультация',
+      text: 'Связываемся, уточняем задачи, собираем документы и договариваемся о приоритетных программах.'
+    },
+    {
+      icon: CheckCircle2,
+      title: 'Одобрение',
+      text: 'В течение 24 часов получаете предварительное решение с расчётом платежей и рекомендациями.'
+    },
+    {
+      icon: FileSignature,
+      title: 'Документы',
+      text: 'Готовим договор, проверяем страхование и спецификации, согласовываем график платежей.'
+    },
     {
       icon: Truck,
-      title: 'Получение техники',
-      text: 'Забираете автомобиль или оборудование'
+      title: 'Выдача техники',
+      text: 'Организуем приёмку, доставку и финальный контроль, чтобы техника вышла на линию в срок.'
     }
   ]
 
@@ -25,61 +42,46 @@ export default function HowItWorks() {
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-2xl text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Как мы работаем</span>
-          <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Прозрачный маршрут сделки от заявки до выдачи</h2>
+          <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Таймлайн сделки от заявки до выдачи техники</h2>
           <p className="mt-4 text-lg text-dark/65">
-            Вы управляете решением, а мы берём на себя расчёты, переговоры с лизинговыми компаниями и контроль документов.
+            Мы сопровождаем каждый шаг: держим связь, контролируем документы и согласовываем условия с партнёрами.
           </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-dark/45">
-            <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">
-              CRM контроль
-            </span>
-            <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">
-              Чат с командой
-            </span>
-            <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">
-              Документы онлайн
-            </span>
-          </div>
         </div>
 
-        <div className="mt-14 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
-          {steps.map(({ icon: Icon, title, text }, i) => (
-            <div
+        <ol className="relative mt-14 space-y-8 pl-6 before:absolute before:left-[1.45rem] before:top-4 before:h-[calc(100%-2rem)] before:w-px before:bg-gradient-to-b before:from-accent/40 before:via-accent/10 before:to-transparent sm:pl-8 md:pl-12">
+          {steps.map(({ icon: Icon, title, text }, index) => (
+            <li
               key={title}
-              className="relative flex h-full flex-col gap-4 rounded-4xl border border-white/60 bg-white/85 p-7 text-left shadow-glow backdrop-blur-2xl animate-fade-up"
-              style={{ animationDelay: `${i * 0.1}s` }}
+              className="relative pl-8 sm:pl-10 md:pl-12 animate-fade-up"
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <span className="absolute right-6 top-6 text-5xl font-black text-dark/5">0{i + 1}</span>
-              <div className="relative flex h-12 w-12 items-center justify-center rounded-3xl bg-accent/10 text-accent">
+              <span className="absolute left-0 top-1 flex h-12 w-12 items-center justify-center rounded-3xl border border-accent/30 bg-white text-accent shadow-sm">
                 <Icon aria-hidden="true" className="h-6 w-6" />
-              </div>
-              <div className="relative">
-                <h3 className="text-lg font-semibold text-dark">{title}</h3>
+              </span>
+              <div className="relative rounded-4xl border border-white/60 bg-white/85 p-6 shadow-glow backdrop-blur-2xl">
+                <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/45">Шаг 0{index + 1}</span>
+                <h3 className="mt-3 text-lg font-semibold text-dark">{title}</h3>
                 <p className="mt-3 text-sm text-dark/70">{text}</p>
+                <div className="card-glow" aria-hidden="true" />
               </div>
-              <div className="timeline-line" aria-hidden="true" />
-              <div className="card-glow" aria-hidden="true" />
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
 
         <div className="mt-12 flex justify-center">
           <a
-            href="https://wa.me/79000000000?text=Здравствуйте!%20У%20меня%20вопрос%20по%20лизингу."
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Задать вопрос в WhatsApp"
+            href="#lead-form"
             className="group inline-flex items-center gap-3 overflow-hidden rounded-full border border-accent/40 bg-white/40 px-8 py-3 text-sm font-semibold text-accent backdrop-blur-md transition hover:border-accent hover:bg-white/70 hover:shadow-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
           >
             <MessageCircle aria-hidden="true" className="h-5 w-5" />
-            Задать вопрос
+            Получить расчёт
           </a>
         </div>
 
         <div className="mt-10 grid gap-4 rounded-[2.2rem] border border-white/60 bg-white/85 p-6 text-sm text-dark/70 shadow-glow backdrop-blur-xl md:grid-cols-3">
           <div className="space-y-1">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/45">Мониторинг</p>
-            <p>Рассылаем обновления по этапам сделки и фиксируем дедлайны в общей CRM.</p>
+            <p>Фиксируем ключевые этапы в CRM и обновляем статус сделки в общем чате.</p>
           </div>
           <div className="space-y-1">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/45">Юридический блок</p>
@@ -87,7 +89,7 @@ export default function HowItWorks() {
           </div>
           <div className="space-y-1">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/45">Финальный контроль</p>
-            <p>Убедимся, что техника готова к выдаче и организуем передачу в нужном регионе.</p>
+            <p>Организуем выдачу техники в нужном регионе и помогаем с передачей.</p>
           </div>
         </div>
       </div>
