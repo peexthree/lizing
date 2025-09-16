@@ -32,7 +32,10 @@ export default function Page() {
           '+7 (967) 77-28-299',
           '+7 (918) 37-98-548',
           '8 800 444-45-84'
-@@ -39,41 +41,43 @@ export default function Page() {
+        ],
+      },
+      ...['Лизинг автомобилей', 'Лизинг грузовой техники', 'Лизинг спецтехники'].map(
+        (name) => ({
           '@type': 'Service',
           name,
           provider: { '@id': '#organization' },
@@ -58,7 +61,7 @@ export default function Page() {
       ></script>
 
       <HeroSection />
-      <Calculator />
+       <Calculator />
       <Stats />
       <Advantages />
       <HowItWorks />
@@ -67,7 +70,7 @@ export default function Page() {
       <Trust />
       <CalculatorModal />
       <CaseStudies />
-      <UsefulArticles />
+       <UsefulArticles />
       <FAQ />
       <LeadForm />
       <StickyBar />
