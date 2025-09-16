@@ -30,7 +30,7 @@ type SummaryCardProps = {
   title: string
   value: string
   valueClassName?: string
-  description?: string
+   description?: string
 }
 
 const SummaryCard = memo(function SummaryCard({ title, value, description, valueClassName }: SummaryCardProps) {
@@ -55,6 +55,8 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
   const [showRate, setShowRate] = useState(false)
   const [residual, setResidual] = useState(10)
   const [error, setError] = useState('')
+  const [shareOpen, setShareOpen] = useState(false)
+  const shareRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const handler = (event: Event) => {
@@ -80,76 +82,7 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
     const safeAdvance = Number.isFinite(advance) ? Math.max(advance, 0) : 0
     const safeTerm = Number.isFinite(term) && term > 0 ? term : 1
     const safeRate = Number.isFinite(rate) ? Math.max(rate, 0) : 0
-    const safeResidual = Number.isFinite(residual) ? Math.max(residual, 0) : 0
-
-    const advanceRub = advanceMode === 'percent' ? (safeCost * safeAdvance) / 100 : safeAdvance
-    const advancePercent = safeCost > 0 ? (advanceRub / safeCost) * 100 : 0
-    const residualRub = (safeCost * safeResidual) / 100
-    const financed = safeCost - advanceRub - residualRub
-    const monthlyRate = safeRate / 12 / 100
-
-    let monthlyPayment = 0
-    if (financed > 0) {
-      if (monthlyRate > 0) {
-        const factor = Math.pow(1 + monthlyRate, safeTerm)
-        const denominator = factor - 1
-        monthlyPayment = denominator !== 0 ? financed * ((monthlyRate * factor) / denominator) : financed / safeTerm
-      } else {
-        monthlyPayment = financed / safeTerm
-      }
-    }
-
-    const total = advanceRub + residualRub + monthlyPayment * safeTerm
-    const overpayment = total - safeCost
-    const effectiveRate = safeCost > 0 ? (total / safeCost - 1) * 100 : 0
-    const financedShare = safeCost > 0 ? (financed / safeCost) * 100 : 0
-
-    const summary = [
-      `Стоимость: ${formatRub(safeCost)}`,
-      `Аванс: ${formatRub(advanceRub)} (${Math.round(advancePercent)}%)`,
-      `Срок: ${Math.max(1, Math.round(safeTerm))} мес.`,
-      `Платёж: ${formatRub(monthlyPayment || 0)}`,
-      `Переплата: ${formatRub(overpayment || 0)}`,
-      `Итого: ${formatRub(total || 0)}`
-    ].join(' · ')
-
-    return {
-      advanceRub,
-      advancePercent,
-      residualRub,
-      financed,
-      monthlyPayment,
-      total,
-      overpayment,
-      effectiveRate,
-      financedShare,
-      summary
-    }
-  }, [advance, advanceMode, cost, residual, rate, term])
-
-  const {
-    advanceRub,
-    advancePercent,
-    residualRub,
-    financed,
-    monthlyPayment,
-    total,
-    overpayment,
-    effectiveRate,
-    financedShare,
-    summary
-  } = calculations
-
-  const summaryCache = useRef<string | null>(null)
-  const summaryTimeout = useRef<number | null>(null)
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    if (!summary || summary === summaryCache.current) return
-
-    summaryCache.current = summary
-
-    if (summaryTimeout.current !== null) {
+@@ -153,292 +155,418 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
       window.clearTimeout(summaryTimeout.current)
     }
 
@@ -175,16 +108,40 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
     setCost(Number(event.target.value))
   }, [])
 
+  const handleCostSliderChange = useCallback((value: number[]) => {
+    if (typeof value[0] === 'number' && Number.isFinite(value[0])) {
+      setCost(Math.round(value[0]))
+    }
+  }, [])
+
   const handleAdvanceChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setAdvance(Number(event.target.value))
+  }, [])
+
+  const handleAdvanceSliderChange = useCallback((value: number[]) => {
+    if (typeof value[0] === 'number' && Number.isFinite(value[0])) {
+      setAdvance(Math.round(value[0]))
+    }
   }, [])
 
   const handleTermChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setTerm(Number(event.target.value))
   }, [])
 
+  const handleTermSliderChange = useCallback((value: number[]) => {
+    if (typeof value[0] === 'number' && Number.isFinite(value[0])) {
+      setTerm(Math.round(value[0]))
+    }
+  }, [])
+
   const handleResidualChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setResidual(Number(event.target.value))
+  }, [])
+
+  const handleResidualSliderChange = useCallback((value: number[]) => {
+    if (typeof value[0] === 'number' && Number.isFinite(value[0])) {
+      setResidual(Math.round(value[0]))
+    }
   }, [])
 
   const handleRateChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -206,6 +163,50 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
     })
   }, [advancePercent, advanceRub])
 
+  useEffect(() => {
+    if (!shareOpen) return
+
+    const handleClick = (event: MouseEvent) => {
+      if (!shareRef.current) return
+      if (!shareRef.current.contains(event.target as Node)) {
+        setShareOpen(false)
+      }
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setShareOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClick)
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('mousedown', handleClick)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [shareOpen])
+
+  const handleShare = useCallback(
+    (channel: 'whatsapp' | 'email') => {
+      if (!summary) return
+
+      const encodedSummary = encodeURIComponent(summary)
+
+      if (channel === 'whatsapp') {
+        const link = `https://wa.me/?text=${encodedSummary}`
+        window.open(link, '_blank', 'noopener,noreferrer')
+      } else {
+        const subject = encodeURIComponent('Расчёт по лизингу')
+        const body = encodeURIComponent(`${summary}\n\nОтправлено с калькулятора на lizing-i-tochka.ru`)
+        window.location.href = `mailto:?subject=${subject}&body=${body}`
+      }
+
+      setShareOpen(false)
+    },
+    [summary]
+  )
+
   const handleApplyToForm = useCallback(() => {
     const parsed = calculationSchema.safeParse({
       cost,
@@ -221,7 +222,7 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
     }
 
     setError('')
-openLeadForm({
+    openLeadForm({
       calcSummary: summary,
       fields: {
         cost: String(Math.round(cost)),
@@ -232,10 +233,8 @@ openLeadForm({
         monthly: String(Math.round(monthlyPayment)),
         overpayment: String(Math.round(overpayment)),
         total: String(Math.round(total))
-
       }
-
-     })
+    })
   }, [advanceRub, cost, monthlyPayment, overpayment, residualRub, summary, term, rate, total])
 
   const primaryMetrics = useMemo(
@@ -268,7 +267,8 @@ openLeadForm({
     ],
     [effectiveRate, financed, financedShare]
   )
-const wrapperClasses = isModal ? 'mx-auto max-w-4xl px-3 sm:px-4' : 'mx-auto max-w-4xl px-4'
+
+  const wrapperClasses = isModal ? 'mx-auto max-w-4xl px-3 sm:px-4' : 'mx-auto max-w-4xl px-4'
   const cardWrapperMargin = isModal ? 'mt-8' : 'mt-12'
 
   return (
@@ -301,7 +301,13 @@ const wrapperClasses = isModal ? 'mx-auto max-w-4xl px-3 sm:px-4' : 'mx-auto max
                   <span className="text-sm text-dark/60">{formatRub(cost)}</span>
                 </div>
                 <div className="mt-3">
-                  <Slider min={100_000} max={20_000_000} step={100_000} value={cost} onChange={handleCostChange} />
+                  <Slider
+                    min={100_000}
+                    max={20_000_000}
+                    step={100_000}
+                    value={[Math.min(Math.max(cost, 100_000), 20_000_000)]}
+                    onValueChange={handleCostSliderChange}
+                  />
                   <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
                     <span>100 тыс.</span>
                     <span>20 млн</span>
@@ -332,10 +338,10 @@ const wrapperClasses = isModal ? 'mx-auto max-w-4xl px-3 sm:px-4' : 'mx-auto max
                 <div className="mt-3">
                   <Slider
                     min={0}
-                    max={advanceMode === 'percent' ? 90 : cost}
+                    max={advanceMode === 'percent' ? 90 : Math.max(cost, 0)}
                     step={advanceMode === 'percent' ? 1 : 1_000}
-                    value={advance}
-                    onChange={handleAdvanceChange}
+                    value={[Math.min(Math.max(advance, 0), advanceMode === 'percent' ? 90 : Math.max(cost, 0))]}
+                    onValueChange={handleAdvanceSliderChange}
                   />
                   <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
                     <span>0%</span>
@@ -357,7 +363,13 @@ const wrapperClasses = isModal ? 'mx-auto max-w-4xl px-3 sm:px-4' : 'mx-auto max
                   />
                 </div>
                 <div className="mt-3">
-                  <Slider min={1} max={60} step={1} value={term} onChange={handleTermChange} />
+                  <Slider
+                    min={1}
+                    max={60}
+                    step={1}
+                    value={[Math.min(Math.max(term, 1), 60)]}
+                    onValueChange={handleTermSliderChange}
+                  />
                   <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
                     <span>1 мес.</span>
                     <span>60 мес.</span>
@@ -377,7 +389,13 @@ const wrapperClasses = isModal ? 'mx-auto max-w-4xl px-3 sm:px-4' : 'mx-auto max
                   <span className="text-sm text-dark/60">{formatRub(residualRub)}</span>
                 </div>
                 <div className="mt-3">
-                  <Slider min={0} max={50} step={1} value={residual} onChange={handleResidualChange} />
+                  <Slider
+                    min={0}
+                    max={50}
+                    step={1}
+                    value={[Math.min(Math.max(residual, 0), 50)]}
+                    onValueChange={handleResidualSliderChange}
+                  />
                   <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
                     <span>0%</span>
                     <span>50%</span>
@@ -425,8 +443,49 @@ const wrapperClasses = isModal ? 'mx-auto max-w-4xl px-3 sm:px-4' : 'mx-auto max
               ))}
             </div>
 
-            <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
-              {error ? <p className="text-sm font-medium text-red-500">{error}</p> : null}
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div className="space-y-3">
+                {error ? <p className="text-sm font-medium text-red-500">{error}</p> : null}
+                <div ref={shareRef} className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setShareOpen(previous => !previous)}
+                    className="inline-flex w-full items-center justify-between gap-3 rounded-full border border-accent/30 bg-white/90 px-6 py-3 text-sm font-semibold text-accent shadow-sm transition hover:border-accent hover:shadow-glow md:w-auto"
+                    aria-expanded={shareOpen}
+                    aria-haspopup="menu"
+                  >
+                    <span>Отправить расчёт себе на WhatsApp/Email</span>
+                    <span className={`text-xs transition ${shareOpen ? 'rotate-180' : ''}`} aria-hidden>
+                      ▾
+                    </span>
+                  </button>
+                  {shareOpen ? (
+                    <div
+                      role="menu"
+                      className="absolute left-0 top-[calc(100%+0.5rem)] z-10 w-72 rounded-3xl border border-white/70 bg-white/95 p-4 shadow-lg backdrop-blur"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/40">Поделиться расчётом</p>
+                      <div className="mt-3 space-y-2">
+                        <button
+                          type="button"
+                          onClick={() => handleShare('whatsapp')}
+                          className="w-full rounded-2xl bg-[#25D366]/10 px-4 py-3 text-left text-sm font-semibold text-[#1A8E4B] transition hover:bg-[#25D366]/20"
+                        >
+                          Отправить в WhatsApp
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleShare('email')}
+                          className="w-full rounded-2xl bg-accent/10 px-4 py-3 text-left text-sm font-semibold text-accent transition hover:bg-accent/15"
+                        >
+                          Отправить на Email
+                        </button>
+                      </div>
+                      <p className="mt-3 text-[11px] text-dark/60">Мы подготовим текст с ключевыми параметрами и откроем выбранный канал.</p>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
               <button
                 type="button"
                 onClick={handleApplyToForm}

@@ -1,19 +1,23 @@
 export const faq = [
   {
-    q: 'Если у нас уже есть своя лизинговая компания?',
-    a: 'Сравним 50+ предложений и выберем выгоднее.'
+    q: 'Какие документы нужны?',
+    a: 'Подготовим чек-лист: учредительные документы, бухгалтерскую отчётность и данные по технике. Поможем собрать пакет под конкретную сумму.'
+  },
+  {
+    q: 'Можно ли физлицу?',
+    a: 'Да, есть программы для самозанятых и ИП. Подберём лизинговую компанию, которая работает с физлицами и упростим подтверждение дохода.'
+  },
+  {
+    q: 'Как быстро одобрение?',
+    a: 'От 2 часов до 2 дней: зависит от суммы и комплекта документов. Мы заранее уточняем требования и отправляем заявки параллельно в несколько ЛК.'
   },
   {
     q: 'Можно ли без аванса?',
-    a: 'Да. Часто первый платёж идёт вместо аванса.'
+    a: 'Да. Часто первый платёж идёт вместо аванса, а остаточный платёж помогает снизить ежемесячную нагрузку.'
   },
   {
     q: 'Что такое возвратный лизинг?',
-    a: 'Продаёте технику ЛК и берёте её обратно. Получаете деньги.'
-  },
-  {
-    q: 'Какие документы нужны?',
-    a: 'Зависит от суммы. Дадим чек‑лист.'
+    a: 'Продаёте технику лизинговой компании и берёте её обратно в пользование. Получаете деньги на развитие и продолжаете работать на своей технике.'
   }
 ]
 
@@ -39,25 +43,3 @@ export default function FAQ() {
               style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-lg font-semibold text-dark">
-                <span className="flex items-center gap-3">
-                  <span className="hidden h-8 w-8 items-center justify-center rounded-full border border-accent/30 text-xs font-semibold uppercase tracking-[0.3em] text-accent/70 md:flex">
-                    FAQ
-                  </span>
-                  {item.q}
-                </span>
-                <span className="text-sm font-medium text-accent transition group-open:rotate-45">+</span>
-              </summary>
-              <p className="mt-3 text-sm leading-relaxed text-dark/70">{item.a}</p>
-              <div className="card-glow" aria-hidden="true" />
-            </details>
-          ))}
-        </div>
-        <div className="mt-10 rounded-[2rem] border border-white/60 bg-white/85 p-6 text-center text-sm text-dark/70 shadow-glow backdrop-blur-xl">
-          <p>
-            Не нашли ответ? Напишите нам в мессенджер или оставьте заявку — менеджер подключится и подберёт оптимальный формат финансирования.
-          </p>
-        </div>
-      </div>
-    </section>
-  )
-}

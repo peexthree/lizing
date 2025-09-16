@@ -1,5 +1,6 @@
 'use client';
 import HeroSection from '@/components/Hero'
+import Calculator from '@/components/Calculator'
 import Advantages from '@/components/Advantages'
 import HowItWorks from '@/components/HowItWorks'
 import Testimonials from '@/components/Testimonials'
@@ -7,10 +8,9 @@ import Partners from '@/components/Partners'
 import Trust from '@/components/Trust'
 import CalculatorModal from '@/components/CalculatorModal'
 import CaseStudies from '@/components/CaseStudies'
+import UsefulArticles from '@/components/UsefulArticles'
 import FAQ, { faq } from '@/components/FAQ'
 import LeadForm from '@/components/LeadForm'
-import Contacts from '@/components/Contacts'
-import Footer from '@/components/Footer'
 import StickyBar from '@/components/StickyBar'
 import Stats from '@/components/Stats'
 
@@ -32,10 +32,7 @@ export default function Page() {
           '+7 (967) 77-28-299',
           '+7 (918) 37-98-548',
           '8 800 444-45-84'
-        ],
-      },
-      ...['Лизинг автомобилей', 'Лизинг грузовой техники', 'Лизинг спецтехники'].map(
-        (name) => ({
+@@ -39,41 +41,43 @@ export default function Page() {
           '@type': 'Service',
           name,
           provider: { '@id': '#organization' },
@@ -61,6 +58,7 @@ export default function Page() {
       ></script>
 
       <HeroSection />
+      <Calculator />
       <Stats />
       <Advantages />
       <HowItWorks />
@@ -69,10 +67,9 @@ export default function Page() {
       <Trust />
       <CalculatorModal />
       <CaseStudies />
+      <UsefulArticles />
       <FAQ />
       <LeadForm />
-      <Contacts />
-      <Footer />
       <StickyBar />
     </>
   )
