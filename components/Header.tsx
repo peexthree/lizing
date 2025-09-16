@@ -1,49 +1,144 @@
 'use client'
 
-import { Phone, MessageCircle, PenLine } from 'lucide-react'
+import { Phone, MessageCircle, PenLine, Menu } from 'lucide-react'
+import { useState, useEffect } from 'react'
 import { openLeadForm } from '@/lib/openLeadForm'
-
-import Logo from './Logo'
+import { motion, AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
 
 export default function Header() {
+  const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-white/20">
-      <div className="mx-auto flex max-w-6xl items-center px-4 py-3">
-        <Logo />
-        <nav className="ml-8 hidden md:flex items-center gap-6">
-          <a href="#how" className="text-sm font-medium text-dark hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent">Как работает</a>
-          <a href="#calculator" className="text-sm font-medium text-dark hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent">Калькулятор</a>
-          <a href="#examples" className="text-sm font-medium text-dark hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent">Примеры</a>
-          <a href="#faq" className="text-sm font-medium text-dark hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent">FAQ</a>
-          <a href="#contacts" className="text-sm font-medium text-dark hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent">Контакты</a>
+    <motion.header
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      className="sticky top-0 z-50 backdrop-blur-xl"
+    >
+      <motion.div
+        animate={{
+          backgroundColor: scrolled
+            ? 'rgba(255,255,255,0.9)'
+            : 'rgba(255,255,255,0.7)',
+          boxShadow: scrolled
+            ? '0 2px 12px rgba(0,0,0,0.08)'
+            : '0 0 0 rgba(0,0,0,0)',
+          paddingTop: scrolled ? '0.5rem' : '0.75rem',
+          paddingBottom: scrolled ? '0.5rem' : '0.75rem'
+        }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        className="mx-auto flex max-w-6xl items-center justify-between px-4"
+      >
+        {/* Логотип */}
+        <motion.div
+          animate={{ scale: scrolled ? 0.8 : 1 }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+          className="flex-shrink-0"
+        >
+          <Image
+            src="/logo.svg"
+            alt="Лизинг и точка"
+            height={48}
+            width={48}
+            className="h-10 w-auto md:h-12"
+            priority
+          />
+        </motion.div>
+
+        {/* Навигация desktop */}
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+          <a href="#how" className="text-dark hover:text-accent transition-colors">Как работает</a>
+          <a href="#calculator" className="text-dark hover:text-accent transition-colors">Калькулятор</a>
+          <a href="#examples" className="text-dark hover:text-accent transition-colors">Примеры</a>
+          <a href="#faq" className="text-dark hover:text-accent transition-colors">FAQ</a>
+          <a href="#contacts" className="text-dark hover:text-accent transition-colors">Контакты</a>
         </nav>
-        <div className="ml-auto hidden md:flex items-center gap-2">
+
+        {/* Контакты desktop */}
+        <div className="hidden md:flex items-center gap-3">
           <a
             href="tel:+79677728299"
-            aria-label="Позвонить"
-            className="flex items-center gap-2 rounded-full border border-white/70 bg-white/90 px-4 py-2 text-sm font-semibold text-dark shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+            className="flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-sm font-semibold text-accent hover:bg-accent hover:text-white transition-colors"
           >
-            <Phone aria-hidden="true" className="h-4 w-4 text-accent" />
+            <Phone className="h-4 w-4" />
             <span>Позвонить</span>
           </a>
           <a
             href="https://wa.me/79677728299"
-            aria-label="WhatsApp"
-            className="flex items-center gap-2 rounded-full border border-white/70 bg-white/90 px-4 py-2 text-sm font-semibold text-dark shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+            className="flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-sm font-semibold text-accent hover:bg-accent hover:text-white transition-colors"
           >
-            <MessageCircle aria-hidden="true" className="h-4 w-4 text-accent" />
+            <MessageCircle className="h-4 w-4" />
             <span>WhatsApp</span>
           </a>
           <button
-           onClick={() => openLeadForm()}
-            aria-label="Оставить заявку"
-            className="flex items-center gap-2 rounded-full border border-white/70 bg-white/90 px-4 py-2 text-sm font-semibold text-dark shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+            onClick={() => openLeadForm()}
+            className="flex items-center gap-2 rounded-full bg-accent text-white px-4 py-2 text-sm font-semibold shadow hover:shadow-lg transition-all"
           >
-            <PenLine aria-hidden="true" className="h-4 w-4 text-accent" />
-            <span>Оставить заявку</span>
+            <PenLine className="h-4 w-4" />
+            <span>Заявка</span>
           </button>
         </div>
-      </div>
-    </header>
+
+        {/* Мобильное меню */}
+        <button
+          className="md:hidden rounded-md p-2 text-dark hover:bg-accent/10 transition"
+          onClick={() => setOpen(!open)}
+        >
+          <Menu className="h-6 w-6" />
+        </button>
+      </motion.div>
+
+      {/* Выпадающее меню mobile */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+            className="md:hidden bg-white/95 backdrop-blur-xl border-t border-white/20 shadow-lg"
+          >
+            <nav className="flex flex-col gap-4 px-4 py-6 text-sm font-medium">
+              <a href="#how" className="text-dark hover:text-accent transition">Как работает</a>
+              <a href="#calculator" className="text-dark hover:text-accent transition">Калькулятор</a>
+              <a href="#examples" className="text-dark hover:text-accent transition">Примеры</a>
+              <a href="#faq" className="text-dark hover:text-accent transition">FAQ</a>
+              <a href="#contacts" className="text-dark hover:text-accent transition">Контакты</a>
+              <a
+                href="tel:+79677728299"
+                className="flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-sm font-semibold text-accent hover:bg-accent hover:text-white transition"
+              >
+                <Phone className="h-4 w-4" />
+                <span>Позвонить</span>
+              </a>
+              <a
+                href="https://wa.me/79677728299"
+                className="flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-sm font-semibold text-accent hover:bg-accent hover:text-white transition"
+              >
+                <MessageCircle className="h-4 w-4" />
+                <span>WhatsApp</span>
+              </a>
+              <button
+                onClick={() => openLeadForm()}
+                className="flex items-center justify-center gap-2 rounded-full bg-accent text-white px-4 py-2 text-sm font-semibold shadow hover:shadow-lg transition-all"
+              >
+                <PenLine className="h-4 w-4" />
+                <span>Заявка</span>
+              </button>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   )
 }
