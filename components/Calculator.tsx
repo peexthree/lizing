@@ -113,8 +113,8 @@ export default function Calculator() {
     summary
   } = calculations
 
-  const summaryCache = useRef<string>()
-  const summaryTimeout = useRef<number>()
+ const summaryCache = useRef<string | null>(null)
+const summaryTimeout = useRef<number | null>(null)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
