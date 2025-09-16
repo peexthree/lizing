@@ -209,7 +209,7 @@ export default function Calculator() {
             </span>
           </div>
         </div>
-        <div        <div
+            <div
           className="mt-12 rounded-[2.5rem] border border-white/60 bg-white/85 p-8 shadow-hero backdrop-blur-2xl animate-fade-up"
           style={{ animationDelay: '0.15s' }}
         >
