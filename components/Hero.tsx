@@ -1,9 +1,16 @@
 'use client'
-
+import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import Image from 'next/image'
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { CheckCircle2, GaugeCircle, ShieldCheck, Sparkles, Timer } from 'lucide-react'
+import {
+  ArrowDown,
+  CheckCircle2,
+  GaugeCircle,
+  ShieldCheck,
+  Sparkles,
+  Timer
+} from 'lucide-react'
 
 const features = [
   'Аванс от 0% и гибкий график платежей',
@@ -13,6 +20,61 @@ const features = [
 ]
 
 export default function HeroSection() {
+ const sectionRef = useRef<HTMLElement | null>(null)
+  const [interacting, setInteracting] = useState(false)
+
+  useEffect(() => {
+    const target = sectionRef.current
+    if (target) {
+      target.style.setProperty('--hero-pointer-x', '50%')
+      target.style.setProperty('--hero-pointer-y', '35%')
+    }
+
+    let frame = 0
+    const update = () => {
+      frame = 0
+      const y = window.scrollY
+      document.body.style.setProperty('--scroll-y', `${y}px`)
+      document.body.style.setProperty('--scroll-parallax', `${-y * 0.22}px`)
+      document.body.style.setProperty('--scroll-soft', `${-y * 0.12}px`)
+      document.body.style.setProperty('--scroll-overlay', `${y * 0.05}px`)
+    }
+
+    update()
+
+    const handleScroll = () => {
+      if (frame) return
+      frame = window.requestAnimationFrame(update)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (frame) window.cancelAnimationFrame(frame)
+    }
+  }, [])
+
+  function handlePointerMove(event: PointerEvent<HTMLElement>) {
+    const target = sectionRef.current
+    if (!target) return
+    const rect = target.getBoundingClientRect()
+    const x = ((event.clientX - rect.left) / rect.width) * 100
+    const y = ((event.clientY - rect.top) / rect.height) * 100
+    target.style.setProperty('--hero-pointer-x', `${x}%`)
+    target.style.setProperty('--hero-pointer-y', `${y}%`)
+    if (!interacting) setInteracting(true)
+  }
+
+  function handlePointerLeave() {
+    const target = sectionRef.current
+    if (target) {
+      target.style.setProperty('--hero-pointer-x', '50%')
+      target.style.setProperty('--hero-pointer-y', '35%')
+    }
+    setInteracting(false)
+  }
+
   const sectionRef = useRef<HTMLElement | null>(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -27,7 +89,12 @@ export default function HeroSection() {
   }
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden py-28 md:py-36">
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden py-28 md:py-36"
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+    >
       <div className="absolute inset-0 bg-gradient-to-br from-[#0b1220]/80 via-[#101b32]/70 to-[#0b1220]/30" />
       <div className="absolute inset-0 bg-hero-grid opacity-70" />
       <motion.div className="pointer-events-none absolute inset-0" style={{ y: glowY }} aria-hidden>
@@ -37,8 +104,19 @@ export default function HeroSection() {
         </div>
         <div className="absolute right-[-6rem] bottom-24 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
         <div className="absolute inset-x-0 bottom-[-10rem] h-[18rem] bg-gradient-to-t from-[#0b1220]/70 to-transparent" />
+ <div className="floating-orb -right-40 top-32 hidden h-[360px] w-[360px] bg-accent/30 md:block" />
+        <div className="floating-orb -left-48 bottom-10 hidden h-[320px] w-[320px] bg-white/20 md:block" />
       </motion.div>
-
+ <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-0 transition duration-500 ${
+          interacting ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{
+          background:
+            'radial-gradient(circle at var(--hero-pointer-x,50%) var(--hero-pointer-y,40%), rgba(30,102,255,0.25), transparent 55%)'
+        }}
+      />
       <div className="relative z-10 mx-auto max-w-6xl px-4">
         <div className="grid items-center gap-16 lg:grid-cols-[1.08fr_minmax(0,1fr)]">
           <div className="space-y-8 text-white">
@@ -140,6 +218,17 @@ export default function HeroSection() {
                 <p className="font-medium text-white">от 24 часов</p>
               </div>
             </motion.div>
+ <div
+              className="flex items-center gap-4 text-sm text-white/70 animate-fade-up"
+              style={{ animationDelay: '0.55s' }}
+            >
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10">
+                <ArrowDown className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <p className="max-w-xs font-medium">
+                Прокрутите вниз — мы подсветили ключевые условия, готовые к вашему сценарию.
+              </p>
+            </div>
           </div>
 
           <div className="relative flex items-center justify-center">
@@ -185,6 +274,8 @@ export default function HeroSection() {
                   <Timer className="h-5 w-5 text-accent" aria-hidden="true" />
                   Одобрение за 1 день
                 </div>
+         <div className="card-glow" aria-hidden="true" />
+                <div className="shine-overlay" aria-hidden="true" />
               </div>
             </motion.div>
           </div>
