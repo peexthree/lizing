@@ -23,8 +23,8 @@ body {
   min-height: 100%;
   background-color: var(--background);
   background-image: var(--background-image);
-  background-repeat: no-repeat;
-  background-size: cover;
+ background-repeat: repeat;
+  background-size: auto;
   background-position: center var(--scroll-parallax, 0px);
   background-attachment: scroll;
   color: var(--foreground);
