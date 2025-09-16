@@ -1,4 +1,5 @@
 'use client'
+
 import { useCallback, useEffect, useState, type ChangeEvent, type FormEvent, type MouseEvent } from 'react'
 import { X } from 'lucide-react'
 
@@ -14,7 +15,7 @@ type FormState = {
   utm_medium: string
   utm_campaign: string
   utm_content: string
-  
+  referrer: string
 }
 
 const initialState: FormState = {
@@ -25,7 +26,7 @@ const initialState: FormState = {
   utm_medium: '',
   utm_campaign: '',
   utm_content: '',
-  
+  referrer: ''
 }
 
 type MessengerLink = {
