@@ -108,7 +108,7 @@ export default function CalculatorModal() {
             <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">
               Сохраняем расчёт
             </span>
-          </div>
+         </div>
           <div className="mt-10 flex justify-center">
             <button
               type="button"
@@ -133,7 +133,7 @@ export default function CalculatorModal() {
         onClick={handleOverlayClick}
       >
         <div
-          className={`relative flex max-h-[calc(100vh-2rem)] w-full max-w-5xl flex-col overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/95 shadow-hero backdrop-blur transition-all duration-200 ${
+          className={`relative flex h-[min(90vh,760px)] w-full max-w-6xl flex-col overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/95 shadow-hero backdrop-blur transition-all duration-200 ${
             isOpen ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
           }`}
         >
@@ -145,7 +145,7 @@ export default function CalculatorModal() {
           >
             <X className="h-5 w-5" aria-hidden />
           </button>
-          <div className="h-full overflow-y-auto px-3 pb-6 pt-14 sm:px-6 sm:pt-16">
+          <div className="flex h-full flex-col px-3 pb-6 pt-14 sm:px-8 sm:pt-16">
             <Calculator variant="modal" />
           </div>
         </div>
@@ -153,3 +153,4 @@ export default function CalculatorModal() {
     </>
   )
 }
+

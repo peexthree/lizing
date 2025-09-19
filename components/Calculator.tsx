@@ -2,7 +2,9 @@
 
 import { ChangeEvent, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { z } from 'zod'
+
 import { openLeadForm } from '@/lib/openLeadForm'
+
 import Slider from './ui/Slider'
 
 const rubFormatter = new Intl.NumberFormat('ru-RU')
@@ -46,7 +48,7 @@ const SummaryCard = memo(function SummaryCard({ title, value, description, value
 SummaryCard.displayName = 'SummaryCard'
 
 export default function Calculator({ variant = 'page', id = 'calculator' }: CalculatorProps) {
-  const isModal = variant === 'modal'  
+  const isModal = variant === 'modal'
   const [cost, setCost] = useState(5_000_000)
   const [advanceMode, setAdvanceMode] = useState<'percent' | 'currency'>('percent')
   const [advance, setAdvance] = useState(20)
@@ -55,8 +57,9 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
   const [showRate, setShowRate] = useState(false)
   const [residual, setResidual] = useState(10)
   const [error, setError] = useState('')
-const [shareOpen, setShareOpen] = useState(false)
+  const [shareOpen, setShareOpen] = useState(false)
   const shareRef = useRef<HTMLDivElement | null>(null)
+
   useEffect(() => {
     const handler = (event: Event) => {
       const detail = (event as CustomEvent<PrefillDetail>).detail
@@ -82,74 +85,7 @@ const [shareOpen, setShareOpen] = useState(false)
     const safeTerm = Number.isFinite(term) && term > 0 ? term : 1
     const safeRate = Number.isFinite(rate) ? Math.max(rate, 0) : 0
     const safeResidual = Number.isFinite(residual) ? Math.max(residual, 0) : 0
-
-    const advanceRub = advanceMode === 'percent' ? (safeCost * safeAdvance) / 100 : safeAdvance
-    const advancePercent = safeCost > 0 ? (advanceRub / safeCost) * 100 : 0
-    const residualRub = (safeCost * safeResidual) / 100
-    const financed = safeCost - advanceRub - residualRub
-    const monthlyRate = safeRate / 12 / 100
-
-    let monthlyPayment = 0
-    if (financed > 0) {
-      if (monthlyRate > 0) {
-        const factor = Math.pow(1 + monthlyRate, safeTerm)
-        const denominator = factor - 1
-        monthlyPayment = denominator !== 0 ? financed * ((monthlyRate * factor) / denominator) : financed / safeTerm
-      } else {
-        monthlyPayment = financed / safeTerm
-      }
-    }
-
-    const total = advanceRub + residualRub + monthlyPayment * safeTerm
-    const overpayment = total - safeCost
-    const effectiveRate = safeCost > 0 ? (total / safeCost - 1) * 100 : 0
-    const financedShare = safeCost > 0 ? (financed / safeCost) * 100 : 0
-
-    const summary = [
-      `Стоимость: ${formatRub(safeCost)}`,
-      `Аванс: ${formatRub(advanceRub)} (${Math.round(advancePercent)}%)`,
-      `Срок: ${Math.max(1, Math.round(safeTerm))} мес.`,
-      `Платёж: ${formatRub(monthlyPayment || 0)}`,
-      `Переплата: ${formatRub(overpayment || 0)}`,
-      `Итого: ${formatRub(total || 0)}`
-    ].join(' · ')
-
-    return {
-      advanceRub,
-      advancePercent,
-      residualRub,
-      financed,
-      monthlyPayment,
-      total,
-      overpayment,
-      effectiveRate,
-      financedShare,
-      summary
-    }
-  }, [advance, advanceMode, cost, residual, rate, term])
-
-  const {
-    advanceRub,
-    advancePercent,
-    residualRub,
-    financed,
-    monthlyPayment,
-    total,
-    overpayment,
-    effectiveRate,
-    financedShare,
-    summary
-  } = calculations
-
-  const summaryCache = useRef<string | null>(null)
-  const summaryTimeout = useRef<number | null>(null)
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    if (!summary || summary === summaryCache.current) return
-
-    summaryCache.current = summary
-
+@@ -153,104 +156,107 @@ const [shareOpen, setShareOpen] = useState(false)
     if (summaryTimeout.current !== null) {
       window.clearTimeout(summaryTimeout.current)
     }
@@ -175,7 +111,8 @@ const [shareOpen, setShareOpen] = useState(false)
   const handleCostChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setCost(Number(event.target.value))
   }, [])
-const handleCostSliderChange = useCallback((value: number[]) => {
+
+  const handleCostSliderChange = useCallback((value: number[]) => {
     if (typeof value[0] === 'number' && Number.isFinite(value[0])) {
       setCost(Math.round(value[0]))
     }
@@ -185,17 +122,17 @@ const handleCostSliderChange = useCallback((value: number[]) => {
     setAdvance(Number(event.target.value))
   }, [])
 
-const handleAdvanceSliderChange = useCallback((value: number[]) => {
+  const handleAdvanceSliderChange = useCallback((value: number[]) => {
     if (typeof value[0] === 'number' && Number.isFinite(value[0])) {
       setAdvance(Math.round(value[0]))
     }
   }, [])
 
-
   const handleTermChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setTerm(Number(event.target.value))
   }, [])
-const handleTermSliderChange = useCallback((value: number[]) => {
+
+  const handleTermSliderChange = useCallback((value: number[]) => {
     if (typeof value[0] === 'number' && Number.isFinite(value[0])) {
       setTerm(Math.round(value[0]))
     }
@@ -204,7 +141,8 @@ const handleTermSliderChange = useCallback((value: number[]) => {
   const handleResidualChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setResidual(Number(event.target.value))
   }, [])
-const handleResidualSliderChange = useCallback((value: number[]) => {
+
+  const handleResidualSliderChange = useCallback((value: number[]) => {
     if (typeof value[0] === 'number' && Number.isFinite(value[0])) {
       setResidual(Math.round(value[0]))
     }
@@ -228,7 +166,8 @@ const handleResidualSliderChange = useCallback((value: number[]) => {
       return 'percent'
     })
   }, [advancePercent, advanceRub])
- useEffect(() => {
+
+  useEffect(() => {
     if (!shareOpen) return
 
     const handleClick = (event: MouseEvent) => {
@@ -254,15 +193,7 @@ const handleResidualSliderChange = useCallback((value: number[]) => {
 
   const handleShare = useCallback(
     (channel: 'whatsapp' | 'email') => {
-      if (!summary) return
-
-      const encodedSummary = encodeURIComponent(summary)
-
-      if (channel === 'whatsapp') {
-        const link = `https://wa.me/?text=${encodedSummary}`
-        window.open(link, '_blank', 'noopener,noreferrer')
-      } else {
-        const subject = encodeURIComponent('Расчёт по лизингу')
+       const subject = encodeURIComponent('Расчёт по лизингу')
         const body = encodeURIComponent(`${summary}\n\nОтправлено с калькулятора на lizing-i-tochka.ru`)
         window.location.href = `mailto:?subject=${subject}&body=${body}`
       }
@@ -287,7 +218,8 @@ const handleResidualSliderChange = useCallback((value: number[]) => {
     }
 
     setError('')
- openLeadForm({
+
+    openLeadForm({
       calcSummary: summary,
       fields: {
         cost: String(Math.round(cost)),
@@ -298,10 +230,8 @@ const handleResidualSliderChange = useCallback((value: number[]) => {
         monthly: String(Math.round(monthlyPayment)),
         overpayment: String(Math.round(overpayment)),
         total: String(Math.round(total))
-
       }
-
-     })
+    })
   }, [advanceRub, cost, monthlyPayment, overpayment, residualRub, summary, term, rate, total])
 
   const primaryMetrics = useMemo(
@@ -335,235 +265,286 @@ const handleResidualSliderChange = useCallback((value: number[]) => {
     [effectiveRate, financed, financedShare]
   )
 
+  const sectionClasses = isModal ? 'flex h-full flex-col' : 'py-24'
+  const wrapperClasses = isModal
+    ? 'mx-auto flex h-full w-full max-w-5xl flex-col px-2 sm:px-6'
+    : 'mx-auto max-w-4xl px-4'
+  const headingClasses = isModal ? 'text-2xl font-bold text-dark sm:text-3xl' : 'text-3xl font-bold text-dark md:text-4xl'
+  const descriptionClasses = isModal ? 'mt-3 text-base text-dark/65 sm:text-lg' : 'mt-4 text-lg text-dark/65'
+  const badgeWrapperClasses = isModal
+    ? 'mt-4 flex flex-wrap justify-center gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-dark/50'
+    : 'mt-5 flex flex-wrap justify-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-dark/50'
 
-const wrapperClasses = isModal ? 'mx-auto max-w-4xl px-3 sm:px-4' : 'mx-auto max-w-4xl px-4'
-  const cardWrapperMargin = isModal ? 'mt-8' : 'mt-12'
+  const costAdvanceSection = (
+    <div className="grid gap-5 lg:grid-cols-2">
+      <div>
+        <label className="block text-xs font-semibold uppercase tracking-wide text-dark/70">Стоимость техники</label>
+        <div className="mt-3 flex items-center gap-3">
+          <input
+            type="number"
+            value={cost}
+            onChange={handleCostChange}
+            className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
+          />
+          <span className="text-sm font-medium text-dark/60">{formatRub(cost)}</span>
+        </div>
+        <div className="mt-3">
+          <Slider
+            min={100_000}
+            max={20_000_000}
+            step={100_000}
+            value={[Math.min(Math.max(cost, 100_000), 20_000_000)]}
+            onValueChange={handleCostSliderChange}
+          />
+          <div className="mt-2 flex justify-between text-[10px] font-semibold uppercase tracking-[0.3em] text-dark/40">
+            <span>100 тыс.</span>
+            <span>20 млн</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-xs font-semibold uppercase tracking-wide text-dark/70">Аванс</label>
+        <div className="mt-3 flex items-center gap-3">
+          <button
+            type="button"
+            onClick={toggleAdvanceMode}
+            className="rounded-full border border-accent/40 bg-white/80 px-3 py-2 text-xs font-semibold text-accent shadow-sm transition hover:border-accent hover:bg-white"
+          >
+            {advanceMode === 'percent' ? '%' : '₽'}
+          </button>
+          <input
+            type="number"
+            value={advance}
+            onChange={handleAdvanceChange}
+            className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
+          />
+          <span className="text-sm font-medium text-dark/60">
+            {advanceMode === 'percent' ? formatRub(advanceRub) : `${Math.round(advancePercent)} %`}
+          </span>
+        </div>
+        <div className="mt-3">
+          <Slider
+            min={0}
+            max={advanceMode === 'percent' ? 90 : Math.max(cost, 0)}
+            step={advanceMode === 'percent' ? 1 : 1_000}
+            value={[Math.min(Math.max(advance, 0), advanceMode === 'percent' ? 90 : Math.max(cost, 0))]}
+            onValueChange={handleAdvanceSliderChange}
+          />
+          <div className="mt-2 flex justify-between text-[10px] font-semibold uppercase tracking-[0.3em] text-dark/40">
+            <span>0%</span>
+            <span>{advanceMode === 'percent' ? '90%' : formatRub(cost)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  const termResidualSection = (
+    <div className="grid gap-5 lg:grid-cols-2">
+      <div>
+        <label className="block text-xs font-semibold uppercase tracking-wide text-dark/70">Срок (мес)</label>
+        <div className="mt-3 flex items-center gap-3">
+          <input
+            type="number"
+            value={term}
+            onChange={handleTermChange}
+            className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
+          />
+        </div>
+        <div className="mt-3">
+          <Slider
+            min={1}
+            max={60}
+            step={1}
+            value={[Math.min(Math.max(term, 1), 60)]}
+            onValueChange={handleTermSliderChange}
+          />
+          <div className="mt-2 flex justify-between text-[10px] font-semibold uppercase tracking-[0.3em] text-dark/40">
+            <span>1 мес.</span>
+            <span>60 мес.</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-xs font-semibold uppercase tracking-wide text-dark/70">Остаточный платёж (%)</label>
+        <div className="mt-3 flex items-center gap-3">
+          <input
+            type="number"
+            value={residual}
+            onChange={handleResidualChange}
+            className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
+          />
+          <span className="text-sm font-medium text-dark/60">{formatRub(residualRub)}</span>
+        </div>
+        <div className="mt-3">
+          <Slider
+            min={0}
+            max={50}
+            step={1}
+            value={[Math.min(Math.max(residual, 0), 50)]}
+            onValueChange={handleResidualSliderChange}
+          />
+          <div className="mt-2 flex justify-between text-[10px] font-semibold uppercase tracking-[0.3em] text-dark/40">
+            <span>0%</span>
+            <span>50%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  const rateSection = (
+    <div className="space-y-4">
+      <button
+        type="button"
+        onClick={handleToggleRate}
+        className="text-sm font-semibold text-accent underline decoration-dotted underline-offset-4 transition hover:text-accent/80"
+      >
+        {showRate ? 'Скрыть ставку' : 'Изменить ставку'}
+      </button>
+      {showRate ? (
+        <div className="flex items-center gap-4">
+          <label className="text-sm font-semibold text-dark">Ставка (%)</label>
+          <input
+            type="number"
+            value={rate}
+            onChange={handleRateChange}
+            className="w-full max-w-[120px] rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
+          />
+        </div>
+      ) : null}
+    </div>
+  )
+
+  const primaryMetricsSection = (
+    <div className={`grid gap-4 ${isModal ? 'sm:grid-cols-2' : 'md:grid-cols-3'}`}>
+      {primaryMetrics.map(metric => (
+        <SummaryCard key={metric.title} title={metric.title} value={metric.value} />
+      ))}
+    </div>
+  )
+
+  const secondaryMetricsSection = (
+    <div className={`grid gap-4 ${isModal ? 'sm:grid-cols-2' : 'md:grid-cols-3'}`}>
+      {secondaryMetrics.map(metric => (
+        <SummaryCard
+          key={metric.title}
+          title={metric.title}
+          value={metric.value}
+          description={metric.description}
+          valueClassName={metric.valueClassName}
+        />
+      ))}
+    </div>
+  )
+
+  const actionsSection = (
+    <div
+      className={`flex flex-col gap-4 ${
+        isModal ? 'rounded-3xl border border-white/50 bg-white/70 p-4 shadow-sm backdrop-blur' : 'md:flex-row md:items-center md:justify-between'
+      }`}
+    >
+      <div className={`space-y-3 ${isModal ? '' : 'md:flex-1'}`}>
+        {error ? <p className="text-sm font-medium text-red-500">{error}</p> : null}
+        <div ref={shareRef} className="relative">
+          <button
+            type="button"
+            onClick={() => setShareOpen(previous => !previous)}
+            className="inline-flex w-full items-center justify-between gap-3 rounded-full border border-accent/30 bg-white/90 px-6 py-3 text-sm font-semibold text-accent shadow-sm transition hover:border-accent hover:shadow-glow"
+            aria-expanded={shareOpen}
+            aria-haspopup="menu"
+          >
+            <span>Отправить расчёт себе на WhatsApp/Email</span>
+            <span className={`text-xs transition ${shareOpen ? 'rotate-180' : ''}`} aria-hidden>
+              ▾
+            </span>
+          </button>
+          {shareOpen ? (
+            <div
+              role="menu"
+              className="absolute left-0 top-[calc(100%+0.5rem)] z-10 w-72 rounded-3xl border border-white/70 bg-white/95 p-4 shadow-lg backdrop-blur"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/40">Поделиться расчётом</p>
+              <div className="mt-3 space-y-2">
+                <button
+                  type="button"
+                  onClick={() => handleShare('whatsapp')}
+                  className="w-full rounded-2xl bg-[#25D366]/10 px-4 py-3 text-left text-sm font-semibold text-[#1A8E4B] transition hover:bg-[#25D366]/20"
+                >
+                  Отправить в WhatsApp
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleShare('email')}
+                  className="w-full rounded-2xl bg-accent/10 px-4 py-3 text-left text-sm font-semibold text-accent transition hover:bg-accent/15"
+                >
+                  Отправить на Email
+                </button>
+              </div>
+              <p className="mt-3 text-[11px] text-dark/60">Мы подготовим текст с ключевыми параметрами и откроем выбранный канал.</p>
+            </div>
+          ) : null}
+        </div>
+      </div>
+      <button
+        type="button"
+        onClick={handleApplyToForm}
+        className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-accent px-8 py-3 text-base font-semibold text-white shadow-glow transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+      >
+        <span className="relative z-[1]">Использовать в заявке</span>
+        <span className="absolute inset-0 translate-x-[-70%] bg-gradient-to-r from-white/30 via-white/60 to-transparent opacity-0 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100" />
+      </button>
+    </div>
+  )
 
   return (
-    <section id={id} className={isModal ? 'py-6 sm:py-8' : 'py-24'}>
+    <section id={id} className={sectionClasses}>
       <div className={wrapperClasses}>
-        <div className="mx-auto max-w-2xl text-center animate-fade-up">
+        <div className={`mx-auto ${isModal ? 'max-w-3xl pb-4 text-center' : 'max-w-2xl text-center animate-fade-up'}`}>
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Калькулятор</span>
-          <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Рассчитайте комфортный платёж за минуту</h2>
-          <p className="mt-4 text-lg text-dark/65">
+          <h2 className={headingClasses}>Рассчитайте комфортный платёж за минуту</h2>
+          <p className={descriptionClasses}>
             Подберите стоимость, аванс и срок — результаты сразу можно отправить в заявку на одобрение.
           </p>
-          <div className="mt-5 flex flex-wrap justify-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-dark/50">
+          <div className={badgeWrapperClasses}>
             <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">Живое обновление</span>
             <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-dark/60 shadow-sm backdrop-blur">Сохраняем расчёт</span>
           </div>
         </div>
 
-        <div className={`${cardWrapperMargin} rounded-[2.5rem] border border-white/60 bg-white/85 p-8 shadow-hero backdrop-blur-2xl animate-fade-up`}>
-          <div className="space-y-10">
-            <div className="grid gap-6 md:grid-cols-2">
-              <div>
-                <label className="block text-sm font-semibold text-dark">Стоимость техники</label>
-                <div className="mt-3 flex items-center gap-4">
-                  <input
-                    type="number"
-                    value={cost}
-                    onChange={handleCostChange}
-                    className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30 md:w-48"
-                  />
-                  <span className="text-sm text-dark/60">{formatRub(cost)}</span>
-                </div>
-                <div className="mt-3">
-                     <Slider
-                    min={100_000}
-                    max={20_000_000}
-                    step={100_000}
-                    value={[Math.min(Math.max(cost, 100_000), 20_000_000)]}
-                    onValueChange={handleCostSliderChange}
-                  />
-                  <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
-                    <span>100 тыс.</span>
-                    <span>20 млн</span>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-dark">Аванс</label>
-                <div className="mt-3 flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={toggleAdvanceMode}
-                    className="rounded-full border border-accent/40 bg-white/80 px-3 py-2 text-xs font-semibold text-accent shadow-sm transition hover:border-accent hover:bg-white"
-                  >
-                    {advanceMode === 'percent' ? '%' : '₽'}
-                  </button>
-                  <input
-                    type="number"
-                    value={advance}
-                    onChange={handleAdvanceChange}
-                    className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30 md:w-40"
-                  />
-                  <span className="text-sm text-dark/60">
-                    {advanceMode === 'percent' ? formatRub(advanceRub) : `${Math.round(advancePercent)} %`}
-                  </span>
-                </div>
-                <div className="mt-3">
-                  <Slider
-                    min={0}
-                     max={advanceMode === 'percent' ? 90 : Math.max(cost, 0)}
-                    step={advanceMode === 'percent' ? 1 : 1_000}
-                                 value={[Math.min(Math.max(advance, 0), advanceMode === 'percent' ? 90 : Math.max(cost, 0))]}
-                    onValueChange={handleAdvanceSliderChange}
-                  />
-                  <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
-                    <span>0%</span>
-                    <span>{advanceMode === 'percent' ? '90%' : formatRub(cost)}</span>
-                  </div>
-                </div>
+        {isModal ? (
+          <div className="mt-4 flex flex-1 flex-col gap-4 lg:flex-row lg:gap-6">
+            <div className="flex flex-1 flex-col rounded-[2rem] border border-white/60 bg-white/90 p-5 shadow-hero sm:p-6">
+              <div className="flex-1 space-y-6 overflow-hidden">
+                {costAdvanceSection}
+                <div className="h-px bg-gradient-to-r from-transparent via-dark/10 to-transparent" />
+                {termResidualSection}
+                <div className="h-px bg-gradient-to-r from-transparent via-dark/10 to-transparent" />
+                {rateSection}
               </div>
             </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              <div>
-                <label className="block text-sm font-semibold text-dark">Срок (мес)</label>
-                <div className="mt-3 flex items-center gap-4">
-                  <input
-                    type="number"
-                    value={term}
-                    onChange={handleTermChange}
-                    className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30 md:w-40"
-                  />
-                </div>
-                <div className="mt-3">
-                  <Slider
-                    min={1}
-                    max={60}
-                    step={1}
-                    value={[Math.min(Math.max(term, 1), 60)]}
-                    onValueChange={handleTermSliderChange}
-                  />
-                  <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
-                    <span>1 мес.</span>
-                    <span>60 мес.</span>
-                  </div>
-                </div>
+            <div className="flex flex-1 flex-col rounded-[2rem] border border-white/60 bg-gradient-to-br from-white via-white/95 to-white/80 p-5 shadow-hero sm:p-6">
+              <div className="flex h-full flex-col gap-5">
+                {primaryMetricsSection}
+                {secondaryMetricsSection}
+                {actionsSection}
               </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-dark">Остаточный платёж (%)</label>
-                <div className="mt-3 flex items-center gap-4">
-                  <input
-                    type="number"
-                    value={residual}
-                    onChange={handleResidualChange}
-                    className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30 md:w-40"
-                  />
-                  <span className="text-sm text-dark/60">{formatRub(residualRub)}</span>
-                </div>
-                <div className="mt-3">
-                  <Slider
-                    min={0}
-                    max={50}
-                    step={1}
-                    value={[Math.min(Math.max(residual, 0), 50)]}
-                    onValueChange={handleResidualSliderChange}
-                  />
-                  <div className="mt-2 flex justify-between text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
-                    <span>0%</span>
-                    <span>50%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <button
-                type="button"
-                onClick={handleToggleRate}
-                className="text-sm font-semibold text-accent underline decoration-dotted underline-offset-4 transition hover:text-accent/80"
-              >
-                {showRate ? 'Скрыть ставку' : 'Изменить ставку'}
-              </button>
-              {showRate ? (
-                <div className="flex items-center gap-4">
-                  <label className="text-sm font-semibold text-dark">Ставка (%)</label>
-                  <input
-                    type="number"
-                    value={rate}
-                    onChange={handleRateChange}
-                    className="w-full max-w-[120px] rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
-                  />
-                </div>
-              ) : null}
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-3">
-              {primaryMetrics.map(metric => (
-                <SummaryCard key={metric.title} title={metric.title} value={metric.value} />
-              ))}
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-3">
-              {secondaryMetrics.map(metric => (
-                <SummaryCard
-                  key={metric.title}
-                  title={metric.title}
-                  value={metric.value}
-                  description={metric.description}
-                  valueClassName={metric.valueClassName}
-                />
-              ))}
-            </div>
-<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div className="space-y-3">
-                {error ? <p className="text-sm font-medium text-red-500">{error}</p> : null}
-                <div ref={shareRef} className="relative">
-                  <button
-                    type="button"
-                    onClick={() => setShareOpen(previous => !previous)}
-                    className="inline-flex w-full items-center justify-between gap-3 rounded-full border border-accent/30 bg-white/90 px-6 py-3 text-sm font-semibold text-accent shadow-sm transition hover:border-accent hover:shadow-glow md:w-auto"
-                    aria-expanded={shareOpen}
-                    aria-haspopup="menu"
-                  >
-                    <span>Отправить расчёт себе на WhatsApp/Email</span>
-                    <span className={`text-xs transition ${shareOpen ? 'rotate-180' : ''}`} aria-hidden>
-                      ▾
-                    </span>
-                  </button>
-                  {shareOpen ? (
-                    <div
-                      role="menu"
-                      className="absolute left-0 top-[calc(100%+0.5rem)] z-10 w-72 rounded-3xl border border-white/70 bg-white/95 p-4 shadow-lg backdrop-blur"
-                    >
-                      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/40">Поделиться расчётом</p>
-                      <div className="mt-3 space-y-2">
-                        <button
-                          type="button"
-                          onClick={() => handleShare('whatsapp')}
-                          className="w-full rounded-2xl bg-[#25D366]/10 px-4 py-3 text-left text-sm font-semibold text-[#1A8E4B] transition hover:bg-[#25D366]/20"
-                        >
-                          Отправить в WhatsApp
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleShare('email')}
-                          className="w-full rounded-2xl bg-accent/10 px-4 py-3 text-left text-sm font-semibold text-accent transition hover:bg-accent/15"
-                        >
-                          Отправить на Email
-                        </button>
-                      </div>
-                      <p className="mt-3 text-[11px] text-dark/60">Мы подготовим текст с ключевыми параметрами и откроем выбранный канал.</p>
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={handleApplyToForm}
-                className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-accent px-8 py-3 text-base font-semibold text-white shadow-glow transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
-              >
-                <span className="relative z-[1]">Использовать в заявке</span>
-                <span className="absolute inset-0 translate-x-[-70%] bg-gradient-to-r from-white/30 via-white/60 to-transparent opacity-0 transition duration-500 group-hover:translate-x-0 group-hover:opacity-100" />
-              </button>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="mt-12 rounded-[2.5rem] border border-white/60 bg-white/85 p-8 shadow-hero backdrop-blur-2xl animate-fade-up">
+            <div className="space-y-10">
+              {costAdvanceSection}
+              {termResidualSection}
+              {rateSection}
+              {primaryMetricsSection}
+              {secondaryMetricsSection}
+              {actionsSection}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   )
