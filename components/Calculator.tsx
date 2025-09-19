@@ -270,7 +270,7 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
       if (channel === 'whatsapp') {
         const link = `https://wa.me/?text=${encodedSummary}`
         window.open(link, '_blank', 'noopener,noreferrer')
-      } else {
+       else {
         const subject = encodeURIComponent('Расчёт по лизингу')
         const body = encodeURIComponent(`${summary}\n\nОтправлено с калькулятора на lizing-i-toch
         const body = encodeURIComponent(`${summary}\n\nОтправлено с калькулятора на lizing-i-tochka.ru`)
