@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowRight, Mail, MessageCircle, Save, Sparkles, X } from 'lucide-react';
 import { SLIDER_CONFIG } from '@/config/calculator.config';
 import { useLeasingCalculator, formatRub } from '@/hooks/useLeasingCalculator';
-
+import Slider from '@/components/calculator/ui/Slider';
 const WRAPPER_BASE = 'rounded-[28px] bg-white/95 shadow-[0_40px_90px_-55px_rgba(15,23,42,0.95)] ring-1 ring-black/5 backdrop-blur';
 
 type CalculatorProps = {
@@ -36,7 +36,7 @@ type NumberInputProps = {
   onChange: (value: number) => void;
 };
 
-type SliderProps = {
+type SliderControlProps = {
   value: number;
   min: number;
   max: number;
@@ -190,7 +190,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                     step={SLIDER_CONFIG.cost.step}
                     onChange={handleCostChange}
                   />
-                <Slider
+              <SliderControl
                   value={cost}
                   min={SLIDER_CONFIG.cost.min}
                   max={SLIDER_CONFIG.cost.max}
@@ -229,7 +229,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                     {advanceMode === 'percent' ? '0–90 %' : `${formatRub(0)} – ${formatRub(cost)}`}
                   </span>
                 </div>
-                <Slider
+               <SliderControl
                   value={advance}
                   min={
                     advanceMode === 'percent'
@@ -250,7 +250,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                 label="Срок договора, мес."
                 valueNode={<ValueBadge>{Math.round(term)} мес.</ValueBadge>}
               >
-                <Slider
+                   <SliderControl
                   value={term}
                   min={SLIDER_CONFIG.term.min}
                   max={SLIDER_CONFIG.term.max}
@@ -267,7 +267,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                 label="Ставка, % годовых"
                 valueNode={<ValueBadge>{Number(rate.toFixed(2))} %</ValueBadge>}
               >
-                <Slider
+               <SliderControl
                   value={rate}
                   min={SLIDER_CONFIG.rate.min}
                   max={SLIDER_CONFIG.rate.max}
@@ -285,7 +285,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                 valueNode={<ValueBadge>{Math.round(residual)} %</ValueBadge>}
                 hint={formatRub(residualRub)}
               >
-                <Slider
+             <SliderControl
                   value={residual}
                   min={SLIDER_CONFIG.residual.min}
                   max={SLIDER_CONFIG.residual.max}
@@ -431,51 +431,9 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
           )}
 
 
-          <style jsx>{`
-            input[type='range'] {
-              -webkit-appearance: none;
-              appearance: none;
-              width: 100%;
-              background: transparent;
-            }
-            input[type='range']:focus {
-              outline: none;
-            }
-            input[type='range']::-webkit-slider-runnable-track {
-              height: 4px;
-              border-radius: 9999px;
-              background: rgba(15, 23, 42, 0.1);
-            }
-            input[type='range']::-moz-range-track {
-              height: 4px;
-              border-radius: 9999px;
-              background: rgba(15, 23, 42, 0.1);
-            }
-            input[type='range']::-webkit-slider-thumb {
-              -webkit-appearance: none;
-              appearance: none;
-              width: 18px;
-              height: 18px;
-              border-radius: 9999px;
-              background: white;
-              border: 2px solid rgb(30, 102, 255);
-              box-shadow: 0 4px 10px rgba(30, 102, 255, 0.25);
-              margin-top: -7px;
-            }
-            input[type='range']::-moz-range-thumb {
-              width: 18px;
-              height: 18px;
-              border-radius: 9999px;
-              background: white;
-              border: 2px solid rgb(30, 102, 255);
-              box-shadow: 0 4px 10px rgba(30, 102, 255, 0.25);
-            }
-            input[type='range']::-moz-range-progress {
-              background: rgb(30, 102, 255);
-              height: 4px;
-              border-radius: 9999px;
-            }
-          `}</style>
+      
+
+
         </div>
       </div>
     </section>
@@ -530,16 +488,21 @@ function NumberInput({ value, min, max, step, onChange }: NumberInputProps) {
   );
 }
 
-function Slider({ value, min, max, step, onChange }: SliderProps) {
+function SliderControl({ value, min, max, step, onChange }: SliderControlProps) {
+  const clampedValue = Math.min(Math.max(value, min), max);
+
   return (
-    <input
-      type="range"
-      className="accent-accent"
-      value={value}
+    <Slider
+      value={[clampedValue]}
       min={min}
       max={max}
       step={step}
-      onChange={(event) => onChange(Number(event.target.value))}
+      onValueChange={(values) => {
+        const nextValue = values[0];
+        if (typeof nextValue === 'number' && !Number.isNaN(nextValue)) {
+          onChange(nextValue);
+        }
+      }}
     />
   );
 }
