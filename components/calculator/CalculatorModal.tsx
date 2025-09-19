@@ -119,9 +119,9 @@ export default function CalculatorModal() {
       </section>
 
       <div
-        className={`fixed inset-0 z-[90] flex items-center justify-center bg-[#0f172a]/70 px-4 py-6 sm:px-6 sm:py-10 backdrop-blur transition-opacity duration-300 ${
+      className={`fixed inset-0 z-[90] flex justify-center overflow-y-auto bg-[#0f172a]/70 px-4 py-6 sm:px-6 sm:py-10 backdrop-blur transition-opacity duration-300 ${
           isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
-        }`}
+        } items-start sm:items-center`}
         role="dialog"
         aria-modal="true"
         aria-hidden={!isOpen}
@@ -129,7 +129,7 @@ export default function CalculatorModal() {
         onClick={handleOverlayClick}
       >
         <div
-          className={`relative flex w-full max-w-6xl flex-col overflow-hidden rounded-[2.75rem] border border-white/70 bg-white/95 shadow-hero transition-all duration-300 ${
+          className={`relative my-6 flex w-full max-w-6xl flex-col overflow-hidden rounded-[2.75rem] border border-white/70 bg-white/95 shadow-hero transition-all duration-300 ${
             isOpen ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
           }`}
         >

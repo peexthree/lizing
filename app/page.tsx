@@ -10,7 +10,7 @@ import Trust from '@/components/Trust'
 
 import FAQ, { faq } from '@/components/FAQ'
 import LeadForm from '@/components/LeadForm'
-import StickyBar from '@/components/StickyBar'
+
 import Stats from '@/components/Stats'
 
 export default function Page() {
