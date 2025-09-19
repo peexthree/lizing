@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowRight, Mail, MessageCircle, Save, Sparkles } from 'lucide-react';
 
 import { SLIDER_CONFIG } from '@/config/calculator.config';
@@ -69,6 +69,10 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
   } = calculations;
 
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error'>('idle');
+ const isModal = variant === 'modal';
+  const [step, setStep] = useState<'inputs' | 'results'>(isModal ? 'inputs' : 'results');
+  const inputsSectionRef = useRef<HTMLDivElement | null>(null);
+  const resultsSectionRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (saveStatus === 'idle') return;
@@ -76,13 +80,18 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
     const timer = window.setTimeout(() => setSaveStatus('idle'), 4000);
     return () => window.clearTimeout(timer);
   }, [saveStatus]);
+  useEffect(() => {
+    if (!isModal) return;
 
+    const target = step === 'inputs' ? inputsSectionRef.current : resultsSectionRef.current;
+    target?.focus();
+  }, [step, isModal]);
   const handleSaveClick = () => {
     const success = handleSaveCalculation();
     setSaveStatus(success ? 'saved' : 'error');
   };
 
-  const isModal = variant === 'modal';
+
 
    const sectionClasses = isModal ? 'flex flex-col' : 'relative overflow-hidden py-16 sm:py-20';
   const containerClasses = isModal
@@ -149,15 +158,24 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
                  isModal ? 'min-h-0 overflow-y-auto' : ''
             }`}
           >
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <Field label="Стоимость техники" valueNode={<ValueBadge>{formatRub(cost)}</ValueBadge>}>
-                <NumberInput
-                  value={cost}
-                  min={SLIDER_CONFIG.cost.min}
-                  max={SLIDER_CONFIG.cost.max}
-                  step={SLIDER_CONFIG.cost.step}
-                  onChange={handleCostChange}
-                />
+            <div
+              ref={inputsSectionRef}
+              tabIndex={isModal ? -1 : undefined}
+              className={
+                isModal
+                  ? 'outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white/90'
+                  : ''
+              }
+            >
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <Field label="Стоимость техники" valueNode={<ValueBadge>{formatRub(cost)}</ValueBadge>}>
+                  <NumberInput
+                    value={cost}
+                    min={SLIDER_CONFIG.cost.min}
+                    max={SLIDER_CONFIG.cost.max}
+                    step={SLIDER_CONFIG.cost.step}
+                    onChange={handleCostChange}
+                  />
                 <Slider
                   value={cost}
                   min={SLIDER_CONFIG.cost.min}
@@ -266,99 +284,135 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
                 </div>
               </Field>
             </div>
+ </div>
+            {isModal && step === 'inputs' && (
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setStep('results')}
+                  className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_-24px_rgba(30,102,255,0.85)] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                >
+                  Далее
+                </button>
+              </div>
+            )}
 
-            <div className="rounded-[26px] bg-bgsoft/60 px-5 py-5 text-sm text-dark/70 shadow-inner ring-1 ring-white/80">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="grid flex-1 gap-3 sm:grid-cols-3">
-                  {secondaryMetrics.map((item) => (
-                    <SummaryItem key={item.label} {...item} />
-                  ))}
-                </div>
-                <div className="flex items-center gap-3 rounded-[24px] border border-accent/20 bg-white/80 px-4 py-3 text-right">
-                  <div>
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.35em] text-dark/40">
-                      Ваш платёж
+            {(!isModal || step === 'results') && (
+              <div
+                ref={resultsSectionRef}
+                tabIndex={isModal ? -1 : undefined}
+                className={`flex flex-col gap-6 ${
+                  isModal
+                    ? 'outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white/90'
+                    : ''
+                }`}
+              >
+                {isModal && (
+                  <div className="flex justify-between">
+                    <button
+                      type="button"
+                      onClick={() => setStep('inputs')}
+                      className="inline-flex items-center justify-center rounded-full border border-accent/30 px-4 py-2 text-sm font-semibold text-accent transition hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                    >
+                      Назад
+                    </button>
+                  </div>
+                )}
+
+                <div className="rounded-[26px] bg-bgsoft/60 px-5 py-5 text-sm text-dark/70 shadow-inner ring-1 ring-white/80">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="grid flex-1 gap-3 sm:grid-cols-3">
+                      {secondaryMetrics.map((item) => (
+                        <SummaryItem key={item.label} {...item} />
+                      ))}
                     </div>
-                    <div className="text-2xl font-semibold text-accent">{formatRub(monthlyPayment)}</div>
+                    <div className="flex items-center gap-3 rounded-[24px] border border-accent/20 bg-white/80 px-4 py-3 text-right">
+                      <div>
+                        <div className="text-[11px] font-semibold uppercase tracking-[0.35em] text-dark/40">
+                          Ваш платёж
+                        </div>
+                        <div className="text-2xl font-semibold text-accent">{formatRub(monthlyPayment)}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-[26px] border border-dark/5 bg-white/90 px-5 py-5 shadow-sm">
+                  <div className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/40">Ваш расчёт</div>
+                  <ul className="mt-3 space-y-2 text-sm text-dark/75">
+                    {summaryLines.map((line) => (
+                      <li key={line} className="flex items-start gap-2 leading-relaxed">
+                        <Sparkles className="mt-0.5 h-4 w-4 text-accent" aria-hidden />
+                        <span>{line}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="rounded-[26px] border border-white/70 bg-white/95 px-5 py-5 shadow-sm">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <div className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/40">Следующий шаг</div>
+                      <p className="mt-2 text-sm text-dark/80 sm:text-base">
+                        Сохраните расчёт, поделитесь им или сразу отправьте заявку — все данные подтянутся автоматически.
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-2 sm:flex-row">
+                      <button
+                        type="button"
+                        onClick={handleApplyToForm}
+                        className="inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-accent via-accent to-blue-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_24px_45px_-24px_rgba(30,102,255,0.75)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                      >
+                        Перейти к заявке
+                        <ArrowRight className="h-4 w-4" aria-hidden />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleSaveClick}
+                        className="inline-flex items-center justify-center gap-2 rounded-full border border-accent/30 bg-white/95 px-6 py-3 text-sm font-semibold text-accent shadow-inner transition hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                      >
+                        <Save className="h-4 w-4" aria-hidden />
+                        Сохранить расчёт
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between" aria-live="polite">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                      <div className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/40">Поделиться расчётом</div>
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleShare('whatsapp')}
+                          className="inline-flex items-center gap-2 rounded-full border border-dark/10 bg-white px-4 py-2 text-sm font-medium text-dark/80 transition hover:border-accent hover:text-accent"
+                        >
+                          <MessageCircle className="h-4 w-4" aria-hidden />
+                          WhatsApp
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleShare('email')}
+                          className="inline-flex items-center gap-2 rounded-full border border-dark/10 bg-white px-4 py-2 text-sm font-medium text-dark/80 transition hover:border-accent hover:text-accent"
+                        >
+                          <Mail className="h-4 w-4" aria-hidden />
+                          Email
+                        </button>
+                      </div>
+                    </div>
+                    {saveStatus === 'saved' && (
+                      <p className="rounded-full bg-green-100/80 px-4 py-2 text-sm font-medium text-green-700 shadow-inner">
+                        Расчёт сохранён — он уже прикреплён к заявке.
+                      </p>
+                    )}
+                    {saveStatus === 'error' && (
+                      <p className="rounded-full bg-red-100/80 px-4 py-2 text-sm font-medium text-red-600 shadow-inner">
+                        Не удалось сохранить. Попробуйте ещё раз.
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="rounded-[26px] border border-dark/5 bg-white/90 px-5 py-5 shadow-sm">
-              <div className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/40">Ваш расчёт</div>
-              <ul className="mt-3 space-y-2 text-sm text-dark/75">
-                {summaryLines.map((line) => (
-                  <li key={line} className="flex items-start gap-2 leading-relaxed">
-                    <Sparkles className="mt-0.5 h-4 w-4 text-accent" aria-hidden />
-                    <span>{line}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="rounded-[26px] border border-white/70 bg-white/95 px-5 py-5 shadow-sm">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/40">Следующий шаг</div>
-                  <p className="mt-2 text-sm text-dark/80 sm:text-base">
-                    Сохраните расчёт, поделитесь им или сразу отправьте заявку — все данные подтянутся автоматически.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2 sm:flex-row">
-                  <button
-                    type="button"
-                    onClick={handleApplyToForm}
-                    className="inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-accent via-accent to-blue-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_24px_45px_-24px_rgba(30,102,255,0.75)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
-                  >
-                    Перейти к заявке
-                    <ArrowRight className="h-4 w-4" aria-hidden />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleSaveClick}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-accent/30 bg-white/95 px-6 py-3 text-sm font-semibold text-accent shadow-inner transition hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
-                  >
-                    <Save className="h-4 w-4" aria-hidden />
-                    Сохранить расчёт
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between" aria-live="polite">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                  <div className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/40">Поделиться расчётом</div>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => handleShare('whatsapp')}
-                      className="inline-flex items-center gap-2 rounded-full border border-dark/10 bg-white px-4 py-2 text-sm font-medium text-dark/80 transition hover:border-accent hover:text-accent"
-                    >
-                      <MessageCircle className="h-4 w-4" aria-hidden />
-                      WhatsApp
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleShare('email')}
-                      className="inline-flex items-center gap-2 rounded-full border border-dark/10 bg-white px-4 py-2 text-sm font-medium text-dark/80 transition hover:border-accent hover:text-accent"
-                    >
-                      <Mail className="h-4 w-4" aria-hidden />
-                      Email
-                    </button>
-                  </div>
-                </div>
-                {saveStatus === 'saved' && (
-                  <p className="rounded-full bg-green-100/80 px-4 py-2 text-sm font-medium text-green-700 shadow-inner">
-                    Расчёт сохранён — он уже прикреплён к заявке.
-                  </p>
-                )}
-                {saveStatus === 'error' && (
-                  <p className="rounded-full bg-red-100/80 px-4 py-2 text-sm font-medium text-red-600 shadow-inner">
-                    Не удалось сохранить. Попробуйте ещё раз.
-                  </p>
-                )}
-              </div>
-            </div>
+            )}
           </div>
 
           <style jsx>{`
