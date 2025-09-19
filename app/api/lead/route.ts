@@ -207,4 +207,77 @@ export async function POST(req: NextRequest) {
 
   const metaLinesPlain: string[] = []
   const metaLinesHtml: string[] = []
-  const pushMetaLine = (label: string, value: string) => {
+const pushMetaLine = (label: string, value: string) => {
+    if (!value) return
+    metaLinesPlain.push(`• ${label}: ${value}`)
+    metaLinesHtml.push(`• ${label}: ${escapeHtml(value)}`)
+  }
+
+  pushMetaLine('Тип клиента', clientType)
+  pushMetaLine('Техника', tech)
+  pushMetaLine('Бюджет', budget)
+  pushMetaLine('Комментарий', comment)
+  pushMetaLine('UTM Source', utm_source)
+  pushMetaLine('UTM Medium', utm_medium)
+  pushMetaLine('UTM Campaign', utm_campaign)
+  pushMetaLine('UTM Content', utm_content)
+  pushMetaLine('Referrer', referrer)
+
+  if (metaLinesPlain.length > 0) {
+    plainLines.push('')
+    htmlLines.push('')
+    plainLines.push(separator)
+    htmlLines.push(separator)
+    plainLines.push(`ℹ️ *Дополнительная информация*`)
+    htmlLines.push(`ℹ️ <b>Дополнительная информация</b>`)
+    plainLines.push(...metaLinesPlain)
+    htmlLines.push(...metaLinesHtml)
+    plainLines.push(separator)
+    htmlLines.push(separator)
+  }
+
+  if (isDefaultCalcRequest) {
+    plainLines.push('')
+    htmlLines.push('')
+    plainLines.push('💡 *Запрос с калькулятора совпадает со значениями по умолчанию*')
+    htmlLines.push('💡 <i>Запрос с калькулятора совпадает со значениями по умолчанию</i>')
+  }
+
+  const plainText = plainLines.join('\n')
+  const htmlText = htmlLines.join('<br />')
+
+  try {
+    await onLeadSubmit({
+      plain: plainText,
+      html: htmlText,
+      meta: {
+        name,
+        phone,
+        phoneDisplay,
+        clientType,
+        tech,
+        budget,
+        comment,
+        utm_source,
+        utm_medium,
+        utm_campaign,
+        utm_content,
+        referrer,
+        calc,
+        cost,
+        advance,
+        term,
+        rate,
+        residual,
+        payment,
+        host,
+        isDefaultCalcRequest,
+      },
+    })
+  } catch (error) {
+    console.error('Failed to submit lead', error)
+    return NextResponse.json({ success: false, error: 'Failed to submit lead' }, { status: 500 })
+  }
+
+  return NextResponse.json({ success: true, plain: plainText })
+}
