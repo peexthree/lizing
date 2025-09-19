@@ -84,13 +84,13 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
 
   const isModal = variant === 'modal';
 
-  const sectionClasses = isModal ? 'flex h-full flex-col' : 'relative overflow-hidden py-16 sm:py-20';
+   const sectionClasses = isModal ? 'flex flex-col' : 'relative overflow-hidden py-16 sm:py-20';
   const containerClasses = isModal
-    ? 'flex h-full flex-col gap-6'
+    ? 'flex flex-col gap-6'
     : 'relative mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 sm:px-6';
 
   const cardClasses = isModal
-    ? `${WRAPPER_BASE} flex h-full min-h-0 flex-col`
+     ? `${WRAPPER_BASE} flex max-h-full min-h-0 flex-col`
     : `${WRAPPER_BASE} flex flex-col`;
 
   const headerDescription =
@@ -146,7 +146,7 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
 
           <div
             className={`flex flex-col gap-6 px-6 pb-6 sm:px-8 sm:pb-8 ${
-              isModal ? 'flex-1 overflow-y-auto' : ''
+                 isModal ? 'min-h-0 overflow-y-auto' : ''
             }`}
           >
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
