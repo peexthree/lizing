@@ -1,7 +1,7 @@
 'use client';
 import HeroSection from '@/components/Hero'
 import CalculatorModal from '@/components/calculator/CalculatorModal';
-
+import ManagerIntro from '@/components/ManagerIntro'
 import HowItWorks from '@/components/HowItWorks'
 import Testimonials from '@/components/Testimonials'
 
@@ -63,7 +63,7 @@ export default function Page() {
    
  <CalculatorModal />
       <Stats />
-   
+       <ManagerIntro />
       <HowItWorks />
       <Testimonials />
 
