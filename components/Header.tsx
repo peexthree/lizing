@@ -96,7 +96,7 @@ export default function Header() {
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
             <a href="#how" className="text-dark hover:text-accent transition-colors">Как работает</a>
             <a
-              href="#calculator"
+              href="/calculator"
               onClick={handleCalculatorClick}
               className="text-dark hover:text-accent transition-colors"
             >
@@ -190,7 +190,7 @@ export default function Header() {
             <nav className="flex flex-col gap-4 px-4 py-6 text-sm font-medium">
               <a href="#how" className="text-dark hover:text-accent transition">Как работает</a>
               <a
-                href="#calculator"
+                href="/calculator"
                 onClick={handleCalculatorClick}
                 className="text-dark hover:text-accent transition"
               >
