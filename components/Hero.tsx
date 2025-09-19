@@ -1,5 +1,15 @@
+'use client'
+
 import Image from 'next/image'
-import { ArrowDown, CheckCircle2, GaugeCircle, Sparkles, Timer } from 'lucide-react'
+import {
+  ArrowDown,
+  CheckCircle2,
+  GaugeCircle,
+  Hourglass,
+  Sparkles,
+  Timer
+} from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { openLeadForm } from '@/lib/openLeadForm'
 const features = [
   'Аванс от 0% и одобрение в течение суток',
@@ -13,7 +23,55 @@ const contacts = [
   { label: 'Срок сделки', description: 'от 24 часов' }
 ]
 
+type Countdown = {
+  hours: number
+  minutes: number
+  seconds: number
+  totalMs: number
+}
+
+const OFFER_DURATION_HOURS = 6
+
+const calculateTimeLeft = (deadline: number): Countdown => {
+  const totalMs = Math.max(0, deadline - Date.now())
+  const totalSeconds = Math.floor(totalMs / 1000)
+  const hours = Math.floor(totalSeconds / 3600)
+  const minutes = Math.floor((totalSeconds % 3600) / 60)
+  const seconds = totalSeconds % 60
+
+  return { hours, minutes, seconds, totalMs }
+}
+
+const formatSegment = (value: number) => value.toString().padStart(2, '0')
+
 export default function HeroSection() {
+  const [deadline] = useState(
+    () => Date.now() + OFFER_DURATION_HOURS * 60 * 60 * 1000
+  )
+  const [timeLeft, setTimeLeft] = useState<Countdown>(() => calculateTimeLeft(deadline))
+
+  useEffect(() => {
+    if (deadline <= Date.now()) {
+      return
+    }
+
+    const intervalId = window.setInterval(() => {
+      setTimeLeft(prev => {
+        const next = calculateTimeLeft(deadline)
+
+        if (next.totalMs === 0) {
+          window.clearInterval(intervalId)
+        }
+
+        return next.totalMs === prev.totalMs ? prev : next
+      })
+    }, 1000)
+
+    return () => {
+      window.clearInterval(intervalId)
+    }
+  }, [deadline])
+
   return (
     <section className="relative overflow-hidden py-24 sm:py-32 lg:py-36">
       <div className="absolute inset-0">
@@ -131,6 +189,29 @@ export default function HeroSection() {
               <div className="absolute left-6 top-6 inline-flex items-center gap-2 rounded-2xl border border-white/30 bg-white/15 px-4 py-2 text-xs font-semibold text-white shadow-sm backdrop-blur">
                 <Sparkles className="h-4 w-4 text-accent" aria-hidden />
                 12 000+ км сопровождения
+              </div>
+  <div className="absolute right-6 top-6 w-full max-w-[220px] space-y-2 rounded-2xl border border-accent/30 bg-accent/15 px-4 py-3 text-white shadow-lg backdrop-blur">
+                <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-accent/90">
+                  <Hourglass className="h-3.5 w-3.5 text-accent" aria-hidden />
+                  Скидка дня
+                </div>
+                <div className="flex justify-between text-2xl font-semibold tabular-nums">
+                  <span>
+                    {formatSegment(timeLeft.hours)}
+                    <span className="ml-1 text-xs font-medium uppercase text-white/70">ч</span>
+                  </span>
+                  <span>
+                    {formatSegment(timeLeft.minutes)}
+                    <span className="ml-1 text-xs font-medium uppercase text-white/70">м</span>
+                  </span>
+                  <span>
+                    {formatSegment(timeLeft.seconds)}
+                    <span className="ml-1 text-xs font-medium uppercase text-white/70">с</span>
+                  </span>
+                </div>
+                <p className="text-[11px] text-white/70">
+                  Успейте забронировать предложение — усиленная скидка доступна ограниченное время.
+                </p>
               </div>
 
               <div className="absolute right-6 bottom-6 flex items-center gap-3 rounded-2xl bg-white/15 px-5 py-3 text-sm font-semibold text-white shadow-sm backdrop-blur">
