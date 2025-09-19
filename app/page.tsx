@@ -1,12 +1,12 @@
 'use client';
 import HeroSection from '@/components/Hero'
-import CalculatorModal from '@/components/CalculatorModal'
+import CalculatorModal from '@/components/calculator/CalculatorModal';
 import Advantages from '@/components/Advantages'
 import HowItWorks from '@/components/HowItWorks'
 import Testimonials from '@/components/Testimonials'
 
 import Trust from '@/components/Trust'
-import Calculator from '@/components/Calculator'
+
 
 import FAQ, { faq } from '@/components/FAQ'
 import LeadForm from '@/components/LeadForm'
