@@ -18,7 +18,7 @@ type Action =
   | { type: 'SET_COST'; value: number }
   | { type: 'TOGGLE_ADVANCE_MODE'; advanceRub: number; advancePercent: number };
 
-type PrefillDetail = { cost?: number; term?: number; advance?: number };
+export type CalculatorPrefillDetail = { cost?: number; term?: number; advance?: number };
 
 const STORAGE_KEY = 'leasing-calculator-state';
 
@@ -115,14 +115,32 @@ export function useLeasingCalculator() {
     const overpayment = total - safeCost;
     const effectiveRate = safeCost > 0 ? (total / safeCost - 1) * 100 : 0;
     
-    const summary = [
-        `Стоимость: ${formatRub(safeCost)}`,
-        `Аванс: ${formatRub(advanceRub)} (${Math.round(advancePercent)}%)`,
-        `Срок: ${Math.round(safeTerm)} мес.`,
-        `Платёж: ${formatRub(monthlyPayment)}`,
-    ].join(' · ');
+    const summaryLines = [
+      `Стоимость техники: ${formatRub(safeCost)}`,
+      `Аванс: ${formatRub(advanceRub)} (${Math.round(advancePercent)}%)`,
+      `Срок: ${Math.round(safeTerm)} мес.`,
+      `Ставка: ${Number(safeRate.toFixed(2))} % годовых`,
+      `Ежемесячный платёж: ${formatRub(monthlyPayment)}`,
+      `Остаточный платёж: ${formatRub(residualRub)}`,
+    ];
 
-    return { advanceRub, advancePercent, residualRub, financed, monthlyPayment, total, overpayment, effectiveRate, summary };
+    const summary = summaryLines.slice(0, 4).join(' · ');
+    const detailedSummary = summaryLines.join('\n');
+
+    return {
+      advanceRub,
+      advancePercent,
+      residualRub,
+      financed,
+      monthlyPayment,
+      total,
+      overpayment,
+      effectiveRate,
+      summary,
+      summaryLines,
+      detailedSummary,
+    };
+
   }, [cost, advance, advanceMode, term, rate, residual]);
 
   const { advanceRub, advancePercent } = calculations;
@@ -172,7 +190,23 @@ export function useLeasingCalculator() {
   const toggleAdvanceMode = useCallback(() => {
     dispatch({ type: 'TOGGLE_ADVANCE_MODE', advanceRub, advancePercent });
   }, [advanceRub, advancePercent]);
+
+const persistSummary = useCallback((summary: string) => {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
+    try {
+      window.localStorage.setItem('calc', summary);
+      window.dispatchEvent(new CustomEvent('calc-summary', { detail: summary }));
+      return true;
+    } catch (error) {
+      console.warn('[calculator] Failed to persist summary', error);
+      return false;
+    }
+  }, []);
   
+
   const handleApplyToForm = useCallback(() => {
     const parsed = CALCULATION_SCHEMA.safeParse(state);
     if (!parsed.success) {
@@ -181,9 +215,9 @@ export function useLeasingCalculator() {
     }
 
     const safeState = parsed.data;
-
+ persistSummary(calculations.detailedSummary);
     openLeadForm({
-      calcSummary: calculations.summary,
+ calcSummary: calculations.detailedSummary,
       fields: {
         cost: formatRub(safeState.cost),
         advance:
@@ -196,7 +230,7 @@ export function useLeasingCalculator() {
         payment: formatRub(calculations.monthlyPayment),
       },
     });
-  }, [calculations, state]);
+ }, [calculations, persistSummary, state]);
 
   const handleShare = useCallback((channel: 'whatsapp' | 'email') => {
     if (typeof window === 'undefined') return;
@@ -213,7 +247,7 @@ export function useLeasingCalculator() {
   // --- Effects ---
   useEffect(() => {
     const handler = (event: Event) => {
-      const detail = (event as CustomEvent<PrefillDetail>).detail;
+     const detail = (event as CustomEvent<CalculatorPrefillDetail>).detail;
       if (typeof detail.cost === 'number') handleFieldChange('cost', detail.cost);
       if (typeof detail.term === 'number') handleFieldChange('term', detail.term);
       if (typeof detail.advance === 'number') {
@@ -240,6 +274,8 @@ export function useLeasingCalculator() {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload.data));
   }, [state]);
 
+const handleSaveCalculation = useCallback(() => persistSummary(calculations.detailedSummary), [calculations.detailedSummary, persistSummary]);
+
   return {
     state,
     calculations,
@@ -247,6 +283,7 @@ export function useLeasingCalculator() {
     handleCostChange,
     toggleAdvanceMode,
     handleApplyToForm,
-    handleShare,
+    handleShare, 
+handleSaveCalculation,
   };
 }

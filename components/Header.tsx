@@ -1,14 +1,26 @@
 'use client'
 
 import { Phone, MessageCircle, PenLine, Menu } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import type { MouseEvent as ReactMouseEvent } from 'react'
 import { openLeadForm } from '@/lib/openLeadForm'
+import { openCalculator } from '@/lib/openCalculator'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 
 export default function Header() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+
+ const handleCalculatorClick = useCallback(
+    (event: ReactMouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+      event.preventDefault()
+      openCalculator()
+      setOpen(false)
+    },
+    []
+  )
+
 
   useEffect(() => {
     const onScroll = () => {
@@ -62,10 +74,16 @@ export default function Header() {
           {/* Навигация desktop */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
             <a href="#how" className="text-dark hover:text-accent transition-colors">Как работает</a>
-            <a href="#calculator" className="text-dark hover:text-accent transition-colors">Калькулятор</a>
-            <a href="#examples" className="text-dark hover:text-accent transition-colors">Примеры</a>
+            <a
+              href="#calculator"
+              onClick={handleCalculatorClick}
+              className="text-dark hover:text-accent transition-colors"
+            >
+              Калькулятор
+            </a>
+            
             <a href="#faq" className="text-dark hover:text-accent transition-colors">FAQ</a>
-            <a href="#contacts" className="text-dark hover:text-accent transition-colors">Контакты</a>
+            
           </nav>
 
           {/* Контакты desktop */}
@@ -115,7 +133,13 @@ export default function Header() {
           >
             <nav className="flex flex-col gap-4 px-4 py-6 text-sm font-medium">
               <a href="#how" className="text-dark hover:text-accent transition">Как работает</a>
-              <a href="#calculator" className="text-dark hover:text-accent transition">Калькулятор</a>
+              <a
+                href="#calculator"
+                onClick={handleCalculatorClick}
+                className="text-dark hover:text-accent transition"
+              >
+                Калькулятор
+              </a>
               <a href="#examples" className="text-dark hover:text-accent transition">Примеры</a>
               
               <a

@@ -9,6 +9,7 @@ import {
   Timer
 } from 'lucide-react'
 import { openLeadForm } from '@/lib/openLeadForm'
+import { openCalculator } from '@/lib/openCalculator'
 const features = [
   'Аванс от 0% и одобрение в течение суток',
   'Легковые, грузовые и спецтехника для бизнеса и частных лиц',
@@ -94,14 +95,16 @@ export default function HeroSection() {
                 <Timer className="h-5 w-5" aria-hidden />
                 Оставить заявку
               </button>
-              <a
-                href="#calculator"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:border-white/40 hover:bg-white/20 opacity-0 animate-fade-up"
+              <button
+                type="button"
+                onClick={() => openCalculator()}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:border-white/40 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
                 style={{ animationDelay: '420ms' }}
               >
                 <GaugeCircle className="h-5 w-5" aria-hidden />
                 Рассчитать платёж
-              </a>
+</button>
+         
             </div>
 
             <div className="flex flex-col gap-6 text-sm text-white/70 sm:flex-row sm:flex-wrap sm:items-center">

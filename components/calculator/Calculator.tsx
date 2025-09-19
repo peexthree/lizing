@@ -2,7 +2,8 @@
 
 'use client';
 
-import { ArrowRight, Mail, MessageCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowRight, Mail, MessageCircle, Save, Sparkles } from 'lucide-react';
 import { useLeasingCalculator, formatRub } from '@/hooks/useLeasingCalculator';
 import { SLIDER_CONFIG } from '@/config/calculator.config';
 import CalculatorInputGroup from './CalculatorInputGroup';
@@ -24,10 +25,33 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
     toggleAdvanceMode,
     handleApplyToForm,
     handleShare,
+  handleSaveCalculation,
   } = useLeasingCalculator();
+ const {
+    advanceRub,
+    advancePercent,
+    residualRub,
+    financed,
+    monthlyPayment,
+    total,
+    overpayment,
+    effectiveRate,
+    summaryLines,
+  } = calculations;
 
-  const { advanceRub, advancePercent, residualRub, financed, monthlyPayment, total, overpayment, effectiveRate, summary } =
-    calculations;
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error'>('idle');
+
+  useEffect(() => {
+    if (saveStatus === 'idle') return;
+
+    const timer = window.setTimeout(() => setSaveStatus('idle'), 4000);
+    return () => window.clearTimeout(timer);
+  }, [saveStatus]);
+
+  const handleSaveClick = () => {
+    const success = handleSaveCalculation();
+    setSaveStatus(success ? 'saved' : 'error');
+  };
 
   const isModal = variant === 'modal';
 
@@ -177,9 +201,16 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
                 ))}
               </div>
             </div>
-
-            <div className="rounded-3xl border border-dark/5 bg-white/80 p-5 text-sm text-dark/70">
-              {summary}
+ <div className="rounded-3xl border border-dark/5 bg-white/85 p-5 text-sm text-dark/70 shadow-sm">
+              <div className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/45">Ваш расчёт</div>
+              <ul className="mt-3 space-y-2">
+                {summaryLines.map((line) => (
+                  <li key={line} className="flex items-start gap-2 leading-relaxed">
+                    <Sparkles className="mt-0.5 h-4 w-4 text-accent" aria-hidden />
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <dl className="grid gap-3 text-sm text-dark/70 sm:grid-cols-2">
@@ -191,35 +222,68 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
               ))}
             </dl>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <button
-                type="button"
-                onClick={handleApplyToForm}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-accent/90"
-              >
-                Оставить заявку
-                <ArrowRight className="h-4 w-4" />
-              </button>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
-                <div className="text-xs uppercase tracking-[0.3em] text-dark/40">Поделиться расчётом:</div>
-                <div className="flex gap-2">
+           <div className="space-y-4 rounded-3xl border border-white/70 bg-white/90 p-5 shadow-sm">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/40">Следующий шаг</div>
+                  <p className="mt-2 text-base font-semibold text-dark">
+                    Сохраните расчёт и отправьте заявку — мы получим все детали автоматически.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2 sm:flex-row">
+
                   <button
                     type="button"
-                    onClick={() => handleShare('whatsapp')}
-                    className="inline-flex items-center gap-2 rounded-full border border-dark/10 bg-white/70 px-4 py-2 text-sm font-medium text-dark/80 transition hover:border-accent hover:text-accent"
+
+                     onClick={handleApplyToForm}
+                    className="inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-accent via-accent to-blue-500 px-8 py-3 text-base font-semibold text-white shadow-[0_24px_45px_-18px_rgba(30,102,255,0.75)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                    aria-label="Перейти к заявке с расчётом"
                   >
-                    <MessageCircle className="h-4 w-4" />
-                    WhatsApp
+                    Перейти к заявке
+                    <ArrowRight className="h-4 w-4" aria-hidden />
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleShare('email')}
-                    className="inline-flex items-center gap-2 rounded-full border border-dark/10 bg-white/70 px-4 py-2 text-sm font-medium text-dark/80 transition hover:border-accent hover:text-accent"
+                    onClick={handleSaveClick}
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-accent/30 bg-white/95 px-6 py-3 text-sm font-semibold text-accent shadow-inner transition hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
                   >
-                    <Mail className="h-4 w-4" />
-                    Email
+                    <Save className="h-4 w-4" aria-hidden />
+                    Сохранить расчёт
                   </button>
                 </div>
+              </div>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between" aria-live="polite">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                  <div className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/40">Поделиться расчётом</div>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleShare('whatsapp')}
+                      className="inline-flex items-center gap-2 rounded-full border border-dark/10 bg-white px-4 py-2 text-sm font-medium text-dark/80 transition hover:border-accent hover:text-accent"
+                    >
+                      <MessageCircle className="h-4 w-4" aria-hidden />
+                      WhatsApp
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleShare('email')}
+                      className="inline-flex items-center gap-2 rounded-full border border-dark/10 bg-white px-4 py-2 text-sm font-medium text-dark/80 transition hover:border-accent hover:text-accent"
+                    >
+                      <Mail className="h-4 w-4" aria-hidden />
+                      Email
+                    </button>
+                  </div>
+                </div>
+                {saveStatus === 'saved' && (
+                  <p className="rounded-full bg-green-100/80 px-4 py-2 text-sm font-medium text-green-700 shadow-inner">
+                    Расчёт сохранён — он уже прикреплён к заявке.
+                  </p>
+                )}
+                {saveStatus === 'error' && (
+                  <p className="rounded-full bg-red-100/80 px-4 py-2 text-sm font-medium text-red-600 shadow-inner">
+                    Не удалось сохранить. Попробуйте ещё раз.
+                  </p>
+                )}
               </div>
             </div>
           </div>
