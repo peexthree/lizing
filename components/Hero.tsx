@@ -5,11 +5,9 @@ import {
   ArrowDown,
   CheckCircle2,
   GaugeCircle,
-  Hourglass,
   Sparkles,
   Timer
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
 import { openLeadForm } from '@/lib/openLeadForm'
 const features = [
   'Аванс от 0% и одобрение в течение суток',
@@ -23,55 +21,7 @@ const contacts = [
   { label: 'Срок сделки', description: 'от 24 часов' }
 ]
 
-type Countdown = {
-  hours: number
-  minutes: number
-  seconds: number
-  totalMs: number
-}
-
-const OFFER_DURATION_HOURS = 6
-
-const calculateTimeLeft = (deadline: number): Countdown => {
-  const totalMs = Math.max(0, deadline - Date.now())
-  const totalSeconds = Math.floor(totalMs / 1000)
-  const hours = Math.floor(totalSeconds / 3600)
-  const minutes = Math.floor((totalSeconds % 3600) / 60)
-  const seconds = totalSeconds % 60
-
-  return { hours, minutes, seconds, totalMs }
-}
-
-const formatSegment = (value: number) => value.toString().padStart(2, '0')
-
 export default function HeroSection() {
-  const [deadline] = useState(
-    () => Date.now() + OFFER_DURATION_HOURS * 60 * 60 * 1000
-  )
-  const [timeLeft, setTimeLeft] = useState<Countdown>(() => calculateTimeLeft(deadline))
-
-  useEffect(() => {
-    if (deadline <= Date.now()) {
-      return
-    }
-
-    const intervalId = window.setInterval(() => {
-      setTimeLeft(prev => {
-        const next = calculateTimeLeft(deadline)
-
-        if (next.totalMs === 0) {
-          window.clearInterval(intervalId)
-        }
-
-        return next.totalMs === prev.totalMs ? prev : next
-      })
-    }, 1000)
-
-    return () => {
-      window.clearInterval(intervalId)
-    }
-  }, [deadline])
-
   return (
     <section className="relative overflow-hidden py-24 sm:py-32 lg:py-36">
       <div className="absolute inset-0">
@@ -90,8 +40,8 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-hero-grid opacity-40 mix-blend-screen" aria-hidden />
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-4">
-        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,440px)]">
+      <div className="relative mx-auto max-w-4xl px-4">
+        <div className="grid gap-12">
           <div className="space-y-8 text-white">
             <span
               className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/70 shadow-sm backdrop-blur opacity-0 animate-fade-up"
@@ -135,7 +85,7 @@ export default function HeroSection() {
             </ul>
 
             <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:items-center">
-               <button
+              <button
                 type="button"
                 onClick={() => openLeadForm()}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-10 py-4 text-base font-semibold text-white shadow-glow transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
@@ -143,7 +93,7 @@ export default function HeroSection() {
               >
                 <Timer className="h-5 w-5" aria-hidden />
                 Оставить заявку
-             </button>
+              </button>
               <a
                 href="#calculator"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:border-white/40 hover:bg-white/20 opacity-0 animate-fade-up"
@@ -169,54 +119,6 @@ export default function HeroSection() {
                 <p className="max-w-xs">
                   Прокрутите вниз — мы подсветили ключевые условия для вашего сценария.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative flex justify-center">
-            <div className="relative w-full max-w-lg overflow-hidden rounded-[2.5rem] border border-white/20 bg-white/10 shadow-hero backdrop-blur">
-              <Image
-                src="https://images.unsplash.com/photo-1617813483334-4b464ee8104d?auto=format&fit=crop&w=1280&q=80"
-                alt="Современный грузовик возле бизнес-центра"
-                width={960}
-                height={640}
-                priority
-                sizes="(min-width: 1024px) 440px, 90vw"
-                className="h-[400px] w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" aria-hidden />
-
-              <div className="absolute left-6 top-6 inline-flex items-center gap-2 rounded-2xl border border-white/30 bg-white/15 px-4 py-2 text-xs font-semibold text-white shadow-sm backdrop-blur">
-                <Sparkles className="h-4 w-4 text-accent" aria-hidden />
-                12 000+ км сопровождения
-              </div>
-  <div className="absolute right-6 top-6 w-full max-w-[220px] space-y-2 rounded-2xl border border-accent/30 bg-accent/15 px-4 py-3 text-white shadow-lg backdrop-blur">
-                <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-accent/90">
-                  <Hourglass className="h-3.5 w-3.5 text-accent" aria-hidden />
-                  Скидка дня
-                </div>
-                <div className="flex justify-between text-2xl font-semibold tabular-nums">
-                  <span>
-                    {formatSegment(timeLeft.hours)}
-                    <span className="ml-1 text-xs font-medium uppercase text-white/70">ч</span>
-                  </span>
-                  <span>
-                    {formatSegment(timeLeft.minutes)}
-                    <span className="ml-1 text-xs font-medium uppercase text-white/70">м</span>
-                  </span>
-                  <span>
-                    {formatSegment(timeLeft.seconds)}
-                    <span className="ml-1 text-xs font-medium uppercase text-white/70">с</span>
-                  </span>
-                </div>
-                <p className="text-[11px] text-white/70">
-                  Успейте забронировать предложение — усиленная скидка доступна ограниченное время.
-                </p>
-              </div>
-
-              <div className="absolute right-6 bottom-6 flex items-center gap-3 rounded-2xl bg-white/15 px-5 py-3 text-sm font-semibold text-white shadow-sm backdrop-blur">
-                <Timer className="h-5 w-5 text-accent" aria-hidden />
-                Одобрение за 1 день
               </div>
             </div>
           </div>

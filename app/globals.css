@@ -24,13 +24,8 @@ body {
 
 body {
   position: relative;
-width: 100%;
-  max-width: 100vw;
-  min-height: 100%;
-  background-color: var(--background);
-  background-image: var(--background-image);
- background-repeat: repeat;
-  background-size: auto;
+ background-repeat: no-repeat;
+  background-size: cover;
   background-position: center var(--scroll-parallax, 0px);
   background-attachment: scroll;
   color: var(--foreground);
@@ -39,16 +34,19 @@ width: 100%;
 }
 body::before {
   content: '';
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   background:
     radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.35), transparent 45%),
     radial-gradient(circle at 82% 12%, rgba(30, 102, 255, 0.25), transparent 55%),
-    linear-gradient(140deg, rgba(15, 23, 42, 0.3), transparent 60%);
+    linear-gradient(140deg, rgba(15, 23, 42, 0.3), transparent 60%),
+    radial-gradient(circle at 50% 0%, rgba(30, 102, 255, 0.14), transparent 55%),
+    radial-gradient(circle at 15% 60%, rgba(255, 255, 255, 0.22), transparent 65%),
+    radial-gradient(circle at 82% 72%, rgba(30, 102, 255, 0.18), transparent 70%);
   mix-blend-mode: screen;
-  opacity: 0.9;
+  opacity: 0.88;
   transform: translate3d(0, var(--scroll-soft, 0px), 0);
   transition: opacity 0.4s ease;
   will-change: transform, opacity;
@@ -56,16 +54,18 @@ body::before {
 
 body::after {
   content: '';
-  position: absolute;
+  position: fixed;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(circle at 50% 0%, rgba(30, 102, 255, 0.14), transparent 55%),
-    radial-gradient(circle at 15% 60%, rgba(255, 255, 255, 0.22), transparent 65%),
-    radial-gradient(circle at 82% 72%, rgba(30, 102, 255, 0.18), transparent 70%);
-  opacity: 0.65;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08), transparent 70%);
   mix-blend-mode: lighten;
+  opacity: 0.6;
   transform: translate3d(0, var(--scroll-overlay, 0px), 0);
   will-change: transform;
+  backdrop-filter: blur(55px);
+  -webkit-backdrop-filter: blur(55px);
+  mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.65) 35%, rgba(0, 0, 0, 0.25) 60%, transparent 82%);
+  -webkit-mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.65) 35%, rgba(0, 0, 0, 0.25) 60%, transparent 82%);
 }
 
 main {
