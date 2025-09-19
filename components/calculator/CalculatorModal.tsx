@@ -142,8 +142,8 @@ export default function CalculatorModal() {
             <X className="h-5 w-5" aria-hidden />
           </button>
 
-          <div className="flex max-h-[min(90vh,820px)] w-full flex-col">
-           <Calculator variant="modal" onClose={close} />
+          <div className="flex max-h-[min(90vh,820px)] w-full flex-col overflow-y-auto">
+            <Calculator variant="modal" onClose={close} />
           </div>
         </div>
       </div>
