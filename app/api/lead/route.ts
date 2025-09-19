@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
 
   const calcLines = calc
     .split(/\r?\n/)
-    .map(line => line.trim())
+    .map((line: string) => line.trim())
     .filter(Boolean)
 
   const calcMap = new Map<string, string>()
