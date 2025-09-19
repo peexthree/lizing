@@ -2,7 +2,8 @@
 
 import { Phone, MessageCircle, PenLine, Menu } from 'lucide-react'
 import { useState, useEffect, useCallback } from 'react'
-import type { MouseEvent as ReactMouseEvent, SVGProps } from 'react'import { openLeadForm } from '@/lib/openLeadForm'
+import type { MouseEvent as ReactMouseEvent, SVGProps } from 'react'
+import { openLeadForm } from '@/lib/openLeadForm'
 import { openCalculator } from '@/lib/openCalculator'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
