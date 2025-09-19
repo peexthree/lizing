@@ -68,7 +68,7 @@ export default function Page() {
       <Testimonials />
 
       <Trust />
-         <Calculator />
+    
 
 
       <FAQ />
