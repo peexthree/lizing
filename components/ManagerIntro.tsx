@@ -29,13 +29,13 @@ export default function ManagerIntro() {
 
             <div className="space-y-6 text-dark lg:ml-4">
               <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">
-                История и миссия Дениса
+                Почему мы этим занимаемся
               </span>
               <div className="space-y-4 text-base leading-relaxed text-dark/70 md:text-lg lg:max-w-2xl">
-                <h2 className="text-3xl font-bold text-dark md:text-4xl">Ваш личный эксперт по финансовым решениям</h2>
+                <h2 className="text-3xl font-bold text-dark md:text-4xl">Эксперт по финансовым решениям</h2>
                 <p>Здравствуйте, меня зовут Денис.</p>
                 <p>
-                  Более 10 лет я работал в сфере корпоративных продаж и финансов. Я видел сотни предпринимателей, которые
+                  Более 10 лет я работал в сфере корпоративных продаж,b2b,b2c и финансов. Я видел сотни предпринимателей, которые
                   были вынуждены брать дорогие кредиты, замораживать оборотные средства и мириться с банковской
                   бюрократией, чтобы получить нужную технику или транспорт. Меня это не устраивало.
                 </p>
