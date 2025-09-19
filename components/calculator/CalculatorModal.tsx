@@ -143,7 +143,7 @@ export default function CalculatorModal() {
           </button>
 
           <div className="flex max-h-[min(90vh,820px)] w-full flex-col">
-            <Calculator variant="modal" />
+           <Calculator variant="modal" onClose={close} />
           </div>
         </div>
       </div>

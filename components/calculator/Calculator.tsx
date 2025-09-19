@@ -3,8 +3,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { ArrowRight, Mail, MessageCircle, Save, Sparkles } from 'lucide-react';
-
+import { ArrowRight, Mail, MessageCircle, Save, Sparkles, X } from 'lucide-react';
 import { SLIDER_CONFIG } from '@/config/calculator.config';
 import { useLeasingCalculator, formatRub } from '@/hooks/useLeasingCalculator';
 
@@ -13,6 +12,7 @@ const WRAPPER_BASE = 'rounded-[28px] bg-white/95 shadow-[0_40px_90px_-55px_rgba(
 type CalculatorProps = {
   variant?: 'page' | 'modal';
   id?: string;
+onClose?: () => void;
 };
 
 type FieldProps = {
@@ -44,7 +44,7 @@ type SliderProps = {
   onChange: (value: number) => void;
 };
 
-export default function Calculator({ variant = 'page', id = 'calculator' }: CalculatorProps) {
+export default function Calculator({ variant = 'page', id = 'calculator', onClose }: CalculatorProps) {
   const {
     state: { cost, advance, advanceMode, term, residual, rate },
     calculations,
@@ -99,7 +99,7 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
     : 'relative mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 sm:px-6';
 
   const cardClasses = isModal
-     ? `${WRAPPER_BASE} flex max-h-full min-h-0 flex-col`
+      ? `${WRAPPER_BASE} relative flex max-h-full min-h-0 flex-col`
     : `${WRAPPER_BASE} flex flex-col`;
 
   const headerDescription =
@@ -142,9 +142,23 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
 
         <div className={cardClasses}>
           <div className="flex flex-col gap-6 px-6 pt-6 sm:flex-row sm:items-end sm:justify-between sm:px-8">
-            <div>
-              <h3 className="text-xl font-semibold text-dark sm:text-2xl">Калькулятор лизинга</h3>
-              <p className="mt-2 max-w-md text-sm text-dark/60 sm:text-base">{headerDescription}</p>
+              <div className="flex flex-1 flex-col gap-2">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="text-xl font-semibold text-dark sm:text-2xl">Калькулятор лизинга</h3>
+                  <p className="mt-2 max-w-md text-sm text-dark/60 sm:text-base">{headerDescription}</p>
+                </div>
+                {isModal && onClose && (
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-dark/10 bg-white/90 text-dark shadow transition hover:-translate-y-0.5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                    aria-label="Закрыть калькулятор"
+                  >
+                    <X className="h-4 w-4" aria-hidden />
+                  </button>
+                )}
+              </div>
             </div>
             <div className="rounded-3xl border border-accent/20 bg-gradient-to-br from-white to-white/70 px-5 py-4 text-right shadow-sm">
               <p className="text-[11px] font-semibold uppercase tracking-[0.35em] text-dark/40">Ежемесячный платёж</p>
@@ -285,18 +299,7 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
               </Field>
             </div>
  </div>
-            {isModal && step === 'inputs' && (
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  onClick={() => setStep('results')}
-                  className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_-24px_rgba(30,102,255,0.85)] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
-                >
-                  Далее
-                </button>
-              </div>
-            )}
-
+           
             {(!isModal || step === 'results') && (
               <div
                 ref={resultsSectionRef}
@@ -414,6 +417,19 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
               </div>
             )}
           </div>
+
+ {isModal && step === 'inputs' && (
+            <div className="mt-4 flex justify-end sm:mt-6">
+              <button
+                type="button"
+                onClick={() => setStep('results')}
+                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_-24px_rgba(30,102,255,0.85)] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+              >
+                Далее
+              </button>
+            </div>
+          )}
+
 
           <style jsx>{`
             input[type='range'] {
