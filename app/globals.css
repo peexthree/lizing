@@ -24,48 +24,69 @@ body {
 
 body {
   position: relative;
- background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center var(--scroll-parallax, 0px);
-  background-attachment: scroll;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100%;
+  background-color: var(--background);
   color: var(--foreground);
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   overflow-x: hidden;
 }
-body::before {
-  content: '';
+
+.global-background {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  overflow: hidden;
+}
+
+.global-background::before {
+  content: '';
+  position: absolute;
+  inset: -8%;
+  background-image: var(--background-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+  filter: blur(28px);
+  transform: translate3d(0, var(--scroll-parallax, 0px), 0) scale(1.08);
+  opacity: 0.92;
+  transition: opacity 0.4s ease;
+  will-change: transform, opacity;
+}
+
+.global-background__overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.global-background__overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
   background:
     radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.35), transparent 45%),
     radial-gradient(circle at 82% 12%, rgba(30, 102, 255, 0.25), transparent 55%),
-    linear-gradient(140deg, rgba(15, 23, 42, 0.3), transparent 60%),
-    radial-gradient(circle at 50% 0%, rgba(30, 102, 255, 0.14), transparent 55%),
-    radial-gradient(circle at 15% 60%, rgba(255, 255, 255, 0.22), transparent 65%),
-    radial-gradient(circle at 82% 72%, rgba(30, 102, 255, 0.18), transparent 70%);
+    linear-gradient(140deg, rgba(15, 23, 42, 0.3), transparent 60%);
   mix-blend-mode: screen;
-  opacity: 0.88;
+  opacity: 0.9;
   transform: translate3d(0, var(--scroll-soft, 0px), 0);
   transition: opacity 0.4s ease;
   will-change: transform, opacity;
 }
 
-body::after {
+.global-background__overlay::after {
   content: '';
-  position: fixed;
+  position: absolute;
   inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08), transparent 70%);
+  background: radial-gradient(circle at 50% 0%, rgba(30, 102, 255, 0.14), transparent 55%),
+    radial-gradient(circle at 15% 60%, rgba(255, 255, 255, 0.22), transparent 65%),
+    radial-gradient(circle at 82% 72%, rgba(30, 102, 255, 0.18), transparent 70%);
+  opacity: 0.65;
   mix-blend-mode: lighten;
-  opacity: 0.6;
   transform: translate3d(0, var(--scroll-overlay, 0px), 0);
   will-change: transform;
-  backdrop-filter: blur(55px);
-  -webkit-backdrop-filter: blur(55px);
-  mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.65) 35%, rgba(0, 0, 0, 0.25) 60%, transparent 82%);
-  -webkit-mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.65) 35%, rgba(0, 0, 0, 0.25) 60%, transparent 82%);
 }
 
 main {
@@ -82,6 +103,7 @@ section {
   background-color: rgba(30, 102, 255, 0.85);
   color: #fff;
 }
+
 
 /* Range input styles */
 input[type='range'] {

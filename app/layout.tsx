@@ -54,7 +54,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ru">
       <body className={`${inter.className} antialiased`}>
-        <ScrollEffects />
+       <div className="global-background" aria-hidden="true">
+          <div className="global-background__overlay" />
+        </div>
+ <ScrollEffects />
         <Header />
         {children}
       </body>
