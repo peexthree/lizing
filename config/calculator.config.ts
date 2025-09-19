@@ -1,9 +1,22 @@
+import { z } from 'zod';
+
+export type CalculatorAdvanceMode = 'percent' | 'currency';
+
+export type CalculatorState = {
+  cost: number;
+  advance: number;
+  advanceMode: CalculatorAdvanceMode;
+  term: number;
+  rate: number;
+  residual: number;
+};
+
 export const CURRENCY_FORMATTER = new Intl.NumberFormat('ru-RU');
 
-export const INITIAL_CALCULATOR_STATE = {
+export const INITIAL_CALCULATOR_STATE: CalculatorState = {
   cost: 5_000_000,
   advance: 20,
-  advanceMode: 'percent' as 'percent' | 'currency',
+  advanceMode: 'percent',
   term: 36,
   rate: 15,
   residual: 10,
@@ -21,7 +34,10 @@ export const SLIDER_CONFIG = {
 export const CALCULATION_SCHEMA = z.object({
   cost: z.number().min(SLIDER_CONFIG.cost.min),
   advance: z.number().min(0),
+  advanceMode: z.enum(['percent', 'currency']).default('percent'),
   term: z.number().min(SLIDER_CONFIG.term.min),
   rate: z.number().min(0),
   residual: z.number().min(0),
 });
+
+export type CalculatorPersistedState = z.infer<typeof CALCULATION_SCHEMA>;

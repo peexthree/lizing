@@ -1,17 +1,17 @@
 // src/hooks/useLeasingCalculator.ts
 
-import { useReducer, useMemo, useCallback, useEffect, useRef } from 'react';
-import { z } from 'zod';
+import { useReducer, useMemo, useCallback, useEffect } from 'react';
 import {
   INITIAL_CALCULATOR_STATE,
   SLIDER_CONFIG,
   CALCULATION_SCHEMA,
   CURRENCY_FORMATTER,
+  type CalculatorState,
 } from '@/config/calculator.config';
 import { openLeadForm } from '@/lib/openLeadForm';
 
 // --- Types ---
-type State = typeof INITIAL_CALCULATOR_STATE;
+type State = CalculatorState;
 
 type Action =
   | { type: 'SET_FIELD'; field: keyof State; value: number | string }
@@ -20,10 +20,39 @@ type Action =
 
 type PrefillDetail = { cost?: number; term?: number; advance?: number };
 
+const STORAGE_KEY = 'leasing-calculator-state';
+
+const INITIALIZER = (): State => {
+  if (typeof window === 'undefined') {
+    return INITIAL_CALCULATOR_STATE;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      return INITIAL_CALCULATOR_STATE;
+    }
+
+    const parsed = JSON.parse(raw) as unknown;
+    const result = CALCULATION_SCHEMA.safeParse(parsed);
+    if (result.success) {
+      return { ...INITIAL_CALCULATOR_STATE, ...result.data };
+    }
+  } catch (error) {
+    console.warn('[calculator] Failed to read saved state', error);
+  }
+
+  return INITIAL_CALCULATOR_STATE;
+};
+
 // --- Reducer ---
 function calculatorReducer(state: State, action: Action): State {
   switch (action.type) {
     case 'SET_FIELD':
+      if (action.field === 'advanceMode') {
+        return { ...state, advanceMode: action.value as State['advanceMode'] };
+      }
+
       return { ...state, [action.field]: Number(action.value) };
     case 'SET_COST': {
         const newCost = Number(action.value);
@@ -49,8 +78,13 @@ export function formatRub(n: number) {
 
 // --- The Hook ---
 export function useLeasingCalculator() {
-  const [state, dispatch] = useReducer(calculatorReducer, INITIAL_CALCULATOR_STATE);
+  const [state, dispatch] = useReducer(calculatorReducer, INITIAL_CALCULATOR_STATE, INITIALIZER);
   const { cost, advance, advanceMode, term, rate, residual } = state;
+
+  const clamp = useCallback((value: number, min: number, max: number) => {
+    if (Number.isNaN(value)) return min;
+    return Math.min(Math.max(value, min), max);
+  }, []);
 
   const calculations = useMemo(() => {
     // Calculation logic is exactly the same as in your original code
@@ -95,41 +129,116 @@ export function useLeasingCalculator() {
 
   // --- Event Handlers ---
   const handleFieldChange = useCallback((field: keyof State, value: number | string) => {
-    dispatch({ type: 'SET_FIELD', field, value });
-  }, []);
-  
+    if (field === 'advanceMode') {
+      dispatch({ type: 'SET_FIELD', field, value });
+      return;
+    }
+
+    const numericValue = Number(value);
+
+    switch (field) {
+      case 'cost':
+        dispatch({
+          type: 'SET_FIELD',
+          field,
+          value: clamp(numericValue, SLIDER_CONFIG.cost.min, SLIDER_CONFIG.cost.max),
+        });
+        break;
+      case 'advance': {
+        const min = advanceMode === 'percent' ? SLIDER_CONFIG.advancePercent.min : SLIDER_CONFIG.advanceCurrency.min;
+        const max = advanceMode === 'percent' ? SLIDER_CONFIG.advancePercent.max : cost;
+        dispatch({ type: 'SET_FIELD', field, value: clamp(numericValue, min, max) });
+        break;
+      }
+      case 'term':
+        dispatch({ type: 'SET_FIELD', field, value: clamp(numericValue, SLIDER_CONFIG.term.min, SLIDER_CONFIG.term.max) });
+        break;
+      case 'rate':
+        dispatch({ type: 'SET_FIELD', field, value: clamp(numericValue, SLIDER_CONFIG.rate.min, SLIDER_CONFIG.rate.max) });
+        break;
+      case 'residual':
+        dispatch({ type: 'SET_FIELD', field, value: clamp(numericValue, SLIDER_CONFIG.residual.min, SLIDER_CONFIG.residual.max) });
+        break;
+      default:
+        dispatch({ type: 'SET_FIELD', field, value: numericValue });
+    }
+  }, [advanceMode, clamp, cost]);
+
   const handleCostChange = useCallback((value: number) => {
-      dispatch({ type: 'SET_COST', value });
-  }, []);
+      const safeValue = clamp(value, SLIDER_CONFIG.cost.min, SLIDER_CONFIG.cost.max);
+      dispatch({ type: 'SET_COST', value: safeValue });
+  }, [clamp]);
 
   const toggleAdvanceMode = useCallback(() => {
     dispatch({ type: 'TOGGLE_ADVANCE_MODE', advanceRub, advancePercent });
   }, [advanceRub, advancePercent]);
   
   const handleApplyToForm = useCallback(() => {
-    // ... same logic as before, but using state and calculations from the hook
-  }, [/* dependencies */]);
+    const parsed = CALCULATION_SCHEMA.safeParse(state);
+    if (!parsed.success) {
+      console.warn('[calculator] Unable to apply because state is invalid', parsed.error);
+      return;
+    }
+
+    const safeState = parsed.data;
+
+    openLeadForm({
+      calcSummary: calculations.summary,
+      fields: {
+        cost: formatRub(safeState.cost),
+        advance:
+          safeState.advanceMode === 'percent'
+            ? `${Math.round(calculations.advancePercent)}%`
+            : formatRub(calculations.advanceRub),
+        term: `${Math.round(safeState.term)} мес.`,
+        rate: `${Number(safeState.rate.toFixed(2))} %`,
+        residual: `${Math.round(safeState.residual)} %`,
+        payment: formatRub(calculations.monthlyPayment),
+      },
+    });
+  }, [calculations, state]);
 
   const handleShare = useCallback((channel: 'whatsapp' | 'email') => {
-    // ... same logic as before
+    if (typeof window === 'undefined') return;
+
+    const text = encodeURIComponent(`Расчет по лизингу:\n${calculations.summary}`);
+    if (channel === 'whatsapp') {
+      window.open(`https://wa.me/?text=${text}`, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    window.location.href = `mailto:?subject=${encodeURIComponent('Расчет лизинга')}&body=${text}`;
   }, [calculations.summary]);
 
   // --- Effects ---
   useEffect(() => {
     const handler = (event: Event) => {
       const detail = (event as CustomEvent<PrefillDetail>).detail;
-      if (detail.cost) handleFieldChange('cost', detail.cost);
-      if (detail.term) handleFieldChange('term', detail.term);
-      if (detail.advance) {
-        handleFieldChange('advanceMode', 'percent');
-        handleFieldChange('advance', detail.advance);
+      if (typeof detail.cost === 'number') handleFieldChange('cost', detail.cost);
+      if (typeof detail.term === 'number') handleFieldChange('term', detail.term);
+      if (typeof detail.advance === 'number') {
+        dispatch({ type: 'SET_FIELD', field: 'advanceMode', value: 'percent' });
+        const constrained = clamp(detail.advance, SLIDER_CONFIG.advancePercent.min, SLIDER_CONFIG.advancePercent.max);
+        dispatch({ type: 'SET_FIELD', field: 'advance', value: constrained });
       }
     };
     window.addEventListener('prefill-calculator', handler);
     return () => window.removeEventListener('prefill-calculator', handler);
-  }, [handleFieldChange]);
+  }, [clamp, handleFieldChange]);
 
-  // Effect for saving to localStorage remains the same
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const payload = CALCULATION_SCHEMA.safeParse(state);
+    if (!payload.success) {
+      console.warn('[calculator] Failed to persist state', payload.error);
+      return;
+    }
+
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload.data));
+  }, [state]);
 
   return {
     state,
