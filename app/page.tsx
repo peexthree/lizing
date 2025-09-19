@@ -73,7 +73,7 @@ export default function Page() {
 
       <FAQ />
       <LeadForm />
-      <StickyBar />
+
     </>
   )
 }
