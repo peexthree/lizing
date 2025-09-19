@@ -85,7 +85,77 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
     const safeTerm = Number.isFinite(term) && term > 0 ? term : 1
     const safeRate = Number.isFinite(rate) ? Math.max(rate, 0) : 0
     const safeResidual = Number.isFinite(residual) ? Math.max(residual, 0) : 0
-@@ -153,104 +156,107 @@ const [shareOpen, setShareOpen] = useState(false)
+
+
+
+    const advanceRub = advanceMode === 'percent' ? (safeCost * safeAdvance) / 100 : safeAdvance
+    const advancePercent = safeCost > 0 ? (advanceRub / safeCost) * 100 : 0
+    const residualRub = (safeCost * safeResidual) / 100
+    const financed = safeCost - advanceRub - residualRub
+    const monthlyRate = safeRate / 12 / 100
+
+    let monthlyPayment = 0
+    if (financed > 0) {
+      if (monthlyRate > 0) {
+        const factor = Math.pow(1 + monthlyRate, safeTerm)
+        const denominator = factor - 1
+        monthlyPayment = denominator !== 0 ? financed * ((monthlyRate * factor) / denominator) : financed / safeTerm
+      } else {
+        monthlyPayment = financed / safeTerm
+      }
+    }
+
+    const total = advanceRub + residualRub + monthlyPayment * safeTerm
+    const overpayment = total - safeCost
+    const effectiveRate = safeCost > 0 ? (total / safeCost - 1) * 100 : 0
+    const financedShare = safeCost > 0 ? (financed / safeCost) * 100 : 0
+
+    const summary = [
+      `Стоимость: ${formatRub(safeCost)}`,
+      `Аванс: ${formatRub(advanceRub)} (${Math.round(advancePercent)}%)`,
+      `Срок: ${Math.max(1, Math.round(safeTerm))} мес.`,
+      `Платёж: ${formatRub(monthlyPayment || 0)}`,
+      `Переплата: ${formatRub(overpayment || 0)}`,
+      `Итого: ${formatRub(total || 0)}`
+    ].join(' · ')
+
+    return {
+      advanceRub,
+      advancePercent,
+      residualRub,
+      financed,
+      monthlyPayment,
+      total,
+      overpayment,
+      effectiveRate,
+      financedShare,
+      summary
+    }
+  }, [advance, advanceMode, cost, residual, rate, term])
+
+  const {
+    advanceRub,
+    advancePercent,
+    residualRub,
+    financed,
+    monthlyPayment,
+    total,
+    overpayment,
+    effectiveRate,
+    financedShare,
+    summary
+  } = calculations
+
+  const summaryCache = useRef<string | null>(null)
+  const summaryTimeout = useRef<number | null>(null)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (!summary || summary === summaryCache.current) return
+
+    summaryCache.current = summary
+
+
     if (summaryTimeout.current !== null) {
       window.clearTimeout(summaryTimeout.current)
     }
@@ -193,7 +263,16 @@ export default function Calculator({ variant = 'page', id = 'calculator' }: Calc
 
   const handleShare = useCallback(
     (channel: 'whatsapp' | 'email') => {
-       const subject = encodeURIComponent('Расчёт по лизингу')
+       if (!summary) return
+
+      const encodedSummary = encodeURIComponent(summary)
+
+      if (channel === 'whatsapp') {
+        const link = `https://wa.me/?text=${encodedSummary}`
+        window.open(link, '_blank', 'noopener,noreferrer')
+      } else {
+        const subject = encodeURIComponent('Расчёт по лизингу')
+        const body = encodeURIComponent(`${summary}\n\nОтправлено с калькулятора на lizing-i-toch
         const body = encodeURIComponent(`${summary}\n\nОтправлено с калькулятора на lizing-i-tochka.ru`)
         window.location.href = `mailto:?subject=${subject}&body=${body}`
       }
