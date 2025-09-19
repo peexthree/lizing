@@ -33,7 +33,7 @@ const Slider = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
 >(({ className, onWheel, ...props }, ref) => {
   const handleWheel = React.useCallback(
-    (event: React.WheelEvent<HTMLSpanElement>) => {
+(event: React.WheelEvent<HTMLDivElement>) => {
       if (onWheel) {
         onWheel(event);
         if (event.defaultPrevented) {
