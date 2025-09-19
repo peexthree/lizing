@@ -157,7 +157,7 @@ export function useLeasingCalculator() {
     switch (field) {
       case 'cost':
         dispatch({
-          type: 'SET_FIELD',
+         type: 'SET_FIELD',
           field,
           value: clamp(numericValue, SLIDER_CONFIG.cost.min, SLIDER_CONFIG.cost.max),
         });
@@ -182,16 +182,19 @@ export function useLeasingCalculator() {
     }
   }, [advanceMode, clamp, cost]);
 
-  const handleCostChange = useCallback((value: number) => {
+  const handleCostChange = useCallback(
+    (value: number) => {
       const safeValue = clamp(value, SLIDER_CONFIG.cost.min, SLIDER_CONFIG.cost.max);
       dispatch({ type: 'SET_COST', value: safeValue });
-  }, [clamp]);
+    },
+    [clamp],
+  );
 
   const toggleAdvanceMode = useCallback(() => {
     dispatch({ type: 'TOGGLE_ADVANCE_MODE', advanceRub, advancePercent });
   }, [advanceRub, advancePercent]);
 
-const persistSummary = useCallback((summary: string) => {
+  const persistSummary = useCallback((summary: string) => {
     if (typeof window === 'undefined') {
       return false;
     }
@@ -205,7 +208,6 @@ const persistSummary = useCallback((summary: string) => {
       return false;
     }
   }, []);
-  
 
   const handleApplyToForm = useCallback(() => {
     const parsed = CALCULATION_SCHEMA.safeParse(state);
@@ -215,9 +217,9 @@ const persistSummary = useCallback((summary: string) => {
     }
 
     const safeState = parsed.data;
- persistSummary(calculations.detailedSummary);
+    persistSummary(calculations.detailedSummary);
     openLeadForm({
- calcSummary: calculations.detailedSummary,
+      calcSummary: calculations.detailedSummary,
       fields: {
         cost: formatRub(safeState.cost),
         advance:
@@ -230,7 +232,7 @@ const persistSummary = useCallback((summary: string) => {
         payment: formatRub(calculations.monthlyPayment),
       },
     });
- }, [calculations, persistSummary, state]);
+  }, [calculations, persistSummary, state]);
 
   const handleShare = useCallback((channel: 'whatsapp' | 'email') => {
     if (typeof window === 'undefined') return;
@@ -247,7 +249,7 @@ const persistSummary = useCallback((summary: string) => {
   // --- Effects ---
   useEffect(() => {
     const handler = (event: Event) => {
-     const detail = (event as CustomEvent<CalculatorPrefillDetail>).detail;
+      const detail = (event as CustomEvent<CalculatorPrefillDetail>).detail;
       if (typeof detail.cost === 'number') handleFieldChange('cost', detail.cost);
       if (typeof detail.term === 'number') handleFieldChange('term', detail.term);
       if (typeof detail.advance === 'number') {
@@ -274,7 +276,14 @@ const persistSummary = useCallback((summary: string) => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload.data));
   }, [state]);
 
-const handleSaveCalculation = useCallback(() => persistSummary(calculations.detailedSummary), [calculations.detailedSummary, persistSummary]);
+  useEffect(() => {
+    persistSummary(calculations.detailedSummary);
+  }, [calculations.detailedSummary, persistSummary]);
+
+  const handleSaveCalculation = useCallback(
+    () => persistSummary(calculations.detailedSummary),
+    [calculations.detailedSummary, persistSummary],
+  );
 
   return {
     state,
@@ -283,7 +292,8 @@ const handleSaveCalculation = useCallback(() => persistSummary(calculations.deta
     handleCostChange,
     toggleAdvanceMode,
     handleApplyToForm,
-    handleShare, 
-handleSaveCalculation,
+    handleShare,
+    handleSaveCalculation,
   };
 }
+

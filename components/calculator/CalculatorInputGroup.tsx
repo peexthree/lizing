@@ -40,27 +40,33 @@ const CalculatorInputGroup = memo(
     };
 
     return (
-      <div>
-        <div className="flex justify-between items-center">
-          <label htmlFor={id} className="block text-xs font-semibold uppercase tracking-wide text-dark/70">
+      <div className="space-y-4 rounded-3xl border border-white/60 bg-white/80 p-4 shadow-sm backdrop-blur">
+        <div className="flex flex-col gap-1">
+          <label
+            htmlFor={id}
+            className="text-xs font-semibold uppercase tracking-[0.28em] text-dark/60"
+          >
             {label}
           </label>
-          {topRightLabel && <span className="text-sm font-medium text-dark/60">{topRightLabel}</span>}
+          {topRightLabel && (
+            <span className="text-xs font-medium text-dark/45">{topRightLabel}</span>
+          )}
         </div>
-        <div className="mt-3 flex items-center gap-3">
-          {prefix}
-          <input
-            id={id}
-            type="number"
-            value={value}
-            onChange={handleInputChange}
-            className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
-            min={min}
-            max={max}
-            step={step}
-          />
-        </div>
-        <div className="mt-3">
+
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex items-center gap-2 rounded-2xl border border-dark/10 bg-white/90 px-4 py-2 shadow-inner">
+            {prefix}
+            <input
+              id={id}
+              type="number"
+              value={value}
+              onChange={handleInputChange}
+              className="w-full min-w-[120px] max-w-[180px] bg-transparent text-center text-xl font-medium text-dark focus:outline-none"
+              min={min}
+              max={max}
+              step={step}
+            />
+          </div>
           <Slider
             min={min}
             max={max}
@@ -68,10 +74,11 @@ const CalculatorInputGroup = memo(
             value={[Math.min(Math.max(value, min), max)]}
             onValueChange={handleSliderChange}
           />
-          <div className="mt-2 flex justify-between text-[10px] font-semibold uppercase tracking-[0.3em] text-dark/40">
-            <span>{bottomLeftLabel}</span>
-            <span>{bottomRightLabel}</span>
-          </div>
+        </div>
+
+        <div className="flex justify-between text-[10px] font-semibold uppercase tracking-[0.35em] text-dark/35">
+          <span>{bottomLeftLabel}</span>
+          <span>{bottomRightLabel}</span>
         </div>
       </div>
     );
