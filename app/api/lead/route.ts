@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { CURRENCY_FORMATTER, INITIAL_CALCULATOR_STATE } from '@/config/calculator.config'
-import { INITIAL_CALCULATOR_STATE } from '@/config/calculator.config'
+
 const SUMMARY_KEYS = ['cost', 'advance', 'term', 'rate', 'residual', 'payment'] as const
 type SummaryKey = (typeof SUMMARY_KEYS)[number]
 
@@ -169,7 +169,7 @@ export async function POST(req: NextRequest) {
     payment: normalizeCalcValue(calcMap.get('Ежемесячный платёж')),
   } satisfies Record<SummaryKey, string>
 
-  const isDefaultCalcRequest =
+  const isDefaultCalcSummary =
     calcLines.length > 0 &&
     SUMMARY_KEYS.every(key => {
       const value = calcSummaryNormalized[key]
@@ -202,13 +202,14 @@ export async function POST(req: NextRequest) {
   }
 
   const normalizeForComparison = (value: string) => value.replace(/\s+/g, ' ').trim()
-  const isDefaultCalcRequest = (
+  const requestMatchesDefaults = (
     Object.entries(requestValues) as [keyof typeof DEFAULT_CALC_VALUES, string][]
   ).every(([key, value]) => {
     if (!value) return true
     const defaultValue = DEFAULT_CALC_VALUES[key]
     return normalizeForComparison(value) === normalizeForComparison(defaultValue)
   })
+ const isDefaultCalcRequest = isDefaultCalcSummary || requestMatchesDefaults
 
   const plainLines: string[] = []
   const htmlLines: string[] = []
