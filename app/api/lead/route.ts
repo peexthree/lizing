@@ -1,63 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { INITIAL_CALCULATOR_STATE } from '@/config/calculator.config'
 import { onLeadSubmit } from '@/lib/onLeadSubmit'
-
-const rubFormatter = new Intl.NumberFormat('ru-RU')
-
-const formatRubAmount = (value: number) => `${rubFormatter.format(Math.round(value))} ₽`
-
-const normalizeRateValue = (value: string) =>
-  value.replace(/\s*%\s*/g, '% ').replace(/\s+/g, ' ').trim()
-
-const formatAdvanceValue = (raw: string, fallbackPercent?: string) => {
-  const trimmed = raw.trim()
-  if (!trimmed) return ''
-  const match = trimmed.match(/^(.+?)\s*\(([^)]+)\)$/)
-  if (match) {
-    const amount = match[1].trim()
-    const percent = match[2].trim()
-    if (percent) return `${percent} (${amount})`
-  }
-  if (fallbackPercent && fallbackPercent.includes('%') && !trimmed.includes('%')) {
-    return `${fallbackPercent.trim()} (${trimmed})`
-  }
-  return trimmed
-}
-
-const calculateMonthlyPayment = (
-  cost: number,
-  advancePercent: number,
-  term: number,
-  rate: number,
-  residualPercent: number
-) => {
-  if (term <= 0) return 0
-  const advanceRub = (cost * advancePercent) / 100
-  const residualRub = (cost * residualPercent) / 100
-  const financed = cost - advanceRub - residualRub
-  if (financed <= 0) return 0
-  const monthlyRate = rate / 12 / 100
-  if (monthlyRate <= 0) return financed / term
-  const factor = Math.pow(1 + monthlyRate, term)
-  const denominator = factor - 1
-  return denominator > 0 ? financed * ((monthlyRate * factor) / denominator) : financed / term
-}
-
-const DEFAULT_CALC_VALUES = (() => {
-  const { cost, advance, term, rate, residual } = INITIAL_CALCULATOR_STATE
-  const advanceRub = (cost * advance) / 100
-  const residualRub = (cost * residual) / 100
-  const monthlyPayment = calculateMonthlyPayment(cost, advance, term, rate, residual)
-
-  return {
-    cost: formatRubAmount(cost),
-    advance: formatAdvanceValue(`${formatRubAmount(advanceRub)} (${Math.round(advance)}%)`),
-    term: `${Math.round(term)} мес.`,
-    rate: normalizeRateValue(`${rate} % годовых`),
-    residual: formatRubAmount(residualRub),
-    payment: formatRubAmount(monthlyPayment),
-  }
-})()
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
@@ -108,6 +50,22 @@ export async function POST(req: NextRequest) {
     calcMap.set(title.trim(), rest.join(':').trim())
   }
 
+  const normalizeRate = (value: string) => value.replace(/\s*%\s*/g, '% ').trim()
+  const formatAdvance = (raw: string) => {
+    const trimmed = raw.trim()
+    if (!trimmed) return ''
+    const match = trimmed.match(/^(.+?)\s*\(([^)]+)\)$/)
+    if (match) {
+      const amount = match[1].trim()
+      const percent = match[2].trim()
+      if (percent) return `${percent} (${amount})`
+    }
+    if (advance && advance.includes('%') && !trimmed.includes('%')) {
+      return `${advance.trim()} (${trimmed})`
+    }
+    return trimmed
+  }
+
   const costText = calcMap.get('Стоимость техники') ?? cost
   const advanceTextRaw = calcMap.get('Аванс') ?? advance
   const termText = calcMap.get('Срок') ?? term
@@ -115,8 +73,8 @@ export async function POST(req: NextRequest) {
   const residualText = calcMap.get('Остаточный платёж') ?? residual
   const paymentText = calcMap.get('Ежемесячный платёж') ?? payment
 
-  const advanceText = advanceTextRaw ? formatAdvanceValue(advanceTextRaw, advance) : ''
-  const rateText = rateTextRaw ? normalizeRateValue(rateTextRaw) : ''
+  const advanceText = advanceTextRaw ? formatAdvance(advanceTextRaw) : ''
+  const rateText = rateTextRaw ? normalizeRate(rateTextRaw) : ''
 
   const escapeHtml = (value: string) =>
     value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -134,24 +92,6 @@ export async function POST(req: NextRequest) {
   pushRequestLine('Срок', termText)
   pushRequestLine('Ставка', rateText)
   pushRequestLine('Остаток', residualText)
-
-  const requestValues: Record<keyof typeof DEFAULT_CALC_VALUES, string> = {
-    cost: costText,
-    advance: advanceText,
-    term: termText,
-    rate: rateText,
-    residual: residualText,
-    payment: paymentText,
-  }
-
-  const normalizeForComparison = (value: string) => value.replace(/\s+/g, ' ').trim()
-  const isDefaultCalcRequest = (
-    Object.entries(requestValues) as [keyof typeof DEFAULT_CALC_VALUES, string][]
-  ).every(([key, value]) => {
-    if (!value) return true
-    const defaultValue = DEFAULT_CALC_VALUES[key]
-    return normalizeForComparison(value) === normalizeForComparison(defaultValue)
-  })
 
   const plainLines: string[] = []
   const htmlLines: string[] = []
@@ -181,8 +121,7 @@ export async function POST(req: NextRequest) {
     htmlLines.push(`✈️ <b>Telegram:</b> ${escapeHtml(telegramLink)}`)
   }
 
-  const hasRequestData = requestLinesPlain.length > 0 || Boolean(paymentText)
-  if (hasRequestData && !isDefaultCalcRequest) {
+  if (requestLinesPlain.length > 0 || paymentText) {
     plainLines.push('')
     htmlLines.push('')
     plainLines.push(separator)
@@ -207,7 +146,7 @@ export async function POST(req: NextRequest) {
 
   const metaLinesPlain: string[] = []
   const metaLinesHtml: string[] = []
-const pushMetaLine = (label: string, value: string) => {
+  const pushMetaLine = (label: string, value: string) => {
     if (!value) return
     metaLinesPlain.push(`• ${label}: ${value}`)
     metaLinesHtml.push(`• ${label}: ${escapeHtml(value)}`)
