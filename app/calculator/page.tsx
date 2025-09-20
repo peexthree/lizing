@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 }
 
 type CalculatorPageProps = {
-  searchParams?: Record<string, string | string[] | undefined>
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }
 
 function parseNumberParam(value?: string | string[]): number | undefined {
@@ -26,20 +26,23 @@ function parseNumberParam(value?: string | string[]): number | undefined {
   return Number.isFinite(parsed) ? parsed : undefined
 }
 
-export default function CalculatorPage({ searchParams = {} }: CalculatorPageProps) {
+export default async function CalculatorPage({
+  searchParams,
+}: CalculatorPageProps) {
+  const resolvedSearchParams = (await searchParams) ?? {}
   const prefill: CalculatorPrefillDetail = {}
 
-  const cost = parseNumberParam(searchParams.cost)
+  const cost = parseNumberParam(resolvedSearchParams.cost)
   if (typeof cost === 'number') {
     prefill.cost = cost
   }
 
-  const term = parseNumberParam(searchParams.term)
+  const term = parseNumberParam(resolvedSearchParams.term)
   if (typeof term === 'number') {
     prefill.term = term
   }
 
-  const advance = parseNumberParam(searchParams.advance)
+  const advance = parseNumberParam(resolvedSearchParams.advance)
   if (typeof advance === 'number') {
     prefill.advance = advance
   }
