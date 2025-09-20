@@ -25,6 +25,8 @@ export default function CalculatorPageContent({ prefill }: CalculatorPageContent
   return (
     <main className="min-h-screen bg-[#0f1a3b] text-white">
       <Calculator variant="page" id="calculator" />
+ <LeadForm />
     </main>
+
   )
 }
