@@ -1,5 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { CURRENCY_FORMATTER, INITIAL_CALCULATOR_STATE } from '@/config/calculator.config'
 import { INITIAL_CALCULATOR_STATE } from '@/config/calculator.config'
+const SUMMARY_KEYS = ['cost', 'advance', 'term', 'rate', 'residual', 'payment'] as const
+type SummaryKey = (typeof SUMMARY_KEYS)[number]
+
+const normalizeWhitespace = (value: string) => value.replace(/\s+/g, ' ').trim()
+
+const formatRub = (value: number) => `${CURRENCY_FORMATTER.format(Math.round(value))} ₽`
+
+const DEFAULT_CALC_SUMMARY_NORMALIZED: Record<SummaryKey, string> = (() => {
+  const { cost, advance, advanceMode, term, rate, residual } = INITIAL_CALCULATOR_STATE
+
+  const advanceRub = advanceMode === 'percent' ? (cost * advance) / 100 : advance
+  const advancePercent = advanceMode === 'percent' ? advance : cost > 0 ? (advance / cost) * 100 : 0
+  const residualRub = (cost * residual) / 100
+  const monthlyRate = rate / 12 / 100
+  const financed = cost - advanceRub - residualRub
+
+  let monthlyPayment = 0
+  if (financed > 0) {
+    if (monthlyRate > 0) {
+      const factor = Math.pow(1 + monthlyRate, term)
+      const denominator = factor - 1
+      monthlyPayment = denominator > 0 ? financed * ((monthlyRate * factor) / denominator) : financed / term
+    } else {
+      monthlyPayment = financed / term
+    }
+  }
+
+  const summary: Record<SummaryKey, string> = {
+    cost: formatRub(cost),
+    advance: `${formatRub(advanceRub)} (${Math.round(advancePercent)}%)`,
+    term: `${Math.round(term)} мес.`,
+    rate: `${Number(rate.toFixed(2))} % годовых`,
+    residual: formatRub(residualRub),
+    payment: formatRub(monthlyPayment),
+  }
+
+  return Object.fromEntries(SUMMARY_KEYS.map(key => [key, normalizeWhitespace(summary[key])])) as Record<SummaryKey, string>
+})()
+
+const normalizeCalcValue = (value?: string) => (value ? normalizeWhitespace(value) : '')
+
 import { onLeadSubmit } from '@/lib/onLeadSubmit'
 
 const rubFormatter = new Intl.NumberFormat('ru-RU')
@@ -118,6 +160,21 @@ export async function POST(req: NextRequest) {
   const advanceText = advanceTextRaw ? formatAdvanceValue(advanceTextRaw, advance) : ''
   const rateText = rateTextRaw ? normalizeRateValue(rateTextRaw) : ''
 
+  const calcSummaryNormalized = {
+    cost: normalizeCalcValue(calcMap.get('Стоимость техники')),
+    advance: normalizeCalcValue(calcMap.get('Аванс')),
+    term: normalizeCalcValue(calcMap.get('Срок')),
+    rate: normalizeCalcValue(calcMap.get('Ставка')),
+    residual: normalizeCalcValue(calcMap.get('Остаточный платёж')),
+    payment: normalizeCalcValue(calcMap.get('Ежемесячный платёж')),
+  } satisfies Record<SummaryKey, string>
+
+  const isDefaultCalcRequest =
+    calcLines.length > 0 &&
+    SUMMARY_KEYS.every(key => {
+      const value = calcSummaryNormalized[key]
+      return value !== '' && value === DEFAULT_CALC_SUMMARY_NORMALIZED[key]
+    })
   const escapeHtml = (value: string) =>
     value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 

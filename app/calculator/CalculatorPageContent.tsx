@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 
 import Calculator from '@/components/calculator/Calculator'
+import LeadForm from '@/components/LeadForm'
 import type { CalculatorPrefillDetail } from '@/hooks/useLeasingCalculator'
 
 type CalculatorPageContentProps = {
@@ -25,7 +26,7 @@ export default function CalculatorPageContent({ prefill }: CalculatorPageContent
   return (
     <main className="min-h-screen bg-[#0f1a3b] text-white">
       <Calculator variant="page" id="calculator" />
- <LeadForm />
+      <LeadForm />
     </main>
 
   )
