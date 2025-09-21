@@ -2,8 +2,9 @@ type LeadSubmitMeta = {
   name: string
   phone: string
   phoneDisplay: string
+  source: string
   clientType: string
- tech: string
+  tech: string
   budget: string
   comment: string
   utm_source: string
@@ -20,6 +21,9 @@ type LeadSubmitMeta = {
   payment: string
   host: string
   isDefaultCalcRequest: boolean
+  ownEquipment: string
+  messenger: string
+  wantExamples: string
 }
 
 type LeadSubmitPayload = {

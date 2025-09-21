@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState, type ChangeEvent, type FormEvent, type MouseEvent } from 'react'
 import { X } from 'lucide-react'
 
+import { DEFAULT_ERROR_MESSAGE, DEFAULT_WARNING_MESSAGE, parseLeadResponse } from '@/lib/leadResponse'
 import type { LeadFormPrefill } from '@/lib/openLeadForm'
 
 type Status = 'idle' | 'ok' | 'warn' | 'err'
@@ -38,9 +39,6 @@ type MessengerLink = {
   border: string
   Icon: typeof WhatsAppIcon
 }
-const DEFAULT_ERROR_MESSAGE = 'Не удалось отправить заявку. Попробуйте ещё раз или свяжитесь напрямую.'
-const DEFAULT_WARNING_MESSAGE = 'Заявка получена, мы свяжемся с вами в ближайшее время.'
-
 const messengerLinks: MessengerLink[] = [
   {
     href: 'https://wa.me/79677728299',
@@ -66,7 +64,7 @@ export default function LeadForm() {
   const [form, setForm] = useState<FormState>(initialState)
   const [extraFields, setExtraFields] = useState<Record<string, string>>({})
   const [status, setStatus] = useState<Status>('idle')
- const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null)
+  const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null)
   const [sending, setSending] = useState(false)
   const [agree, setAgree] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -80,7 +78,7 @@ export default function LeadForm() {
     })
     setExtraFields(detail?.fields ?? {})
     setStatus('idle')
- setFeedbackMessage(null)
+    setFeedbackMessage(null)
     setSending(false)
     setAgree(false)
     setIsOpen(true)
@@ -182,7 +180,7 @@ export default function LeadForm() {
   ) => {
     setForm(prev => ({ ...prev, [field]: event.target.value }))
     setStatus('idle')
- setFeedbackMessage(null)
+    setFeedbackMessage(null)
   }
 
   const handlePhone = (event: ChangeEvent<HTMLInputElement>) => {
@@ -210,7 +208,7 @@ export default function LeadForm() {
 
     if (!agree || name.length < 2 || phoneDigits.length < 10) {
       setStatus('err')
- setFeedbackMessage('Проверьте поля и подтвердите согласие, затем попробуйте ещё раз.')
+      setFeedbackMessage('Проверьте поля и подтвердите согласие, затем попробуйте ещё раз.')
       return
     }
 
@@ -233,7 +231,7 @@ export default function LeadForm() {
 
     setSending(true)
     setStatus('idle')
- setFeedbackMessage(null)
+    setFeedbackMessage(null)
     try {
       const res = await fetch('/api/lead', {
         method: 'POST',
@@ -251,8 +249,8 @@ export default function LeadForm() {
       const parsed = parseLeadResponse(responseData)
 
       if (!res.ok) {
-        setStatus('err')
-        setFeedbackMessage(parsed.errorMessage)
+      setStatus('err')
+      setFeedbackMessage(parsed.errorMessage)
         return
       }
 
@@ -278,8 +276,7 @@ export default function LeadForm() {
       setExtraFields({})
     } catch {
       setStatus('err')
-
- setFeedbackMessage(DEFAULT_ERROR_MESSAGE)
+      setFeedbackMessage(DEFAULT_ERROR_MESSAGE)
     } finally {
       setSending(false)
     }
@@ -503,63 +500,6 @@ export default function LeadForm() {
     </>
   )
 }
-type LeadResponsePayload = {
-  delivered?: unknown
-  warning?: unknown
-  error?: unknown
-}
-
-const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null
-
-const getWarningMessage = (code: string | null) => {
-  switch (code) {
-    case 'telegram-not-configured':
-      return 'Заявка сохранена, но уведомление не отправлено. Мы обработаем её вручную.'
-    case 'telegram-delivery-failed':
-      return 'Заявка отправлена, но уведомление не доставлено. Менеджер проверит её вручную.'
-    default:
-      return DEFAULT_WARNING_MESSAGE
-  }
-}
-
-const getErrorMessage = (code: string | null) => {
-  if (!code) return DEFAULT_ERROR_MESSAGE
-
-  if (code.toLowerCase().includes('failed to submit')) {
-    return 'Сервис временно недоступен. Напишите нам в WhatsApp или Telegram.'
-  }
-
-  return DEFAULT_ERROR_MESSAGE
-}
-
-type ParsedLeadResponse = {
-  delivered: boolean
-  warningMessage: string | null
-  errorMessage: string
-}
-
-const parseLeadResponse = (data: unknown): ParsedLeadResponse => {
-  if (!isRecord(data)) {
-    return {
-      delivered: true,
-      warningMessage: null,
-      errorMessage: DEFAULT_ERROR_MESSAGE,
-    }
-  }
-
-  const payload = data as LeadResponsePayload
-  const delivered = typeof payload.delivered === 'boolean' ? payload.delivered : true
-  const warningCode = typeof payload.warning === 'string' ? payload.warning : null
-  const errorCode = typeof payload.error === 'string' ? payload.error : null
-
-  return {
-    delivered,
-    warningMessage: delivered ? null : getWarningMessage(warningCode),
-    errorMessage: getErrorMessage(errorCode),
-  }
-}
-
 function formatPhone(digits: string) {
   if (!digits) return ''
 
