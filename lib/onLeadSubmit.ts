@@ -59,12 +59,19 @@ export async function onLeadSubmit(data: LeadSubmitPayload) {
   const chatId = process.env.TELEGRAM_CHAT_ID?.trim()
   const threadId = process.env.TELEGRAM_THREAD_ID?.trim()
 
-  if (!botToken) {
-    throw new Error('TELEGRAM_BOT_TOKEN is not configured')
-  }
+  const missingConfig: string[] = []
+  if (!botToken) missingConfig.push('TELEGRAM_BOT_TOKEN')
+  if (!chatId) missingConfig.push('TELEGRAM_CHAT_ID')
 
-  if (!chatId) {
-    throw new Error('TELEGRAM_CHAT_ID is not configured')
+  if (missingConfig.length > 0) {
+    const message = `Telegram integration is not configured: ${missingConfig.join(', ')}`
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error(message)
+    }
+
+    console.warn(message)
+    console.info('Lead payload (not sent to Telegram):', JSON.stringify(data, null, 2))
+    return
   }
 
   const controller = new AbortController()
@@ -89,7 +96,6 @@ export async function onLeadSubmit(data: LeadSubmitPayload) {
       body: JSON.stringify(payload),
       signal: controller.signal,
     })
-
     let json: TelegramResponse | undefined
     try {
       json = (await response.json()) as TelegramResponse
