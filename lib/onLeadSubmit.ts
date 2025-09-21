@@ -62,7 +62,9 @@ const TELEGRAM_TIMEOUT = 10_000
 const TELEGRAM_API_BASE = 'https://api.telegram.org'
 
 const normalizeHtmlMessage = (html: string) =>
-  html.replace(/<br\s*\/?>/gi, '<br>')
+ html
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/\n{3,}/g, '\n\n')
 
 const safeParseNumber = (value: string | undefined) => {
   if (!value) return undefined
