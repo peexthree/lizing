@@ -59,11 +59,11 @@ export async function onLeadSubmit(data: LeadSubmitPayload) {
   const chatId = process.env.TELEGRAM_CHAT_ID?.trim()
   const threadId = process.env.TELEGRAM_THREAD_ID?.trim()
 
-  const missingConfig: string[] = []
-  if (!botToken) missingConfig.push('TELEGRAM_BOT_TOKEN')
-  if (!chatId) missingConfig.push('TELEGRAM_CHAT_ID')
+if (!botToken || !chatId) {
+    const missingConfig: string[] = []
+    if (!botToken) missingConfig.push('TELEGRAM_BOT_TOKEN')
+    if (!chatId) missingConfig.push('TELEGRAM_CHAT_ID')
 
-  if (missingConfig.length > 0) {
     const message = `Telegram integration is not configured: ${missingConfig.join(', ')}`
     if (process.env.NODE_ENV === 'production') {
       throw new Error(message)
@@ -77,8 +77,10 @@ export async function onLeadSubmit(data: LeadSubmitPayload) {
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), TELEGRAM_TIMEOUT)
 
+  const telegramChatId: string = chatId
+
   const payload: TelegramSendMessagePayload = {
-    chat_id: chatId,
+    chat_id: telegramChatId,
     text: normalizeHtmlMessage(data.html),
     parse_mode: 'HTML',
     disable_web_page_preview: true,
