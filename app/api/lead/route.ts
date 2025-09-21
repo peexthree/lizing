@@ -42,7 +42,7 @@ const DEFAULT_CALC_SUMMARY_NORMALIZED: Record<SummaryKey, string> = (() => {
 
 const normalizeCalcValue = (value?: string) => (value ? normalizeWhitespace(value) : '')
 
-import { onLeadSubmit } from '@/lib/onLeadSubmit'
+import { onLeadSubmit, LeadSubmitError } from '@/lib/onLeadSubmit'
 
 const rubFormatter = new Intl.NumberFormat('ru-RU')
 
@@ -303,39 +303,60 @@ const pushMetaLine = (label: string, value: string) => {
 
   const plainText = plainLines.join('\n')
   const htmlText = htmlLines.join('<br />')
+const leadPayload = {
+    plain: plainText,
+    html: htmlText,
+    meta: {
+      name,
+      phone,
+      phoneDisplay,
+      clientType,
+      tech,
+      budget,
+      comment,
+      utm_source,
+      utm_medium,
+      utm_campaign,
+      utm_content,
+      referrer,
+      calc,
+      cost,
+      advance,
+      term,
+      rate,
+      residual,
+      payment,
+      host,
+      isDefaultCalcRequest,
+    },
+  }
+
 
   try {
-    await onLeadSubmit({
-      plain: plainText,
-      html: htmlText,
-      meta: {
-        name,
-        phone,
-        phoneDisplay,
-        clientType,
-        tech,
-        budget,
-        comment,
-        utm_source,
-        utm_medium,
-        utm_campaign,
-        utm_content,
-        referrer,
-        calc,
-        cost,
-        advance,
-        term,
-        rate,
-        residual,
-        payment,
-        host,
-        isDefaultCalcRequest,
-      },
-    })
+   
+const delivered = await onLeadSubmit(leadPayload)
+    return NextResponse.json({ success: true, delivered })
+
   } catch (error) {
+ if (error instanceof LeadSubmitError) {
+      const warning =
+        error.code === 'missing-config'
+          ? 'telegram-not-configured'
+          : 'telegram-delivery-failed'
+
+      const logMethod = error.code === 'missing-config' ? console.warn : console.error
+      logMethod('Lead submission delivered without Telegram notification', {
+        warning: error.message,
+        lead: leadPayload,
+      })
+
+      return NextResponse.json(
+        { success: true, delivered: false, warning },
+        { status: 202 },
+      )
+    }
+
     console.error('Failed to submit lead', error)
     return NextResponse.json({ success: false, error: 'Failed to submit lead' }, { status: 500 })
   }
-
-  return NextResponse.json({ success: true, plain: plainText })
 }
