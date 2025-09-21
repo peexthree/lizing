@@ -109,11 +109,11 @@ export async function onLeadSubmit(data: LeadSubmitPayload): Promise<boolean> {
     payload.message_thread_id = resolvedThreadId
   }
 
-  try {
+ const sendTelegramMessage = async (payloadToSend: TelegramSendMessagePayload) => {
     const response = await fetch(`${TELEGRAM_API_BASE}/bot${botToken}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+ body: JSON.stringify(payloadToSend),
       signal: controller.signal,
     })
     let json: TelegramResponse | undefined
@@ -128,6 +128,30 @@ export async function onLeadSubmit(data: LeadSubmitPayload): Promise<boolean> {
     if (!response.ok || !json?.ok) {
       const description = json?.description || response.statusText
       throw new LeadSubmitError(`Telegram sendMessage failed: ${description}`, 'telegram-error')
+    }
+ }
+
+  try {
+    try {
+      await sendTelegramMessage(payload)
+    } catch (error) {
+      const isLeadSubmitError = error instanceof LeadSubmitError
+      const threadNotFound =
+        isLeadSubmitError &&
+        error.code === 'telegram-error' &&
+        typeof resolvedThreadId === 'number' &&
+        error.message.toLowerCase().includes('message thread not found')
+
+      if (!threadNotFound) {
+        throw error
+      }
+
+      console.warn('Telegram thread not found, retrying without thread id', {
+        threadId: resolvedThreadId,
+      })
+
+      const { message_thread_id: _ignored, ...fallbackPayload } = payload
+      await sendTelegramMessage(fallbackPayload)
     }
   } catch (error) {
     if (error instanceof LeadSubmitError) {
