@@ -300,9 +300,7 @@ export async function POST(req: NextRequest) {
       if (requestLinesPlain.length > 0) {
         plainLines.push('')
         htmlLines.push('')
-      }
-        plainLines.push('')
-        htmlLines.push('')
+  
       }
       plainLines.push(`💰 *Ежемесячный платёж:* *${paymentText}*`)
       htmlLines.push(`💰 <b>Ежемесячный платёж:</b> <b>${escapeHtml(paymentText)}</b>`)

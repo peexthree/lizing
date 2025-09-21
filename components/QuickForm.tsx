@@ -253,7 +253,7 @@ function formatPhone(digits: string) {
 
   let normalized = digits
   if (normalized.startsWith('8')) normalized = `7${normalized.slice(1)}`
-  if (normalized.length > 11) normalized = normalized.slice(0, 11))
+  if (normalized.length > 11) normalized = normalized.slice(0, 11)
   if (!normalized.startsWith('7')) normalized = `7${normalized.slice(0, 10)}`
 
   const part1 = normalized.slice(1, 4)
