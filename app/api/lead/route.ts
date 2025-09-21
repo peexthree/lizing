@@ -66,6 +66,46 @@ const formatAdvanceValue = (raw: string, fallbackPercent?: string) => {
   return trimmed
 }
 
+const parseBoolean = (value: unknown): boolean | undefined => {
+  if (typeof value === 'boolean') return value
+  if (typeof value === 'string') {
+    const normalized = value.trim().toLowerCase()
+    if (!normalized) return undefined
+    if (['1', 'true', 'yes', 'y', 'да', 'on'].includes(normalized)) return true
+    if (['0', 'false', 'no', 'n', 'нет', 'off'].includes(normalized)) return false
+  }
+  return undefined
+}
+
+const formatBooleanMeta = (value: boolean | undefined) => {
+  if (value === undefined) return ''
+  return value ? 'Да' : 'Нет'
+}
+
+const normalizeMessengerLabel = (value: string) => {
+  const trimmed = value.trim()
+  if (!trimmed) return ''
+  const normalized = trimmed.toLowerCase()
+  if (normalized === 'whatsapp') return 'WhatsApp'
+  if (normalized === 'telegram') return 'Telegram'
+  return trimmed
+}
+
+const resolveSourceLabel = (value: string) => {
+  const trimmed = value.trim()
+  if (!trimmed) return ''
+  switch (trimmed.toLowerCase()) {
+    case 'lead-form':
+      return 'Форма заявки'
+    case 'quick-form':
+      return 'Быстрая форма'
+    case 'calculator':
+      return 'Калькулятор'
+    default:
+      return trimmed
+  }
+}
+
 const calculateMonthlyPayment = (
   cost: number,
   advancePercent: number,
@@ -128,6 +168,11 @@ export async function POST(req: NextRequest) {
   const rate = typeof body.rate === 'string' ? body.rate : ''
   const residual = typeof body.residual === 'string' ? body.residual : ''
   const payment = typeof body.payment === 'string' ? body.payment : ''
+  const source = typeof body.source === 'string' ? body.source : ''
+  const ownEquipmentValue = parseBoolean(body.ownEquipment)
+  const wantExamplesValue = parseBoolean(body.wantExamples)
+  const messengerRaw = typeof body.messenger === 'string' ? body.messenger : ''
+  const messengerLabel = normalizeMessengerLabel(messengerRaw)
 
   const host = req.headers.get('host') ?? 'lizing-phi.vercel.app'
   const separator = '━━━━━━━━━━━━━━━━━━━━'
@@ -256,6 +301,9 @@ export async function POST(req: NextRequest) {
         plainLines.push('')
         htmlLines.push('')
       }
+        plainLines.push('')
+        htmlLines.push('')
+      }
       plainLines.push(`💰 *Ежемесячный платёж:* *${paymentText}*`)
       htmlLines.push(`💰 <b>Ежемесячный платёж:</b> <b>${escapeHtml(paymentText)}</b>`)
     }
@@ -269,6 +317,20 @@ const pushMetaLine = (label: string, value: string) => {
     if (!value) return
     metaLinesPlain.push(`• ${label}: ${value}`)
     metaLinesHtml.push(`• ${label}: ${escapeHtml(value)}`)
+  }
+
+  const resolvedSourceLabel = resolveSourceLabel(source)
+  if (resolvedSourceLabel) {
+    pushMetaLine('Источник заявки', resolvedSourceLabel)
+  }
+  if (ownEquipmentValue !== undefined) {
+    pushMetaLine('Техника своя', formatBooleanMeta(ownEquipmentValue))
+  }
+  if (messengerLabel) {
+    pushMetaLine('Предпочтительный мессенджер', messengerLabel)
+  }
+  if (wantExamplesValue !== undefined) {
+    pushMetaLine('Прислать примеры сделок', formatBooleanMeta(wantExamplesValue))
   }
 
   pushMetaLine('Тип клиента', clientType)
@@ -303,13 +365,14 @@ const pushMetaLine = (label: string, value: string) => {
 
   const plainText = plainLines.join('\n')
   const htmlText = htmlLines.join('<br />')
-const leadPayload = {
+ const leadPayload = {
     plain: plainText,
     html: htmlText,
     meta: {
       name,
       phone,
       phoneDisplay,
+      source,
       clientType,
       tech,
       budget,
@@ -328,17 +391,20 @@ const leadPayload = {
       payment,
       host,
       isDefaultCalcRequest,
+      ownEquipment: ownEquipmentValue === undefined ? '' : String(ownEquipmentValue),
+      messenger: messengerLabel || messengerRaw.trim(),
+      wantExamples: wantExamplesValue === undefined ? '' : String(wantExamplesValue),
     },
   }
 
 
   try {
-   
-const delivered = await onLeadSubmit(leadPayload)
+
+ const delivered = await onLeadSubmit(leadPayload)
     return NextResponse.json({ success: true, delivered })
 
   } catch (error) {
- if (error instanceof LeadSubmitError) {
+  if (error instanceof LeadSubmitError) {
       const warning =
         error.code === 'missing-config'
           ? 'telegram-not-configured'
