@@ -1,3 +1,5 @@
+'use client'
+
 import { Phone, PenLine, Menu, X } from 'lucide-react'
 import { useState, useEffect, useCallback } from 'react'
 import type { SVGProps } from 'react'
