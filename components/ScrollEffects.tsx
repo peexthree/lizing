@@ -1,13 +1,8 @@
 'use client'
 
 import { useEffect } from 'react'
-import Lenis from '@studio-freight/lenis'
 
 import { applyScrollCssVariables, resetScrollCssVariables } from '@/lib/scroll'
-
-type LenisScrollEvent = {
-  scroll: number
-}
 
 const prefersReducedMotionQuery = '(prefers-reduced-motion: reduce)'
 
@@ -16,99 +11,61 @@ const ScrollEffects = () => {
     const root = document.documentElement
     const mediaQuery = window.matchMedia(prefersReducedMotionQuery)
 
-    let lenis: Lenis | null = null
-    let animationFrameId: number | null = null
+    let frameId: number | null = null
 
-    const handleLenisScroll = ({ scroll }: LenisScrollEvent) => {
-      applyScrollCssVariables(root, scroll)
+    const updateVariables = () => {
+      frameId = null
+      applyScrollCssVariables(root, window.scrollY)
     }
 
-    const destroyLenis = () => {
-      if (animationFrameId !== null) {
-        cancelAnimationFrame(animationFrameId)
-        animationFrameId = null
-      }
-
-      if (lenis) {
-        lenis.off('scroll', handleLenisScroll as (event: unknown) => void)
-        lenis.destroy()
-        lenis = null
-      }
-    }
-
-    const enableLenis = () => {
-      destroyLenis()
-
-      try {
-        lenis = new Lenis({
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          smoothWheel: true,
-          syncTouch: true,
-        })
-      } catch (error) {
-        if (process.env.NODE_ENV !== 'production') {
-          console.error('Failed to initialize Lenis', error)
-        }
-        lenis = null
+    const handleScroll = () => {
+      if (frameId !== null) {
         return
       }
 
-      lenis.on('scroll', handleLenisScroll as (event: unknown) => void)
-
-      applyScrollCssVariables(root, lenis.scroll ?? window.scrollY)
-
-      const raf = (time: number) => {
-        lenis?.raf(time)
-        animationFrameId = requestAnimationFrame(raf)
-      }
-
-      animationFrameId = requestAnimationFrame(raf)
+      frameId = window.requestAnimationFrame(updateVariables)
     }
 
-    const handleScrollFallback = () => {
-      if (!lenis) {
-        applyScrollCssVariables(root, window.scrollY)
-      }
+    const enable = () => {
+      handleScroll()
+      window.addEventListener('scroll', handleScroll, { passive: true })
     }
 
-    const handleMotionPreference = () => {
-      if (mediaQuery.matches) {
-        destroyLenis()
-        resetScrollCssVariables(root)
-      } else {
-        enableLenis()
-        if (!lenis) {
-          applyScrollCssVariables(root, window.scrollY)
-        }
+    const disable = () => {
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId)
+        frameId = null
+      }
+
+      window.removeEventListener('scroll', handleScroll)
+      resetScrollCssVariables(root)
+    }
+
+    const handlePreferenceChange = () => {
+      disable()
+
+      if (!mediaQuery.matches) {
+        enable()
       }
     }
 
-    handleMotionPreference()
-    if (!lenis) {
-      handleScrollFallback()
-    }
+    handlePreferenceChange()
 
-    window.addEventListener('scroll', handleScrollFallback, { passive: true })
-
-    const handleMediaQueryChange = () => {
-      handleMotionPreference()
-    }
+    const mediaListener = () => handlePreferenceChange()
 
     if (typeof mediaQuery.addEventListener === 'function') {
-      mediaQuery.addEventListener('change', handleMediaQueryChange)
+      mediaQuery.addEventListener('change', mediaListener)
     } else {
-      mediaQuery.addListener(handleMediaQueryChange)
+      mediaQuery.addListener(mediaListener)
     }
 
     return () => {
-      destroyLenis()
-      window.removeEventListener('scroll', handleScrollFallback)
+      disable()
 
       if (typeof mediaQuery.removeEventListener === 'function') {
-        mediaQuery.removeEventListener('change', handleMediaQueryChange)
+        mediaQuery.removeEventListener('change', mediaListener)
       } else {
-        mediaQuery.removeListener(handleMediaQueryChange)
+        mediaQuery.removeListener(mediaListener)
       }
     }
   }, [])

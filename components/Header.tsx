@@ -1,12 +1,11 @@
-'use client'
-
-import { Phone, MessageCircle, PenLine, Menu, X } from 'lucide-react'
+import { Phone, PenLine, Menu, X } from 'lucide-react'
 import { useState, useEffect, useCallback } from 'react'
-import type { MouseEvent as ReactMouseEvent, SVGProps } from 'react'
-import { openLeadForm } from '@/lib/openLeadForm'
-import { openCalculator } from '@/lib/openCalculator'
-import { motion, AnimatePresence, Variants } from 'framer-motion'
+import type { SVGProps } from 'react'
+import Link from 'next/link'
 import Image from 'next/image'
+import { motion, AnimatePresence, Variants } from 'framer-motion'
+
+import { openLeadForm } from '@/lib/openLeadForm'
 
 const WhatsAppIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -65,15 +64,13 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
-  // Обработчики кликов остаются без изменений
-  const handleCalculatorClick = useCallback((event: ReactMouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault()
-    openCalculator()
+  
+  const handleLeadClick = useCallback(() => {
+    openLeadForm()
     setIsMenuOpen(false)
   }, [])
 
-  const handleLeadClick = useCallback(() => {
-    openLeadForm()
+  const closeMenu = useCallback(() => {
     setIsMenuOpen(false)
   }, [])
 
@@ -106,23 +103,23 @@ export default function Header() {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="flex-shrink-0"
           >
-            <a href="#" aria-label="На главную">
+            <Link href="/" aria-label="На главную" onClick={closeMenu} className="block">
               <Image
                 src="/logo.svg"
                 alt="Лизинг и точка"
                 height={64}
-                width={150} // Лучше использовать более горизонтальный логотип для хедера
+                width={150}
                 className="h-10 w-auto md:h-12"
                 priority
               />
-            </a>
+            </Link>
           </motion.div>
 
           {/* Навигация desktop */}
           <nav className="hidden items-center gap-x-6 text-sm font-medium text-slate-700 lg:flex lg:gap-x-8">
-            <a href="#how" className="hover:text-slate-900 transition-colors">Как работает</a>
-            <a href="#" onClick={handleCalculatorClick} className="hover:text-slate-900 transition-colors">Калькулятор</a>
-            <a href="#faq" className="hover:text-slate-900 transition-colors">FAQ</a>
+            <Link href="/#how" className="transition-colors hover:text-slate-900">Как работает</Link>
+            <Link href="/calculator" className="transition-colors hover:text-slate-900">Калькулятор</Link>
+            <Link href="/#faq" className="transition-colors hover:text-slate-900">FAQ</Link>
           </nav>
 
           {/* Контакты и CTA desktop */}
@@ -171,9 +168,27 @@ export default function Header() {
             className="md:hidden absolute w-full shadow-xl bg-white/90 backdrop-blur-lg border-b border-slate-200/60"
           >
             <nav className="flex flex-col gap-y-1 p-4">
-              <a href="#how" onClick={() => setIsMenuOpen(false)} className="px-4 py-3 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors">Как работает</a>
-              <a href="#" onClick={handleCalculatorClick} className="px-4 py-3 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors">Калькулятор</a>
-              <a href="#faq" onClick={() => setIsMenuOpen(false)} className="px-4 py-3 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors">FAQ</a>
+              <Link
+                href="/#how"
+                onClick={closeMenu}
+                className="rounded-md px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900"
+              >
+                Как работает
+              </Link>
+              <Link
+                href="/calculator"
+                onClick={closeMenu}
+                className="rounded-md px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900"
+              >
+                Калькулятор
+              </Link>
+              <Link
+                href="/#faq"
+                onClick={closeMenu}
+                className="rounded-md px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900"
+              >
+                FAQ
+              </Link>
               
               <div className="border-t border-slate-200/80 my-3"></div>
 
@@ -193,3 +208,4 @@ export default function Header() {
     </motion.header>
   )
 }
+
