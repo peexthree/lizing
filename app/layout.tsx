@@ -3,7 +3,21 @@ import localFont from 'next/font/local'
 import './globals.css'
 import Header from '@/components/Header'
 import ScrollEffects from '@/components/ScrollEffects'
+// app/layout.tsx
 
+import SmoothScroller from '@/components/SmoothScroller'
+import './globals.css'
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="ru">
+      <body>
+        <SmoothScroller /> {/* <--- Добавьте компонент сюда */}
+        {children}
+      </body>
+    </html>
+  )
+}
 const inter = localFont({
   src: [
     { path: '../public/fonts/inter-cyrillic-400-normal.woff2', weight: '400', style: 'normal' },
