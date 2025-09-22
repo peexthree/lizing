@@ -6,6 +6,9 @@ import clsx from 'clsx'
 
 export type SliderProps = React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
 
+// Ваша функция для кастомной обработки скролла осталась без изменений,
+// так как это очень полезная UX-доработка, которая предотвращает
+// случайное изменение значения слайдера при прокрутке страницы.
 const SCROLLABLE_OVERFLOW = /(auto|scroll)/i
 
 function findScrollableContainer(element: HTMLElement): HTMLElement | null {
@@ -63,13 +66,20 @@ const Slider = React.forwardRef<
     <SliderPrimitive.Root
       ref={ref}
       onWheel={handleWheel}
-      className={clsx('relative flex w-full touch-none select-none items-center', className)}
+      className={clsx(
+        'relative flex w-full touch-none select-none items-center group', // Добавлен класс 'group' для управления дочерними элементами
+        className
+      )}
       {...props}
     >
-      <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-dark/10">
-        <SliderPrimitive.Range className="absolute h-full bg-accent" />
+      {/* Полоса слайдера (трек) */}
+      <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+        {/* Заполненная часть полосы */}
+        <SliderPrimitive.Range className="absolute h-full bg-slate-900 dark:bg-slate-50" />
       </SliderPrimitive.Track>
-      <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-white bg-accent shadow-[0_4px_12px_rgba(0,0,0,0.18)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2" />
+      
+      {/* Ползунок */}
+      <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-slate-900 bg-white dark:border-slate-50 dark:bg-slate-950 shadow-md transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:focus-visible:ring-slate-700 disabled:pointer-events-none disabled:opacity-50 group-hover:scale-110" />
     </SliderPrimitive.Root>
   )
 })
