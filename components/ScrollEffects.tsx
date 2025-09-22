@@ -1,70 +1,119 @@
-// components/SmoothScroller.tsx
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import Lenis from '@studio-freight/lenis'
 
-const SmoothScroller = () => {
-  // Используем useRef чтобы сохранить инстанс Lenis между рендерами
-  const lenisRef = useRef<Lenis | null>(null)
+import { applyScrollCssVariables, resetScrollCssVariables } from '@/lib/scroll'
 
+type LenisScrollEvent = {
+  scroll: number
+}
+
+const prefersReducedMotionQuery = '(prefers-reduced-motion: reduce)'
+
+const ScrollEffects = () => {
   useEffect(() => {
-    // Инициализация Lenis
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // формула для плавности
-      smoothTouch: true, // Плавный скролл на мобильных устройствах
-    })
-    
-    lenisRef.current = lenis
-
     const root = document.documentElement
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const mediaQuery = window.matchMedia(prefersReducedMotionQuery)
 
-    // --- Ваша логика для parallax-эффектов, адаптированная под Lenis ---
-    const setScrollVariables = (scroll: number) => {
-      // Отключаем эффекты, если пользователь предпочитает меньше движений
-      if (prefersReducedMotion.matches) {
-        root.style.setProperty('--scroll-y', '0px')
-        root.style.setProperty('--scroll-parallax', '0px')
-        root.style.setProperty('--scroll-soft', '0px')
-        root.style.setProperty('--scroll-overlay', '0px')
+    let lenis: Lenis | null = null
+    let animationFrameId: number | null = null
+
+    const handleLenisScroll = ({ scroll }: LenisScrollEvent) => {
+      applyScrollCssVariables(root, scroll)
+    }
+
+    const destroyLenis = () => {
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId)
+        animationFrameId = null
+      }
+
+      if (lenis) {
+        lenis.off('scroll', handleLenisScroll as (event: unknown) => void)
+        lenis.destroy()
+        lenis = null
+      }
+    }
+
+    const enableLenis = () => {
+      destroyLenis()
+
+      try {
+        lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+          syncTouch: true,
+        })
+      } catch (error) {
+        if (process.env.NODE_ENV !== 'production') {
+          console.error('Failed to initialize Lenis', error)
+        }
+        lenis = null
         return
       }
-      
-      // Расчет переменных, как и в вашем коде
-      const parallax = scroll * 0.35
-      const soft = scroll * 0.18
-      const overlay = scroll * -0.12
 
-      root.style.setProperty('--scroll-y', `${scroll}px`)
-      root.style.setProperty('--scroll-parallax', `${parallax}px`)
-      root.style.setProperty('--scroll-soft', `${soft}px`)
-      root.style.setProperty('--scroll-overlay', `${overlay}px`)
+      lenis.on('scroll', handleLenisScroll as (event: unknown) => void)
+
+      applyScrollCssVariables(root, lenis.scroll ?? window.scrollY)
+
+      const raf = (time: number) => {
+        lenis?.raf(time)
+        animationFrameId = requestAnimationFrame(raf)
+      }
+
+      animationFrameId = requestAnimationFrame(raf)
     }
 
-    // Слушаем событие 'scroll' от Lenis, а не от window.
-    // Это обеспечивает идеальную синхронизацию.
-    lenis.on('scroll', ({ scroll }: { scroll: number }) => {
-      setScrollVariables(scroll)
-    })
-    
-    // --- Анимационный цикл, необходимый для работы Lenis ---
-    const raf = (time: number) => {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
+    const handleScrollFallback = () => {
+      if (!lenis) {
+        applyScrollCssVariables(root, window.scrollY)
+      }
     }
 
-    requestAnimationFrame(raf)
-    
-    // Очистка при размонтировании компонента
+    const handleMotionPreference = () => {
+      if (mediaQuery.matches) {
+        destroyLenis()
+        resetScrollCssVariables(root)
+      } else {
+        enableLenis()
+        if (!lenis) {
+          applyScrollCssVariables(root, window.scrollY)
+        }
+      }
+    }
+
+    handleMotionPreference()
+    if (!lenis) {
+      handleScrollFallback()
+    }
+
+    window.addEventListener('scroll', handleScrollFallback, { passive: true })
+
+    const handleMediaQueryChange = () => {
+      handleMotionPreference()
+    }
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', handleMediaQueryChange)
+    } else {
+      mediaQuery.addListener(handleMediaQueryChange)
+    }
+
     return () => {
-      lenis.destroy()
-      lenisRef.current = null
+      destroyLenis()
+      window.removeEventListener('scroll', handleScrollFallback)
+
+      if (typeof mediaQuery.removeEventListener === 'function') {
+        mediaQuery.removeEventListener('change', handleMediaQueryChange)
+      } else {
+        mediaQuery.removeListener(handleMediaQueryChange)
+      }
     }
   }, [])
 
-  return null // Компонент ничего не рендерит, только добавляет эффекты
+  return null
 }
 
-export default SmoothScroller
+export default ScrollEffects
