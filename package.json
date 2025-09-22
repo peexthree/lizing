@@ -8,7 +8,7 @@
     "start": "next start -p 3000",
     "lint": "next lint",
     "test": "node --test",
-    "postinstall": "prisma generate || echo \"no prisma\""
+   "postinstall": "if command -v prisma >/dev/null 2>&1; then prisma generate; else echo 'no prisma'; fi"
   },
   "dependencies": {
     "@radix-ui/react-slider": "^1.3.6",
