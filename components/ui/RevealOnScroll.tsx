@@ -1,7 +1,12 @@
 'use client'
 
 import clsx from 'clsx'
-import { motion, useInView, useReducedMotion } from 'framer-motion'
+import {
+  motion,
+  useInView,
+  useReducedMotion,
+  type MarginType, // 👈 Import MarginType
+} from 'framer-motion'
 import { useCallback, useMemo, useRef } from 'react'
 import type { ComponentPropsWithoutRef, ElementType } from 'react'
 
@@ -12,7 +17,7 @@ type BaseProps = {
   duration?: number
   y?: number
   once?: boolean
-  margin?: string
+  margin?: MarginType // 👈 Use the imported type here
 }
 
 type RevealOnScrollProps<T extends ElementType> = BaseProps &
@@ -20,7 +25,9 @@ type RevealOnScrollProps<T extends ElementType> = BaseProps &
     as?: T
   }
 
-const RevealOnScroll = <T extends ElementType = 'div'>(props: RevealOnScrollProps<T>) => {
+const RevealOnScroll = <T extends ElementType = 'div'>(
+  props: RevealOnScrollProps<T>
+) => {
   const {
     as,
     children,
