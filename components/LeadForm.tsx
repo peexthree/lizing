@@ -83,250 +83,380 @@ export default function LeadForm() {
     setAgree(false)
     setIsOpen(true)
 
-    const closeModal = useCallback(() => {
-      setIsOpen(false)
-    }, [])
+  }, [])
 
-    useEffect(() => {
-      if (typeof window === 'undefined') return
+  const closeModal = useCallback(() => {
+    setIsOpen(false)
+  }, [])
 
-      const params = new URLSearchParams(window.location.search)
-      setForm(prev => ({
-        ...prev,
-        utm_source: params.get('utm_source') ?? prev.utm_source,
-        utm_medium: params.get('utm_medium') ?? prev.utm_medium,
-        utm_campaign: params.get('utm_campaign') ?? prev.utm_campaign,
-        utm_content: params.get('utm_content') ?? prev.utm_content,
-        referrer: document.referrer || prev.referrer
-      }))
-    }, [])
+  useEffect(() => {
+    if (typeof window === 'undefined') return
 
-    useEffect(() => {
-      if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    setForm(prev => ({
+      ...prev,
+      utm_source: params.get('utm_source') ?? prev.utm_source,
+      utm_medium: params.get('utm_medium') ?? prev.utm_medium,
+      utm_campaign: params.get('utm_campaign') ?? prev.utm_campaign,
+      utm_content: params.get('utm_content') ?? prev.utm_content,
+      referrer: document.referrer || prev.referrer
+    }))
+  }, [])
 
-      const updateSummary = (event?: Event) => {
-        let summary = ''
-        if (event && 'detail' in event) {
-          const detail = (event as CustomEvent<string>).detail
-          if (typeof detail === 'string') summary = detail
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const updateSummary = (event?: Event) => {
+      let summary = ''
+      if (event && 'detail' in event) {
+        const detail = (event as CustomEvent<string>).detail
+        if (typeof detail === 'string') summary = detail
+      }
+      if (!summary) {
+        try {
+          summary = window.localStorage.getItem('calc') ?? ''
+        } catch (storageError) {
+          console.warn('Не удалось получить сохранённый расчёт', storageError)
+
         }
-        if (!summary) {
-          try {
-            summary = window.localStorage.getItem('calc') ?? ''
-          } catch (storageError) {
-            console.warn('Не удалось получить сохранённый расчёт', storageError)
-          }
-        }
 
-        setForm(prev => (prev.calc === summary ? prev : { ...prev, calc: summary }))
       }
-
-      updateSummary()
-      document.addEventListener('calc-summary', updateSummary as EventListener)
-      window.addEventListener('focus', updateSummary)
-
-      return () => {
-        document.removeEventListener('calc-summary', updateSummary as EventListener)
-        window.removeEventListener('focus', updateSummary)
-      }
-    }, [])
-
-    useEffect(() => {
-      const handleOpen = (event: Event) => {
-        const detail = (event as CustomEvent<LeadFormPrefill>).detail
-        openModal(detail)
-      }
-
-      window.addEventListener('open-lead-form', handleOpen)
-      return () => window.removeEventListener('open-lead-form', handleOpen)
-    }, [openModal])
-
-    useEffect(() => {
-      if (!isOpen) return
-
-      const { style } = document.body
-      const originalOverflow = style.overflow
-      style.overflow = 'hidden'
-      return () => {
-        style.overflow = originalOverflow
-      }
-    }, [isOpen])
-
-    useEffect(() => {
-      if (!isOpen) return
-
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
-          closeModal()
-        }
-      }
-
-      window.addEventListener('keydown', handleKeyDown)
-      return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [closeModal, isOpen])
-
-    const handleOverlayClick = useCallback(
-      (event: MouseEvent<HTMLDivElement>) => {
-        if (event.target === event.currentTarget) {
-          closeModal()
-        }
-      },
-      [closeModal]
-    )
-
-    const handleChange = (field: keyof FormState) => (
-      event: ChangeEvent<HTMLInputElement>
-    ) => {
-      setForm(prev => ({ ...prev, [field]: event.target.value }))
-      setStatus('idle')
-      setFeedbackMessage(null)
+      setForm(prev => (prev.calc === summary ? prev : { ...prev, calc: summary }))
     }
 
-    const handlePhone = (event: ChangeEvent<HTMLInputElement>) => {
-      const digits = event.target.value.replace(/\D/g, '')
-      setForm(prev => ({ ...prev, phone: formatPhone(digits) }))
-      setStatus('idle')
+    updateSummary()
+    document.addEventListener('calc-summary', updateSummary as EventListener)
+    window.addEventListener('focus', updateSummary)
+
+    return () => {
+      document.removeEventListener('calc-summary', updateSummary as EventListener)
+      window.removeEventListener('focus', updateSummary)
+    }
+  }, [])
+
+  useEffect(() => {
+    const handleOpen = (event: Event) => {
+      const detail = (event as CustomEvent<LeadFormPrefill>).detail
+      openModal(detail)
     }
 
-    const normalizePhone = (value: string) => {
-      let digits = value.replace(/\D/g, '')
-      if (digits.startsWith('8')) digits = `7${digits.slice(1)}`
-      if (digits.length === 10) digits = `7${digits}`
-      if (!digits.startsWith('7') && digits.length > 0) {
-        digits = `7${digits.slice(-10)}`
+    window.addEventListener('open-lead-form', handleOpen)
+    return () => window.removeEventListener('open-lead-form', handleOpen)
+  }, [openModal])
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    const { style } = document.body
+    const originalOverflow = style.overflow
+    style.overflow = 'hidden'
+    return () => {
+      style.overflow = originalOverflow
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeModal()
       }
-      return digits.slice(0, 11)
     }
 
-    const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault()
-      if (sending) return
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [closeModal, isOpen])
 
-      const name = form.name.trim()
-      const phoneDigits = normalizePhone(form.phone)
+  const handleOverlayClick = useCallback(
+    (event: MouseEvent<HTMLDivElement>) => {
+      if (event.target === event.currentTarget) {
+        closeModal()
+      }
+    },
+    [closeModal]
+  )
 
-      if (!agree || name.length < 2 || phoneDigits.length < 10) {
+  const handleChange = (field: keyof FormState) => (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setForm(prev => ({ ...prev, [field]: event.target.value }))
+    setStatus('idle')
+    setFeedbackMessage(null)
+  }
+
+  const handlePhone = (event: ChangeEvent<HTMLInputElement>) => {
+    const digits = event.target.value.replace(/\D/g, '')
+    setForm(prev => ({ ...prev, phone: formatPhone(digits) }))
+    setStatus('idle')
+  }
+
+  const normalizePhone = (value: string) => {
+    let digits = value.replace(/\D/g, '')
+    if (digits.startsWith('8')) digits = `7${digits.slice(1)}`
+    if (digits.length === 10) digits = `7${digits}`
+    if (!digits.startsWith('7') && digits.length > 0) {
+      digits = `7${digits.slice(-10)}`
+    }
+    return digits.slice(0, 11)
+  }
+
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (sending) return
+
+    const name = form.name.trim()
+    const phoneDigits = normalizePhone(form.phone)
+
+    if (!agree || name.length < 2 || phoneDigits.length < 10) {
+      setStatus('err')
+      setFeedbackMessage('Проверьте поля и подтвердите согласие, затем попробуйте ещё раз.')
+      return
+    }
+
+    const payload: Record<string, string> = {
+      source: 'lead-form',
+      name,
+      phone: `+${phoneDigits}`,
+      phone_display: form.phone,
+      calc: form.calc,
+      utm_source: form.utm_source,
+      utm_medium: form.utm_medium,
+      utm_campaign: form.utm_campaign,
+      utm_content: form.utm_content,
+      referrer: form.referrer
+    }
+
+    for (const [key, value] of Object.entries(extraFields)) {
+      if (value) payload[key] = value
+    }
+
+    setSending(true)
+    setStatus('idle')
+    setFeedbackMessage(null)
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+
+      let responseData: unknown = null
+      try {
+        responseData = await res.json()
+      } catch {
+        responseData = null
+      }
+
+      const parsed = parseLeadResponse(responseData)
+
+      if (!res.ok) {
         setStatus('err')
-        setFeedbackMessage('Проверьте поля и подтвердите согласие, затем попробуйте ещё раз.')
+        setFeedbackMessage(parsed.errorMessage)
         return
       }
 
-      const payload: Record<string, string> = {
-        source: 'lead-form',
-        name,
-        phone: `+${phoneDigits}`,
-        phone_display: form.phone,
-        calc: form.calc,
-        utm_source: form.utm_source,
-        utm_medium: form.utm_medium,
-        utm_campaign: form.utm_campaign,
-        utm_content: form.utm_content,
-        referrer: form.referrer
+      if (!parsed.delivered) {
+        setStatus('warn')
+        setFeedbackMessage(parsed.warningMessage)
+      } else {
+        setStatus('ok')
+        setFeedbackMessage(null)
       }
-
-      for (const [key, value] of Object.entries(extraFields)) {
-        if (value) payload[key] = value
-      }
-
-      setSending(true)
-      setStatus('idle')
-      setFeedbackMessage(null)
-      try {
-        const res = await fetch('/api/lead', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        })
-
-        let responseData: unknown = null
-        try {
-          responseData = await res.json()
-        } catch {
-          responseData = null
-        }
-
-        const parsed = parseLeadResponse(responseData)
-
-        if (!res.ok) {
-          setStatus('err')
-          setFeedbackMessage(parsed.errorMessage)
-          return
-        }
-
-        if (!parsed.delivered) {
-          setStatus('warn')
-          setFeedbackMessage(parsed.warningMessage)
-        } else {
-          setStatus('ok')
-          setFeedbackMessage(null)
-        }
-        setAgree(false)
-        setForm(prev => ({
-          ...prev,
-          name: '',
-          phone: '',
-          calc: prev.calc,
-          utm_source: prev.utm_source,
-          utm_medium: prev.utm_medium,
-          utm_campaign: prev.utm_campaign,
-          utm_content: prev.utm_content,
-          referrer: prev.referrer
-        }))
-        setExtraFields({})
-      } catch {
-        setStatus('err')
-        setFeedbackMessage(DEFAULT_ERROR_MESSAGE)
-      } finally {
-        setSending(false)
-      }
+      setAgree(false)
+      setForm(prev => ({
+        ...prev,
+        name: '',
+        phone: '',
+        calc: prev.calc,
+        utm_source: prev.utm_source,
+        utm_medium: prev.utm_medium,
+        utm_campaign: prev.utm_campaign,
+        utm_content: prev.utm_content,
+        referrer: prev.referrer
+      }))
+      setExtraFields({})
+    } catch {
+      setStatus('err')
+      setFeedbackMessage(DEFAULT_ERROR_MESSAGE)
+    } finally {
+      setSending(false)
     }
+  }
 
-    const handleOpenClick = () => {
-      openModal()
-    }
+  const handleOpenClick = () => {
+    openModal()
+  }
 
-    return (
-      <>
-        <section id="lead-form" className="relative overflow-hidden py-20">
-          <div className="absolute inset-0 -z-10">
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/45 to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white/35 to-transparent" />
-            <div className="floating-orb left-[18%] top-[10rem] hidden h-[280px] w-[280px] bg-white/35 md:block" />
-            <div className="floating-orb right-[15%] bottom-[-4rem] hidden h-[320px] w-[320px] bg-accent/20 lg:block" />
+  return (
+    <>
+      <section id="lead-form" className="relative overflow-hidden py-20">
+        <div className="absolute inset-0 -z-10">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/45 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white/35 to-transparent" />
+          <div className="floating-orb left-[18%] top-[10rem] hidden h-[280px] w-[280px] bg-white/35 md:block" />
+          <div className="floating-orb right-[15%] bottom-[-4rem] hidden h-[320px] w-[320px] bg-accent/20 lg:block" />
+        </div>
+
+        <div className="mx-auto max-w-4xl px-4">
+          <div className="mx-auto max-w-2xl text-center animate-fade-up" style={{ animationDelay: '0.05s' }}>
+            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Заявка</span>
+            <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Получите персональный расчёт под ваш проект</h2>
+            <p className="mt-4 text-lg text-dark/70">
+              Мы перезвоним в течение 15 минут в рабочее время, уточним детали и предложим лучшие варианты от партнёров.
+            </p>
           </div>
 
-          <div className="mx-auto max-w-4xl px-4">
-            <div className="mx-auto max-w-2xl text-center animate-fade-up" style={{ animationDelay: '0.05s' }}>
-              <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Заявка</span>
-              <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Получите персональный расчёт под ваш проект</h2>
-              <p className="mt-4 text-lg text-dark/70">
-                Мы перезвоним в течение 15 минут в рабочее время, уточним детали и предложим лучшие варианты от партнёров.
-              </p>
+          <div
+            className="mt-12 mx-auto max-w-xl rounded-[2.5rem] border border-white/60 bg-white/85 p-8 text-center shadow-hero backdrop-blur-2xl animate-fade-up"
+            style={{ animationDelay: '0.15s' }}
+          >
+            <p className="text-base text-dark/70">
+              Заявка откроется во всплывающем окне: оставьте имя и телефон, и менеджер свяжется с вами удобным способом.
+            </p>
+            <button
+              type="button"
+              onClick={handleOpenClick}
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-3 text-base font-semibold text-white shadow-glow transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+            >
+              Оставить заявку
+            </button>
+            <div className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] text-dark/45">
+              Или напишите напрямую
+            </div>
+            <div className="mt-4 flex flex-wrap justify-center gap-3">
+              {messengerLinks.map(link => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="inline-flex items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                  style={{
+                    color: link.color,
+                    backgroundColor: link.background,
+                    borderColor: link.border
+                  }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span
+                    className="flex h-8 w-8 items-center justify-center rounded-full"
+                    style={{ backgroundColor: link.color }}
+                  >
+                    <link.Icon className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  {link.shortLabel}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div
+        className={`fixed inset-0 z-[90] flex items-center justify-center bg-dark/60 px-4 py-6 sm:px-6 sm:py-10 backdrop-blur-sm transition-opacity duration-200 ${isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
+          }`}
+        role={isOpen ? 'dialog' : undefined}
+        aria-modal={isOpen ? true : undefined}
+        aria-label="Оставить заявку"
+        aria-hidden={isOpen ? undefined : true}
+        onClick={handleOverlayClick}
+      >
+        <div
+          className={`relative w-full max-w-xl overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/95 shadow-hero backdrop-blur transition-all duration-200 ${isOpen ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
+            }`}
+        >
+          <button
+            type="button"
+            onClick={closeModal}
+            className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-dark/10 bg-white/90 text-dark shadow transition hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+            aria-label="Закрыть форму"
+          >
+            <CloseIcon className="h-5 w-5" aria-hidden />
+          </button>
+
+          <form onSubmit={onSubmit} className="space-y-6 px-6 pb-8 pt-14 sm:px-8 sm:pt-16">
+            <h2 className="text-2xl font-semibold text-dark">Оставьте заявку</h2>
+            <p className="text-sm text-dark/70">
+              Мы позвоним или напишем в мессенджер в течение 15 минут в рабочее время.
+            </p>
+
+            {form.calc && (
+              <div className="rounded-2xl border border-accent/20 bg-accent/10 p-4 text-left text-sm text-dark/70 shadow-inner">
+                <div className="text-xs font-semibold uppercase tracking-[0.3em] text-accent/80">Расчёт из калькулятора</div>
+                <p className="mt-2 leading-relaxed">{form.calc}</p>
+              </div>
+            )}
+
+            <div className="grid gap-4">
+              <div className="space-y-2">
+                <label htmlFor="modal-name" className="text-sm font-semibold text-dark">
+                  Имя
+                </label>
+                <input
+                  id="modal-name"
+                  name="name"
+                  className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
+                  placeholder="Как к вам обращаться"
+                  value={form.name}
+                  onChange={handleChange('name')}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="modal-phone" className="text-sm font-semibold text-dark">
+                  Телефон
+                </label>
+                <input
+                  id="modal-phone"
+                  name="phone"
+                  className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
+                  placeholder="+7 (___) ___-__-__"
+                  value={form.phone}
+                  onChange={handlePhone}
+                  required
+                />
+              </div>
             </div>
 
-            <div
-              className="mt-12 mx-auto max-w-xl rounded-[2.5rem] border border-white/60 bg-white/85 p-8 text-center shadow-hero backdrop-blur-2xl animate-fade-up"
-              style={{ animationDelay: '0.15s' }}
-            >
-              <p className="text-base text-dark/70">
-                Заявка откроется во всплывающем окне: оставьте имя и телефон, и менеджер свяжется с вами удобным способом.
-              </p>
+            <div className="space-y-4 text-sm text-dark/70">
+              <label className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  className="mt-1 accent-accent"
+                  checked={agree}
+                  onChange={event => setAgree(event.currentTarget.checked)}
+                />
+                <span>
+                  Согласен с{' '}
+                  <a
+                    href="/privacy"
+                    className="font-semibold text-accent underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    политикой обработки персональных данных
+                  </a>
+                </span>
+              </label>
+
               <button
-                type="button"
-                onClick={handleOpenClick}
-                className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-3 text-base font-semibold text-white shadow-glow transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                type="submit"
+                disabled={sending || !agree}
+                className="inline-flex w-full items-center justify-center rounded-full bg-accent px-8 py-3 text-base font-semibold text-white shadow-glow transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Оставить заявку
+                {sending ? 'Отправляем…' : 'Отправить заявку'}
               </button>
-              <div className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] text-dark/45">
-                Или напишите напрямую
-              </div>
-              <div className="mt-4 flex flex-wrap justify-center gap-3">
+            </div>
+
+            <div className="space-y-3">
+              <div className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/45">Или напишите напрямую</div>
+              <div className="flex flex-wrap gap-3">
                 {messengerLinks.map(link => (
                   <a
                     key={link.href}
                     href={link.href}
-                    className="inline-flex items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
                     style={{
                       color: link.color,
                       backgroundColor: link.background,
@@ -341,184 +471,58 @@ export default function LeadForm() {
                     >
                       <link.Icon className="h-4 w-4" aria-hidden="true" />
                     </span>
-                    {link.shortLabel}
+                    {link.label}
                   </a>
                 ))}
               </div>
             </div>
-          </div>
-        </section>
 
-        <div
-          className={`fixed inset-0 z-[90] flex items-center justify-center bg-dark/60 px-4 py-6 sm:px-6 sm:py-10 backdrop-blur-sm transition-opacity duration-200 ${isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
-            }`}
-          role={isOpen ? 'dialog' : undefined}
-          aria-modal={isOpen ? true : undefined}
-          aria-label="Оставить заявку"
-          aria-hidden={isOpen ? undefined : true}
-          onClick={handleOverlayClick}
-        >
-          <div
-            className={`relative w-full max-w-xl overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/95 shadow-hero backdrop-blur transition-all duration-200 ${isOpen ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
-              }`}
-          >
-            <button
-              type="button"
-              onClick={closeModal}
-              className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-dark/10 bg-white/90 text-dark shadow transition hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-              aria-label="Закрыть форму"
-            >
-              <CloseIcon className="h-5 w-5" aria-hidden />
-            </button>
-
-            <form onSubmit={onSubmit} className="space-y-6 px-6 pb-8 pt-14 sm:px-8 sm:pt-16">
-              <h2 className="text-2xl font-semibold text-dark">Оставьте заявку</h2>
-              <p className="text-sm text-dark/70">
-                Мы позвоним или напишем в мессенджер в течение 15 минут в рабочее время.
-              </p>
-
-              {form.calc && (
-                <div className="rounded-2xl border border-accent/20 bg-accent/10 p-4 text-left text-sm text-dark/70 shadow-inner">
-                  <div className="text-xs font-semibold uppercase tracking-[0.3em] text-accent/80">Расчёт из калькулятора</div>
-                  <p className="mt-2 leading-relaxed">{form.calc}</p>
-                </div>
+            <div className="space-y-2 text-sm" aria-live="polite">
+              {status === 'ok' && (
+                <p className="rounded-2xl bg-green-100/70 px-4 py-3 text-green-700">
+                  Спасибо! Менеджер свяжется в течение 15 минут в рабочее время.
+                </p>
               )}
-
-              <div className="grid gap-4">
-                <div className="space-y-2">
-                  <label htmlFor="modal-name" className="text-sm font-semibold text-dark">
-                    Имя
-                  </label>
-                  <input
-                    id="modal-name"
-                    name="name"
-                    className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
-                    placeholder="Как к вам обращаться"
-                    value={form.name}
-                    onChange={handleChange('name')}
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="modal-phone" className="text-sm font-semibold text-dark">
-                    Телефон
-                  </label>
-                  <input
-                    id="modal-phone"
-                    name="phone"
-                    className="w-full rounded-2xl border border-white/70 bg-white/70 p-3 text-sm text-dark shadow-inner transition focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/30"
-                    placeholder="+7 (___) ___-__-__"
-                    value={form.phone}
-                    onChange={handlePhone}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-4 text-sm text-dark/70">
-                <label className="flex items-start gap-3">
-                  <input
-                    type="checkbox"
-                    className="mt-1 accent-accent"
-                    checked={agree}
-                    onChange={event => setAgree(event.currentTarget.checked)}
-                  />
-                  <span>
-                    Согласен с{' '}
-                    <a
-                      href="/privacy"
-                      className="font-semibold text-accent underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      политикой обработки персональных данных
-                    </a>
-                  </span>
-                </label>
-
-                <button
-                  type="submit"
-                  disabled={sending || !agree}
-                  className="inline-flex w-full items-center justify-center rounded-full bg-accent px-8 py-3 text-base font-semibold text-white shadow-glow transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  {sending ? 'Отправляем…' : 'Отправить заявку'}
-                </button>
-              </div>
-
-              <div className="space-y-3">
-                <div className="text-xs font-semibold uppercase tracking-[0.3em] text-dark/45">Или напишите напрямую</div>
-                <div className="flex flex-wrap gap-3">
-                  {messengerLinks.map(link => (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
-                      style={{
-                        color: link.color,
-                        backgroundColor: link.background,
-                        borderColor: link.border
-                      }}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span
-                        className="flex h-8 w-8 items-center justify-center rounded-full"
-                        style={{ backgroundColor: link.color }}
-                      >
-                        <link.Icon className="h-4 w-4" aria-hidden="true" />
-                      </span>
-                      {link.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-2 text-sm" aria-live="polite">
-                {status === 'ok' && (
-                  <p className="rounded-2xl bg-green-100/70 px-4 py-3 text-green-700">
-                    Спасибо! Менеджер свяжется в течение 15 минут в рабочее время.
-                  </p>
-                )}
-                {status === 'warn' && (
-                  <p className="rounded-2xl bg-amber-100 px-4 py-3 text-amber-700">
-                    {feedbackMessage ?? DEFAULT_WARNING_MESSAGE}
-                  </p>
-                )}
-                {status === 'err' && (
-                  <p className="rounded-2xl bg-red-100/70 px-4 py-3 text-red-600">
-                    {feedbackMessage ?? DEFAULT_ERROR_MESSAGE}
-                  </p>
-                )}
-              </div>
-            </form>
-          </div>
+              {status === 'warn' && (
+                <p className="rounded-2xl bg-amber-100 px-4 py-3 text-amber-700">
+                  {feedbackMessage ?? DEFAULT_WARNING_MESSAGE}
+                </p>
+              )}
+              {status === 'err' && (
+                <p className="rounded-2xl bg-red-100/70 px-4 py-3 text-red-600">
+                  {feedbackMessage ?? DEFAULT_ERROR_MESSAGE}
+                </p>
+              )}
+            </div>
+          </form>
         </div>
-      </>
-    )
-  }
+      </div>
+    </>
+  )
+} \
+
 function formatPhone(digits: string) {
-      if (!digits) return ''
+  if (!digits) return ''
 
-      let normalized = digits
-      if (normalized.startsWith('8')) normalized = `7${normalized.slice(1)}`
-      if (normalized.length > 11) normalized = normalized.slice(0, 11)
-      if (!normalized.startsWith('7')) normalized = `7${normalized.slice(0, 10)}`
+  let normalized = digits
+  if (normalized.startsWith('8')) normalized = `7${normalized.slice(1)}`
+  if (normalized.length > 11) normalized = normalized.slice(0, 11)
+  if (!normalized.startsWith('7')) normalized = `7${normalized.slice(0, 10)}`
 
-      const part1 = normalized.slice(1, 4)
-      const part2 = normalized.slice(4, 7)
-      const part3 = normalized.slice(7, 9)
-      const part4 = normalized.slice(9, 11)
+  const part1 = normalized.slice(1, 4)
+  const part2 = normalized.slice(4, 7)
+  const part3 = normalized.slice(7, 9)
+  const part4 = normalized.slice(9, 11)
 
-      let result = '+7'
-      if (part1) {
-        result += ` (${part1}`
-        if (part1.length === 3) result += ')'
-      }
-      if (part2) result += ` ${part2}`
-      if (part3) result += `-${part3}`
-      if (part4) result += `-${part4}`
+  let result = '+7'
+  if (part1) {
+    result += ` (${part1}`
+    if (part1.length === 3) result += ')'
+  }
+  if (part2) result += ` ${part2}`
+  if (part3) result += `-${part3}`
+  if (part4) result += `-${part4}`
 
-      return result
-    }
+  return result
+}
 
