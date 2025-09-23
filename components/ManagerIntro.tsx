@@ -49,7 +49,7 @@ const ManagerIntro = () => {
               <div>
                 <button
                   type="button"
-                  onClick={openLeadForm}
+                  onClick={() => openLeadForm?.()}
                   className="inline-flex items-center justify-center rounded-full bg-dark px-8 py-3 text-sm font-semibold text-white shadow-[0_15px_30px_rgba(34,44,56,0.25)] transition hover:bg-dark/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dark"
                 >
                   Получить бесплатную консультацию
