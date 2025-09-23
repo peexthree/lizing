@@ -186,9 +186,10 @@ export default function LeadForm() {
   }
 
   const handlePhone = (event: ChangeEvent<HTMLInputElement>) => {
-    const digits = event.target.value.replace(/\D/g, '')
+    const digits = event.target.value.replace(/\D/g, '').slice(0, 11)
     setForm(prev => ({ ...prev, phone: formatPhone(digits) }))
     setStatus('idle')
+    setFeedbackMessage(null)
   }
 
   const normalizePhone = (value: string) => {
@@ -358,7 +359,7 @@ export default function LeadForm() {
         role={isOpen ? 'dialog' : undefined}
         aria-modal={isOpen ? true : undefined}
         aria-label="Оставить заявку"
-        aria-hidden={isOpen ? undefined : true}
+        aria-hidden={isOpen ? undefined : "true"}
         onClick={handleOverlayClick}
       >
         <div
@@ -499,9 +500,9 @@ export default function LeadForm() {
       </div>
     </>
   )
-} \
+}
 
-function formatPhone(digits: string) {
+export function formatPhone(digits: string) {
   if (!digits) return ''
 
   let normalized = digits
