@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 
+import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { openLeadForm } from '@/lib/openLeadForm'
 
 const ManagerIntro = () => {
@@ -11,7 +12,7 @@ const ManagerIntro = () => {
       <div className="pointer-events-none absolute inset-y-0 left-1/2 hidden h-full w-full -translate-x-1/2 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.55),_transparent_55%)] sm:block" />
 
       <div className="mx-auto max-w-6xl px-4">
-        <div className="overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/85 shadow-glow backdrop-blur">
+        <RevealOnScroll className="overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/85 shadow-glow backdrop-blur">
           <div className="grid items-center gap-10 p-8 md:p-12 lg:grid-cols-[minmax(0,360px)_1fr]">
             <div className="relative mx-auto h-64 w-64 max-w-full shrink-0 sm:h-72 sm:w-72">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/20 via-white to-white shadow-[0_25px_60px_rgba(33,66,77,0.25)]" />
@@ -50,14 +51,14 @@ const ManagerIntro = () => {
                 <button
                   type="button"
                   onClick={() => openLeadForm?.()}
-                  className="inline-flex items-center justify-center rounded-full bg-dark px-8 py-3 text-sm font-semibold text-white shadow-[0_15px_30px_rgba(34,44,56,0.25)] transition hover:bg-dark/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dark"
+                  className="inline-flex items-center justify-center rounded-full bg-dark px-8 py-3 text-sm font-semibold text-white shadow-[0_15px_30px_rgba(34,44,56,0.25)] transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-dark/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dark"
                 >
                   Получить бесплатную консультацию
                 </button>
               </div>
             </div>
           </div>
-        </div>
+        </RevealOnScroll>
       </div>
     </section>
   )

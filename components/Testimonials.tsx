@@ -1,3 +1,5 @@
+import RevealOnScroll from '@/components/ui/RevealOnScroll'
+
 export default function Testimonials() {
   const testimonials = [
     {
@@ -26,30 +28,31 @@ export default function Testimonials() {
       </div>
 
       <div className="mx-auto max-w-6xl px-4">
-        <div className="mx-auto max-w-3xl text-center">
+        <RevealOnScroll className="mx-auto max-w-3xl text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Отзывы</span>
           <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Отзывы клиентов</h2>
           <p className="mt-4 text-lg text-dark/65">
             Делимся несколькими короткими отзывами от клиентов, которые оформили лизинг с нашей помощью и уже обновили свой
             автопарк.
           </p>
-        </div>
+        </RevealOnScroll>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
+        <RevealOnScroll className="mt-12 grid gap-6 md:grid-cols-3">
           {testimonials.map(({ name, quote }, index) => (
-            <figure
+            <RevealOnScroll
               key={name}
-              className="group relative h-full overflow-hidden rounded-4xl border border-white/60 bg-white/80 p-7 text-left shadow-glow backdrop-blur-2xl animate-fade-up"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              as="figure"
+              delay={index * 0.12}
+              className="group relative h-full overflow-hidden rounded-4xl border border-white/60 bg-white/80 p-7 text-left shadow-glow backdrop-blur-2xl transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02]"
             >
               <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-accent/10 blur-2xl transition-opacity duration-300 group-hover:opacity-90" />
               <blockquote className="relative text-sm leading-relaxed text-dark/70">
                 <span className="block text-lg font-semibold text-dark/80">&ldquo;{quote}&rdquo;</span>
               </blockquote>
               <figcaption className="relative mt-6 text-sm font-semibold text-dark/80">{name}</figcaption>
-            </figure>
+            </RevealOnScroll>
           ))}
-        </div>
+        </RevealOnScroll>
       </div>
     </section>
   )

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useInView } from 'framer-motion'
-
+import RevealOnScroll from '@/components/ui/RevealOnScroll'
 const integerFormatter = new Intl.NumberFormat('ru-RU')
 
 type AnimatedCounterProps = {
@@ -134,29 +134,34 @@ const Stats = () => {
       </div>
 
       <div className="mx-auto max-w-6xl px-4">
-        <div className="mx-auto max-w-3xl text-center">
+        <RevealOnScroll className="mx-auto max-w-3xl text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Наши цифры</span>
           <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Работаем с масштабом крупных игроков</h2>
           <p className="mt-4 text-base text-dark/70 md:text-lg">
             Эти показатели — результат долгосрочного сопровождения клиентов и сети проверенных партнёров.
           </p>
-        </div>
+        </RevealOnScroll>
 
-        <div className="mt-12 overflow-hidden rounded-[2.5rem] border border-white/60 bg-white/85 p-8 shadow-glow backdrop-blur">
+        <RevealOnScroll className="mt-12 overflow-hidden rounded-[2.5rem] border border-white/60 bg-white/85 p-8 shadow-glow backdrop-blur">
           <div className="grid gap-10 sm:grid-cols-3">
             {STATS.map(({ value, label, description, suffix, format }, index) => (
-              <div
+              <RevealOnScroll
                 key={label}
-                className="flex flex-col items-center gap-3 text-center animate-fade-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                delay={index * 0.12}
+                className="flex flex-col items-center gap-3 text-center transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02]"
               >
-                <AnimatedCounter value={value} suffix={suffix} format={format} className="text-4xl font-semibold text-dark sm:text-5xl" />
+                <AnimatedCounter
+                  value={value}
+                  suffix={suffix}
+                  format={format}
+                  className="text-4xl font-semibold text-dark sm:text-5xl"
+                />
                 <span className="text-sm font-semibold uppercase tracking-[0.3em] text-dark/50">{label}</span>
                 <p className="text-sm text-dark/70">{description}</p>
-              </div>
+              </RevealOnScroll>
             ))}
           </div>
-        </div>
+        </RevealOnScroll>
       </div>
     </section>
   )

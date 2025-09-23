@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState, type ChangeEvent, type FormEvent, type MouseEvent } from 'react'
 import { CloseIcon, TelegramLineIcon, WhatsAppLineIcon } from '@/components/icons'
-
+import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { DEFAULT_ERROR_MESSAGE, DEFAULT_WARNING_MESSAGE, parseLeadResponse } from '@/lib/leadResponse'
 import type { LeadFormPrefill } from '@/lib/openLeadForm'
 
@@ -300,25 +300,24 @@ export default function LeadForm() {
         </div>
 
         <div className="mx-auto max-w-4xl px-4">
-          <div className="mx-auto max-w-2xl text-center animate-fade-up" style={{ animationDelay: '0.05s' }}>
+
+
+          <RevealOnScroll className="mx-auto max-w-2xl text-center">
             <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Заявка</span>
             <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Получите персональный расчёт под ваш проект</h2>
             <p className="mt-4 text-lg text-dark/70">
               Мы перезвоним в течение 15 минут в рабочее время, уточним детали и предложим лучшие варианты от партнёров.
             </p>
-          </div>
+          </RevealOnScroll>
 
-          <div
-            className="mt-12 mx-auto max-w-xl rounded-[2.5rem] border border-white/60 bg-white/85 p-8 text-center shadow-hero backdrop-blur-2xl animate-fade-up"
-            style={{ animationDelay: '0.15s' }}
-          >
+          <RevealOnScroll className="mt-12 mx-auto max-w-xl rounded-[2.5rem] border border-white/60 bg-white/85 p-8 text-center shadow-hero backdrop-blur-2xl">
             <p className="text-base text-dark/70">
               Заявка откроется во всплывающем окне: оставьте имя и телефон, и менеджер свяжется с вами удобным способом.
             </p>
             <button
               type="button"
               onClick={handleOpenClick}
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-3 text-base font-semibold text-white shadow-glow transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-3 text-base font-semibold text-white shadow-glow transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
             >
               Оставить заявку
             </button>
@@ -330,7 +329,7 @@ export default function LeadForm() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="inline-flex items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                  className="inline-flex items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold shadow-sm transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
                   style={{
                     color: link.color,
                     backgroundColor: link.background,
@@ -349,7 +348,7 @@ export default function LeadForm() {
                 </a>
               ))}
             </div>
-          </div>
+          </RevealOnScroll>
         </div>
       </section>
 
@@ -374,6 +373,8 @@ export default function LeadForm() {
           >
             <CloseIcon className="h-5 w-5" aria-hidden />
           </button>
+
+
 
           <form onSubmit={onSubmit} className="space-y-6 px-6 pb-8 pt-14 sm:px-8 sm:pt-16">
             <h2 className="text-2xl font-semibold text-dark">Оставьте заявку</h2>
