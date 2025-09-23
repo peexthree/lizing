@@ -59,7 +59,7 @@ export default function Advantages() {
               </div>
               <div className="relative space-y-2">
                 <div className="flex flex-wrap items-baseline gap-2">
-                  <span className="text-3xl font-bold text-accent md:text-4xl">{value}</span>
+                  <span className="text-3xl font-mono font-bold text-accent md:text-4xl">{value}</span>
                   <span className="text-sm font-semibold uppercase tracking-[0.3em] text-dark/50">{label}</span>
                 </div>
                 <p className="text-sm leading-relaxed text-dark/70">{description}</p>
@@ -86,4 +86,3 @@ export default function Advantages() {
       </div>
     </section>
   )
-}

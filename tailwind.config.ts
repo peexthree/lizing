@@ -10,9 +10,30 @@ export default {
     },
     extend: {
       colors: {
-        accent: '#1E66FF',
-        dark: '#1A1F2B',
-        bgsoft: '#E6F2FF'
+        accent: '#D4AF37',
+        'accent-alt': '#8B0000',
+        dark: '#0F172A',
+        primary: '#0F172A',
+        surface: '#FFFFFF',
+        bgsoft: '#F1F5F9',
+        text: '#1E293B',
+        muted: '#64748B'
+      },
+      fontFamily: {
+        sans: ['var(--font-inter)', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        heading: ['var(--font-manrope)', 'Manrope', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        mono: [
+          'var(--font-plex-mono)',
+          'IBM Plex Mono',
+          'ui-monospace',
+          'SFMono-Regular',
+          'Menlo',
+          'Monaco',
+          'Consolas',
+          'Liberation Mono',
+          'Courier New',
+          'monospace'
+        ]
       },
       borderRadius: {
         '2xl': '1rem',
@@ -20,14 +41,14 @@ export default {
         '4xl': '2.5rem'
       },
       boxShadow: {
-        glow: '0 30px 120px -50px rgba(30, 102, 255, 0.55)',
+        glow: '0 30px 120px -50px rgba(212, 175, 55, 0.45)',
         hero: '0 45px 140px -70px rgba(15, 23, 42, 0.75)'
       },
       backgroundImage: {
         'hero-grid':
-          'radial-gradient(circle at 20% 20%, rgba(30, 102, 255, 0.2), transparent 45%), radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.15), transparent 55%)',
+          'radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.22), transparent 45%), radial-gradient(circle at 80% 0%, rgba(15, 23, 42, 0.12), transparent 55%)',
         'track-lines':
-          'repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0, rgba(255,255,255,0.06) 12px, transparent 12px, transparent 32px)'
+          'repeating-linear-gradient(90deg, rgba(148,163,184,0.08) 0, rgba(148,163,184,0.08) 12px, transparent 12px, transparent 32px)'
       },
       keyframes: {
         'fade-up': {

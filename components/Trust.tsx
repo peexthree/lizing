@@ -30,7 +30,7 @@ const Trust = () => {
               className="flex h-full flex-col items-center justify-center rounded-4xl border border-white/60 bg-white/80 p-8 text-center shadow-glow backdrop-blur-2xl animate-fade-up"
               style={{ animationDelay: `${index * 0.08}s` }}
             >
-              <div className="text-4xl font-bold text-accent md:text-5xl">{stat.value}</div>
+              <div className="text-4xl font-mono font-bold text-accent md:text-5xl">{stat.value}</div>
               <div className="mt-2 text-sm font-medium uppercase tracking-[0.3em] text-dark/45">{stat.label}</div>
             </div>
           ))}

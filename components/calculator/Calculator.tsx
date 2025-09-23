@@ -102,7 +102,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
       ? `${WRAPPER_BASE} relative flex max-h-full min-h-0 flex-col`
     : `${WRAPPER_BASE} flex flex-col`;
 
-  const headerDescription =
+   const headerDescription =
     'Плавные ползунки, мгновённый расчёт и компактный интерфейс — всё для быстрого подбора условий.';
 
   const secondaryMetrics: SummaryItemProps[] = [
@@ -127,7 +127,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
     <section id={id} className={sectionClasses}>
       {!isModal && (
         <div
-          className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(94,140,255,0.28),_transparent_55%),radial-gradient(circle_at_bottom,_rgba(29,78,216,0.32),_transparent_60%),linear-gradient(140deg,_#0f1a3b_0%,_#1e3a8a_38%,_#1e66ff_100%)]"
+          className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(15,23,42,0.45),_transparent_55%),radial-gradient(circle_at_bottom,_rgba(139,0,0,0.32),_transparent_60%),linear-gradient(140deg,_#0f172a_0%,_#1e293b_45%,_#d4af37_100%)]"
           aria-hidden
         />
       )}
@@ -162,7 +162,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
             </div>
             <div className="rounded-3xl border border-accent/20 bg-gradient-to-br from-white to-white/70 px-5 py-4 text-right shadow-sm">
               <p className="text-[11px] font-semibold uppercase tracking-[0.35em] text-dark/40">Ежемесячный платёж</p>
-              <p className="mt-2 text-3xl font-semibold text-accent sm:text-4xl">{formatRub(monthlyPayment)}</p>
+              <p className="mt-2 text-3xl font-mono font-semibold text-accent sm:text-4xl">{formatRub(monthlyPayment)}</p>
               <p className="mt-1 text-xs text-dark/50">Всего по договору: {formatRub(total)}</p>
             </div>
           </div>
@@ -309,7 +309,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                     ? 'outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white/90'
                     : ''
                 }`}
-              >
+ >
                 {isModal && (
                   <div className="flex justify-between">
                     <button
@@ -334,7 +334,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                         <div className="text-[11px] font-semibold uppercase tracking-[0.35em] text-dark/40">
                           Ваш платёж
                         </div>
-                        <div className="text-2xl font-semibold text-accent">{formatRub(monthlyPayment)}</div>
+                        <div className="text-2xl font-mono font-semibold text-accent">{formatRub(monthlyPayment)}</div>
                       </div>
                     </div>
                   </div>
@@ -364,7 +364,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                       <button
                         type="button"
                         onClick={handleApplyToForm}
-                        className="inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-accent via-accent to-blue-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_24px_45px_-24px_rgba(30,102,255,0.75)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                        className="inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-accent via-accent to-accent-alt px-6 py-3 text-sm font-semibold text-white shadow-[0_24px_45px_-24px_rgba(212,175,55,0.6)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
                       >
                         Перейти к заявке
                         <ArrowRight className="h-4 w-4" aria-hidden />
@@ -389,8 +389,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                           onClick={() => handleShare('whatsapp')}
                           className="inline-flex items-center gap-2 rounded-full border border-dark/10 bg-white px-4 py-2 text-sm font-medium text-dark/80 transition hover:border-accent hover:text-accent"
                         >
-                          <MessageCircle className="h-4 w-4" aria-hidden />
-                          WhatsApp
+                          <MessageCircle className="h-4 w-4" aria-hidden />                          WhatsApp
                         </button>
                         <button
                           type="button"
@@ -398,7 +397,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                           className="inline-flex items-center gap-2 rounded-full border border-dark/10 bg-white px-4 py-2 text-sm font-medium text-dark/80 transition hover:border-accent hover:text-accent"
                         >
                           <Mail className="h-4 w-4" aria-hidden />
-                          Email
+                            Email
                         </button>
                       </div>
                     </div>
@@ -423,7 +422,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
               <button
                 type="button"
                 onClick={() => setStep('results')}
-                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_-24px_rgba(30,102,255,0.85)] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_-24px_rgba(212,175,55,0.6)] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
               >
                 Далее
               </button>
@@ -457,7 +456,7 @@ function Field({ label, valueNode, hint, children }: FieldProps) {
 
 function ValueBadge({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-accent/30 bg-white px-3 py-1 text-sm font-semibold text-dark">
+    <span className="inline-flex items-center rounded-full border border-accent/30 bg-white px-3 py-1 text-sm font-mono font-semibold text-dark">
       {children}
     </span>
   );
@@ -467,7 +466,7 @@ function SummaryItem({ label, value, description }: SummaryItemProps) {
   return (
     <div className="flex flex-col gap-1 rounded-2xl border border-white/60 bg-white/80 px-4 py-3 text-left shadow-inner">
       <span className="text-[10px] font-semibold uppercase tracking-[0.35em] text-dark/40">{label}</span>
-      <span className="text-sm font-semibold text-dark">{value}</span>
+      <span className="text-sm font-mono font-semibold text-dark">{value}</span>
       {description ? <span className="text-xs text-dark/50">{description}</span> : null}
     </div>
   );

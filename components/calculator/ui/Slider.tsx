@@ -41,7 +41,7 @@ const Slider = React.forwardRef<
         }
       }
 
-      if (event.ctrlKey || event.metaKey) return;
+       if (event.ctrlKey || event.metaKey) return;
 
       const target = event.currentTarget as HTMLElement | null;
       if (!target) return;
@@ -66,9 +66,9 @@ const Slider = React.forwardRef<
       {...props}
     >
       <SliderPrimitive.Track className="relative h-[2px] w-full grow overflow-hidden rounded-full bg-dark/10">
-        <SliderPrimitive.Range className="absolute h-full bg-gradient-to-r from-accent to-blue-500" />
+        <SliderPrimitive.Range className="absolute h-full bg-gradient-to-r from-accent via-accent to-accent-alt" />
       </SliderPrimitive.Track>
-      <SliderPrimitive.Thumb className="block h-3 w-3 rounded-full border border-white bg-accent shadow-[0_6px_14px_-6px_rgba(30,102,255,0.65)] transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:opacity-50" />
+      <SliderPrimitive.Thumb className="block h-3 w-3 rounded-full border border-white bg-accent shadow-[0_6px_14px_-6px_rgba(212,175,55,0.55)] transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:opacity-50" />
     </SliderPrimitive.Root>
   );
 });

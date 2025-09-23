@@ -1,20 +1,31 @@
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
-import localFont from 'next/font/local'
+import { IBM_Plex_Mono, Inter, Manrope } from 'next/font/google'
 
 import Header from '@/components/Header'
 import ScrollEffects from '@/components/ScrollEffects'
 
 import './globals.css'
 
-const inter = localFont({
-  src: [
-    { path: '../public/fonts/inter-cyrillic-400-normal.woff2', weight: '400', style: 'normal' },
-    { path: '../public/fonts/inter-cyrillic-500-normal.woff2', weight: '500', style: 'normal' },
-    { path: '../public/fonts/inter-cyrillic-600-normal.woff2', weight: '600', style: 'normal' },
-    { path: '../public/fonts/inter-cyrillic-700-normal.woff2', weight: '700', style: 'normal' },
-  ],
+const inter = Inter({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
+  variable: '--font-inter',
+})
+
+const manrope = Manrope({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['600', '700', '800'],
+  display: 'swap',
+  variable: '--font-manrope',
+})
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-plex-mono',
 })
 
 const metadataBase = (() => {
@@ -65,7 +76,7 @@ export const viewport: Viewport = {
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <html lang="ru">
+    <html lang="ru" className={`${inter.variable} ${manrope.variable} ${ibmPlexMono.variable}`}>
       <body className={`${inter.className} antialiased`}>
         <div className="global-background" aria-hidden="true">
           <div className="global-background__overlay" />
