@@ -15,11 +15,9 @@ type AnimatedCounterProps = {
   className?: string
 }
 
-function easeOutCubic(x: number) {
-  return 1 - Math.pow(1 - x, 3)
-}
+const easeOutCubic = (x: number) => 1 - Math.pow(1 - x, 3)
 
-function AnimatedCounter({
+const AnimatedCounter = ({
   value,
   duration = 1600,
   decimals = 0,
@@ -27,13 +25,15 @@ function AnimatedCounter({
   suffix = '',
   format,
   className,
-}: AnimatedCounterProps) {
+}: AnimatedCounterProps) => {
   const ref = useRef<HTMLSpanElement | null>(null)
   const isInView = useInView(ref, { once: true, margin: '-20% 0px' })
   const [displayValue, setDisplayValue] = useState(0)
 
   useEffect(() => {
-    if (!isInView) return
+    if (!isInView) {
+      return
+    }
 
     const prefersReducedMotion =
       typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -43,7 +43,7 @@ function AnimatedCounter({
       return
     }
 
-    let animationFrame: number
+    let animationFrame = 0
     const start = performance.now()
 
     const step = (now: number) => {
@@ -64,7 +64,7 @@ function AnimatedCounter({
     return () => {
       cancelAnimationFrame(animationFrame)
     }
-  }, [isInView, value, duration])
+  }, [duration, isInView, value])
 
   const resolvedValue = useMemo(() => {
     if (decimals > 0) {
@@ -87,7 +87,7 @@ function AnimatedCounter({
     }
 
     return integerFormatter.format(resolvedValue)
-  }, [format, resolvedValue, decimals])
+  }, [decimals, format, resolvedValue])
 
   return (
     <span ref={ref} className={className}>
@@ -98,11 +98,11 @@ function AnimatedCounter({
   )
 }
 
-const stats = [
+const STATS = [
   {
     value: 26,
     label: 'лет на рынке',
-    description: 'Команда с реальным опытом в подборе техники и финансировании проектов.',
+    description: 'Команда с опытом в подборе техники и финансировании проектов.',
   },
   {
     value: 690_000,
@@ -124,7 +124,7 @@ const stats = [
   format?: (value: number) => string
 }>
 
-export default function Stats() {
+const Stats = () => {
   return (
     <section className="relative overflow-hidden py-16">
       <div className="absolute inset-0 -z-10">
@@ -138,24 +138,19 @@ export default function Stats() {
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Наши цифры</span>
           <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Работаем с масштабом крупных игроков</h2>
           <p className="mt-4 text-base text-dark/70 md:text-lg">
-            Эти показатели — результат долгосрочного сопровождения клиентов и выстроенной сети проверенных партнёров.
+            Эти показатели — результат долгосрочного сопровождения клиентов и сети проверенных партнёров.
           </p>
         </div>
 
         <div className="mt-12 overflow-hidden rounded-[2.5rem] border border-white/60 bg-white/85 p-8 shadow-glow backdrop-blur">
           <div className="grid gap-10 sm:grid-cols-3">
-            {stats.map(({ value, label, description, suffix, format }, index) => (
+            {STATS.map(({ value, label, description, suffix, format }, index) => (
               <div
                 key={label}
                 className="flex flex-col items-center gap-3 text-center animate-fade-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <AnimatedCounter
-                  value={value}
-                  suffix={suffix}
-                  format={format}
-                  className="text-4xl font-semibold text-dark sm:text-5xl"
-                />
+                <AnimatedCounter value={value} suffix={suffix} format={format} className="text-4xl font-semibold text-dark sm:text-5xl" />
                 <span className="text-sm font-semibold uppercase tracking-[0.3em] text-dark/50">{label}</span>
                 <p className="text-sm text-dark/70">{description}</p>
               </div>
@@ -166,3 +161,5 @@ export default function Stats() {
     </section>
   )
 }
+
+export default Stats

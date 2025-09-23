@@ -1,28 +1,24 @@
 'use client'
 
 import Image from 'next/image'
-import {
-  ArrowDown,
-  CheckCircle2,
-  GaugeCircle,
-  Sparkles,
-  Timer
-} from 'lucide-react'
-import { openLeadForm } from '@/lib/openLeadForm'
+import { ArrowDown, CheckCircle2, GaugeCircle, Sparkles, Timer } from 'lucide-react'
+
 import { openCalculator } from '@/lib/openCalculator'
-const features = [
+import { openLeadForm } from '@/lib/openLeadForm'
+
+const FEATURES = [
   'Аванс от 0% и одобрение в течение суток',
   'Легковые, грузовые и спецтехника для бизнеса и частных лиц',
   '50+ банков и лизинговых компаний в одном окне',
-  'Оформление дистанционно по всей России'
-]
+  'Оформление дистанционно по всей России',
+] as const
 
-const contacts = [
-  { label: '📞8 800 444-45-84', description: 'Бесплатная консультация эксперта' },
-  { label: ' Устали от конских ставок?', description: '⚡Начните экономить на лизинге уже сегодня' }
-]
+const CONTACT_POINTS = [
+  { label: '📞 8 800 444-45-84', description: 'Бесплатная консультация эксперта' },
+  { label: 'Устали от высоких ставок?', description: '⚡ Начните экономить на лизинге уже сегодня' },
+] as const
 
-export default function HeroSection() {
+const HeroSection = () => {
   return (
     <section className="relative overflow-hidden py-24 sm:py-32 lg:py-36">
       <div className="absolute inset-0">
@@ -34,10 +30,7 @@ export default function HeroSection() {
           sizes="100vw"
           className="object-cover"
         />
-        <div
-          className="absolute inset-0 bg-gradient-to-br from-dark/95 via-dark/80 to-dark/90"
-          aria-hidden
-        />
+        <div className="absolute inset-0 bg-gradient-to-br from-dark/95 via-dark/80 to-dark/90" aria-hidden />
         <div className="absolute inset-0 bg-hero-grid opacity-40 mix-blend-screen" aria-hidden />
       </div>
 
@@ -67,14 +60,14 @@ export default function HeroSection() {
               className="max-w-2xl text-lg text-white/80 opacity-0 animate-fade-up sm:text-xl"
               style={{ animationDelay: '280ms' }}
             >
-              Работаем по всей России. Индивидуальные условия.
+              Работаем по всей России и согласуем индивидуальные условия под каждый проект.
             </p>
 
             <ul
               className="grid gap-3 text-sm text-white/85 opacity-0 animate-fade-up sm:grid-cols-2"
               style={{ animationDelay: '320ms' }}
             >
-              {features.map(feature => (
+              {FEATURES.map(feature => (
                 <li
                   key={feature}
                   className="flex items-center gap-2 rounded-3xl border border-white/25 bg-white/10 px-4 py-3 shadow-sm backdrop-blur transition-transform duration-300 hover:-translate-y-0.5"
@@ -88,7 +81,7 @@ export default function HeroSection() {
             <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:items-center">
               <button
                 type="button"
-                onClick={() => openLeadForm()}
+                onClick={openLeadForm}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-10 py-4 text-base font-semibold text-white shadow-glow transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
                 style={{ animationDelay: '380ms' }}
               >
@@ -97,18 +90,17 @@ export default function HeroSection() {
               </button>
               <button
                 type="button"
-                onClick={() => openCalculator()}
+                onClick={openCalculator}
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:border-white/40 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
                 style={{ animationDelay: '420ms' }}
               >
                 <GaugeCircle className="h-5 w-5" aria-hidden />
                 Рассчитать платёж
-</button>
-         
+              </button>
             </div>
 
             <div className="flex flex-col gap-6 text-sm text-white/70 sm:flex-row sm:flex-wrap sm:items-center">
-              {contacts.map(contact => (
+              {CONTACT_POINTS.map(contact => (
                 <div key={contact.label} className="text-center sm:text-left">
                   <span className="block text-white/50">{contact.label}</span>
                   <p className="font-medium text-white">{contact.description}</p>
@@ -130,3 +122,5 @@ export default function HeroSection() {
     </section>
   )
 }
+
+export default HeroSection

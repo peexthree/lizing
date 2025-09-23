@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 import { openLeadForm } from '@/lib/openLeadForm'
 
-export default function ManagerIntro() {
+const ManagerIntro = () => {
   return (
     <section className="relative overflow-hidden py-20">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-accent/15 to-transparent" />
@@ -28,35 +28,28 @@ export default function ManagerIntro() {
             </div>
 
             <div className="space-y-6 text-dark lg:ml-4">
-              <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">
-                Почему мы этим занимаемся
-              </span>
+              <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Почему мы этим занимаемся</span>
               <div className="space-y-4 text-base leading-relaxed text-dark/70 md:text-lg lg:max-w-2xl">
                 <h2 className="text-3xl font-bold text-dark md:text-4xl">Эксперт по финансовым решениям</h2>
-                <p>Здравствуйте, меня зовут Денис.</p>
+                <p>Здравствуйте! Меня зовут Денис.</p>
                 <p>
-                  Более 10 лет я работал в сфере корпоративных продаж,b2b,b2c и финансов. Я видел сотни предпринимателей, которые
-                  были вынуждены брать дорогие кредиты, замораживать оборотные средства и мириться с банковской
-                  бюрократией, чтобы получить нужную технику или транспорт. Меня это не устраивало.
+                  Более десяти лет я работал в корпоративных продажах (B2B и B2C) и финансах. За это время видел десятки команд,
+                  которые брали дорогие кредиты, замораживали оборотные средства и мирились с бюрократией, чтобы получить технику или транспорт.
                 </p>
                 <p>
-                  Я задался целью найти более умное и выгодное решение. Изучив рынок изнутри, я понял: лизинг — это тот
-                  самый инструмент, который в текущих реалиях позволяет бизнесу расти, а частным лицам — получать
-                  желаемое, не попадая в кредитную кабалу.
+                  Я решил найти более гибкий вариант. Изучив рынок изнутри, понял: лизинг помогает бизнесу расти, а частным клиентам — покупать нужную технику без кредитной кабалы.
                 </p>
                 <p>
-                  Моя миссия — быть вашим проводником в мире лизинга. Я не просто продаю услугу. Я разбираюсь в вашей
-                  задаче и нахожу для вас тот самый вариант, который будет работать на вас. Без скрытых платежей, мелкого
-                  шрифта и недельных ожиданий.
+                  Моя задача — быть вашим проводником в лизинге. Вместо шаблонной продажи я разбираюсь в вашей задаче и подбираю решение без скрытых платежей и мелкого шрифта.
                 </p>
                 <p>
-                  Давайте обсудим вашу цель? Опишите, что вам необходимо, и я предложу четкий и прозрачный план действий.
+                  Давайте обсудим, что вам нужно. Опишите цель — и я предложу чёткий, прозрачный план действий.
                 </p>
               </div>
               <div>
                 <button
                   type="button"
-                  onClick={() => openLeadForm()}
+                  onClick={openLeadForm}
                   className="inline-flex items-center justify-center rounded-full bg-dark px-8 py-3 text-sm font-semibold text-white shadow-[0_15px_30px_rgba(34,44,56,0.25)] transition hover:bg-dark/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dark"
                 >
                   Получить бесплатную консультацию
@@ -69,3 +62,5 @@ export default function ManagerIntro() {
     </section>
   )
 }
+
+export default ManagerIntro

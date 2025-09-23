@@ -1,13 +1,13 @@
-export default function Trust() {
-  const stats = [
-    { value: '500+', label: 'сделок в год' },
-    { value: '10 000', label: 'клиентов по всей России' },
-    { value: '35', label: 'банков и лизинговых партнёров' },
-    { value: '92%', label: 'решений доводим до выдачи техники' }
-  ]
+const STATS = [
+  { value: '500+', label: 'сделок в год' },
+  { value: '10 000', label: 'клиентов по всей России' },
+  { value: '35', label: 'банков и лизинговых партнёров' },
+  { value: '92%', label: 'решений доводим до выдачи техники' },
+] as const
 
+const Trust = () => {
   return (
-      <section className="relative overflow-hidden py-20">
+    <section className="relative overflow-hidden py-20">
       <div className="absolute inset-0 -z-10">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/40 to-transparent" />
         <div className="pointer-events-none absolute left-[12%] top-[8rem] hidden h-[260px] w-[260px] rounded-full bg-accent/20 blur-3xl opacity-80 md:block" />
@@ -19,12 +19,12 @@ export default function Trust() {
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Доверие</span>
           <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Цифры, которые подтверждают результат</h2>
           <p className="mt-4 text-lg text-dark/65">
-            Мы развиваем партнёрскую сеть, контролируем сроки и сопровождаем клиентов по всей России. Делимся ключевыми показателями, которые получаем ежегодно.
+            Развиваем партнёрскую сеть, контролируем сроки и сопровождаем клиентов по всей России. Делимся ключевыми показателями за прошлый год.
           </p>
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {stats.map((stat, index) => (
+          {STATS.map((stat, index) => (
             <div
               key={stat.value}
               className="flex h-full flex-col items-center justify-center rounded-4xl border border-white/60 bg-white/80 p-8 text-center shadow-glow backdrop-blur-2xl animate-fade-up"
@@ -39,3 +39,5 @@ export default function Trust() {
     </section>
   )
 }
+
+export default Trust
