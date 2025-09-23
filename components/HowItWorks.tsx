@@ -1,29 +1,29 @@
-import { CheckCircle2, FileSignature, FileText, MessageCircle, Truck } from 'lucide-react'
+import { CheckCircleIcon, FileTextIcon, MessageIcon, SignatureIcon, TruckIcon } from '@/components/icons'
 
 export default function HowItWorks() {
   const steps = [
     {
-      icon: FileText,
+      icon: FileTextIcon,
       title: 'Оставляете заявку',
       text: 'Передаёте информацию о технике и компании любым удобным способом — онлайн или по телефону.'
     },
     {
-      icon: MessageCircle,
+      icon: MessageIcon,
       title: 'Консультация',
       text: 'Связываемся, уточняем задачи, собираем документы и договариваемся о приоритетных программах.'
     },
     {
-      icon: CheckCircle2,
+      icon: CheckCircleIcon,
       title: 'Одобрение',
       text: 'В течение 24 часов получаете предварительное решение с расчётом платежей и рекомендациями.'
     },
     {
-      icon: FileSignature,
+      icon: SignatureIcon,
       title: 'Документы',
       text: 'Готовим договор, проверяем страхование и спецификации, согласовываем график платежей.'
     },
     {
-      icon: Truck,
+      icon: TruckIcon,
       title: 'Выдача техники',
       text: 'Организуем приёмку, доставку и финальный контроль, чтобы техника вышла на линию в срок.'
     }
@@ -73,7 +73,7 @@ export default function HowItWorks() {
             href="#lead-form"
             className="group inline-flex items-center gap-3 overflow-hidden rounded-full border border-accent/40 bg-white/40 px-8 py-3 text-sm font-semibold text-accent backdrop-blur-md transition hover:border-accent hover:bg-white/70 hover:shadow-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
           >
-            <MessageCircle aria-hidden="true" className="h-5 w-5" />
+            <MessageIcon aria-hidden="true" className="h-5 w-5" />
             Получить расчёт
           </a>
         </div>

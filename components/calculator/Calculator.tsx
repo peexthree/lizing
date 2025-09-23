@@ -3,7 +3,14 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { ArrowRight, Mail, MessageCircle, Save, Sparkles, X } from 'lucide-react';
+import {
+  ArrowRightIcon,
+  CloseIcon,
+  MailIcon,
+  MessageIcon,
+  SaveIcon,
+  SparkleIcon,
+} from '@/components/icons';
 import { SLIDER_CONFIG } from '@/config/calculator.config';
 import { useLeasingCalculator, formatRub } from '@/hooks/useLeasingCalculator';
 import Slider from '@/components/calculator/ui/Slider';
@@ -12,7 +19,7 @@ const WRAPPER_BASE = 'rounded-[28px] bg-white/95 shadow-[0_40px_90px_-55px_rgba(
 type CalculatorProps = {
   variant?: 'page' | 'modal';
   id?: string;
-onClose?: () => void;
+  onClose?: () => void;
 };
 
 type FieldProps = {
@@ -69,7 +76,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
   } = calculations;
 
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error'>('idle');
- const isModal = variant === 'modal';
+  const isModal = variant === 'modal';
   const [step, setStep] = useState<'inputs' | 'results'>(isModal ? 'inputs' : 'results');
   const inputsSectionRef = useRef<HTMLDivElement | null>(null);
   const resultsSectionRef = useRef<HTMLDivElement | null>(null);
@@ -93,16 +100,16 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
 
 
 
-   const sectionClasses = isModal ? 'flex flex-col' : 'relative overflow-hidden py-16 sm:py-20';
+  const sectionClasses = isModal ? 'flex flex-col' : 'relative overflow-hidden py-16 sm:py-20';
   const containerClasses = isModal
     ? 'flex flex-col gap-6'
     : 'relative mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 sm:px-6';
 
   const cardClasses = isModal
-      ? `${WRAPPER_BASE} relative flex max-h-full min-h-0 flex-col`
+    ? `${WRAPPER_BASE} relative flex max-h-full min-h-0 flex-col`
     : `${WRAPPER_BASE} flex flex-col`;
 
-   const headerDescription =
+  const headerDescription =
     'Плавные ползунки, мгновённый расчёт и компактный интерфейс — всё для быстрого подбора условий.';
 
   const secondaryMetrics: SummaryItemProps[] = [
@@ -142,7 +149,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
 
         <div className={cardClasses}>
           <div className="flex flex-col gap-6 px-6 pt-6 sm:flex-row sm:items-end sm:justify-between sm:px-8">
-              <div className="flex flex-1 flex-col gap-2">
+            <div className="flex flex-1 flex-col gap-2">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="text-xl font-semibold text-dark sm:text-2xl">Калькулятор лизинга</h3>
@@ -155,7 +162,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                     className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-dark/10 bg-white/90 text-dark shadow transition hover:-translate-y-0.5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
                     aria-label="Закрыть калькулятор"
                   >
-                    <X className="h-4 w-4" aria-hidden />
+                    <CloseIcon className="h-4 w-4" aria-hidden />
                   </button>
                 )}
               </div>
@@ -168,9 +175,8 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
           </div>
 
           <div
-            className={`flex flex-col gap-6 px-6 pb-6 sm:px-8 sm:pb-8 ${
-                 isModal ? 'min-h-0 overflow-y-auto' : ''
-            }`}
+            className={`flex flex-col gap-6 px-6 pb-6 sm:px-8 sm:pb-8 ${isModal ? 'min-h-0 overflow-y-auto' : ''
+              }`}
           >
             <div
               ref={inputsSectionRef}
@@ -190,126 +196,123 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                     step={SLIDER_CONFIG.cost.step}
                     onChange={handleCostChange}
                   />
-              <SliderControl
-                  value={cost}
-                  min={SLIDER_CONFIG.cost.min}
-                  max={SLIDER_CONFIG.cost.max}
-                  step={SLIDER_CONFIG.cost.step}
-                  onChange={handleCostChange}
-                />
-              </Field>
+                  <SliderControl
+                    value={cost}
+                    min={SLIDER_CONFIG.cost.min}
+                    max={SLIDER_CONFIG.cost.max}
+                    step={SLIDER_CONFIG.cost.step}
+                    onChange={handleCostChange}
+                  />
+                </Field>
 
-              <Field
-                label="Аванс"
-                valueNode={<ValueBadge>{sliderAccent}</ValueBadge>}
-                hint={advanceMode === 'percent' ? formatRub(advanceRub) : `${Math.round(advancePercent)} %`}
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <div className="inline-flex rounded-full border border-accent/30 bg-white/90 p-1 text-xs font-semibold text-accent shadow-sm">
-                    <button
-                      type="button"
-                      onClick={() => advanceMode === 'currency' && toggleAdvanceMode()}
-                      className={`rounded-full px-3 py-1 transition ${
-                        advanceMode === 'percent' ? 'bg-accent text-white shadow-sm' : 'text-accent'
-                      }`}
-                    >
-                      %
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => advanceMode === 'percent' && toggleAdvanceMode()}
-                      className={`rounded-full px-3 py-1 transition ${
-                        advanceMode === 'currency' ? 'bg-accent text-white shadow-sm' : 'text-accent'
-                      }`}
-                    >
-                      ₽
-                    </button>
+                <Field
+                  label="Аванс"
+                  valueNode={<ValueBadge>{sliderAccent}</ValueBadge>}
+                  hint={advanceMode === 'percent' ? formatRub(advanceRub) : `${Math.round(advancePercent)} %`}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="inline-flex rounded-full border border-accent/30 bg-white/90 p-1 text-xs font-semibold text-accent shadow-sm">
+                      <button
+                        type="button"
+                        onClick={() => advanceMode === 'currency' && toggleAdvanceMode()}
+                        className={`rounded-full px-3 py-1 transition ${advanceMode === 'percent' ? 'bg-accent text-white shadow-sm' : 'text-accent'
+                          }`}
+                      >
+                        %
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => advanceMode === 'percent' && toggleAdvanceMode()}
+                        className={`rounded-full px-3 py-1 transition ${advanceMode === 'currency' ? 'bg-accent text-white shadow-sm' : 'text-accent'
+                          }`}
+                      >
+                        ₽
+                      </button>
+                    </div>
+                    <span className="text-xs text-dark/50">
+                      {advanceMode === 'percent' ? '0–90 %' : `${formatRub(0)} – ${formatRub(cost)}`}
+                    </span>
                   </div>
-                  <span className="text-xs text-dark/50">
-                    {advanceMode === 'percent' ? '0–90 %' : `${formatRub(0)} – ${formatRub(cost)}`}
-                  </span>
-                </div>
-               <SliderControl
-                  value={advance}
-                  min={
-                    advanceMode === 'percent'
-                      ? SLIDER_CONFIG.advancePercent.min
-                      : SLIDER_CONFIG.advanceCurrency.min
-                  }
-                  max={advanceMode === 'percent' ? SLIDER_CONFIG.advancePercent.max : cost}
-                  step={
-                    advanceMode === 'percent'
-                      ? SLIDER_CONFIG.advancePercent.step
-                      : SLIDER_CONFIG.advanceCurrency.step
-                  }
-                  onChange={(value) => handleFieldChange('advance', value)}
-                />
-              </Field>
+                  <SliderControl
+                    value={advance}
+                    min={
+                      advanceMode === 'percent'
+                        ? SLIDER_CONFIG.advancePercent.min
+                        : SLIDER_CONFIG.advanceCurrency.min
+                    }
+                    max={advanceMode === 'percent' ? SLIDER_CONFIG.advancePercent.max : cost}
+                    step={
+                      advanceMode === 'percent'
+                        ? SLIDER_CONFIG.advancePercent.step
+                        : SLIDER_CONFIG.advanceCurrency.step
+                    }
+                    onChange={(value) => handleFieldChange('advance', value)}
+                  />
+                </Field>
 
-              <Field
-                label="Срок договора, мес."
-                valueNode={<ValueBadge>{Math.round(term)} мес.</ValueBadge>}
-              >
-                   <SliderControl
-                  value={term}
-                  min={SLIDER_CONFIG.term.min}
-                  max={SLIDER_CONFIG.term.max}
-                  step={SLIDER_CONFIG.term.step}
-                  onChange={(value) => handleFieldChange('term', value)}
-                />
-                <div className="flex justify-between text-xs text-dark/40">
-                  <span>{SLIDER_CONFIG.term.min} мес.</span>
-                  <span>{SLIDER_CONFIG.term.max} мес.</span>
-                </div>
-              </Field>
+                <Field
+                  label="Срок договора, мес."
+                  valueNode={<ValueBadge>{Math.round(term)} мес.</ValueBadge>}
+                >
+                  <SliderControl
+                    value={term}
+                    min={SLIDER_CONFIG.term.min}
+                    max={SLIDER_CONFIG.term.max}
+                    step={SLIDER_CONFIG.term.step}
+                    onChange={(value) => handleFieldChange('term', value)}
+                  />
+                  <div className="flex justify-between text-xs text-dark/40">
+                    <span>{SLIDER_CONFIG.term.min} мес.</span>
+                    <span>{SLIDER_CONFIG.term.max} мес.</span>
+                  </div>
+                </Field>
 
-              <Field
-                label="Ставка, % годовых"
-                valueNode={<ValueBadge>{Number(rate.toFixed(2))} %</ValueBadge>}
-              >
-               <SliderControl
-                  value={rate}
-                  min={SLIDER_CONFIG.rate.min}
-                  max={SLIDER_CONFIG.rate.max}
-                  step={SLIDER_CONFIG.rate.step}
-                  onChange={(value) => handleFieldChange('rate', value)}
-                />
-                <div className="flex justify-between text-xs text-dark/40">
-                  <span>{SLIDER_CONFIG.rate.min} %</span>
-                  <span>{SLIDER_CONFIG.rate.max} %</span>
-                </div>
-              </Field>
+                <Field
+                  label="Ставка, % годовых"
+                  valueNode={<ValueBadge>{Number(rate.toFixed(2))} %</ValueBadge>}
+                >
+                  <SliderControl
+                    value={rate}
+                    min={SLIDER_CONFIG.rate.min}
+                    max={SLIDER_CONFIG.rate.max}
+                    step={SLIDER_CONFIG.rate.step}
+                    onChange={(value) => handleFieldChange('rate', value)}
+                  />
+                  <div className="flex justify-between text-xs text-dark/40">
+                    <span>{SLIDER_CONFIG.rate.min} %</span>
+                    <span>{SLIDER_CONFIG.rate.max} %</span>
+                  </div>
+                </Field>
 
-              <Field
-                label="Остаточный платёж, %"
-                valueNode={<ValueBadge>{Math.round(residual)} %</ValueBadge>}
-                hint={formatRub(residualRub)}
-              >
-             <SliderControl
-                  value={residual}
-                  min={SLIDER_CONFIG.residual.min}
-                  max={SLIDER_CONFIG.residual.max}
-                  step={SLIDER_CONFIG.residual.step}
-                  onChange={(value) => handleFieldChange('residual', value)}
-                />
-                <div className="flex justify-between text-xs text-dark/40">
-                  <span>{SLIDER_CONFIG.residual.min} %</span>
-                  <span>{SLIDER_CONFIG.residual.max} %</span>
-                </div>
-              </Field>
+                <Field
+                  label="Остаточный платёж, %"
+                  valueNode={<ValueBadge>{Math.round(residual)} %</ValueBadge>}
+                  hint={formatRub(residualRub)}
+                >
+                  <SliderControl
+                    value={residual}
+                    min={SLIDER_CONFIG.residual.min}
+                    max={SLIDER_CONFIG.residual.max}
+                    step={SLIDER_CONFIG.residual.step}
+                    onChange={(value) => handleFieldChange('residual', value)}
+                  />
+                  <div className="flex justify-between text-xs text-dark/40">
+                    <span>{SLIDER_CONFIG.residual.min} %</span>
+                    <span>{SLIDER_CONFIG.residual.max} %</span>
+                  </div>
+                </Field>
+              </div>
             </div>
- </div>
-           
+
             {(!isModal || step === 'results') && (
               <div
                 ref={resultsSectionRef}
                 tabIndex={isModal ? -1 : undefined}
-                className={`flex flex-col gap-6 ${
-                  isModal
+                className={`flex flex-col gap-6 ${isModal
                     ? 'outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white/90'
                     : ''
-                }`}
- >
+                  }`}
+              >
                 {isModal && (
                   <div className="flex justify-between">
                     <button
@@ -345,7 +348,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                   <ul className="mt-3 space-y-2 text-sm text-dark/75">
                     {summaryLines.map((line) => (
                       <li key={line} className="flex items-start gap-2 leading-relaxed">
-                        <Sparkles className="mt-0.5 h-4 w-4 text-accent" aria-hidden />
+                        <SparkleIcon className="mt-0.5 h-4 w-4 text-accent" aria-hidden />
                         <span>{line}</span>
                       </li>
                     ))}
@@ -365,16 +368,17 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                         type="button"
                         onClick={handleApplyToForm}
                         className="inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-accent via-accent to-accent-alt px-6 py-3 text-sm font-semibold text-white shadow-[0_24px_45px_-24px_rgba(212,175,55,0.6)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+
                       >
                         Перейти к заявке
-                        <ArrowRight className="h-4 w-4" aria-hidden />
+                        <ArrowRightIcon className="h-4 w-4" aria-hidden />
                       </button>
                       <button
                         type="button"
                         onClick={handleSaveClick}
                         className="inline-flex items-center justify-center gap-2 rounded-full border border-accent/30 bg-white/95 px-6 py-3 text-sm font-semibold text-accent shadow-inner transition hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
                       >
-                        <Save className="h-4 w-4" aria-hidden />
+                        <SaveIcon className="h-4 w-4" aria-hidden />
                         Сохранить расчёт
                       </button>
                     </div>
@@ -389,15 +393,15 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                           onClick={() => handleShare('whatsapp')}
                           className="inline-flex items-center gap-2 rounded-full border border-dark/10 bg-white px-4 py-2 text-sm font-medium text-dark/80 transition hover:border-accent hover:text-accent"
                         >
-                          <MessageCircle className="h-4 w-4" aria-hidden />                          WhatsApp
+                          <MessageIcon className="h-4 w-4" aria-hidden />                          WhatsApp
                         </button>
                         <button
                           type="button"
                           onClick={() => handleShare('email')}
                           className="inline-flex items-center gap-2 rounded-full border border-dark/10 bg-white px-4 py-2 text-sm font-medium text-dark/80 transition hover:border-accent hover:text-accent"
                         >
-                          <Mail className="h-4 w-4" aria-hidden />
-                            Email
+                          <MailIcon className="h-4 w-4" aria-hidden />
+                          Email
                         </button>
                       </div>
                     </div>
@@ -417,11 +421,12 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
             )}
           </div>
 
- {isModal && step === 'inputs' && (
+          {isModal && step === 'inputs' && (
             <div className="mt-4 flex justify-end sm:mt-6">
               <button
                 type="button"
                 onClick={() => setStep('results')}
+
                 className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_-24px_rgba(212,175,55,0.6)] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
               >
                 Далее
@@ -430,7 +435,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
           )}
 
 
-      
+
 
 
         </div>

@@ -1,27 +1,27 @@
-import { BadgePercent, Handshake, Medal, Timer } from 'lucide-react'
+import { BadgePercentIcon, HandshakeIcon, MedalIcon, TimerIcon } from '@/components/icons'
 
 export default function Advantages() {
   const highlights = [
     {
-      icon: Medal,
+      icon: MedalIcon,
       value: '15 лет',
       label: 'опыта',
       description: 'С 2009 года сопровождаем сделки по лизингу и знаем требования банков изнутри.'
     },
     {
-      icon: Handshake,
+      icon: HandshakeIcon,
       value: '120+',
       label: 'партнёров',
       description: 'Работаем с банками, лизинговыми компаниями и страховыми, чтобы подобрать лучшее решение.'
     },
     {
-      icon: Timer,
+      icon: TimerIcon,
       value: '1 день',
       label: 'до одобрения',
       description: 'Предварительное решение с расчётом платежей получаете в течение 24 часов.'
     },
     {
-      icon: BadgePercent,
+      icon: BadgePercentIcon,
       value: 'от 0%',
       label: 'переплата',
       description: 'Подбираем программы с минимальной ставкой и комфортным графиком платежей.'

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Calculator as CalculatorIcon, Sparkles } from 'lucide-react'
+import { CalculatorIcon, SparkleIcon } from '@/components/icons'
 
 export default function CalculatorModal() {
   return (
@@ -17,7 +17,7 @@ export default function CalculatorModal() {
 
       <div className="relative mx-auto flex max-w-5xl flex-col items-center gap-10 px-4 text-center text-white">
         <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/80 shadow-lg backdrop-blur">
-          <Sparkles className="h-4 w-4 text-accent" aria-hidden />
+          <SparkleIcon className="h-4 w-4 text-accent" aria-hidden />
           Онлайн-расчёт
         </span>
 

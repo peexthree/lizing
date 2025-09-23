@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { ArrowDown, CheckCircle2, GaugeCircle, Sparkles, Timer } from 'lucide-react'
+import { ArrowDownIcon, CheckCircleIcon, GaugeIcon, SparkleIcon, TimerIcon } from '@/components/icons'
 
 import { openCalculator } from '@/lib/openCalculator'
 import { openLeadForm } from '@/lib/openLeadForm'
@@ -42,7 +42,7 @@ const HeroSection: React.FC = () => {
               className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/70 shadow-sm backdrop-blur opacity-0 animate-fade-up"
               style={{ animationDelay: '120ms' }}
             >
-              <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden />
+              <SparkleIcon className="h-3.5 w-3.5 text-accent" aria-hidden />
               Быстрый старт
             </span>
 
@@ -73,7 +73,7 @@ const HeroSection: React.FC = () => {
                   key={feature}
                   className="flex items-center gap-2 rounded-3xl border border-white/25 bg-white/10 px-4 py-3 shadow-sm backdrop-blur transition-transform duration-300 hover:-translate-y-0.5"
                 >
-                  <CheckCircle2 className="h-4 w-4 text-accent" aria-hidden />
+                  <CheckCircleIcon className="h-4 w-4 text-accent" aria-hidden />
                   <span>{feature}</span>
                 </li>
               ))}
@@ -86,7 +86,7 @@ const HeroSection: React.FC = () => {
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-10 py-4 text-base font-semibold text-white shadow-glow transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
                 style={{ animationDelay: '380ms' }}
               >
-                <Timer className="h-5 w-5" aria-hidden />
+                <TimerIcon className="h-5 w-5" aria-hidden />
                 Оставить заявку
               </button>
               <button
@@ -95,7 +95,7 @@ const HeroSection: React.FC = () => {
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:border-white/40 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
                 style={{ animationDelay: '420ms' }}
               >
-                <GaugeCircle className="h-5 w-5" aria-hidden />
+                <GaugeIcon className="h-5 w-5" aria-hidden />
                 Рассчитать платёж
               </button>
             </div>
@@ -110,7 +110,7 @@ const HeroSection: React.FC = () => {
 
               <div className="flex items-center gap-3 rounded-3xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white shadow-sm backdrop-blur">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-accent/40 bg-accent/20">
-                  <ArrowDown className="h-5 w-5 text-accent" aria-hidden />
+                  <ArrowDownIcon className="h-5 w-5 text-accent" aria-hidden />
                 </span>
                 <p className="max-w-xs">
                   Прокрутите вниз: мы уже подсветили ключевые условия именно для вас.
