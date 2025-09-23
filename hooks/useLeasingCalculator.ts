@@ -157,8 +157,7 @@ export function useLeasingCalculator() {
     switch (field) {
       case 'cost':
         dispatch({
-         type: 'SET_FIELD',
-          field,
+         type: 'SET_COST',
           value: clamp(numericValue, SLIDER_CONFIG.cost.min, SLIDER_CONFIG.cost.max),
         });
         break;
