@@ -1,3 +1,5 @@
+import RevealOnScroll from '@/components/ui/RevealOnScroll'
+
 export const faq = [
   {
     q: 'Какие документы нужны?',
@@ -32,17 +34,18 @@ const FAQ = () => {
       </div>
 
       <div className="mx-auto max-w-5xl px-4">
-        <div className="text-center animate-fade-up" style={{ animationDelay: '0.05s' }}>
+        <RevealOnScroll className="text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Частые вопросы</span>
           <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Ответы, которые экономят время на созвоне</h2>
-        </div>
+        </RevealOnScroll>
 
-        <div className="mt-12 space-y-4">
+        <RevealOnScroll className="mt-12 space-y-4">
           {faq.map((item, index) => (
-            <details
+            <RevealOnScroll
               key={item.q}
-              className="group relative overflow-hidden rounded-4xl border border-white/60 bg-white/85 p-6 shadow-glow backdrop-blur-xl transition focus-visible:outline-none animate-fade-up"
-              style={{ animationDelay: `${index * 0.08 + 0.1}s` }}
+              as="details"
+              delay={index * 0.08 + 0.12}
+              className="group relative overflow-hidden rounded-4xl border border-white/60 bg-white/85 p-6 shadow-glow backdrop-blur-xl transition focus-visible:outline-none"
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-lg font-semibold text-dark">
                 <span className="flex items-center gap-3">
@@ -55,15 +58,15 @@ const FAQ = () => {
               </summary>
               <p className="mt-3 text-sm leading-relaxed text-dark/70">{item.a}</p>
               <div className="card-glow" aria-hidden="true" />
-            </details>
+            </RevealOnScroll>
           ))}
-        </div>
+        </RevealOnScroll>
 
-        <div className="mt-10 rounded-[2rem] border border-white/60 bg-white/85 p-6 text-center text-sm text-dark/70 shadow-glow backdrop-blur-xl">
+        <RevealOnScroll className="mt-10 rounded-[2rem] border border-white/60 bg-white/85 p-6 text-center text-sm text-dark/70 shadow-glow backdrop-blur-xl">
           <p>
             Не нашли ответ? Напишите нам в мессенджер или оставьте заявку — менеджер подключится и подберёт оптимальный формат финансирования.
           </p>
-        </div>
+        </RevealOnScroll>
       </div>
     </section>
   )

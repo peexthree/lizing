@@ -37,7 +37,7 @@ const HeroSection: React.FC = () => {
         <div className="absolute inset-0 z-20 bg-hero-grid opacity-40 mix-blend-screen" aria-hidden />
       </div>
 
-        <div className="relative z-30 mx-auto max-w-4xl px-4">
+      <div className="relative z-30 mx-auto max-w-4xl px-4">
         <div className="grid gap-12">
           <div className="space-y-8 text-white">
             <span
@@ -85,7 +85,9 @@ const HeroSection: React.FC = () => {
               <button
                 type="button"
                 onClick={() => openLeadForm?.()}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-10 py-4 text-base font-semibold text-white shadow-glow transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
+
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-10 py-4 text-base font-semibold text-white shadow-glow transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
+
                 style={{ animationDelay: '380ms' }}
               >
                 <TimerIcon className="h-5 w-5" aria-hidden />
@@ -94,7 +96,9 @@ const HeroSection: React.FC = () => {
               <button
                 type="button"
                 onClick={() => openCalculator?.()}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:border-white/40 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
+
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-white/40 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
+
                 style={{ animationDelay: '420ms' }}
               >
                 <GaugeIcon className="h-5 w-5" aria-hidden />
