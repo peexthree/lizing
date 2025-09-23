@@ -1,79 +1,69 @@
-'use client';
-import HeroSection from '@/components/Hero'
-import CalculatorModal from '@/components/calculator/CalculatorModal';
-import ManagerIntro from '@/components/ManagerIntro'
-import HowItWorks from '@/components/HowItWorks'
-import Testimonials from '@/components/Testimonials'
-
-import Trust from '@/components/Trust'
-
+import Script from 'next/script'
 
 import FAQ, { faq } from '@/components/FAQ'
+import HeroSection from '@/components/Hero'
+import HowItWorks from '@/components/HowItWorks'
 import LeadForm from '@/components/LeadForm'
-
+import ManagerIntro from '@/components/ManagerIntro'
 import Stats from '@/components/Stats'
+import Testimonials from '@/components/Testimonials'
+import Trust from '@/components/Trust'
+import CalculatorModal from '@/components/calculator/CalculatorModal'
 
-export default function Page() {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'Organization',
-        '@id': '#organization',
-        name: 'Лизинг и точка',
-        url: 'https://lizing-i-tochka.ru',
-        logo: 'https://lizing-i-tochka.ru/logo.svg',
-        email: [
-          'dpalenov@lizing-i-tochka.ru',
-          'erevakshin@lizing-i-tochka.ru'
-        ],
-        telephone: [
-          '+7 (967) 77-28-299',
-          '+7 (918) 37-98-548',
-          '8 800 444-45-84'
-        ],
-      },
-      ...['Лизинг автомобилей', 'Лизинг грузовой техники', 'Лизинг спецтехники'].map(
-        (name) => ({
-          '@type': 'Service',
-          name,
-          provider: { '@id': '#organization' },
-          areaServed: { '@type': 'Country', name: 'Россия' }
-        })
-      ),
-      {
-        '@type': 'FAQPage',
-        mainEntity: faq.map((i) => ({
-          '@type': 'Question',
-          name: i.q,
-          acceptedAnswer: { '@type': 'Answer', text: i.a }
-        }))
-      }
-    ]
-  }
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': '#organization',
+      name: 'Лизинг и точка',
+      url: 'https://lizing-i-tochka.ru',
+      logo: 'https://lizing-i-tochka.ru/logo.svg',
+      email: ['dpalenov@lizing-i-tochka.ru', 'erevakshin@lizing-i-tochka.ru'],
+      telephone: ['+7 (967) 77-28-299', '+7 (918) 37-98-548', '8 800 444-45-84'],
+    },
+    ...['Лизинг автомобилей', 'Лизинг грузовой техники', 'Лизинг спецтехники'].map(
+      name => ({
+        '@type': 'Service',
+        name,
+        provider: { '@id': '#organization' },
+        areaServed: { '@type': 'Country', name: 'Россия' },
+      }),
+    ),
+    {
+      '@type': 'FAQPage',
+      mainEntity: faq.map(item => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: { '@type': 'Answer', text: item.a },
+      })),
+    },
+  ],
+} as const
 
+const Page = () => {
   return (
     <>
-      <script
+      <Script
+        id="structured-data"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      ></script>
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
-      <HeroSection />
-   
- <CalculatorModal />
-      <Stats />
-       <ManagerIntro />
-      <HowItWorks />
-      <Testimonials />
-
-      <Trust />
-    
-
-
-      <FAQ />
+      <main>
+        <HeroSection />
+        <CalculatorModal />
+        <Stats />
+        <ManagerIntro />
+        <HowItWorks />
+        <Testimonials />
+        <Trust />
+        <FAQ />
+      </main>
       <LeadForm />
-
     </>
   )
 }
+
+export default Page
