@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import Image from 'next/image'
 import { ArrowDown, CheckCircle2, GaugeCircle, Sparkles, Timer } from 'lucide-react'
 
@@ -18,7 +19,7 @@ const CONTACT_POINTS = [
   { label: 'Устали от высоких ставок?', description: '⚡ Начните экономить на лизинге уже сегодня' },
 ] as const
 
-const HeroSection = () => {
+const HeroSection: React.FC = () => {
   return (
     <section className="relative overflow-hidden py-24 sm:py-32 lg:py-36">
       <div className="absolute inset-0">
@@ -81,7 +82,7 @@ const HeroSection = () => {
             <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:items-center">
               <button
                 type="button"
-                onClick={() => openLeadForm()}
+                onClick={() => openLeadForm?.()}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-10 py-4 text-base font-semibold text-white shadow-glow transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
                 style={{ animationDelay: '380ms' }}
               >
@@ -90,7 +91,7 @@ const HeroSection = () => {
               </button>
               <button
                 type="button"
-                onClick={() => openCalculator()}
+                onClick={() => openCalculator?.()}
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:border-white/40 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
                 style={{ animationDelay: '420ms' }}
               >
