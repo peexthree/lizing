@@ -95,19 +95,15 @@ export async function onLeadSubmit(data: LeadSubmitPayload): Promise<boolean> {
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), TELEGRAM_TIMEOUT)
 
-  const telegramChatId: string = chatId
-
-  const payload: TelegramSendMessagePayload = {
-    chat_id: telegramChatId,
+  const payloadBase = {
     text: normalizeHtmlMessage(data.html),
-    parse_mode: 'HTML',
-    disable_web_page_preview: true,
+    parse_mode: 'HTML' as const,
+    disable_web_page_preview: true as const,
   }
+
+  const chatIds = chatId.split(',').map((v) => v.trim()).filter(Boolean)
 
   const resolvedThreadId = safeParseNumber(threadId)
-  if (typeof resolvedThreadId === 'number') {
-    payload.message_thread_id = resolvedThreadId
-  }
 
  const sendTelegramMessage = async (payloadToSend: TelegramSendMessagePayload) => {
     const response = await fetch(`${TELEGRAM_API_BASE}/bot${botToken}/sendMessage`, {
@@ -132,26 +128,36 @@ export async function onLeadSubmit(data: LeadSubmitPayload): Promise<boolean> {
  }
 
   try {
-    try {
-      await sendTelegramMessage(payload)
-    } catch (error) {
-      const isLeadSubmitError = error instanceof LeadSubmitError
-      const threadNotFound =
-        isLeadSubmitError &&
-        error.code === 'telegram-error' &&
-        typeof resolvedThreadId === 'number' &&
-        error.message.toLowerCase().includes('message thread not found')
-
-      if (!threadNotFound) {
-        throw error
+    for (const id of chatIds) {
+      const telegramChatId: string = id
+      const payload: TelegramSendMessagePayload = {
+        chat_id: telegramChatId,
+        ...payloadBase,
+        ...(typeof resolvedThreadId === 'number' ? { message_thread_id: resolvedThreadId } : {}),
       }
 
-      console.warn('Telegram thread not found, retrying without thread id', {
-        threadId: resolvedThreadId,
-      })
+      try {
+        await sendTelegramMessage(payload)
+      } catch (error) {
+        const isLeadSubmitError = error instanceof LeadSubmitError
+        const threadNotFound =
+          isLeadSubmitError &&
+          error.code === 'telegram-error' &&
+          typeof resolvedThreadId === 'number' &&
+          error.message.toLowerCase().includes('message thread not found')
 
-      const { message_thread_id: _ignored, ...fallbackPayload } = payload
-      await sendTelegramMessage(fallbackPayload)
+        if (!threadNotFound) {
+          throw error
+        }
+
+        console.warn('Telegram thread not found for chat, retrying without thread id', {
+          chatId: telegramChatId,
+          threadId: resolvedThreadId,
+        })
+
+        const { message_thread_id: _ignored, ...fallbackPayload } = payload
+        await sendTelegramMessage(fallbackPayload)
+      }
     }
   } catch (error) {
     if (error instanceof LeadSubmitError) {
