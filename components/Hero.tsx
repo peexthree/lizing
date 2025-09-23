@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import Image from 'next/image'
+
 import { ArrowDownIcon, CheckCircleIcon, GaugeIcon, SparkleIcon, TimerIcon } from '@/components/icons'
 
 import { openCalculator } from '@/lib/openCalculator'
@@ -23,19 +23,21 @@ const HeroSection: React.FC = () => {
   return (
     <section className="relative overflow-hidden py-24 sm:py-32 lg:py-36">
       <div className="absolute inset-0">
-        <Image
-          src="/herobg.webp"
-          alt="Современный офис с автомобилем у стеклянного фасада"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-dark/95 via-dark/80 to-dark/90" aria-hidden />
-        <div className="absolute inset-0 bg-hero-grid opacity-40 mix-blend-screen" aria-hidden />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 z-0 h-full w-full object-cover brightness-75 mix-blend-overlay"
+        >
+          <source src="/herobg.webm" type="video/webm" />
+          <source src="/herobg.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 z-10 bg-gradient-to-br from-black/90 to-black/60" aria-hidden />
+        <div className="absolute inset-0 z-20 bg-hero-grid opacity-40 mix-blend-screen" aria-hidden />
       </div>
 
-      <div className="relative mx-auto max-w-4xl px-4">
+        <div className="relative z-30 mx-auto max-w-4xl px-4">
         <div className="grid gap-12">
           <div className="space-y-8 text-white">
             <span
