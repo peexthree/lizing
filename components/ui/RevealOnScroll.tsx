@@ -5,6 +5,7 @@
 import clsx from 'clsx'
 
 import { motion, useInView, useReducedMotion } from 'framer-motion'
+import type { MarginType } from 'framer-motion'
 
 import { useCallback, useMemo, useRef } from 'react'
 
@@ -16,6 +17,8 @@ const EASE_OUT = [0.16, 1, 0.3, 1] as const
 
 
 
+type MarginArray = readonly string[]
+
 type BaseProps = {
 
   delay?: number
@@ -26,7 +29,7 @@ type BaseProps = {
 
   once?: boolean
 
-  margin?: string
+  margin?: MarginType | MarginArray
 
 }
 
@@ -60,7 +63,7 @@ const RevealOnScroll = <T extends ElementType = 'div'>(props: RevealOnScrollProp
 
     once = true,
 
-    margin = ['-15%', '0px', '-15%', '0px'],
+    margin = ['-15%', '0px', '-15%', '0px'] as const,
 
     ...rest
 
@@ -80,7 +83,15 @@ const RevealOnScroll = <T extends ElementType = 'div'>(props: RevealOnScrollProp
 
   }, [])
 
-  const isInView = useInView(ref, { once, margin })
+  const normalizedMargin = useMemo(() => {
+    if (Array.isArray(margin)) {
+      return margin.join(' ') as MarginType
+    }
+
+    return margin
+  }, [margin])
+
+  const isInView = useInView(ref, { once, margin: normalizedMargin })
 
   const shouldReduceMotion = useReducedMotion()
 
