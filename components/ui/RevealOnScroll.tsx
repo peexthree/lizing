@@ -29,7 +29,7 @@ type BaseProps = {
 
   once?: boolean
 
-  margin?: MarginType | MarginArray
+  margin?: string | MarginArray
 
 }
 
@@ -85,7 +85,7 @@ const RevealOnScroll = <T extends ElementType = 'div'>(props: RevealOnScrollProp
 
   const normalizedMargin = useMemo(() => {
     if (Array.isArray(margin)) {
-      return margin.join(' ') as MarginType
+      return margin.join(' ')
     }
 
     return margin
