@@ -5,7 +5,7 @@
 import clsx from 'clsx'
 
 import { motion, useInView, useReducedMotion } from 'framer-motion'
-import type { MarginType } from 'framer-motion'
+
 
 import { useCallback, useMemo, useRef } from 'react'
 
