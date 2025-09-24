@@ -28,7 +28,7 @@ const HeroSection: React.FC = () => {
           loop
           muted
           playsInline
-          className="absolute inset-0 z-0 h-full w-full object-cover brightness-75 mix-blend-overlay"
+          className="absolute inset-0 z-0 h-full w-full object-contain md:object-cover brightness-75 mix-blend-overlay"
         >
           <source src="/herobg.webm" type="video/webm" />
           <source src="/herobg.mp4" type="video/mp4" />
