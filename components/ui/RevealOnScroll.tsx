@@ -3,8 +3,8 @@
 import { motion, useReducedMotion, type MotionProps, type Transition } from 'framer-motion'
 import { useMemo, type ComponentPropsWithoutRef, type ElementType, type ReactNode } from 'react'
 
-type MarginInput = string | readonly (string | number | null | undefined)[]
-type RootMargin = string
+// Упрощено: Framer Motion ожидает строку CSS margin (RootMargin)
+type MarginInput = string
 
 type PolymorphicProps<T extends ElementType> = MotionProps &
   Omit<ComponentPropsWithoutRef<T>, keyof MotionProps | 'ref'> & {
@@ -16,42 +16,19 @@ type RevealOnScrollProps<T extends ElementType = 'div'> = PolymorphicProps<T> & 
   once?: boolean
   delay?: number
   duration?: number
-  margin?: MarginInput
+  // Используем простой string, чтобы избежать Type Error
+  margin?: MarginInput 
 }
 
 const DEFAULT_INITIAL = { opacity: 0, y: 32 }
 const DEFAULT_ANIMATE = { opacity: 1, y: 0 }
-const DEFAULT_EASE: Transition['ease'] = [0.22, 1, 0.36, 1]
 
-const normalizeMargin = (margin?: MarginInput): RootMargin | undefined => {
-  if (!margin) return undefined
+// ИСПРАВЛЕНО: Убран тип Transition['ease'], использован 'as const'
+const DEFAULT_EASE = [0.22, 1, 0.36, 1] as const
 
-  const toUnit = (value: string | number | null | undefined) => {
-    if (value == null) return '0px'
-    if (typeof value === 'number') return `${value}px`
-
-    const trimmed = value.trim()
-    if (/^-?\d+(px|%)$/.test(trimmed)) return trimmed
-
-    const numeric = Number.parseFloat(trimmed)
-    return Number.isFinite(numeric) ? `${numeric}px` : '0px'
-  }
-
-  if (typeof margin === 'string') {
-    const parts = margin
-      .trim()
-      .split(/\s+/)
-      .filter(Boolean)
-
-    while (parts.length < 4) parts.push('0px')
-    return parts.slice(0, 4).map(toUnit).join(' ') as RootMargin
-  }
-
-  const parts = Array.from(margin).slice(0, 4)
-  while (parts.length < 4) parts.push('0px')
-
-  return parts.map(toUnit).slice(0, 4).join(' ') as RootMargin
-}
+// УДАЛЕНА: Функция normalizeMargin удалена, так как Framer Motion ожидает
+// строку CSS margin (RootMargin) и она не нужна для нормализации.
+// Если margin передается как string, он уже готов.
 
 const createTransition = (
   options: { delay?: number; duration?: number; reduceMotion: boolean },
@@ -60,19 +37,20 @@ const createTransition = (
   const { delay = 0, duration = 0.6, reduceMotion } = options
   const baseDelay = reduceMotion ? 0 : delay
 
+  const baseTransition = {
+    duration,
+    ease: DEFAULT_EASE,
+    delay: baseDelay
+  }
+
   if (!override) {
-    return {
-      duration,
-      ease: DEFAULT_EASE,
-      delay: baseDelay
-    }
+    return baseTransition
   }
 
   return {
-    duration,
-    ease: DEFAULT_EASE,
-    delay: baseDelay,
+    ...baseTransition,
     ...override,
+    // Принудительно устанавливаем задержку на 0, если reduceMotion включен
     delay: reduceMotion ? 0 : override.delay ?? delay
   }
 }
@@ -85,7 +63,7 @@ const RevealOnScroll = <T extends ElementType = 'div'>(
     once = true,
     delay,
     duration,
-    margin,
+    margin, // Это уже string | undefined
     children,
     ...motionProps
   } = props
@@ -96,14 +74,15 @@ const RevealOnScroll = <T extends ElementType = 'div'>(
   const Component = (as ?? 'div') as ElementType
   const MotionComponent = useMemo(() => motion(Component), [Component])
 
-  const normalizedMargin = useMemo(() => normalizeMargin(margin), [margin])
+  // normalizedMargin теперь просто margin
   const resolvedViewport = useMemo(
     () => ({
       ...(viewport ?? {}),
       once: viewport?.once ?? once,
-      margin: viewport?.margin ?? normalizedMargin
+      // Используем prop margin напрямую, Framer Motion обработает его
+      margin: viewport?.margin ?? margin 
     }),
-    [normalizedMargin, once, viewport]
+    [margin, once, viewport]
   )
 
   const resolvedInitial = initial ?? (reduceMotion ? undefined : DEFAULT_INITIAL)
