@@ -76,3 +76,4 @@ const createTransition = (
     delay: reduceMotion ? 0 : override.delay ?? delay
   }
 }
+export default RevealOnScroll
