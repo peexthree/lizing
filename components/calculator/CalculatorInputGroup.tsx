@@ -40,28 +40,28 @@ const CalculatorInputGroup = memo(
     };
 
     return (
-      <div className="space-y-4 rounded-3xl border border-white/60 bg-white/80 p-4 shadow-sm backdrop-blur">
+      <div className="space-y-4 rounded-3xl border border-white/10 bg-white/5 p-4 shadow-[0_24px_60px_rgba(3,7,18,0.35)] backdrop-blur">
         <div className="flex flex-col gap-1">
           <label
             htmlFor={id}
-            className="text-xs font-semibold uppercase tracking-[0.28em] text-dark/60"
+            className="text-xs font-semibold uppercase tracking-[0.28em] text-white/60"
           >
             {label}
           </label>
           {topRightLabel && (
-            <span className="text-xs font-medium text-dark/45">{topRightLabel}</span>
+            <span className="text-xs font-medium text-white/55">{topRightLabel}</span>
           )}
         </div>
 
         <div className="flex flex-col items-center gap-2">
-          <div className="flex items-center gap-2 rounded-2xl border border-dark/10 bg-white/90 px-4 py-2 shadow-inner">
+          <div className="flex items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-4 py-2 shadow-inner">
             {prefix}
             <input
               id={id}
               type="number"
               value={value}
               onChange={handleInputChange}
-              className="w-full min-w-[120px] max-w-[180px] bg-transparent text-center text-xl font-medium text-dark focus:outline-none"
+              className="w-full min-w-[120px] max-w-[180px] bg-transparent text-center text-xl font-medium text-white focus:outline-none"
               min={min}
               max={max}
               step={step}
@@ -76,7 +76,7 @@ const CalculatorInputGroup = memo(
           />
         </div>
 
-        <div className="flex justify-between text-[10px] font-semibold uppercase tracking-[0.35em] text-dark/35">
+        <div className="flex justify-between text-[10px] font-semibold uppercase tracking-[0.35em] text-white/45">
           <span>{bottomLeftLabel}</span>
           <span>{bottomRightLabel}</span>
         </div>
