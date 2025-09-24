@@ -70,7 +70,8 @@ const RevealOnScroll = <T extends ElementType = 'div'>(
 
   const { initial, whileInView, transition, viewport, ...rest } = motionProps
 
-  const reduceMotion = useReducedMotion()
+ const prefersReducedMotion = useReducedMotion()
+  const reduceMotion = prefersReducedMotion ?? false
   const Component = (as ?? 'div') as ElementType
   const MotionComponent = useMemo(() => motion(Component), [Component])
 
