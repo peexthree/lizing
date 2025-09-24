@@ -1,10 +1,12 @@
 'use client'
 
+import clsx from 'clsx'
 import { useCallback, useEffect, useState, type ChangeEvent, type FormEvent, type MouseEvent } from 'react'
-import { CloseIcon, TelegramLineIcon, WhatsAppLineIcon } from '@/components/icons'
+import { CloseIcon, HandshakeIcon, TelegramLineIcon, TimerIcon, WhatsAppLineIcon } from '@/components/icons'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { DEFAULT_ERROR_MESSAGE, DEFAULT_WARNING_MESSAGE, parseLeadResponse } from '@/lib/leadResponse'
 import type { LeadFormPrefill } from '@/lib/openLeadForm'
+
 
 type Status = 'idle' | 'ok' | 'warn' | 'err'
 
@@ -60,7 +62,12 @@ const messengerLinks: MessengerLink[] = [
   }
 ]
 
-export default function LeadForm() {
+type LeadFormProps = {
+  variant?: 'default' | 'compact'
+  className?: string
+}
+
+export default function LeadForm({ variant = 'default', className }: LeadFormProps) {
   const [form, setForm] = useState<FormState>(initialState)
   const [extraFields, setExtraFields] = useState<Record<string, string>>({})
   const [status, setStatus] = useState<Status>('idle')
@@ -68,6 +75,18 @@ export default function LeadForm() {
   const [sending, setSending] = useState(false)
   const [agree, setAgree] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const compactHighlights = [
+    {
+      title: 'Ответ за 15 минут',
+      description: 'Менеджер свяжется в рабочее время сразу после заявки.',
+      Icon: TimerIcon
+    },
+    {
+      title: 'Партнёры по всей стране',
+      description: 'Подберём предложения от проверенных банков и лизинговых компаний.',
+      Icon: HandshakeIcon
+    }
+  ]
 
   const openModal = useCallback((detail?: LeadFormPrefill) => {
     setForm(prev => {
@@ -289,69 +308,139 @@ export default function LeadForm() {
     openModal()
   }
 
+  const defaultVariant = (
+    <section id="lead-form" className={clsx('relative overflow-hidden py-20', className)}>
+      <div className="absolute inset-0 -z-10">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(234,179,8,0.12),transparent_58%),radial-gradient(circle_at_78%_24%,rgba(212,175,55,0.16),transparent_60%),linear-gradient(150deg,rgba(6,6,10,0.92),rgba(12,12,20,0.82))]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/55 to-transparent" />
+        <div className="floating-orb left-[18%] top-[10rem] hidden h-[280px] w-[280px] bg-white/10 blur-3xl md:block" />
+        <div className="floating-orb right-[15%] bottom-[-4rem] hidden h-[320px] w-[320px] bg-accent/25 blur-3xl lg:block" />
+      </div>
+
+      <div className="mx-auto max-w-4xl px-4 text-slate-200">
+        <RevealOnScroll className="mx-auto max-w-2xl text-center">
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-300/70">Заявка</span>
+          <h2 className="mt-4 text-3xl font-bold text-white md:text-4xl">Получите персональный расчёт под ваш проект</h2>
+          <p className="mt-4 text-lg text-slate-300/80">
+            Мы перезвоним в течение 15 минут в рабочее время, уточним детали и предложим лучшие варианты от партнёров.
+          </p>
+        </RevealOnScroll>
+
+        <RevealOnScroll className="mt-12 mx-auto max-w-xl rounded-[2.5rem] border border-white/10 bg-surface/85 p-8 text-center text-slate-300/80 shadow-[0_35px_120px_rgba(0,0,0,0.5)] backdrop-blur-2xl">
+          <p className="text-base">
+            Заявка откроется во всплывающем окне: оставьте имя и телефон, и менеджер свяжется с вами удобным способом.
+          </p>
+          <button
+            type="button"
+            onClick={handleOpenClick}
+            className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-alt to-accent px-8 py-3 text-base font-semibold text-black shadow-glow transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+          >
+            Оставить заявку
+          </button>
+          <div className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] text-slate-300/70">
+            Или напишите напрямую
+          </div>
+          <div className="mt-4 flex flex-wrap justify-center gap-3">
+            {messengerLinks.map(link => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="inline-flex items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold shadow-sm transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                style={{
+                  color: link.color,
+                  backgroundColor: link.background,
+                  borderColor: link.border
+                }}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span
+                  className="flex h-8 w-8 items-center justify-center rounded-full"
+                  style={{ backgroundColor: link.color }}
+                >
+                  <link.Icon className="h-4 w-4" aria-hidden="true" />
+                </span>
+                {link.shortLabel}
+              </a>
+            ))}
+          </div>
+        </RevealOnScroll>
+      </div>
+    </section>
+  )
+
+  const compactVariant = (
+    <section
+      id="lead-form"
+      className={clsx(
+        'relative overflow-hidden rounded-[2.5rem] border border-white/15 bg-white/[0.06] p-6 shadow-[0_35px_120px_rgba(8,15,40,0.45)] backdrop-blur-xl sm:p-8',
+        className
+      )}
+    >
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_20%,rgba(234,179,8,0.12),transparent_55%),radial-gradient(circle_at_82%_15%,rgba(212,175,55,0.15),transparent_60%),linear-gradient(160deg,rgba(9,12,28,0.95),rgba(10,16,36,0.85))]" />
+      <div className="pointer-events-none absolute inset-x-6 top-0 h-16 rounded-b-[3rem] bg-gradient-to-b from-white/10 to-transparent" />
+
+      <div className="relative flex flex-col gap-6">
+        <div className="space-y-3">
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/60">Персональный расчёт</span>
+          <h2 className="text-2xl font-semibold text-white sm:text-3xl">Получите предложение под вашу технику</h2>
+          <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+            Оставьте контакты — подготовим несколько сценариев финансирования и отправим расчёт удобным способом.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleOpenClick}
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-alt to-accent px-8 py-3 text-sm font-semibold text-black shadow-[0_20px_40px_rgba(212,175,55,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_30px_60px_rgba(212,175,55,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+        >
+          Оставить заявку
+        </button>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          {compactHighlights.map(item => (
+            <div
+              key={item.title}
+              className="flex items-start gap-3 rounded-3xl border border-white/10 bg-white/5 p-4 text-left text-sm text-white/70"
+            >
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-accent">
+                <item.Icon className="h-5 w-5" aria-hidden />
+              </span>
+              <div>
+                <div className="font-semibold text-white">{item.title}</div>
+                <p className="mt-1 leading-relaxed">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
+          <span>Или напишите напрямую</span>
+          <div className="flex flex-wrap gap-2">
+            {messengerLinks.map(link => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/80 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="flex h-7 w-7 items-center justify-center rounded-full" style={{ backgroundColor: link.color }}>
+                  <link.Icon className="h-4 w-4 text-black" aria-hidden />
+                </span>
+                {link.shortLabel}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+
   return (
     <>
-      <section id="lead-form" className="relative overflow-hidden py-20">
-        <div className="absolute inset-0 -z-10">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(234,179,8,0.12),transparent_58%),radial-gradient(circle_at_78%_24%,rgba(212,175,55,0.16),transparent_60%),linear-gradient(150deg,rgba(6,6,10,0.92),rgba(12,12,20,0.82))]" />
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 to-transparent" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/55 to-transparent" />
-          <div className="floating-orb left-[18%] top-[10rem] hidden h-[280px] w-[280px] bg-white/10 blur-3xl md:block" />
-          <div className="floating-orb right-[15%] bottom-[-4rem] hidden h-[320px] w-[320px] bg-accent/25 blur-3xl lg:block" />
-        </div>
-
-        <div className="mx-auto max-w-4xl px-4 text-slate-200">
-
-
-          <RevealOnScroll className="mx-auto max-w-2xl text-center">
-            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-300/70">Заявка</span>
-            <h2 className="mt-4 text-3xl font-bold text-white md:text-4xl">Получите персональный расчёт под ваш проект</h2>
-            <p className="mt-4 text-lg text-slate-300/80">
-              Мы перезвоним в течение 15 минут в рабочее время, уточним детали и предложим лучшие варианты от партнёров.
-            </p>
-          </RevealOnScroll>
-
-          <RevealOnScroll className="mt-12 mx-auto max-w-xl rounded-[2.5rem] border border-white/10 bg-surface/85 p-8 text-center text-slate-300/80 shadow-[0_35px_120px_rgba(0,0,0,0.5)] backdrop-blur-2xl">
-            <p className="text-base">
-              Заявка откроется во всплывающем окне: оставьте имя и телефон, и менеджер свяжется с вами удобным способом.
-            </p>
-            <button
-              type="button"
-              onClick={handleOpenClick}
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-alt to-accent px-8 py-3 text-base font-semibold text-black shadow-glow transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
-            >
-              Оставить заявку
-            </button>
-            <div className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] text-slate-300/70">
-              Или напишите напрямую
-            </div>
-            <div className="mt-4 flex flex-wrap justify-center gap-3">
-              {messengerLinks.map(link => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="inline-flex items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold shadow-sm transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
-                  style={{
-                    color: link.color,
-                    backgroundColor: link.background,
-                    borderColor: link.border
-                  }}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span
-                    className="flex h-8 w-8 items-center justify-center rounded-full"
-                    style={{ backgroundColor: link.color }}
-                  >
-                    <link.Icon className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                  {link.shortLabel}
-                </a>
-              ))}
-            </div>
-          </RevealOnScroll>
-        </div>
-      </section>
+      {variant === 'compact' ? compactVariant : defaultVariant}
 
       <div
         className={`fixed inset-0 z-[90] flex items-center justify-center bg-ink/80 px-4 py-6 sm:px-6 sm:py-10 backdrop-blur-sm transition-opacity duration-200 ${isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
@@ -374,6 +463,10 @@ export default function LeadForm() {
           >
             <CloseIcon className="h-5 w-5" aria-hidden />
           </button>
+
+
+
+
 
 
 
