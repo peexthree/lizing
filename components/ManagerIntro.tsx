@@ -8,15 +8,15 @@ import { openLeadForm } from '@/lib/openLeadForm'
 const ManagerIntro = () => {
   return (
     <section className="relative overflow-hidden py-20">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-accent/15 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 left-1/2 hidden h-full w-full -translate-x-1/2 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.55),_transparent_55%)] sm:block" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_18%,rgba(234,179,8,0.12),transparent_60%),radial-gradient(circle_at_78%_16%,rgba(212,175,55,0.14),transparent_58%),linear-gradient(140deg,rgba(7,7,12,0.92),rgba(10,10,18,0.82))]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/60 to-transparent" />
 
       <div className="mx-auto max-w-6xl px-4">
-        <RevealOnScroll className="overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/85 shadow-glow backdrop-blur">
+        <RevealOnScroll className="overflow-hidden rounded-[2.5rem] border border-white/10 bg-surface/85 shadow-[0_40px_120px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
           <div className="grid items-center gap-10 p-8 md:p-12 lg:grid-cols-[minmax(0,360px)_1fr]">
             <div className="relative mx-auto h-64 w-64 max-w-full shrink-0 sm:h-72 sm:w-72">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/20 via-white to-white shadow-[0_25px_60px_rgba(33,66,77,0.25)]" />
-              <div className="relative h-full w-full overflow-hidden rounded-full border border-white/60">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/25 via-white/30 to-transparent shadow-[0_25px_60px_rgba(10,10,15,0.55)]" />
+              <div className="relative h-full w-full overflow-hidden rounded-full border border-white/20 bg-black/40">
                 <Image
                   src="/den.webp"
                   alt="Денис Палёнов"
@@ -28,10 +28,10 @@ const ManagerIntro = () => {
               </div>
             </div>
 
-            <div className="space-y-6 text-dark lg:ml-4">
-              <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Почему мы этим занимаемся</span>
-              <div className="space-y-4 text-base leading-relaxed text-dark/70 md:text-lg lg:max-w-2xl">
-                <h2 className="text-3xl font-bold text-dark md:text-4xl">Эксперт по финансовым решениям</h2>
+            <div className="space-y-6 text-slate-200 lg:ml-4">
+              <span className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-300/70">Почему мы этим занимаемся</span>
+              <div className="space-y-4 text-base leading-relaxed text-slate-300/80 md:text-lg lg:max-w-2xl">
+                <h2 className="text-3xl font-bold text-white md:text-4xl">Эксперт по финансовым решениям</h2>
                 <p>Здравствуйте! Меня зовут Денис.</p>
                 <p>
                   Более десяти лет я работал в корпоративных продажах (B2B и B2C) и финансах. За это время видел десятки команд,
@@ -51,7 +51,7 @@ const ManagerIntro = () => {
                 <button
                   type="button"
                   onClick={() => openLeadForm?.()}
-                  className="inline-flex items-center justify-center rounded-full bg-dark px-8 py-3 text-sm font-semibold text-white shadow-[0_15px_30px_rgba(34,44,56,0.25)] transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-dark/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dark"
+                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-accent via-accent-alt to-accent px-8 py-3 text-sm font-semibold text-black shadow-glow transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
                   Получить бесплатную консультацию
                 </button>

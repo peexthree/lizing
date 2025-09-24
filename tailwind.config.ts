@@ -10,14 +10,16 @@ export default {
     },
     extend: {
       colors: {
-        accent: '#D4AF37',
-        'accent-alt': '#8B0000',
-        dark: '#0F172A',
-        primary: '#0F172A',
-        surface: '#FFFFFF',
-        bgsoft: '#F1F5F9',
-        text: '#1E293B',
-        muted: '#64748B'
+        accent: '#EAB308',
+        'accent-alt': '#D4AF37',
+        dark: '#E4E4EC',
+        primary: '#0A0A0F',
+        surface: '#121218',
+        'surface-muted': '#1A1B25',
+        bgsoft: '#0F0F16',
+        text: '#E4E4EC',
+        ink: '#050505',
+        muted: '#9CA3AF'
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
@@ -41,14 +43,17 @@ export default {
         '4xl': '2.5rem'
       },
       boxShadow: {
-        glow: '0 30px 120px -50px rgba(212, 175, 55, 0.45)',
-        hero: '0 45px 140px -70px rgba(15, 23, 42, 0.75)'
+        glow: '0 35px 120px -45px rgba(234, 179, 8, 0.45)',
+        hero: '0 55px 160px -70px rgba(10, 10, 15, 0.85)',
+        'inner-gold': 'inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 0 0 1px rgba(234, 179, 8, 0.2)'
       },
       backgroundImage: {
         'hero-grid':
-          'radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.22), transparent 45%), radial-gradient(circle at 80% 0%, rgba(15, 23, 42, 0.12), transparent 55%)',
+          'radial-gradient(circle at 20% 20%, rgba(234,179,8,0.22), transparent 45%), radial-gradient(circle at 80% 0%, rgba(250,250,255,0.05), transparent 55%)',
         'track-lines':
-          'repeating-linear-gradient(90deg, rgba(148,163,184,0.08) 0, rgba(148,163,184,0.08) 12px, transparent 12px, transparent 32px)'
+          'repeating-linear-gradient(90deg, rgba(148,163,184,0.08) 0, rgba(148,163,184,0.08) 12px, transparent 12px, transparent 32px)',
+        'golden-beam':
+          'radial-gradient(circle at 15% 20%, rgba(234,179,8,0.18), transparent 55%), radial-gradient(circle at 82% 12%, rgba(136,84,16,0.22), transparent 65%), linear-gradient(135deg, rgba(8,8,12,0.9), rgba(8,8,10,0.75))'
       },
       keyframes: {
         'fade-up': {
