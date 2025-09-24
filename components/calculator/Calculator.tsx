@@ -211,240 +211,241 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                   valueNode={<ValueBadge>{sliderAccent}</ValueBadge>}
                   hint={advanceMode === 'percent' ? formatRub(advanceRub) : `${Math.round(advancePercent)} %`}
                 >
+                  <div className="flex flex-col gap-3">
+                    <div className="inline-flex rounded-full border border-white/10 bg-white/10 p-1 text-xs font-semibold text-white shadow-sm">
+                      <button
+                        type="button"
+                        onClick={() => advanceMode === 'currency' && toggleAdvanceMode()}
+                        className={`rounded-full px-3 py-1 transition ${advanceMode === 'percent'
+                          ? 'bg-accent text-white shadow-sm'
+                          : 'text-white/70 hover:text-white'
+                          }`}
+                      >
+                        %
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => advanceMode === 'percent' && toggleAdvanceMode()}
+                        className={`rounded-full px-3 py-1 transition ${advanceMode === 'currency'
+                          ? 'bg-accent text-white shadow-sm'
+                          : 'text-white/70 hover:text-white'
+                          }`}
+                      >
+                        ₽
+                      </button>
+                    </div>
+                    <span className="text-xs text-white/50">
+                      {advanceMode === 'percent' ? '0–90 %' : `${formatRub(0)} – ${formatRub(cost)}`}
+                    </span>
+                  </div>
+                  <SliderControl
+                    value={advance}
+                    min={
+                      advanceMode === 'percent'
+                        ? SLIDER_CONFIG.advancePercent.min
+                        : SLIDER_CONFIG.advanceCurrency.min
+                    }
+                    max={advanceMode === 'percent' ? SLIDER_CONFIG.advancePercent.max : cost}
+                    step={
+                      advanceMode === 'percent'
+                        ? SLIDER_CONFIG.advancePercent.step
+                        : SLIDER_CONFIG.advanceCurrency.step
+                    }
+                    onChange={(value) => handleFieldChange('advance', value)}
+                  />
+                </Field>
 
-                  <div className="inline-flex rounded-full border border-white/10 bg-white/10 p-1 text-xs font-semibold text-white shadow-sm">
+
+                <Field
+                  label="Срок договора, мес."
+                  valueNode={<ValueBadge>{Math.round(term)} мес.</ValueBadge>}
+                >
+                  <SliderControl
+                    value={term}
+                    min={SLIDER_CONFIG.term.min}
+                    max={SLIDER_CONFIG.term.max}
+                    step={SLIDER_CONFIG.term.step}
+                    onChange={(value) => handleFieldChange('term', value)}
+                  />
+                  <div className="flex justify-between text-xs text-white/40">
+                    <span>{SLIDER_CONFIG.term.min} мес.</span>
+                    <span>{SLIDER_CONFIG.term.max} мес.</span>
+                  </div>
+                </Field>
+
+                <Field
+                  label="Ставка, % годовых"
+                  valueNode={<ValueBadge>{Number(rate.toFixed(2))} %</ValueBadge>}
+                >
+                  <SliderControl
+                    value={rate}
+                    min={SLIDER_CONFIG.rate.min}
+                    max={SLIDER_CONFIG.rate.max}
+                    step={SLIDER_CONFIG.rate.step}
+                    onChange={(value) => handleFieldChange('rate', value)}
+                  />
+                  <div className="flex justify-between text-xs text-white/40">
+                    <span>{SLIDER_CONFIG.rate.min} %</span>
+                    <span>{SLIDER_CONFIG.rate.max} %</span>
+                  </div>
+                </Field>
+
+                <Field
+                  label="Остаточный платёж, %"
+                  valueNode={<ValueBadge>{Math.round(residual)} %</ValueBadge>}
+                  hint={formatRub(residualRub)}
+                >
+                  <SliderControl
+                    value={residual}
+                    min={SLIDER_CONFIG.residual.min}
+                    max={SLIDER_CONFIG.residual.max}
+                    step={SLIDER_CONFIG.residual.step}
+                    onChange={(value) => handleFieldChange('residual', value)}
+                  />
+                  <div className="flex justify-between text-xs text-white/40">
+                    <span>{SLIDER_CONFIG.residual.min} %</span>
+                    <span>{SLIDER_CONFIG.residual.max} %</span>
+                  </div>
+                </Field>
+              </div>
+            </div>
+
+            {(!isModal || step === 'results') && (
+              <div
+                ref={resultsSectionRef}
+                tabIndex={isModal ? -1 : undefined}
+                className={`flex flex-col gap-6 ${isModal
+                  ? 'outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0c1230]'
+                  : ''
+                  }`}
+              >
+                {isModal && (
+                  <div className="flex justify-between">
                     <button
                       type="button"
-                      onClick={() => advanceMode === 'currency' && toggleAdvanceMode()}
-                      className={`rounded-full px-3 py-1 transition ${advanceMode === 'percent'
-                          ? 'bg-accent text-white shadow-sm'
-                          : 'text-white/70 hover:text-white'
-                        }`}
+                      onClick={() => setStep('inputs')}
+                      className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:ring-offset-[#0c1230]"
                     >
-                      %
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => advanceMode === 'percent' && toggleAdvanceMode()}
-                      className={`rounded-full px-3 py-1 transition ${advanceMode === 'currency'
-                          ? 'bg-accent text-white shadow-sm'
-                          : 'text-white/70 hover:text-white'
-                        }`}
-                    >
-                      ₽
+                      Назад
                     </button>
                   </div>
-                  <span className="text-xs text-white/50">
-                    {advanceMode === 'percent' ? '0–90 %' : `${formatRub(0)} – ${formatRub(cost)}`}
-                  </span>
-              </div>
-              <SliderControl
-                value={advance}
-                min={
-                  advanceMode === 'percent'
-                    ? SLIDER_CONFIG.advancePercent.min
-                    : SLIDER_CONFIG.advanceCurrency.min
-                }
-                max={advanceMode === 'percent' ? SLIDER_CONFIG.advancePercent.max : cost}
-                step={
-                  advanceMode === 'percent'
-                    ? SLIDER_CONFIG.advancePercent.step
-                    : SLIDER_CONFIG.advanceCurrency.step
-                }
-                onChange={(value) => handleFieldChange('advance', value)}
-              />
-            </Field>
+                )}
 
-            <Field
-              label="Срок договора, мес."
-              valueNode={<ValueBadge>{Math.round(term)} мес.</ValueBadge>}
-            >
-              <SliderControl
-                value={term}
-                min={SLIDER_CONFIG.term.min}
-                max={SLIDER_CONFIG.term.max}
-                step={SLIDER_CONFIG.term.step}
-                onChange={(value) => handleFieldChange('term', value)}
-              />
-              <div className="flex justify-between text-xs text-white/40">
-                <span>{SLIDER_CONFIG.term.min} мес.</span>
-                <span>{SLIDER_CONFIG.term.max} мес.</span>
-              </div>
-            </Field>
+                <div className="rounded-[26px] border border-white/10 bg-white/5 px-5 py-5 text-sm text-white/70 shadow-inner">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="grid flex-1 gap-3 sm:grid-cols-3">
+                      {secondaryMetrics.map((item) => (
+                        <SummaryItem key={item.label} {...item} />
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-3 rounded-[24px] border border-white/10 bg-white/10 px-4 py-3 text-right">
+                      <div>
+                        <div className="text-[11px] font-semibold uppercase tracking-[0.35em] text-white/60">
+                          Ваш платёж
+                        </div>
+                        <div className="text-2xl font-mono font-semibold text-accent">{formatRub(monthlyPayment)}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-            <Field
-              label="Ставка, % годовых"
-              valueNode={<ValueBadge>{Number(rate.toFixed(2))} %</ValueBadge>}
-            >
-              <SliderControl
-                value={rate}
-                min={SLIDER_CONFIG.rate.min}
-                max={SLIDER_CONFIG.rate.max}
-                step={SLIDER_CONFIG.rate.step}
-                onChange={(value) => handleFieldChange('rate', value)}
-              />
-              <div className="flex justify-between text-xs text-white/40">
-                <span>{SLIDER_CONFIG.rate.min} %</span>
-                <span>{SLIDER_CONFIG.rate.max} %</span>
-              </div>
-            </Field>
+                <div className="rounded-[26px] border border-white/10 bg-white/5 px-5 py-5 shadow-sm">
+                  <div className="text-xs font-semibold uppercase tracking-[0.35em] text-white/60">Ваш расчёт</div>
+                  <ul className="mt-3 space-y-2 text-sm text-white/80">
+                    {summaryLines.map((line) => (
+                      <li key={line} className="flex items-start gap-2 leading-relaxed">
+                        <SparkleIcon className="mt-0.5 h-4 w-4 text-accent" aria-hidden />
+                        <span>{line}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-            <Field
-              label="Остаточный платёж, %"
-              valueNode={<ValueBadge>{Math.round(residual)} %</ValueBadge>}
-              hint={formatRub(residualRub)}
-            >
-              <SliderControl
-                value={residual}
-                min={SLIDER_CONFIG.residual.min}
-                max={SLIDER_CONFIG.residual.max}
-                step={SLIDER_CONFIG.residual.step}
-                onChange={(value) => handleFieldChange('residual', value)}
-              />
-              <div className="flex justify-between text-xs text-white/40">
-                <span>{SLIDER_CONFIG.residual.min} %</span>
-                <span>{SLIDER_CONFIG.residual.max} %</span>
-              </div>
-            </Field>
-          </div>
-        </div>
+                <div className="rounded-[26px] border border-white/10 bg-white/5 px-5 py-5 shadow-sm">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <div className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">Следующий шаг</div>
+                      <p className="mt-2 text-sm text-white/75 sm:text-base">
+                        Сохраните расчёт, поделитесь им или сразу отправьте заявку — все данные подтянутся автоматически.
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-2 sm:flex-row">
+                      <button
+                        type="button"
+                        onClick={handleApplyToForm}
+                        className="inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-accent via-accent to-accent-alt px-6 py-3 text-sm font-semibold text-white shadow-[0_24px_45px_-24px_rgba(212,175,55,0.6)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
 
-        {(!isModal || step === 'results') && (
-          <div
-            ref={resultsSectionRef}
-            tabIndex={isModal ? -1 : undefined}
-            className={`flex flex-col gap-6 ${isModal
-                ? 'outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0c1230]'
-                : ''
-              }`}
-          >
-            {isModal && (
-              <div className="flex justify-between">
-                <button
-                  type="button"
-                  onClick={() => setStep('inputs')}
-                  className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:ring-offset-[#0c1230]"
-                >
-                  Назад
-                </button>
+                      >
+                        Перейти к заявке
+                        <ArrowRightIcon className="h-4 w-4" aria-hidden />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleSaveClick}
+                        className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-inner transition hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                      >
+                        <SaveIcon className="h-4 w-4" aria-hidden />
+                        Сохранить расчёт
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between" aria-live="polite">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                      <div className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">Поделиться расчётом</div>
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleShare('whatsapp')}
+                          className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white/80 transition hover:border-white/35 hover:text-white"
+                        >
+                          <MessageIcon className="h-4 w-4" aria-hidden />
+                          WhatsApp
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleShare('email')}
+                          className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white/80 transition hover:border-white/35 hover:text-white"
+                        >
+                          <MailIcon className="h-4 w-4" aria-hidden />
+                          Email
+                        </button>
+                      </div>
+                    </div>
+                    {saveStatus === 'saved' && (
+                      <p className="rounded-full bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-200 shadow-inner">
+                        Расчёт сохранён — он уже прикреплён к заявке.
+                      </p>
+                    )}
+                    {saveStatus === 'error' && (
+                      <p className="rounded-full bg-rose-500/10 px-4 py-2 text-sm font-medium text-rose-200 shadow-inner">
+                        Не удалось сохранить. Попробуйте ещё раз.
+                      </p>
+                    )}
+                  </div>
+                </div>
               </div>
             )}
-
-            <div className="rounded-[26px] border border-white/10 bg-white/5 px-5 py-5 text-sm text-white/70 shadow-inner">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="grid flex-1 gap-3 sm:grid-cols-3">
-                  {secondaryMetrics.map((item) => (
-                    <SummaryItem key={item.label} {...item} />
-                  ))}
-                </div>
-                <div className="flex items-center gap-3 rounded-[24px] border border-white/10 bg-white/10 px-4 py-3 text-right">
-                  <div>
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.35em] text-white/60">
-                      Ваш платёж
-                    </div>
-                    <div className="text-2xl font-mono font-semibold text-accent">{formatRub(monthlyPayment)}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-[26px] border border-white/10 bg-white/5 px-5 py-5 shadow-sm">
-              <div className="text-xs font-semibold uppercase tracking-[0.35em] text-white/60">Ваш расчёт</div>
-              <ul className="mt-3 space-y-2 text-sm text-white/80">
-                {summaryLines.map((line) => (
-                  <li key={line} className="flex items-start gap-2 leading-relaxed">
-                    <SparkleIcon className="mt-0.5 h-4 w-4 text-accent" aria-hidden />
-                    <span>{line}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="rounded-[26px] border border-white/10 bg-white/5 px-5 py-5 shadow-sm">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">Следующий шаг</div>
-                  <p className="mt-2 text-sm text-white/75 sm:text-base">
-                    Сохраните расчёт, поделитесь им или сразу отправьте заявку — все данные подтянутся автоматически.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2 sm:flex-row">
-                  <button
-                    type="button"
-                    onClick={handleApplyToForm}
-                    className="inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-accent via-accent to-accent-alt px-6 py-3 text-sm font-semibold text-white shadow-[0_24px_45px_-24px_rgba(212,175,55,0.6)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
-
-                  >
-                    Перейти к заявке
-                    <ArrowRightIcon className="h-4 w-4" aria-hidden />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleSaveClick}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-inner transition hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
-                  >
-                    <SaveIcon className="h-4 w-4" aria-hidden />
-                    Сохранить расчёт
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between" aria-live="polite">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                  <div className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">Поделиться расчётом</div>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => handleShare('whatsapp')}
-                      className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white/80 transition hover:border-white/35 hover:text-white"
-                    >
-                      <MessageIcon className="h-4 w-4" aria-hidden />
-                      WhatsApp
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleShare('email')}
-                      className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white/80 transition hover:border-white/35 hover:text-white"
-                    >
-                      <MailIcon className="h-4 w-4" aria-hidden />
-                      Email
-                    </button>
-                  </div>
-                </div>
-                {saveStatus === 'saved' && (
-                  <p className="rounded-full bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-200 shadow-inner">
-                    Расчёт сохранён — он уже прикреплён к заявке.
-                  </p>
-                )}
-                {saveStatus === 'error' && (
-                  <p className="rounded-full bg-rose-500/10 px-4 py-2 text-sm font-medium text-rose-200 shadow-inner">
-                    Не удалось сохранить. Попробуйте ещё раз.
-                  </p>
-                )}
-              </div>
-            </div>
           </div>
-        )}
-      </div>
 
-      {isModal && step === 'inputs' && (
-        <div className="mt-4 flex justify-end sm:mt-6">
-          <button
-            type="button"
-            onClick={() => setStep('results')}
+          {isModal && step === 'inputs' && (
+            <div className="mt-4 flex justify-end sm:mt-6">
+              <button
+                type="button"
+                onClick={() => setStep('results')}
 
-            className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_-24px_rgba(212,175,55,0.6)] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
-          >
-            Далее
-          </button>
+                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_-24px_rgba(212,175,55,0.6)] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+              >
+                Далее
+              </button>
+            </div>
+          )}
+
+
+
+
+
         </div>
-      )}
-
-
-
-
-
-    </div>
       </div >
     </section >
   );

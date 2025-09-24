@@ -1,19 +1,24 @@
+import Image from 'next/image'
+
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 export default function Testimonials() {
   const testimonials = [
     {
       name: 'И.П., Москва',
+      avatar: '/den1.webp',
       quote:
         'Быстро подобрали условия и взяли на себя переговоры с лизинговыми компаниями — к выдаче авто пришли без задержек.'
     },
     {
       name: 'О.С., Екатеринбург',
+      avatar: '/den2.webp',
       quote:
         'Все прозрачно и без скрытых комиссий. Помогли собрать документы и подсказали, как снизить ежемесячный платёж.'
     },
     {
       name: 'А.К., Казань',
+      avatar: '/den3.webp',
       quote: 'Сервис помог обновить парк техники в срок — команда держала связь и контролировала каждый этап сделки.'
     }
   ]
@@ -38,7 +43,7 @@ export default function Testimonials() {
         </RevealOnScroll>
 
         <RevealOnScroll className="mt-12 grid gap-6 md:grid-cols-3">
-          {testimonials.map(({ name, quote }, index) => (
+          {testimonials.map(({ name, quote, avatar }, index) => (
             <RevealOnScroll
               key={name}
               as="figure"
@@ -49,7 +54,18 @@ export default function Testimonials() {
               <blockquote className="relative text-sm leading-relaxed text-slate-300/80">
                 <span className="block text-lg font-semibold text-white">&ldquo;{quote}&rdquo;</span>
               </blockquote>
-              <figcaption className="relative mt-6 text-sm font-semibold text-slate-200">{name}</figcaption>
+              <figcaption className="relative mt-6 flex items-center gap-4 text-sm font-semibold text-slate-200">
+                <span className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-white/10">
+                  <Image
+                    src={avatar}
+                    alt={name}
+                    width={48}
+                    height={48}
+                    className="h-full w-full object-cover"
+                  />
+                </span>
+                <span>{name}</span>
+              </figcaption>
             </RevealOnScroll>
           ))}
         </RevealOnScroll>
@@ -57,3 +73,4 @@ export default function Testimonials() {
     </section>
   )
 }
+
