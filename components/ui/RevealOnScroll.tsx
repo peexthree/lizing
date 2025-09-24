@@ -1,7 +1,4 @@
-+8
--66
-
-'use client'
+'use client';
 
 import clsx from 'clsx'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
@@ -25,21 +22,17 @@ type RevealOnScrollProps<T extends ElementType> = BaseProps &
     as?: T
   }
 
-const RevealOnScroll = <T extends ElementType = 'div'>(
-  props: RevealOnScrollProps<T>,
-) => {
-  const {
-    as,
-    children,
-    className,
-    delay = 0,
-    duration = 0.8,
-    y = 24,
-    once = true,
-    margin = ['-15%', '0px', '-15%', '0px'] as const,
-    ...rest
-  } = props
-
+const RevealOnScroll = <T extends ElementType = 'div'>({
+  as,
+  children,
+  className,
+  delay = 0,
+  duration = 0.8,
+  y = 24,
+  once = true,
+  margin = ['-15%', '0px', '-15%', '0px'] as const,
+  ...rest
+}: RevealOnScrollProps<T>) => {
   const Component = as ?? 'div'
   const MotionComponent = useMemo(() => motion(Component), [Component])
   const ref = useRef<Element | null>(null)
