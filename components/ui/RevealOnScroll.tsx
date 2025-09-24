@@ -76,7 +76,8 @@ const createTransition = (
   }
 }
 
-const RevealOnScroll = <T extends ElementType = 'div'>(props: RevealOnScrollProps<T>) => {
+function RevealOnScroll<T extends ElementType = 'div'>(props: RevealOnScrollProps<T>) {
+
   const {
     as,
     once = true,
