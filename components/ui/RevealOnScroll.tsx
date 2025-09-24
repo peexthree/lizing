@@ -83,7 +83,7 @@ const RevealOnScroll = <T extends ElementType = 'div'>(props: RevealOnScrollProp
 
   }, [])
 
-  const normalizedMargin = useMemo(() => {
+    const normalizedMargin = useMemo<string>(() => {
     if (Array.isArray(margin)) {
       return margin.join(' ')
     }
