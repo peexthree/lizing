@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, useInView, useReducedMotion, type MotionProps, type Transition } from 'framer-motion'
-import { useMemo, useRef, type ComponentPropsWithoutRef, type ElementType, type ReactNode } from 'react'
+import { motion, useReducedMotion, type MotionProps, type Transition } from 'framer-motion'
+import { useMemo, type ComponentPropsWithoutRef, type ElementType, type ReactNode } from 'react'
 
 type MarginInput = string | readonly (string | number | null | undefined)[]
 type RootMargin = string
@@ -76,4 +76,58 @@ const createTransition = (
     delay: reduceMotion ? 0 : override.delay ?? delay
   }
 }
+
+const RevealOnScroll = <T extends ElementType = 'div'>(
+  props: RevealOnScrollProps<T>
+) => {
+  const {
+    as,
+    once = true,
+    delay,
+    duration,
+    margin,
+    children,
+    ...motionProps
+  } = props
+
+  const { initial, whileInView, transition, viewport, ...rest } = motionProps
+
+  const reduceMotion = useReducedMotion()
+  const Component = (as ?? 'div') as ElementType
+  const MotionComponent = useMemo(() => motion(Component), [Component])
+
+  const normalizedMargin = useMemo(() => normalizeMargin(margin), [margin])
+  const resolvedViewport = useMemo(
+    () => ({
+      ...(viewport ?? {}),
+      once: viewport?.once ?? once,
+      margin: viewport?.margin ?? normalizedMargin
+    }),
+    [normalizedMargin, once, viewport]
+  )
+
+  const resolvedInitial = initial ?? (reduceMotion ? undefined : DEFAULT_INITIAL)
+  const resolvedWhileInView =
+    whileInView ?? (reduceMotion ? undefined : DEFAULT_ANIMATE)
+  const resolvedTransition = useMemo(
+    () =>
+      reduceMotion
+        ? transition
+        : createTransition({ delay, duration, reduceMotion }, transition),
+    [delay, duration, reduceMotion, transition]
+  )
+
+  return (
+    <MotionComponent
+      {...rest}
+      initial={resolvedInitial}
+      whileInView={resolvedWhileInView}
+      transition={resolvedTransition}
+      viewport={resolvedViewport}
+    >
+      {children}
+    </MotionComponent>
+  )
+}
+
 export default RevealOnScroll
