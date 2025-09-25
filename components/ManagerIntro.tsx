@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-
+import type { CSSProperties } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { openLeadForm } from '@/lib/openLeadForm'
 
@@ -16,15 +16,20 @@ const ManagerIntro = () => {
           <div className="grid items-center gap-10 p-8 md:p-12 lg:grid-cols-[minmax(0,360px)_1fr]">
             <div className="relative mx-auto h-64 w-64 max-w-full shrink-0 sm:h-72 sm:w-72">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/25 via-white/30 to-transparent shadow-[0_25px_60px_rgba(10,10,15,0.55)]" />
-              <div className="relative h-full w-full overflow-hidden rounded-full border border-white/20 bg-black/40">
-                <Image
-                  src="/den.webp"
-                  alt="Денис Палёнов"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 288px, 360px"
-                  className="object-cover"
-                />
+              <div
+                className="premium-gold-frame relative flex h-full w-full rounded-full"
+                style={{ '--premium-frame-padding': '0.9rem' } as CSSProperties}
+              >
+                <div className="premium-gold-frame__inner">
+                  <Image
+                    src="/den.webp"
+                    alt="Денис Палёнов"
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 288px, 360px"
+                    className="premium-gold-frame__image object-cover"
+                  />
+                </div>
               </div>
             </div>
 

@@ -48,7 +48,7 @@ export default function Testimonials() {
             Отзывы довольных клиентов
           </span>
           {/* УЛУЧШЕНИЕ: Больше контраста и жирности */}
-            <h2 className="glass-title mt-4 text-3xl font-bold text-white md:text-4xl">
+          <h2 className="glass-title mt-4 text-3xl font-bold text-white md:text-4xl">
             Что говорят наши партнёры
           </h2>
           <p className="mt-4 text-base text-slate-400 md:text-lg">
@@ -87,14 +87,16 @@ export default function Testimonials() {
                 </blockquote>
 
                 <figcaption className="relative mt-8 flex items-center gap-4 text-sm font-semibold md:text-base">
-                  <span className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-accent-400/30 bg-white/10 md:h-14 md:w-14">
-                    <Image
-                      src={avatar}
-                      alt={name}
-                      width={64}
-                      height={64}
-                      className="h-full w-full object-cover"
-                    />
+                  <span className="premium-gold-frame relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full md:h-14 md:w-14">
+                    <span className="premium-gold-frame__inner">
+                      <Image
+                        src={avatar}
+                        alt={name}
+                        width={64}
+                        height={64}
+                        className="premium-gold-frame__image h-full w-full object-cover"
+                      />
+                    </span>
                   </span>
                   <span className="flex flex-col text-left">
                     <span className="text-sm font-semibold text-white md:text-base">{name.split(',')[0]}</span>
