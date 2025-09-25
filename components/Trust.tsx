@@ -20,7 +20,7 @@ const Trust = () => {
       <div className="mx-auto max-w-6xl px-4 text-slate-200">
         <RevealOnScroll className="mx-auto max-w-2xl text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-300/70">Доверие</span>
-          <h2 className="mt-4 text-3xl font-bold text-white md:text-4xl">Цифры, которые подтверждают результат</h2>
+         <h2 className="glass-title mt-4 text-3xl font-bold text-white md:text-4xl">Цифры, которые подтверждают результат</h2>
           <p className="mt-4 text-lg text-slate-300/80">
             Развиваем партнёрскую сеть, контролируем сроки и сопровождаем клиентов по всей России. Делимся ключевыми показателями за прошлый год.
           </p>

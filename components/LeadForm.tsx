@@ -319,9 +319,9 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
       </div>
 
       <div className="mx-auto max-w-4xl px-4 text-slate-200">
-        <RevealOnScroll className="mx-auto max-w-2xl text-center">
+         <RevealOnScroll className="mx-auto max-w-2xl text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-300/70">Заявка</span>
-          <h2 className="mt-4 text-3xl font-bold text-white md:text-4xl">Получите персональный расчёт под ваш проект</h2>
+          <h2 className="glass-title mt-4 text-3xl font-bold text-white md:text-4xl">Получите персональный расчёт под ваш проект</h2>
           <p className="mt-4 text-lg text-slate-300/80">
             Мы перезвоним в течение 15 минут в рабочее время, уточним детали и предложим лучшие варианты от партнёров.
           </p>
@@ -384,7 +384,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
       <div className="relative flex flex-col gap-6">
         <div className="space-y-3">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/60">Персональный расчёт</span>
-          <h2 className="text-2xl font-semibold text-white sm:text-3xl">Получите предложение под вашу технику</h2>
+           <h2 className="glass-title text-2xl font-semibold text-white sm:text-3xl">Получите предложение под вашу технику</h2>
           <p className="text-sm leading-relaxed text-white/70 sm:text-base">
             Оставьте контакты — подготовим несколько сценариев финансирования и отправим расчёт удобным способом.
           </p>
@@ -471,7 +471,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
 
 
           <form onSubmit={onSubmit} className="space-y-6 px-6 pb-8 pt-14 sm:px-8 sm:pt-16">
-            <h2 className="text-2xl font-semibold text-white">Оставьте заявку</h2>
+              <h2 className="glass-title text-2xl font-semibold text-white">Оставьте заявку</h2>
             <p className="text-sm text-slate-300/80">
               Мы позвоним или напишем в мессенджер в течение 15 минут в рабочее время.
             </p>

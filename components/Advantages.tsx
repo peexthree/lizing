@@ -40,7 +40,7 @@ export default function Advantages() {
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-3xl text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Преимущества</span>
-          <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Цифры, подтверждающие наш опыт</h2>
+              <h2 className="glass-title glass-title--light mt-4 text-3xl font-bold text-dark md:text-4xl">Цифры, подтверждающие наш опыт</h2>
           <p className="mt-4 text-lg text-dark/70">
             Команда, которая ведёт переговоры с лизинговыми компаниями, контролирует договоры и помогает быстро выходить на технику без переплат.
           </p>

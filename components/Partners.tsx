@@ -14,7 +14,7 @@ export default function Partners() {
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-3xl text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-dark/50">Партнёры</span>
-          <h2 className="mt-4 text-3xl font-bold text-dark md:text-4xl">Работаем с надёжными лизинговыми компаниями</h2>
+           <h2 className="glass-title glass-title--light mt-4 text-3xl font-bold text-dark md:text-4xl">Работаем с надёжными лизинговыми компаниями</h2>
           <p className="mt-4 text-lg text-dark/65">
             Сотрудничаем с банками, страховыми и крупнейшими лизинговыми компаниями. Это помогает быстро согласовывать условия и находить оптимальные решения.
           </p>

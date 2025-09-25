@@ -10,6 +10,7 @@ import {
   MessageIcon,
   SaveIcon,
   SparkleIcon,
+  WhatsAppLineIcon,
 } from '@/components/icons';
 import { SLIDER_CONFIG } from '@/config/calculator.config';
 import { useLeasingCalculator, formatRub } from '@/hooks/useLeasingCalculator';
@@ -143,7 +144,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
         {!isModal && (
           <header className="max-w-3xl text-white">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/70">Калькулятор</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">Рассчитайте лизинг за минуту</h2>
+             <h2 className="glass-title mt-3 text-3xl font-semibold text-white sm:text-4xl">Рассчитайте лизинг за минуту</h2>
             <p className="mt-4 text-base text-white/80">{headerDescription}</p>
           </header>
         )}
@@ -399,7 +400,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                           onClick={() => handleShare('whatsapp')}
                           className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white/80 transition hover:border-white/35 hover:text-white"
                         >
-                          <MessageIcon className="h-4 w-4" aria-hidden />
+                           <WhatsAppLineIcon className="h-4 w-4 text-[#25D366]" aria-hidden />
                           WhatsApp
                         </button>
                         <button

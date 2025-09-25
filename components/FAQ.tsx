@@ -37,7 +37,7 @@ const FAQ = () => {
       <div className="mx-auto max-w-5xl px-4 text-slate-200">
         <RevealOnScroll className="text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-300/70">Частые вопросы</span>
-          <h2 className="mt-4 text-3xl font-bold text-white md:text-4xl">Ответы, которые экономят время на созвоне</h2>
+          <h2 className="glass-title mt-4 text-3xl font-bold text-white md:text-4xl">Ответы, которые экономят время на созвоне</h2>
         </RevealOnScroll>
 
         <RevealOnScroll className="mt-12 space-y-4">

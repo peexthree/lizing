@@ -137,7 +137,7 @@ const Stats = () => {
       <div className="relative mx-auto max-w-6xl px-4 text-slate-200">
         <RevealOnScroll className="mx-auto max-w-3xl text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-300/70">Наши цифры</span>
-          <h2 className="mt-4 text-3xl font-bold text-white md:text-4xl">Работаем с масштабом крупных игроков</h2>
+           <h2 className="glass-title mt-4 text-3xl font-bold text-white md:text-4xl">Работаем с масштабом крупных игроков</h2>
           <p className="mt-4 text-base text-slate-300/80 md:text-lg">
             Эти показатели — результат долгосрочного сопровождения клиентов и сети проверенных партнёров.
           </p>

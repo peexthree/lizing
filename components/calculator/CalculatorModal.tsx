@@ -22,7 +22,7 @@ export default function CalculatorModal() {
         </span>
 
         <div className="space-y-6">
-          <h2 className="text-balance text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
+          <h2 className="glass-title text-balance text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
             Откройте лучший калькулятор лизинга в один клик
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-white/80 sm:text-xl">

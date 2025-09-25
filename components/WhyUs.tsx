@@ -2,7 +2,7 @@ export default function WhyUs() {
   return (
     <section className="py-16">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-2xl md:text-3xl font-bold">Почему «Лизинг и точка»</h2>
+         <h2 className="glass-title glass-title--light text-2xl font-bold md:text-3xl">Почему «Лизинг и точка»</h2>
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {[
             { title: '50+ лизингодателей', text: 'Выше одобрение и лучшие условия за счёт конкуренции' },

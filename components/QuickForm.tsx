@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, type ChangeEvent, type FormEvent } from 'react'
+import { TelegramLineIcon, WhatsAppLineIcon } from '@/components/icons'
 
 import {
   DEFAULT_ERROR_MESSAGE,
@@ -182,7 +183,10 @@ export default function QuickForm() {
             checked={messenger === 'whatsapp'}
             onChange={() => handleMessengerChange('whatsapp')}
           />
-          WhatsApp
+          <span className="inline-flex items-center gap-1.5 font-medium text-gray-700">
+            <WhatsAppLineIcon className="h-4 w-4 text-[#25D366]" aria-hidden />
+            WhatsApp
+          </span>
         </label>
         <label className="inline-flex items-center gap-2">
           <input
@@ -192,7 +196,10 @@ export default function QuickForm() {
             checked={messenger === 'telegram'}
             onChange={() => handleMessengerChange('telegram')}
           />
-          Telegram
+          <span className="inline-flex items-center gap-1.5 font-medium text-gray-700">
+            <TelegramLineIcon className="h-4 w-4 text-[#229ED9]" aria-hidden />
+            Telegram
+          </span>
         </label>
       </div>
 

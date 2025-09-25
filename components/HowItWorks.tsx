@@ -43,8 +43,7 @@ export default function HowItWorks() {
       <div className="mx-auto max-w-6xl px-4 text-slate-200">
         <RevealOnScroll className="mx-auto max-w-2xl text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-300/70">Как мы работаем</span>
-          <h2 className="mt-4 text-3xl font-bold text-white md:text-4xl">Таймлайн сделки от заявки до выдачи техники</h2>
-          <p className="mt-4 text-lg text-slate-300/80">
+          <h2 className="glass-title mt-4 text-3xl font-bold text-white md:text-4xl">Таймлайн сделки от заявки до выдачи техники</h2>
             Мы сопровождаем каждый шаг: держим связь, контролируем документы и согласовываем условия с партнёрами.
           </p>
         </RevealOnScroll>

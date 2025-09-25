@@ -48,7 +48,7 @@ export default function Testimonials() {
             Отзывы довольных клиентов
           </span>
           {/* УЛУЧШЕНИЕ: Больше контраста и жирности */}
-          <h2 className="mt-4 text-3xl font-bold text-white md:text-4xl">
+            <h2 className="glass-title mt-4 text-3xl font-bold text-white md:text-4xl">
             Что говорят наши партнёры
           </h2>
           <p className="mt-4 text-base text-slate-400 md:text-lg">

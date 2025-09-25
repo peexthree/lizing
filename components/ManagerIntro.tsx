@@ -31,7 +31,7 @@ const ManagerIntro = () => {
             <div className="space-y-6 text-slate-200 lg:ml-4">
               <span className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-300/70">Почему мы этим занимаемся</span>
               <div className="space-y-4 text-base leading-relaxed text-slate-300/80 md:text-lg lg:max-w-2xl">
-                <h2 className="text-3xl font-bold text-white md:text-4xl">Эксперт по финансовым решениям</h2>
+                <h2 className="glass-title text-3xl font-bold text-white md:text-4xl">Эксперт по финансовым решениям</h2>
                 <p>Здравствуйте! Меня зовут Денис.</p>
                 <p>
                   Более десяти лет я работал в корпоративных продажах (B2B и B2C) и финансах. За это время видел десятки команд,
