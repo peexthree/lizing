@@ -77,20 +77,18 @@ export const viewport: Viewport = {
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="ru" className={`${inter.variable} ${manrope.variable} ${ibmPlexMono.variable}`}>
-
       <body className={`${inter.className} relative min-h-screen bg-[#040405] text-slate-100 antialiased`}>
-        <div
-          className="pointer-events-none fixed inset-0 z-[-2] overflow-hidden transition-opacity duration-1000"
-          aria-hidden="true"
-        >
-          <div className="absolute inset-0 bg-[url('/backgrounds/serpentine-gold.svg')] bg-cover bg-center opacity-70 mix-blend-screen" />
-          <div className="absolute inset-0 bg-[url('/backgrounds/hex-marble.svg')] bg-cover bg-center opacity-55 mix-blend-lighten" />
+        <div className="pointer-events-none fixed inset-0 -z-40 overflow-hidden" aria-hidden="true">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#030304] via-[#08080c] to-[#040406]" />
         </div>
-        <div className="pointer-events-none fixed inset-0 z-[-1] overflow-hidden" aria-hidden="true">
-          <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-[#090912]/80 to-black/60" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(234,179,8,0.2),transparent_55%),radial-gradient(circle_at_82%_18%,rgba(255,220,160,0.16),transparent_58%),radial-gradient(circle_at_52%_78%,rgba(212,175,55,0.12),transparent_64%)] mix-blend-screen opacity-85" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(234,179,8,0.14),transparent_68%),radial-gradient(circle_at_10%_110%,rgba(212,175,55,0.12),transparent_72%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(253,230,167,0.16),transparent_58%)] mix-blend-lighten opacity-60" />
+        <div className="pointer-events-none fixed inset-0 -z-30 overflow-hidden" aria-hidden="true">
+          <div className="absolute inset-0 bg-[url('/backgrounds/hex-marble.svg')] bg-cover bg-center opacity-80 mix-blend-soft-light" />
+          <div className="absolute inset-0 bg-[url('/backgrounds/serpentine-gold.svg')] bg-cover bg-center opacity-65 mix-blend-screen" />
+        </div>
+        <div className="pointer-events-none fixed inset-0 -z-20 overflow-hidden" aria-hidden="true">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(234,179,8,0.22),transparent_52%),radial-gradient(circle_at_82%_18%,rgba(255,220,160,0.18),transparent_60%),radial-gradient(circle_at_52%_78%,rgba(212,175,55,0.12),transparent_62%)] mix-blend-screen" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_48%_115%,rgba(234,179,8,0.16),transparent_68%),radial-gradient(circle_at_12%_108%,rgba(212,175,55,0.1),transparent_72%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(253,230,167,0.2),transparent_56%)] mix-blend-lighten opacity-80" />
         </div>
         <SplashScreen />
         <ScrollEffects />

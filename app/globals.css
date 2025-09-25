@@ -20,6 +20,7 @@
 html {
   width: 100%;
   overflow-x: hidden;
+  background-color: #040405;
 }
 
 html,
@@ -39,16 +40,17 @@ body {
   overflow-x: hidden;
   scrollbar-color: rgba(234, 179, 8, 0.45) rgba(12, 12, 16, 0.6);
   scrollbar-width: thin;
+  isolation: isolate;
   background-image:
-    radial-gradient(circle at 12% 18%, rgba(234, 179, 8, 0.16), transparent 55%),
-    radial-gradient(circle at 82% 12%, rgba(212, 175, 55, 0.15), transparent 58%),
-    radial-gradient(circle at 50% 78%, rgba(234, 179, 8, 0.1), transparent 65%),
-    linear-gradient(145deg, rgba(6, 6, 10, 0.92), rgba(5, 5, 8, 0.9)),
+    url('/backgrounds/hex-marble.svg'),
     url('/backgrounds/serpentine-gold.svg'),
-    url('/backgrounds/hex-marble.svg');
-  background-blend-mode: screen, screen, screen, multiply, screen, lighten;
-  background-size: 140% 140%, 150% 150%, 160% 160%, cover, cover, cover;
-  background-position: 18% 16%, 82% 12%, 54% 80%, center, center, center;
+    radial-gradient(circle at 12% 18%, rgba(234, 179, 8, 0.18), transparent 55%),
+    radial-gradient(circle at 82% 12%, rgba(212, 175, 55, 0.16), transparent 58%),
+    radial-gradient(circle at 50% 78%, rgba(234, 179, 8, 0.12), transparent 65%),
+    linear-gradient(145deg, rgba(6, 6, 10, 0.92), rgba(5, 5, 8, 0.9));
+  background-blend-mode: soft-light, screen, screen, screen, screen, multiply;
+  background-size: cover, cover, 140% 140%, 150% 150%, 160% 160%, cover;
+  background-position: center, center, 18% 16%, 82% 12%, 54% 80%, center;
   background-repeat: no-repeat;
 }
 
