@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="deepMidnight" x1="15%" y1="10%" x2="85%" y2="90%">
+      <stop offset="0%" stop-color="#060608" />
+      <stop offset="35%" stop-color="#020203" />
+      <stop offset="100%" stop-color="#0c0c12" />
+    </linearGradient>
+    <linearGradient id="goldVein" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde6a7" stop-opacity="0.95" />
+      <stop offset="28%" stop-color="#f4ce72" stop-opacity="0.98" />
+      <stop offset="62%" stop-color="#d4a640" stop-opacity="0.92" />
+      <stop offset="100%" stop-color="#8a6729" stop-opacity="0.85" />
+    </linearGradient>
+    <radialGradient id="emberGlow" cx="22%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#f6d484" stop-opacity="0.14" />
+      <stop offset="55%" stop-color="#f0c45e" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#050505" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="hexPattern" width="60" height="52" patternUnits="userSpaceOnUse" patternTransform="skewX(-6)">
+      <polygon points="30 0 60 15 60 37 30 52 0 37 0 15" fill="none" stroke="#f4c768" stroke-width="1.2" opacity="0.16" />
+    </pattern>
+    <filter id="goldenGlow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blurred" />
+      <feBlend in="SourceGraphic" in2="blurred" mode="screen" />
+    </filter>
+  </defs>
+  <rect width="1600" height="1200" fill="url(#deepMidnight)" />
+  <rect width="1600" height="1200" fill="url(#emberGlow)" />
+  <rect width="1600" height="1200" fill="url(#hexPattern)" opacity="0.45" />
+  <g filter="url(#goldenGlow)">
+    <path d="M260 80 C420 180 560 200 720 340 C880 480 1040 540 1180 720 C1260 820 1360 900 1460 940 C1580 990 1640 1080 1600 1200" stroke="url(#goldVein)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.55" />
+    <path d="M140 320 C320 420 460 420 640 560 C800 680 960 760 1120 920 C1220 1020 1360 1040 1480 1120" stroke="url(#goldVein)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.68" />
+    <path d="M0 520 C220 620 420 640 620 780 C840 930 1010 990 1180 1110" stroke="url(#goldVein)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.6" />
+  </g>
+  <g opacity="0.35">
+    <path d="M420 -20 C520 140 680 200 820 340 C960 480 1120 560 1200 720 C1280 880 1420 940 1540 1020" stroke="#f4c264" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+    <path d="M80 200 C260 320 480 360 640 520 C820 700 980 760 1140 920" stroke="#bf8d3d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.55" />
+    <path d="M-40 440 C160 560 420 640 600 800 C760 940 940 1020 1080 1160" stroke="#f1d492" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.4" />
+  </g>
+</svg>

@@ -78,13 +78,21 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="ru" className={`${inter.variable} ${manrope.variable} ${ibmPlexMono.variable}`}>
 
-      <body className={`${inter.className} relative min-h-screen bg-[#050505] text-slate-100 antialiased`}>
-        <div className="pointer-events-none fixed inset-0 z-[-1] overflow-hidden" aria-hidden="true">
-          <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-[#0b0b13]/85 to-black/60" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_20%,rgba(234,179,8,0.18),transparent_55%),radial-gradient(circle_at_82%_15%,rgba(212,175,55,0.16),transparent_60%),radial-gradient(circle_at_52%_78%,rgba(234,179,8,0.12),transparent_62%)] mix-blend-screen opacity-80" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(234,179,8,0.12),transparent_65%)]" />
+      <body className={`${inter.className} relative min-h-screen bg-[#040405] text-slate-100 antialiased`}>
+        <div
+          className="pointer-events-none fixed inset-0 z-[-2] overflow-hidden transition-opacity duration-1000"
+          aria-hidden="true"
+        >
+          <div className="absolute inset-0 bg-[url('/backgrounds/serpentine-gold.svg')] bg-cover bg-center opacity-70 mix-blend-screen" />
+          <div className="absolute inset-0 bg-[url('/backgrounds/hex-marble.svg')] bg-cover bg-center opacity-55 mix-blend-lighten" />
         </div>
-            <SplashScreen />
+        <div className="pointer-events-none fixed inset-0 z-[-1] overflow-hidden" aria-hidden="true">
+          <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-[#090912]/80 to-black/60" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(234,179,8,0.2),transparent_55%),radial-gradient(circle_at_82%_18%,rgba(255,220,160,0.16),transparent_58%),radial-gradient(circle_at_52%_78%,rgba(212,175,55,0.12),transparent_64%)] mix-blend-screen opacity-85" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(234,179,8,0.14),transparent_68%),radial-gradient(circle_at_10%_110%,rgba(212,175,55,0.12),transparent_72%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(253,230,167,0.16),transparent_58%)] mix-blend-lighten opacity-60" />
+        </div>
+        <SplashScreen />
         <ScrollEffects />
         <Header />
         {children}

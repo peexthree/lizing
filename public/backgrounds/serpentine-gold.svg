@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#08080a" />
+      <stop offset="45%" stop-color="#050507" />
+      <stop offset="100%" stop-color="#101015" />
+    </linearGradient>
+    <linearGradient id="goldShine" x1="0%" y1="20%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#f5e6b1" stop-opacity="0.9" />
+      <stop offset="30%" stop-color="#f5c76a" stop-opacity="0.92" />
+      <stop offset="65%" stop-color="#d9a738" stop-opacity="0.98" />
+      <stop offset="100%" stop-color="#8c6825" stop-opacity="0.94" />
+    </linearGradient>
+    <linearGradient id="goldShadow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="10%" stop-color="#20150a" stop-opacity="0.35" />
+      <stop offset="45%" stop-color="#0d0905" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4" />
+    </linearGradient>
+    <filter id="softHighlight" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blur" />
+      <feBlend in="SourceGraphic" in2="blur" mode="screen" />
+    </filter>
+    <radialGradient id="lightHalo" cx="30%" cy="35%" r="55%">
+      <stop offset="0%" stop-color="#f9d67a" stop-opacity="0.18" />
+      <stop offset="60%" stop-color="#f5c76a" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#050505" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="1200" fill="url(#bgGradient)" />
+  <rect width="1600" height="1200" fill="url(#lightHalo)" />
+  <g filter="url(#softHighlight)">
+    <path d="M-120 180 C200 60 320 180 560 120 C800 60 920 -40 1200 60 C1480 160 1720 60 1780 200 L1780 1220 L-120 1220 Z" fill="#020203" opacity="0.65" />
+    <path d="M-140 260 C160 140 320 300 560 240 C780 190 940 40 1180 120 C1420 200 1580 140 1760 260 L1760 1220 L-140 1220 Z" fill="url(#goldShine)" />
+    <path d="M-160 360 C160 220 340 380 580 320 C820 260 960 140 1200 220 C1440 300 1600 240 1780 360 L1780 1220 L-160 1220 Z" fill="url(#goldShadow)" opacity="0.7" />
+    <path d="M-200 520 C120 360 320 540 560 460 C780 390 980 240 1220 320 C1440 400 1640 360 1820 480 L1820 1220 L-200 1220 Z" fill="url(#goldShine)" opacity="0.88" />
+    <path d="M-180 700 C60 540 300 720 540 620 C800 510 1010 360 1250 420 C1460 470 1620 440 1820 560 L1820 1220 L-180 1220 Z" fill="url(#goldShadow)" opacity="0.72" />
+    <path d="M-140 880 C80 720 320 860 560 760 C800 660 1020 480 1260 540 C1440 590 1620 600 1840 700 L1840 1220 L-140 1220 Z" fill="url(#goldShine)" opacity="0.82" />
+  </g>
+  <g opacity="0.5">
+    <path d="M-120 220 C150 80 340 240 560 170 C820 80 960 -20 1220 80 C1480 180 1680 60 1820 220" stroke="#f4d27e" stroke-opacity="0.35" stroke-width="34" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+    <path d="M-80 400 C160 260 360 400 580 320 C820 230 980 120 1220 200 C1420 270 1640 260 1840 380" stroke="#fce5a4" stroke-opacity="0.2" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+    <path d="M-100 600 C120 460 320 600 560 500 C820 380 1000 260 1240 320 C1440 370 1620 380 1840 480" stroke="#d6a94e" stroke-opacity="0.38" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  </g>
+</svg>
