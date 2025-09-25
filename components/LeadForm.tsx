@@ -1,8 +1,9 @@
 'use client'
 
 import clsx from 'clsx'
+import Image from 'next/image'
 import { useCallback, useEffect, useState, type ChangeEvent, type FormEvent, type MouseEvent } from 'react'
-import { CloseIcon, HandshakeIcon, TelegramLineIcon, TimerIcon, WhatsAppLineIcon } from '@/components/icons'
+import { CloseIcon, HandshakeIcon, TimerIcon } from '@/components/icons'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { DEFAULT_ERROR_MESSAGE, DEFAULT_WARNING_MESSAGE, parseLeadResponse } from '@/lib/leadResponse'
 import type { LeadFormPrefill } from '@/lib/openLeadForm'
@@ -39,7 +40,8 @@ type MessengerLink = {
   color: string
   background: string
   border: string
-  Icon: typeof WhatsAppLineIcon
+  logoSrc: string
+  logoAlt: string
 }
 const messengerLinks: MessengerLink[] = [
   {
@@ -49,7 +51,8 @@ const messengerLinks: MessengerLink[] = [
     color: '#25D366',
     background: 'rgba(37, 211, 102, 0.12)',
     border: 'rgba(37, 211, 102, 0.32)',
-    Icon: WhatsAppLineIcon
+    logoSrc: '/whatsapp-logo.svg',
+    logoAlt: 'Логотип WhatsApp'
   },
   {
     href: 'https://t.me/dpvlen',
@@ -58,7 +61,8 @@ const messengerLinks: MessengerLink[] = [
     color: '#229ED9',
     background: 'rgba(34, 158, 217, 0.12)',
     border: 'rgba(34, 158, 217, 0.32)',
-    Icon: TelegramLineIcon
+    logoSrc: '/telegram-logo.svg',
+    logoAlt: 'Логотип Telegram'
   }
 ]
 
@@ -319,7 +323,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
       </div>
 
       <div className="mx-auto max-w-4xl px-4 text-slate-200">
-         <RevealOnScroll className="mx-auto max-w-2xl text-center">
+        <RevealOnScroll className="mx-auto max-w-2xl text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-300/70">Заявка</span>
           <h2 className="glass-title mt-4 text-3xl font-bold text-white md:text-4xl">Получите персональный расчёт под ваш проект</h2>
           <p className="mt-4 text-lg text-slate-300/80">
@@ -355,11 +359,14 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span
-                  className="flex h-8 w-8 items-center justify-center rounded-full"
-                  style={{ backgroundColor: link.color }}
-                >
-                  <link.Icon className="h-4 w-4" aria-hidden="true" />
+                <span className="flex h-8 w-8 items-center justify-center">
+                  <Image
+                    src={link.logoSrc}
+                    alt={link.logoAlt}
+                    width={32}
+                    height={32}
+                    className="h-8 w-8"
+                  />
                 </span>
                 {link.shortLabel}
               </a>
@@ -384,7 +391,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
       <div className="relative flex flex-col gap-6">
         <div className="space-y-3">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/60">Персональный расчёт</span>
-           <h2 className="glass-title text-2xl font-semibold text-white sm:text-3xl">Получите предложение под вашу технику</h2>
+          <h2 className="glass-title text-2xl font-semibold text-white sm:text-3xl">Получите предложение под вашу технику</h2>
           <p className="text-sm leading-relaxed text-white/70 sm:text-base">
             Оставьте контакты — подготовим несколько сценариев финансирования и отправим расчёт удобным способом.
           </p>
@@ -426,8 +433,14 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span className="flex h-7 w-7 items-center justify-center rounded-full" style={{ backgroundColor: link.color }}>
-                  <link.Icon className="h-4 w-4 text-black" aria-hidden />
+                <span className="flex h-7 w-7 items-center justify-center">
+                  <Image
+                    src={link.logoSrc}
+                    alt={link.logoAlt}
+                    width={28}
+                    height={28}
+                    className="h-7 w-7"
+                  />
                 </span>
                 {link.shortLabel}
               </a>
@@ -471,7 +484,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
 
 
           <form onSubmit={onSubmit} className="space-y-6 px-6 pb-8 pt-14 sm:px-8 sm:pt-16">
-              <h2 className="glass-title text-2xl font-semibold text-white">Оставьте заявку</h2>
+            <h2 className="glass-title text-2xl font-semibold text-white">Оставьте заявку</h2>
             <p className="text-sm text-slate-300/80">
               Мы позвоним или напишем в мессенджер в течение 15 минут в рабочее время.
             </p>
@@ -561,11 +574,14 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <span
-                      className="flex h-8 w-8 items-center justify-center rounded-full"
-                      style={{ backgroundColor: link.color }}
-                    >
-                      <link.Icon className="h-4 w-4" aria-hidden="true" />
+                    <span className="flex h-8 w-8 items-center justify-center">
+                      <Image
+                        src={link.logoSrc}
+                        alt={link.logoAlt}
+                        width={32}
+                        height={32}
+                        className="h-8 w-8"
+                      />
                     </span>
                     {link.label}
                   </a>
