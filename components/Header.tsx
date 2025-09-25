@@ -11,7 +11,7 @@ import {
   TelegramLineIcon,
   WhatsAppLineIcon,
 } from '@/components/icons'
-import { useCallback, useEffect, useState, type CSSProperties } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { openLeadForm } from '@/lib/openLeadForm'
 
 const headerVariants: Variants = {
@@ -102,21 +102,14 @@ const Header = () => {
             className="flex-shrink-0"
           >
             <Link href="/" aria-label="На главную" onClick={closeMenu} className="block">
-              <span
-                className="premium-gold-frame relative inline-flex h-12 w-12 items-center justify-center rounded-full md:h-14 md:w-14"
-                style={{ '--premium-frame-padding': '0.45rem' } as CSSProperties}
-              >
-                <span className="premium-gold-frame__inner">
-                  <Image
-                    src="/logo.svg"
-                    alt="Лизинг и точка"
-                    height={96}
-                    width={96}
-                    className="premium-gold-frame__image h-10 w-10 object-contain md:h-12 md:w-12"
-                    priority
-                  />
-                </span>
-              </span>
+              <Image
+                src="/logo.svg"
+                alt="Лизинг и точка"
+                height={64}
+                width={150}
+                className="h-10 w-auto md:h-12"
+                priority
+              />
             </Link>
           </motion.div>
 
