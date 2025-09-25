@@ -4,7 +4,7 @@ import { IBM_Plex_Mono, Inter, Manrope } from 'next/font/google'
 
 import Header from '@/components/Header'
 import ScrollEffects from '@/components/ScrollEffects'
-
+import SplashScreen from '@/components/SplashScreen'
 import './globals.css'
 
 const inter = Inter({
@@ -84,6 +84,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_20%,rgba(234,179,8,0.18),transparent_55%),radial-gradient(circle_at_82%_15%,rgba(212,175,55,0.16),transparent_60%),radial-gradient(circle_at_52%_78%,rgba(234,179,8,0.12),transparent_62%)] mix-blend-screen opacity-80" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(234,179,8,0.12),transparent_65%)]" />
         </div>
+            <SplashScreen />
         <ScrollEffects />
         <Header />
         {children}
