@@ -21,7 +21,7 @@ type Action =
 export type CalculatorPrefillDetail = { cost?: number; term?: number; advance?: number };
 
 const STORAGE_KEY = 'leasing-calculator-state';
-
+const SUMMARY_STORAGE_KEY = 'calc';
 const INITIALIZER = (): State => {
   if (typeof window === 'undefined') {
     return INITIAL_CALCULATOR_STATE;
@@ -55,11 +55,11 @@ function calculatorReducer(state: State, action: Action): State {
 
       return { ...state, [action.field]: Number(action.value) };
     case 'SET_COST': {
-        const newCost = Number(action.value);
-        if (state.advanceMode === 'currency' && state.advance > newCost) {
-            return { ...state, cost: newCost, advance: newCost };
-        }
-        return { ...state, cost: newCost };
+      const newCost = Number(action.value);
+      if (state.advanceMode === 'currency' && state.advance > newCost) {
+        return { ...state, cost: newCost, advance: newCost };
+      }
+      return { ...state, cost: newCost };
     }
     case 'TOGGLE_ADVANCE_MODE':
       if (state.advanceMode === 'percent') {
@@ -114,7 +114,7 @@ export function useLeasingCalculator() {
     const total = advanceRub + residualRub + monthlyPayment * safeTerm;
     const overpayment = total - safeCost;
     const effectiveRate = safeCost > 0 ? (total / safeCost - 1) * 100 : 0;
-    
+
     const summaryLines = [
       `Стоимость техники: ${formatRub(safeCost)}`,
       `Аванс: ${formatRub(advanceRub)} (${Math.round(advancePercent)}%)`,
@@ -157,7 +157,7 @@ export function useLeasingCalculator() {
     switch (field) {
       case 'cost':
         dispatch({
-         type: 'SET_COST',
+          type: 'SET_COST',
           value: clamp(numericValue, SLIDER_CONFIG.cost.min, SLIDER_CONFIG.cost.max),
         });
         break;
@@ -199,8 +199,14 @@ export function useLeasingCalculator() {
     }
 
     try {
-      window.localStorage.setItem('calc', summary);
-      window.dispatchEvent(new CustomEvent('calc-summary', { detail: summary }));
+      window.localStorage.setItem(SUMMARY_STORAGE_KEY, summary);
+
+      if (typeof document !== 'undefined') {
+        // LeadForm listens for updates on the document, so we dispatch there first.
+        document.dispatchEvent(new CustomEvent<string>('calc-summary', { detail: summary }));
+      }
+
+      window.dispatchEvent(new CustomEvent<string>('calc-summary', { detail: summary }));
       return true;
     } catch (error) {
       console.warn('[calculator] Failed to persist summary', error);

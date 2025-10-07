@@ -1,5 +1,12 @@
-import SplashScreen from '@/components/SplashScreen'
+import type { Metadata, Viewport } from 'next'
+import { IBM_Plex_Mono, Inter, Manrope } from 'next/font/google'
+import type { ReactNode } from 'react'
+
 import GlobalBackground from '@/components/GlobalBackground'
+import Header from '@/components/Header'
+import ScrollEffects from '@/components/ScrollEffects'
+import SplashScreen from '@/components/SplashScreen'
+
 import './globals.css'
 
 const inter = Inter({
