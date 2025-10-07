@@ -4,8 +4,8 @@ import Balatro from '@/components/Balatro'
 
 /**
  * Renders the animated Balatro shader as the global site background.
- * Gradient overlays stay on top to preserve the deep crimson & cobalt palette
- * and ensure a graceful fallback while the shader boots or if WebGL fails.
+ * Gradient overlays preserve the neon amber & ultraviolet palette
+ * and provide a graceful fallback while the shader boots or if WebGL fails.
  */
 const GlobalBackground = () => {
   return (
@@ -16,17 +16,17 @@ const GlobalBackground = () => {
         spinSpeed={6.5}
         spinAmount={0.32}
         pixelFilter={680}
-        color1="#DE443B"
-        color2="#006BB4"
-        color3="#162325"
-        contrast={3.4}
-        lighting={0.35}
+        color1="#FF8A3D"
+        color2="#e2be32ff"
+        color3="#12061E"
+        contrast={3.55}
+        lighting={0.38}
         spinEase={1.15}
         mouseInteraction={false}
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0b1016] via-[#0c141c] to-[#0a0c12] opacity-95" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(222,68,59,0.28),transparent_55%),radial-gradient(circle_at_78%_22%,rgba(0,107,180,0.24),transparent_58%),radial-gradient(circle_at_48%_78%,rgba(22,35,37,0.2),transparent_65%)] mix-blend-screen opacity-80" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_42%_0%,rgba(222,68,59,0.2),transparent_58%),radial-gradient(circle_at_16%_82%,rgba(0,107,180,0.16),transparent_68%),radial-gradient(circle_at_82%_76%,rgba(10,16,22,0.32),transparent_70%)] mix-blend-plus-lighter opacity-70" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0b0718] via-[#110b24] to-[#180d2e] opacity-95" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_22%,rgba(255,138,61,0.3),transparent_55%),radial-gradient(circle_at_78%_18%,rgba(166,77,255,0.26),transparent_58%),radial-gradient(circle_at_46%_78%,rgba(18,6,30,0.22),transparent_68%)] mix-blend-screen opacity-80" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_44%_0%,rgba(255,138,61,0.22),transparent_58%),radial-gradient(circle_at_16%_84%,rgba(166,77,255,0.18),transparent_70%),radial-gradient(circle_at_82%_76%,rgba(21,8,32,0.36),transparent_72%)] mix-blend-plus-lighter opacity-70" />
     </div>
   )
 }
