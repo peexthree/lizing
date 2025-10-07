@@ -22,11 +22,6 @@ const GlobalBackground = () => {
         contrast={3.4}
         lighting={0.35}
         spinEase={1.15}
-Добавить комментарий
-
-Отменить
-
-Комментарий
         mouseInteraction={false}
       />
       <div className="absolute inset-0 bg-gradient-to-br from-[#0b1016] via-[#0c141c] to-[#0a0c12] opacity-95" />
