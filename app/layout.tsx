@@ -1,9 +1,3 @@
-import type { Metadata, Viewport } from 'next'
-import type { ReactNode } from 'react'
-import { IBM_Plex_Mono, Inter, Manrope } from 'next/font/google'
-
-import Header from '@/components/Header'
-import ScrollEffects from '@/components/ScrollEffects'
 import SplashScreen from '@/components/SplashScreen'
 import GlobalBackground from '@/components/GlobalBackground'
 import './globals.css'
@@ -29,11 +23,65 @@ const ibmPlexMono = IBM_Plex_Mono({
   variable: '--font-plex-mono',
 })
 
+const metadataTitle =
+  'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%'
+const metadataDescription =
+  'Лизинг авто и спецтехники по всей России. Быстрое одобрение, индивидуальные условия и сопровождение на каждом этапе сделки.'
+
 const metadataBase = (() => {
   const fallbackUrl = 'http://localhost:3000'
-@@ -55,48 +56,37 @@ export const metadata: Metadata = {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim()
+
+  if (!baseUrl) {
+    return new URL(fallbackUrl)
+  }
+
+  try {
+    return new URL(baseUrl)
+  } catch (initialError) {
+    try {
+      return new URL(`https://${baseUrl}`)
+    } catch (normalizedError) {
+      console.warn(
+        '[metadata] Failed to parse NEXT_PUBLIC_SITE_URL, falling back to localhost:',
+        { initialError, normalizedError },
+      )
+      return new URL(fallbackUrl)
+    }
+  }
+})()
+
+export const metadata: Metadata = {
+  metadataBase,
+  title: metadataTitle,
+  description: metadataDescription,
+  keywords: [
+    'лизинг',
+    'лизинг авто',
+    'лизинг грузовиков',
+    'лизинг спецтехники',
+    'лизинг для бизнеса',
+    'лизинговая компания',
+  ],
+  openGraph: {
+    type: 'website',
+    locale: 'ru_RU',
+    url: '/',
+    title: metadataTitle,
+    description: metadataDescription,
+    siteName: 'Лизинг и точка',
+    images: [
+      {
+        url: '/og.jpg',
+        width: 1200,
+        height: 630,
+        alt: metadataTitle,
+      },
+    ],
+  },
+  twitter: {
     card: 'summary_large_image',
-    title: 'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%',
+    title: metadataTitle,
     description: metadataDescription,
     images: ['/og.jpg'],
   },
@@ -46,8 +94,13 @@ const metadataBase = (() => {
       { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
       { url: '/favicon.ico', sizes: 'any' },
     ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
   manifest: '/site.webmanifest',
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export const viewport: Viewport = {
