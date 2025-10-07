@@ -2,11 +2,11 @@ import type { Metadata, Viewport } from 'next'
 import { IBM_Plex_Mono, Inter, Manrope } from 'next/font/google'
 import type { ReactNode } from 'react'
 
-import GlobalBackground from '@/components/GlobalBackground'
+
 import Header from '@/components/Header'
 import ScrollEffects from '@/components/ScrollEffects'
 import SplashScreen from '@/components/SplashScreen'
-
+import GlobalBackground from '@/components/GlobalBackground'
 import './globals.css'
 
 const inter = Inter({
@@ -117,7 +117,7 @@ export const viewport: Viewport = {
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="ru" className={`${inter.variable} ${manrope.variable} ${ibmPlexMono.variable}`}>
-      <body className={`${inter.className} relative min-h-screen bg-[#050506] text-slate-100 antialiased`}>
+       <body className={`${inter.className} relative min-h-screen bg-[#050506] text-slate-100 antialiased`}>
         <GlobalBackground />
         <SplashScreen />
         <ScrollEffects />
