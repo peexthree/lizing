@@ -42,15 +42,14 @@ body {
   scrollbar-width: thin;
   isolation: isolate;
   background-image:
-    url('/backgrounds/hex-marble.svg'),
-    url('/backgrounds/serpentine-gold.svg'),
+  
     radial-gradient(circle at 12% 18%, rgba(234, 179, 8, 0.18), transparent 55%),
     radial-gradient(circle at 82% 12%, rgba(212, 175, 55, 0.16), transparent 58%),
     radial-gradient(circle at 50% 78%, rgba(234, 179, 8, 0.12), transparent 65%),
     linear-gradient(145deg, rgba(6, 6, 10, 0.92), rgba(5, 5, 8, 0.9));
-  background-blend-mode: soft-light, screen, screen, screen, screen, multiply;
-  background-size: cover, cover, 140% 140%, 150% 150%, 160% 160%, cover;
-  background-position: center, center, 18% 16%, 82% 12%, 54% 80%, center;
+   background-blend-mode: screen, screen, screen, multiply;
+  background-size: 140% 140%, 150% 150%, 160% 160%, cover;
+  background-position: 18% 16%, 82% 12%, 54% 80%, center;
   background-repeat: no-repeat;
 }
 

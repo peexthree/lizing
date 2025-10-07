@@ -5,6 +5,7 @@ import { IBM_Plex_Mono, Inter, Manrope } from 'next/font/google'
 import Header from '@/components/Header'
 import ScrollEffects from '@/components/ScrollEffects'
 import SplashScreen from '@/components/SplashScreen'
+import GlobalBackground from '@/components/GlobalBackground'
 import './globals.css'
 
 const inter = Inter({
@@ -30,28 +31,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 const metadataBase = (() => {
   const fallbackUrl = 'http://localhost:3000'
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || fallbackUrl
-
-  try {
-    return new URL(siteUrl)
-  } catch {
-    return new URL(fallbackUrl)
-  }
-})()
-
-const metadataDescription =
-  'Лизинг для юрлиц, ИП и самозанятых. Быстрое одобрение, гибкие условия, выкуп. Работает по всей РФ. Оставьте заявку — посчитаем платёж и согласуем условия.'
-
-export const metadata: Metadata = {
-  metadataBase,
-  title: 'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%',
-  description: metadataDescription,
-  openGraph: {
-    title: 'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%',
-    description: metadataDescription,
-    images: [{ url: '/og.jpg', width: 1200, height: 630, alt: 'Лизинг и точка' }],
-  },
-  twitter: {
+@@ -55,48 +56,37 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%',
     description: metadataDescription,
@@ -77,19 +57,8 @@ export const viewport: Viewport = {
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="ru" className={`${inter.variable} ${manrope.variable} ${ibmPlexMono.variable}`}>
-      <body className={`${inter.className} relative min-h-screen bg-[#040405] text-slate-100 antialiased`}>
-        <div className="pointer-events-none fixed inset-0 -z-40 overflow-hidden" aria-hidden="true">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#030304] via-[#08080c] to-[#040406]" />
-        </div>
-        <div className="pointer-events-none fixed inset-0 -z-30 overflow-hidden" aria-hidden="true">
-          <div className="absolute inset-0 bg-[url('/backgrounds/hex-marble.svg')] bg-cover bg-center opacity-80 mix-blend-soft-light" />
-          <div className="absolute inset-0 bg-[url('/backgrounds/serpentine-gold.svg')] bg-cover bg-center opacity-65 mix-blend-screen" />
-        </div>
-        <div className="pointer-events-none fixed inset-0 -z-20 overflow-hidden" aria-hidden="true">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(234,179,8,0.22),transparent_52%),radial-gradient(circle_at_82%_18%,rgba(255,220,160,0.18),transparent_60%),radial-gradient(circle_at_52%_78%,rgba(212,175,55,0.12),transparent_62%)] mix-blend-screen" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_48%_115%,rgba(234,179,8,0.16),transparent_68%),radial-gradient(circle_at_12%_108%,rgba(212,175,55,0.1),transparent_72%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(253,230,167,0.2),transparent_56%)] mix-blend-lighten opacity-80" />
-        </div>
+      <body className={`${inter.className} relative min-h-screen bg-[#050506] text-slate-100 antialiased`}>
+        <GlobalBackground />
         <SplashScreen />
         <ScrollEffects />
         <Header />
