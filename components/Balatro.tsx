@@ -1,10 +1,8 @@
-'use client'
+use client'
 
 import clsx from 'clsx'
 import { Mesh, Program, Renderer, Triangle } from 'ogl'
 import { useEffect, useRef } from 'react'
-
-import './Balatro.css'
 
 interface BalatroProps {
   className?: string
@@ -23,7 +21,7 @@ interface BalatroProps {
   mouseInteraction?: boolean
 }
 
-function hexToVec4(hex: string): [number, number, number, number] {
+const hexToVec4 = (hex: string): [number, number, number, number] => {
   const hexStr = hex.replace('#', '')
   let r = 0
   let g = 0
@@ -125,6 +123,9 @@ void main() {
 }
 `
 
+const FALLBACK_BACKGROUND =
+  'radial-gradient(circle at 18% 20%, rgba(234,179,8,0.18), transparent 55%), radial-gradient(circle at 82% 16%, rgba(255,214,142,0.16), transparent 60%), radial-gradient(circle at 52% 78%, rgba(156,107,26,0.12), transparent 65%), linear-gradient(145deg, rgba(6,6,10,0.92), rgba(5,5,8,0.9))'
+
 export default function Balatro({
   className,
   spinRotation = -2.0,
@@ -146,11 +147,35 @@ export default function Balatro({
 
   useEffect(() => {
     const container = containerRef.current
-    if (!container) return
+    if (!container) {
+      return
+    }
 
-    const renderer = new Renderer({ alpha: true })
+    container.style.backgroundImage = FALLBACK_BACKGROUND
+
+    let renderer: Renderer
+    try {
+      renderer = new Renderer({ alpha: true })
+    } catch (error) {
+      console.error('Balatro shader: WebGL initialization failed', error)
+      container.dataset.webgl = 'unsupported'
+      return
+    }
+
     rendererRef.current = renderer
     const { gl } = renderer
+    const canvas = gl.canvas
+
+    Object.assign(canvas.style, {
+      display: 'block',
+      width: '100%',
+      height: '100%',
+      position: 'absolute',
+      top: '0',
+      left: '0',
+      pointerEvents: 'none',
+    })
+
     gl.clearColor(0, 0, 0, 1)
 
     const geometry = new Triangle(gl)
@@ -159,7 +184,9 @@ export default function Balatro({
       fragment: fragmentShader,
       uniforms: {
         iTime: { value: 0 },
-        iResolution: { value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height] },
+        iResolution: {
+          value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height],
+        },
         uSpinRotation: { value: spinRotation },
         uSpinSpeed: { value: spinSpeed },
         uOffset: { value: offset },
@@ -179,14 +206,26 @@ export default function Balatro({
     const mesh = new Mesh(gl, { geometry, program })
 
     const resize = () => {
+      if (!container.offsetWidth || !container.offsetHeight) {
+        return
+      }
+
       renderer.setSize(container.offsetWidth, container.offsetHeight)
-      program.uniforms.iResolution.value = [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height]
+      program.uniforms.iResolution.value = [
+        gl.canvas.width,
+        gl.canvas.height,
+        gl.canvas.width / gl.canvas.height,
+      ]
+    }
+
+    const handleResize = () => {
+      window.requestAnimationFrame(resize)
     }
 
     resize()
-    window.addEventListener('resize', resize)
+    window.addEventListener('resize', handleResize)
 
-    let animationFrameId: number
+    let animationFrameId: number | null = null
     const update = (time: number) => {
       animationFrameId = window.requestAnimationFrame(update)
       program.uniforms.iTime.value = time * 0.001
@@ -194,10 +233,11 @@ export default function Balatro({
     }
 
     animationFrameId = window.requestAnimationFrame(update)
-    container.appendChild(gl.canvas)
+    container.appendChild(canvas)
+    container.dataset.webgl = 'active'
+    container.style.backgroundImage = 'none'
 
     const handleMouseMove = (event: MouseEvent) => {
-      if (!mouseInteraction) return
       const rect = container.getBoundingClientRect()
       const x = (event.clientX - rect.left) / rect.width
       const y = 1.0 - (event.clientY - rect.top) / rect.height
@@ -209,15 +249,23 @@ export default function Balatro({
     }
 
     return () => {
-      window.cancelAnimationFrame(animationFrameId)
-      window.removeEventListener('resize', resize)
+      if (animationFrameId !== null) {
+        window.cancelAnimationFrame(animationFrameId)
+      }
+
+      window.removeEventListener('resize', handleResize)
       if (mouseInteraction) {
         window.removeEventListener('mousemove', handleMouseMove)
       }
-      if (gl.canvas.parentElement === container) {
-        container.removeChild(gl.canvas)
+
+      if (canvas.parentElement === container) {
+        container.removeChild(canvas)
       }
+
       gl.getExtension('WEBGL_lose_context')?.loseContext()
+      rendererRef.current = null
+      container.dataset.webgl = 'released'
+      container.style.backgroundImage = FALLBACK_BACKGROUND
     }
   }, [
     contrast,
@@ -245,5 +293,15 @@ export default function Balatro({
     [],
   )
 
-  return <div ref={containerRef} className={clsx('balatro-container', className)} aria-hidden />
+  return (
+    <div
+      ref={containerRef}
+      className={clsx(
+        'absolute inset-0 h-full w-full overflow-hidden',
+        !mouseInteraction && 'pointer-events-none',
+        className,
+      )}
+      aria-hidden
+    />
+  )
 }

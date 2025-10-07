@@ -41,16 +41,7 @@ body {
   scrollbar-color: rgba(234, 179, 8, 0.45) rgba(12, 12, 16, 0.6);
   scrollbar-width: thin;
   isolation: isolate;
-  background-image:
-  
-    radial-gradient(circle at 12% 18%, rgba(234, 179, 8, 0.18), transparent 55%),
-    radial-gradient(circle at 82% 12%, rgba(212, 175, 55, 0.16), transparent 58%),
-    radial-gradient(circle at 50% 78%, rgba(234, 179, 8, 0.12), transparent 65%),
-    linear-gradient(145deg, rgba(6, 6, 10, 0.92), rgba(5, 5, 8, 0.9));
-   background-blend-mode: screen, screen, screen, multiply;
-  background-size: 140% 140%, 150% 150%, 160% 160%, cover;
-  background-position: 18% 16%, 82% 12%, 54% 80%, center;
-  background-repeat: no-repeat;
+
 }
 
 h1,
@@ -99,60 +90,6 @@ h3 {
   overflow: hidden;
 }
 
-.global-background::before {
-  content: '';
-  position: absolute;
-  inset: -8%;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(234, 179, 8, 0.16), transparent 55%),
-    radial-gradient(circle at 78% 12%, rgba(156, 107, 26, 0.14), transparent 58%),
-    radial-gradient(circle at 48% 82%, rgba(234, 179, 8, 0.12), transparent 65%),
-    linear-gradient(135deg, rgba(5, 5, 8, 0.92), rgba(8, 8, 12, 0.88));
-  filter: blur(34px);
-  transform: translate3d(0, var(--scroll-parallax, 0px), 0) scale(1.06);
-  opacity: 0.85;
-  transition: opacity 0.4s ease;
-  will-change: transform, opacity;
-}
-
-.global-background__overlay {
-  position: absolute;
-  inset: 0;
-}
-
-.global-background__overlay::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 16% 20%, rgba(234, 179, 8, 0.28), transparent 52%),
-    radial-gradient(circle at 82% 12%, rgba(255, 214, 142, 0.2), transparent 58%),
-    linear-gradient(150deg, rgba(10, 10, 15, 0.35), transparent 60%);
-  mix-blend-mode: screen;
-  opacity: 0.85;
-  transform: translate3d(0, var(--scroll-soft, 0px), 0);
-  transition: opacity 0.4s ease;
-  will-change: transform, opacity;
-}
-
-.global-background__overlay::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(234, 179, 8, 0.22), transparent 55%),
-    radial-gradient(circle at 18% 62%, rgba(255, 255, 255, 0.2), transparent 68%),
-    radial-gradient(circle at 82% 72%, rgba(10, 10, 15, 0.28), transparent 70%);
-  opacity: 0.65;
-  mix-blend-mode: lighten;
-  transform: translate3d(0, var(--scroll-overlay, 0px), 0);
-  will-change: transform;
-}
-
-main {
-  position: relative;
-  z-index: 1;
-}
 
 section {
   position: relative;
