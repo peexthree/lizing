@@ -124,7 +124,7 @@ void main() {
 `
 
 const FALLBACK_BACKGROUND =
-  'radial-gradient(circle at 18% 20%, rgba(234,179,8,0.18), transparent 55%), radial-gradient(circle at 82% 16%, rgba(255,214,142,0.16), transparent 60%), radial-gradient(circle at 52% 78%, rgba(156,107,26,0.12), transparent 65%), linear-gradient(145deg, rgba(6,6,10,0.92), rgba(5,5,8,0.9))'
+  'radial-gradient(circle at 18% 20%, rgba(222,68,59,0.22), transparent 55%), radial-gradient(circle at 78% 18%, rgba(0,107,180,0.18), transparent 60%), radial-gradient(circle at 52% 78%, rgba(22,35,37,0.14), transparent 65%), linear-gradient(145deg, rgba(9,13,19,0.94), rgba(10,12,18,0.92))'
 
 export default function Balatro({
   className,
@@ -329,7 +329,7 @@ export default function Balatro({
     <div
       ref={containerRef}
       className={clsx(
-        'absolute inset-0 h-full w-full overflow-hidden bg-[#050506]',
+      'absolute inset-0 h-full w-full overflow-hidden bg-[#0b1016]',
         !mouseInteraction && 'pointer-events-none',
         className,
       )}
