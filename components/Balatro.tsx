@@ -26,6 +26,8 @@ const hexToVec4 = (hex: string): [number, number, number, number] => {
   let r = 0
   let g = 0
   let b = 0
+
+
   let a = 1
 
   if (hexStr.length === 6 || hexStr.length === 8) {
@@ -51,10 +53,9 @@ void main() {
 }
 `
 
+// Fragment shader generating a silky, animated gradient inspired by Balatro's ambience.
 const fragmentShader = `
 precision highp float;
-
-#define PI 3.14159265359
 
 uniform float iTime;
 uniform vec3 iResolution;
@@ -74,52 +75,86 @@ uniform vec2 uMouse;
 
 varying vec2 vUv;
 
-vec4 effect(vec2 screenSize, vec2 screen_coords) {
-    float pixel_size = length(screenSize.xy) / uPixelFilter;
-    vec2 uv = (floor(screen_coords.xy * (1.0 / pixel_size)) * pixel_size - 0.5 * screenSize.xy) / length(screenSize.xy) - uOffset;
-    float uv_len = length(uv);
+mat2 rotation(float angle) {
+  float s = sin(angle);
+  float c = cos(angle);
+  return mat2(c, -s, s, c);
+}
 
-    float speed = (uSpinRotation * uSpinEase * 0.2);
-    if(uIsRotate){
-       speed = iTime * speed;
-    }
-    speed += 302.2;
+float hash(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
 
-    float mouseInfluence = (uMouse.x * 2.0 - 1.0);
-    speed += mouseInfluence * 0.1;
+float noise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  float a = hash(i);
+  float b = hash(i + vec2(1.0, 0.0));
+  float c = hash(i + vec2(0.0, 1.0));
+  float d = hash(i + vec2(1.0, 1.0));
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+}
 
-    float new_pixel_angle = atan(uv.y, uv.x) + speed - uSpinEase * 20.0 * (uSpinAmount * uv_len + (1.0 - uSpinAmount));
-    vec2 mid = (screenSize.xy / length(screenSize.xy)) / 2.0;
-    uv = (vec2(uv_len * cos(new_pixel_angle) + mid.x, uv_len * sin(new_pixel_angle) + mid.y) - mid);
-
-    uv *= 30.0;
-    float baseSpeed = iTime * uSpinSpeed;
-    speed = baseSpeed + mouseInfluence * 2.0;
-
-    vec2 uv2 = vec2(uv.x + uv.y);
-
-    for(int i = 0; i < 5; i++) {
-        uv2 += sin(max(uv.x, uv.y)) + uv;
-        uv += 0.5 * vec2(
-            cos(5.1123314 + 0.353 * uv2.y + speed * 0.131121),
-            sin(uv2.x - 0.113 * speed)
-        );
-        uv -= cos(uv.x + uv.y) - sin(uv.x * 0.711 - uv.y);
-    }
-
-    float contrast_mod = (0.25 * uContrast + 0.5 * uSpinAmount + 1.2);
-    float paint_res = min(2.0, max(0.0, length(uv) * 0.035 * contrast_mod));
-    float c1p = max(0.0, 1.0 - contrast_mod * abs(1.0 - paint_res));
-    float c2p = max(0.0, 1.0 - contrast_mod * abs(paint_res));
-    float c3p = 1.0 - min(1.0, c1p + c2p);
-    float light = (uLighting - 0.2) * max(c1p * 5.0 - 4.0, 0.0) + uLighting * max(c2p * 5.0 - 4.0, 0.0);
-
-    return (0.3 / uContrast) * uColor1 + (1.0 - 0.3 / uContrast) * (uColor1 * c1p + uColor2 * c2p + vec4(c3p * uColor3.rgb, c3p * uColor1.a)) + light;
+float fbm(vec2 p) {
+  float value = 0.0;
+  float amplitude = 0.5;
+  mat2 rot = rotation(0.5);
+  for (int i = 0; i < 5; i++) {
+    value += amplitude * noise(p);
+    p = rot * p * 2.0;
+    amplitude *= 0.5;
+  }
+  return value;
 }
 
 void main() {
-    vec2 uv = vUv * iResolution.xy;
-    gl_FragColor = effect(iResolution.xy, uv);
+  vec2 screen = vUv * iResolution.xy;
+  float pixelSize = max(1.0, length(iResolution.xy) / max(uPixelFilter, 1.0));
+  screen = floor(screen / pixelSize) * pixelSize + pixelSize * 0.5;
+
+  vec2 uv = screen / iResolution.y;
+  uv -= vec2(iResolution.x / iResolution.y * 0.5, 0.5);
+  uv -= uOffset;
+
+  vec2 mouse = (uMouse - 0.5) * 2.0;
+  float timeFactor = iTime * (0.15 + uSpinSpeed * 0.12);
+  float rotationAmount = (uSpinRotation * 0.05 + mouse.x * 0.15) * mix(0.35, 1.3, clamp(uSpinEase, 0.0, 2.0));
+  if (uIsRotate) {
+    rotationAmount += timeFactor;
+  }
+
+  uv = rotation(rotationAmount) * uv;
+  float radius = length(uv);
+  float swirlStrength = mix(0.35, 1.65, clamp(uSpinAmount, 0.0, 1.0));
+  float angle = atan(uv.y, uv.x) * swirlStrength;
+
+  vec2 flowUv = rotation(timeFactor * 0.35) * uv;
+  flowUv += vec2(angle * 0.45, radius * 1.2);
+  flowUv += mouse * 0.2;
+  flowUv *= mix(0.9, 2.4, clamp(1200.0 / max(uPixelFilter, 1.0), 0.0, 1.0));
+
+  float flowNoise = fbm(flowUv + timeFactor) - 0.5;
+  float wave = sin(angle * 3.0 - timeFactor * 2.5) * 0.5 + 0.5;
+  float bloom = smoothstep(0.95, 0.1, radius + flowNoise * 0.18 - wave * 0.12);
+
+  float gradientKey = clamp(radius * 0.85 + flowNoise * 0.25, 0.0, 1.2);
+  vec3 baseColor = mix(uColor3.rgb, uColor2.rgb, gradientKey);
+  vec3 highlightColor = mix(uColor2.rgb, uColor1.rgb, wave);
+  vec3 color = mix(baseColor, highlightColor, bloom);
+
+  float lightingStrength = mix(0.35, 1.35, clamp(uLighting, 0.0, 1.5));
+  color += lightingStrength * vec3(pow(1.0 - clamp(radius, 0.0, 1.0), 2.0)) * (0.4 + 0.6 * wave);
+
+  float contrastStrength = mix(0.75, 1.75, clamp(uContrast / 4.0, 0.0, 1.5));
+  color = pow(color, vec3(1.0 / contrastStrength));
+
+  float vignette = smoothstep(1.2, 0.35, radius + flowNoise * 0.1);
+  color = mix(color * 0.85, color, vignette);
+
+  color = clamp(color, 0.0, 1.0);
+  float alpha = clamp((uColor1.a + uColor2.a + uColor3.a) / 3.0, 0.35, 1.0);
+  gl_FragColor = vec4(color, alpha);
 }
 `
 
