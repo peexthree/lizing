@@ -25,7 +25,7 @@ export default function PrivacyPage() {
           <li>ИНН: 230907403260</li>
           <li>Контактный e-mail для обращений по персональным данным: <a className="underline" href="mailto:dpalenov@lizing-i-tochka.ru">dpalenov@lizing-i-tochka.ru</a></li>
           <li>Дополнительный e-mail: <a className="underline" href="mailto:erevakshin@lizing-i-tochka.ru">erevakshin@lizing-i-tochka.ru</a></li>
-          <li>Телефоны: <a className="underline" href="tel:+79677728299">+7 (967) 77-28-299</a>, <a className="underline" href="tel:+79183798548">+7 (918) 37-98-548</a>, <a className="underline" href="tel:+78004444584">8 800 444-45-84</a></li>
+          <li>Телефон: <a className="underline" href="tel:+79677728299">+7 967 772 8299</a></li>
           <li>Мессенджеры: Telegram <span className="whitespace-nowrap">@dpvlen</span>, WhatsApp (заказ звонка через сайт)</li>
           <li>Юридический и почтовый адрес — указаны в разделе «Контакты» сайта.</li>
         </ul>
@@ -198,7 +198,7 @@ export default function PrivacyPage() {
         </p>
         <ul className="mt-3 list-disc pl-6 space-y-1">
           <li>E-mail: <a className="underline" href="mailto:dpalenov@lizing-i-tochka.ru">dpalenov@lizing-i-tochka.ru</a></li>
-          <li>Телефон: <a className="underline" href="tel:+79677728299">+7 (967) 77-28-299</a></li>
+          <li>Телефон: <a className="underline" href="tel:+79677728299">+7 967 772 8299</a></li>
           <li>Почтовый адрес — в разделе «Контакты» сайта (для письменных обращений).</li>
         </ul>
       </section>

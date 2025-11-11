@@ -20,9 +20,15 @@ const structuredData = {
       url: 'https://lizing-i-tochka.ru',
       logo: 'https://lizing-i-tochka.ru/logo.svg',
       email: ['dpalenov@lizing-i-tochka.ru', 'erevakshin@lizing-i-tochka.ru'],
-      telephone: ['+7 (967) 77-28-299', '+7 (918) 37-98-548', '8 800 444-45-84'],
+      telephone: ['+7 967 772 8299'],
     },
-    ...['Лизинг автомобилей', 'Лизинг грузовой техники', 'Лизинг спецтехники'].map(
+    ...[
+      'Лизинг автомобилей',
+      'Лизинг грузовой техники',
+      'Лизинг спецтехники',
+      'Лизинг недвижимости',
+      'Лизинг оборудования',
+    ].map(
       name => ({
         '@type': 'Service',
         name,

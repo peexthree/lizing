@@ -100,21 +100,22 @@ const AnimatedCounter = ({
 
 const STATS = [
   {
-    value: 26,
+    value: 13,
     label: 'лет на рынке',
-    description: 'Команда с опытом в подборе техники и финансировании проектов.',
+    description: '13 лет сопровождаем лизинговые проекты по всей России.',
   },
   {
-    value: 690_000,
-    label: 'оформленных сделок',
-    description: 'Проверенные кейсы лизинговых партнёров по всей стране.',
+    value: 5_000,
+    label: 'договоров оформлено',
+    suffix: '+',
+    description: 'Более 5000 договоров для бизнеса и частных клиентов.',
     format: (value: number) => new Intl.NumberFormat('ru-RU').format(value),
   },
   {
-    value: 120,
+    value: 50,
     label: 'партнёров',
     suffix: '+',
-    description: 'Лизинговые компании и банки, с которыми работаем ежедневно.',
+    description: '50+ банков и лизинговых компаний в нашей партнёрской сети.',
   },
 ] satisfies Array<{
   value: number

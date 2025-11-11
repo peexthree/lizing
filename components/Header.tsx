@@ -46,7 +46,7 @@ const NAV_LINKS = [
 
 const CONTACT = {
   href: 'tel:+79677728299',
-  label: '+7 (967) 772-82-99',
+  label: '+7 967 772 8299',
 } as const
 
 const SOCIAL_LINKS = [

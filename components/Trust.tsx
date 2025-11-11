@@ -1,9 +1,9 @@
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 const STATS = [
-  { value: '500+', label: 'сделок в год' },
-  { value: '10 000', label: 'клиентов по всей России' },
-  { value: '35', label: 'банков и лизинговых партнёров' },
+  { value: '13', label: 'лет на рынке' },
+  { value: '5 000+', label: 'оформленных договоров' },
+  { value: '50+', label: 'партнёров по всей стране' },
   { value: '92%', label: 'решений доводим до выдачи техники' }
 ] as const
 

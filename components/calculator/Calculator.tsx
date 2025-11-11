@@ -274,40 +274,6 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                   </div>
                 </Field>
 
-                <Field
-                  label="Ставка, % годовых"
-                  valueNode={<ValueBadge>{Number(rate.toFixed(2))} %</ValueBadge>}
-                >
-                  <SliderControl
-                    value={rate}
-                    min={SLIDER_CONFIG.rate.min}
-                    max={SLIDER_CONFIG.rate.max}
-                    step={SLIDER_CONFIG.rate.step}
-                    onChange={(value) => handleFieldChange('rate', value)}
-                  />
-                  <div className="flex justify-between text-xs text-white/40">
-                    <span>{SLIDER_CONFIG.rate.min} %</span>
-                    <span>{SLIDER_CONFIG.rate.max} %</span>
-                  </div>
-                </Field>
-
-                <Field
-                  label="Остаточный платёж, %"
-                  valueNode={<ValueBadge>{Math.round(residual)} %</ValueBadge>}
-                  hint={formatRub(residualRub)}
-                >
-                  <SliderControl
-                    value={residual}
-                    min={SLIDER_CONFIG.residual.min}
-                    max={SLIDER_CONFIG.residual.max}
-                    step={SLIDER_CONFIG.residual.step}
-                    onChange={(value) => handleFieldChange('residual', value)}
-                  />
-                  <div className="flex justify-between text-xs text-white/40">
-                    <span>{SLIDER_CONFIG.residual.min} %</span>
-                    <span>{SLIDER_CONFIG.residual.max} %</span>
-                  </div>
-                </Field>
               </div>
             </div>
 
