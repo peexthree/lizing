@@ -111,5 +111,3 @@ export default function HowItWorks() {
     </section>
   )
 }
-
-export default HowItWorks
