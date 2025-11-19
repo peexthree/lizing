@@ -1,6 +1,6 @@
 
 import Link from 'next/link'
-import Logo from '@/components/Logo' // Исправленный импорт
+import Logo from '@/components/Logo'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -56,16 +56,24 @@ export default function Footer() {
               <div key={title}>
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-200">{title}</h3>
                 <ul className="mt-4 space-y-3">
-                  {links.map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="text-sm text-slate-400 transition-colors hover:text-accent"
-                      >
-                        {link.text}
-                      </Link>
-                    </li>
-                  ))}
+                  {links.map((link) => {
+                    const isInternal = link.href.startsWith('/') || link.href.startsWith('#');
+                    const linkClasses = "text-sm text-slate-400 transition-colors hover:text-accent";
+
+                    return (
+                      <li key={link.href}>
+                        {isInternal ? (
+                          <Link href={link.href as any} className={linkClasses}>
+                            {link.text}
+                          </Link>
+                        ) : (
+                          <a href={link.href} className={linkClasses}>
+                            {link.text}
+                          </a>
+                        )}
+                      </li>
+                    )
+                  })}
                 </ul>
               </div>
             ))}
