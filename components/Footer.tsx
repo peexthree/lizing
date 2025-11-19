@@ -1,6 +1,6 @@
 
 import Link from 'next/link'
-import { Logo } from '@/components/Logo'
+import Logo from '@/components/Logo' // Исправленный импорт
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -40,7 +40,7 @@ export default function Footer() {
           {/* Logo and Copyright */}
           <div className="md:col-span-4">
             <Link href="/" className="inline-block">
-              <Logo className="h-10 text-white" />
+              <Logo />
             </Link>
             <p className="mt-4 text-sm text-slate-400/80">
               Лизинг авто и спецтехники по всей России. Быстрое одобрение и индивидуальные условия.
