@@ -1,14 +1,14 @@
 import Script from 'next/script'
 
-import FAQ, { faq } from '@/components/FAQ'
+import FAQ from '@/components/FAQ'
 import HeroSection from '@/components/Hero'
 import HowItWorks from '@/components/HowItWorks'
 import LeadForm from '@/components/LeadForm'
-import ManagerIntro from '@/components/ManagerIntro'
-import Stats from '@/components/Stats'
 import Testimonials from '@/components/Testimonials'
-import Trust from '@/components/Trust'
-import CalculatorModal from '@/components/calculator/CalculatorModal'
+import Benefits from '@/components/Benefits'
+import UseCases from '@/components/UseCases'
+import Cases from '@/components/Cases'
+import Calculator from '@/components/Calculator'
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -36,14 +36,6 @@ const structuredData = {
         areaServed: { '@type': 'Country', name: 'Россия' },
       }),
     ),
-    {
-      '@type': 'FAQPage',
-      mainEntity: faq.map(item => ({
-        '@type': 'Question',
-        name: item.q,
-        acceptedAnswer: { '@type': 'Answer', text: item.a },
-      })),
-    },
   ],
 } as const
 
@@ -59,15 +51,15 @@ const Page = () => {
 
       <main>
         <HeroSection />
-        <CalculatorModal />
-        <Stats />
-        <ManagerIntro />
-        <HowItWorks />
+        <Calculator />
+        <Benefits />
+        <UseCases />
+        <Cases />
         <Testimonials />
-        <Trust />
+        <HowItWorks />
         <FAQ />
+        <LeadForm />
       </main>
-      <LeadForm />
     </>
   )
 }

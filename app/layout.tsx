@@ -2,12 +2,9 @@ import type { Metadata, Viewport } from 'next'
 import { IBM_Plex_Mono, Inter, Manrope } from 'next/font/google'
 import type { ReactNode } from 'react'
 
-
-import Footer from '@/components/Footer' // Импортируем футер
+import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import ScrollEffects from '@/components/ScrollEffects'
-import SplashScreen from '@/components/SplashScreen'
-import GlobalBackground from '@/components/GlobalBackground'
 import './globals.css'
 
 const inter = Inter({
@@ -112,19 +109,17 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#080C12',
+  themeColor: '#F7FAFF', // Обновляем theme-color на новый фон
 }
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="ru" className={`${inter.variable} ${manrope.variable} ${ibmPlexMono.variable}`}>
-       <body className={`${inter.className} relative min-h-screen bg-primary text-slate-100 antialiased`}>
-        <GlobalBackground />
-        <SplashScreen />
+      <body className={`${inter.className} bg-background text-text`}> {/* Используем классы из новой дизайн-системы */}
         <ScrollEffects />
         <Header />
         {children}
-        <Footer /> {/* Добавляем футер сюда */}
+        <Footer />
       </body>
     </html>
   )
