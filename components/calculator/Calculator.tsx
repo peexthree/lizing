@@ -16,7 +16,7 @@ import { SLIDER_CONFIG } from '@/config/calculator.config';
 import { useLeasingCalculator, formatRub } from '@/hooks/useLeasingCalculator';
 import Slider from '@/components/calculator/ui/Slider';
 const WRAPPER_BASE =
-  'rounded-[28px] border border-white/10 bg-[#0c1230]/90 shadow-[0_45px_120px_rgba(3,7,18,0.55)] backdrop-blur-2xl';
+  'rounded-[28px] border border-white/10 bg-surface/90 shadow-[0_45px_120px_rgba(3,7,18,0.55)] backdrop-blur-2xl';
 
 type CalculatorProps = {
   variant?: 'page' | 'modal';
@@ -136,7 +136,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
     <section id={id} className={sectionClasses}>
       {!isModal && (
         <div
-          className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,rgba(212,175,55,0.22),transparent_55%),radial-gradient(circle_at_82%_18%,rgba(56,189,248,0.18),transparent_58%),linear-gradient(150deg,#030712_0%,#0f172a_45%,#1f2937_100%)]"
+          className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,rgba(0,206,209,0.22),transparent_55%),radial-gradient(circle_at_82%_18%,rgba(56,189,248,0.18),transparent_58%),linear-gradient(150deg,#030712_0%,#0f172a_45%,#1f2937_100%)]"
           aria-hidden
         />
       )}
@@ -185,7 +185,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
               tabIndex={isModal ? -1 : undefined}
               className={
                 isModal
-                  ? 'outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0c1230]'
+                  ? 'outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface'
                   : ''
               }
             >
@@ -282,7 +282,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                 ref={resultsSectionRef}
                 tabIndex={isModal ? -1 : undefined}
                 className={`flex flex-col gap-6 ${isModal
-                  ? 'outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0c1230]'
+                  ? 'outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface'
                   : ''
                   }`}
               >
@@ -291,7 +291,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                     <button
                       type="button"
                       onClick={() => setStep('inputs')}
-                      className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:ring-offset-[#0c1230]"
+                      className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent focus-visible:ring-offset-surface"
                     >
                       Назад
                     </button>
@@ -340,7 +340,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                       <button
                         type="button"
                         onClick={handleApplyToForm}
-                        className="inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-accent via-accent to-accent-alt px-6 py-3 text-sm font-semibold text-white shadow-[0_24px_45px_-24px_rgba(212,175,55,0.6)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                        className="inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-accent via-accent to-accent-alt px-6 py-3 text-sm font-semibold text-white shadow-[0_24px_45px_-24px_rgba(0,206,209,0.6)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
 
                       >
                         Перейти к заявке
@@ -366,7 +366,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                           onClick={() => handleShare('whatsapp')}
                           className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white/80 transition hover:border-white/35 hover:text-white"
                         >
-                           <WhatsAppLineIcon className="h-4 w-4 text-[#25D366]" aria-hidden />
+                           <WhatsAppLineIcon className="h-4 w-4 text-green-500" aria-hidden />
                           WhatsApp
                         </button>
                         <button
@@ -401,7 +401,7 @@ export default function Calculator({ variant = 'page', id = 'calculator', onClos
                 type="button"
                 onClick={() => setStep('results')}
 
-                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_-24px_rgba(212,175,55,0.6)] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_-24px_rgba(0,206,209,0.6)] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
               >
                 Далее
               </button>

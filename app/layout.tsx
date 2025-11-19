@@ -111,13 +111,13 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#050505',
+  themeColor: '#080C12',
 }
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="ru" className={`${inter.variable} ${manrope.variable} ${ibmPlexMono.variable}`}>
-       <body className={`${inter.className} relative min-h-screen bg-[#050506] text-slate-100 antialiased`}>
+       <body className={`${inter.className} relative min-h-screen bg-primary text-slate-100 antialiased`}>
         <GlobalBackground />
         <SplashScreen />
         <ScrollEffects />

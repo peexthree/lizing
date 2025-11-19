@@ -315,7 +315,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
   const defaultVariant = (
     <section id="lead-form" className={clsx('relative overflow-hidden py-20', className)}>
       <div className="absolute inset-0 -z-10">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(234,179,8,0.12),transparent_58%),radial-gradient(circle_at_78%_24%,rgba(212,175,55,0.16),transparent_60%),linear-gradient(150deg,rgba(6,6,10,0.92),rgba(12,12,20,0.82))]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(0,206,209,0.12),transparent_58%),radial-gradient(circle_at_78%_24%,rgba(0,163,166,0.16),transparent_60%),linear-gradient(150deg,rgba(6,6,10,0.92),rgba(12,12,20,0.82))]" />
         <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/55 to-transparent" />
         <div className="floating-orb left-[18%] top-[10rem] hidden h-[280px] w-[280px] bg-white/10 blur-3xl md:block" />
@@ -385,7 +385,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
         className
       )}
     >
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_20%,rgba(234,179,8,0.12),transparent_55%),radial-gradient(circle_at_82%_15%,rgba(212,175,55,0.15),transparent_60%),linear-gradient(160deg,rgba(9,12,28,0.95),rgba(10,16,36,0.85))]" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_20%,rgba(0,206,209,0.12),transparent_55%),radial-gradient(circle_at_82%_15%,rgba(0,163,166,0.15),transparent_60%),linear-gradient(160deg,rgba(9,12,28,0.95),rgba(10,16,36,0.85))]" />
       <div className="pointer-events-none absolute inset-x-6 top-0 h-16 rounded-b-[3rem] bg-gradient-to-b from-white/10 to-transparent" />
 
       <div className="relative flex flex-col gap-6">
@@ -400,7 +400,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
         <button
           type="button"
           onClick={handleOpenClick}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-alt to-accent px-8 py-3 text-sm font-semibold text-black shadow-[0_20px_40px_rgba(212,175,55,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_30px_60px_rgba(212,175,55,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-alt to-accent px-8 py-3 text-sm font-semibold text-black shadow-[0_20px_40px_rgba(0,206,209,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_30px_60px_rgba(0,206,209,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
         >
           Оставить заявку
         </button>
@@ -637,4 +637,3 @@ export function formatPhone(digits: string) {
 
   return result
 }
-

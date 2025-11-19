@@ -4,11 +4,12 @@ import Image from 'next/image'
 import type { CSSProperties } from 'react'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { openLeadForm } from '@/lib/openLeadForm'
+import { WhatsAppLineIcon, TelegramLineIcon, PhoneIcon } from '@/components/icons' // Импортируем новые иконки
 
 const ManagerIntro = () => {
   return (
     <section className="relative overflow-hidden py-20">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_18%,rgba(234,179,8,0.12),transparent_60%),radial-gradient(circle_at_78%_16%,rgba(212,175,55,0.14),transparent_58%),linear-gradient(140deg,rgba(7,7,12,0.92),rgba(10,10,18,0.82))]" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_18%,rgba(0,206,209,0.12),transparent_60%),radial-gradient(circle_at_78%_16%,rgba(0,163,166,0.14),transparent_58%),linear-gradient(140deg,rgba(7,7,12,0.92),rgba(10,10,18,0.82))]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/60 to-transparent" />
 
       <div className="mx-auto max-w-6xl px-4">
@@ -49,17 +50,36 @@ const ManagerIntro = () => {
                   Моя задача — быть вашим проводником в лизинге. Вместо шаблонной продажи я разбираюсь в вашей задаче и подбираю решение без скрытых платежей и мелкого шрифта.
                 </p>
                 <p>
-                  Давайте обсудим, что вам нужно. Опишите цель — и я предложу чёткий, прозрачный план действий.
+                  Давайте обсудим, что вам нужно. Опишите цель — и я предложу чёткий, прозрачный план действий. Свяжитесь со мной напрямую в WhatsApp или Telegram!
                 </p>
               </div>
-              <div>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <button
                   type="button"
                   onClick={() => openLeadForm?.()}
                   className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-accent via-accent-alt to-accent px-8 py-3 text-sm font-semibold text-black shadow-glow transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
+                  <PhoneIcon className="h-5 w-5 mr-2" />
                   Получить бесплатную консультацию
                 </button>
+                <a
+                  href="https://wa.me/79677728299"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-white/40 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
+                >
+                  <WhatsAppLineIcon className="h-5 w-5 mr-2" />
+                  WhatsApp
+                </a>
+                <a
+                  href="https://t.me/dpvlen"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-white/40 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
+                >
+                  <TelegramLineIcon className="h-5 w-5 mr-2" />
+                  Telegram
+                </a>
               </div>
             </div>
           </div>

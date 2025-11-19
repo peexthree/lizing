@@ -17,15 +17,15 @@ import { openLeadForm } from '@/lib/openLeadForm'
 const headerVariants: Variants = {
   top: {
     backgroundColor: 'rgba(10, 10, 15, 0.65)',
-    borderColor: 'rgba(234, 179, 8, 0.18)',
-    boxShadow: '0 18px 70px -45px rgba(234, 179, 8, 0.35)',
+    borderColor: 'rgba(0, 206, 209, 0.18)',
+    boxShadow: '0 18px 70px -45px rgba(0, 206, 209, 0.35)',
     paddingTop: '1rem',
     paddingBottom: '1rem',
     backdropFilter: 'blur(18px)',
   },
   scrolled: {
     backgroundColor: 'rgba(10, 10, 15, 0.88)',
-    borderColor: 'rgba(234, 179, 8, 0.28)',
+    borderColor: 'rgba(0, 206, 209, 0.28)',
     boxShadow: '0 25px 70px -30px rgba(10, 10, 15, 0.65)',
     paddingTop: '0.75rem',
     paddingBottom: '0.75rem',
@@ -136,7 +136,7 @@ const Header = () => {
             <button
               type="button"
               onClick={handleLeadClick}
-              className="rounded-full bg-gradient-to-r from-accent via-accent-alt to-accent px-5 py-2.5 text-sm font-semibold text-black shadow-glow transition-all hover:shadow-[0_0_25px_rgba(234,179,8,0.45)] active:scale-95"
+              className="rounded-full bg-gradient-to-r from-accent via-accent-alt to-accent px-5 py-2.5 text-sm font-semibold text-black shadow-glow transition-all hover:shadow-[0_0_25px_rgba(0,206,209,0.45)] active:scale-95"
             >
               Оставить заявку
             </button>
@@ -147,7 +147,7 @@ const Header = () => {
               type="button"
               onClick={handleLeadClick}
               aria-label="Оставить заявку"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-accent to-accent-alt text-black shadow-glow transition hover:shadow-[0_0_18px_rgba(234,179,8,0.45)] active:scale-95"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-accent to-accent-alt text-black shadow-glow transition hover:shadow-[0_0_18px_rgba(0,206,209,0.45)] active:scale-95"
             >
               <PenIcon className="h-5 w-5" />
             </button>

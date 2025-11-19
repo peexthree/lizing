@@ -1,9 +1,9 @@
 export default function PrivacyPage() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-16 text-dark">
+    <main className="mx-auto max-w-6xl px-4 py-16 text-text">
       <h1 className="text-3xl font-semibold">Политика конфиденциальности и обработки персональных данных</h1>
 
-      <p className="mt-3 text-sm text-neutral-600">
+      <p className="mt-3 text-sm text-muted">
         Редакция от 13.09.2025 • Версия 1.0
       </p>
 
@@ -204,7 +204,7 @@ export default function PrivacyPage() {
       </section>
 
       {/* Юр. дисклеймер */}
-      <p className="mt-10 text-sm text-neutral-600">
+      <p className="mt-10 text-sm text-muted">
         Примечание: расчёты и примеры на сайте носят информационный характер и не являются публичной офертой. Использование сайта означает согласие с настоящей Политикой и условиями обработки персональных данных.
       </p>
     </main>

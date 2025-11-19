@@ -7,7 +7,7 @@ export default function CalculatorModal() {
   return (
     <section className="relative overflow-hidden py-24 sm:py-28">
       <div
-        className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,rgba(234,179,8,0.2),transparent_58%),radial-gradient(circle_at_82%_30%,rgba(212,175,55,0.16),transparent_62%),linear-gradient(145deg,#07070f_0%,#10111c_55%,#161725_100%)]"
+        className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,rgba(0,206,209,0.2),transparent_58%),radial-gradient(circle_at_82%_30%,rgba(0,163,166,0.16),transparent_62%),linear-gradient(145deg,#07070f_0%,#10111c_55%,#161725_100%)]"
         aria-hidden
       />
       <div className="absolute inset-0 -z-10 opacity-60" aria-hidden>

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useInView } from 'framer-motion'
+import { MedalIcon, FileTextIcon, HandshakeIcon } from '@/components/icons'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 const integerFormatter = new Intl.NumberFormat('ru-RU')
 
@@ -103,6 +104,7 @@ const STATS = [
     value: 13,
     label: 'лет на рынке',
     description: '13 лет сопровождаем лизинговые проекты по всей России.',
+    icon: MedalIcon
   },
   {
     value: 5_000,
@@ -110,12 +112,14 @@ const STATS = [
     suffix: '+',
     description: 'Более 5000 договоров для бизнеса и частных клиентов.',
     format: (value: number) => new Intl.NumberFormat('ru-RU').format(value),
+    icon: FileTextIcon
   },
   {
     value: 50,
     label: 'партнёров',
     suffix: '+',
     description: '50+ банков и лизинговых компаний в нашей партнёрской сети.',
+    icon: HandshakeIcon
   },
 ] satisfies Array<{
   value: number
@@ -123,13 +127,14 @@ const STATS = [
   description: string
   suffix?: string
   format?: (value: number) => string
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
 }>
 
 const Stats = () => {
   return (
     <section className="relative overflow-hidden py-20">
       <div className="absolute inset-0 -z-10">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_15%,rgba(234,179,8,0.1),transparent_60%),radial-gradient(circle_at_85%_12%,rgba(212,175,55,0.12),transparent_58%),linear-gradient(160deg,rgba(6,6,10,0.92),rgba(10,10,18,0.8))]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_15%,rgba(0,206,209,0.1),transparent_60%),radial-gradient(circle_at_85%_12%,rgba(0,163,166,0.12),transparent_58%),linear-gradient(160deg,rgba(6,6,10,0.92),rgba(10,10,18,0.8))]" />
         <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 to-transparent" />
         <div className="floating-orb left-[10%] top-[2rem] hidden h-[220px] w-[220px] bg-accent/20 blur-3xl md:block" />
         <div className="floating-orb right-[14%] bottom-[-4rem] hidden h-[280px] w-[280px] bg-white/10 blur-3xl lg:block" />
@@ -146,12 +151,15 @@ const Stats = () => {
 
         <RevealOnScroll className="mt-12 overflow-hidden rounded-[2.5rem] border border-white/10 bg-surface/80 p-8 shadow-[0_40px_120px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
           <div className="grid gap-10 sm:grid-cols-3">
-            {STATS.map(({ value, label, description, suffix, format }, index) => (
+            {STATS.map(({ value, label, description, suffix, format, icon: Icon }, index) => (
               <RevealOnScroll
                 key={label}
                 delay={index * 0.12}
-                className="flex flex-col items-center gap-3 text-center text-slate-200 transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02]"
+                className="group flex flex-col items-center gap-3 text-center text-slate-200"
               >
+                <div className="relative flex h-16 w-16 items-center justify-center rounded-full border-2 border-accent/30 bg-black/50 text-accent transition-all duration-300 group-hover:scale-110 group-hover:border-accent/50 group-hover:bg-accent/20 group-hover:shadow-[0_0_25px_rgba(0,206,209,0.5)]">
+                  <Icon className="h-8 w-8" />
+                </div>
                 <AnimatedCounter
                   value={value}
                   suffix={suffix}

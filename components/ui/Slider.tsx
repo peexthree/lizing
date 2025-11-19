@@ -6,9 +6,6 @@ import clsx from 'clsx'
 
 export type SliderProps = React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
 
-// Ваша функция для кастомной обработки скролла осталась без изменений,
-// так как это очень полезная UX-доработка, которая предотвращает
-// случайное изменение значения слайдера при прокрутке страницы.
 const SCROLLABLE_OVERFLOW = /(auto|scroll)/i
 
 function findScrollableContainer(element: HTMLElement): HTMLElement | null {
@@ -67,19 +64,16 @@ const Slider = React.forwardRef<
       ref={ref}
       onWheel={handleWheel}
       className={clsx(
-        'relative flex w-full touch-none select-none items-center group', // Добавлен класс 'group' для управления дочерними элементами
+        'relative flex w-full touch-none select-none items-center group',
         className
       )}
       {...props}
     >
-      {/* Полоса слайдера (трек) */}
-      <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
-        {/* Заполненная часть полосы */}
-        <SliderPrimitive.Range className="absolute h-full bg-slate-900 dark:bg-slate-50" />
+      <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-surface-muted">
+        <SliderPrimitive.Range className="absolute h-full bg-accent" />
       </SliderPrimitive.Track>
       
-      {/* Ползунок */}
-      <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-slate-900 bg-white dark:border-slate-50 dark:bg-slate-950 shadow-md transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:focus-visible:ring-slate-700 disabled:pointer-events-none disabled:opacity-50 group-hover:scale-110" />
+      <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-accent bg-text shadow-md transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface disabled:pointer-events-none disabled:opacity-50 group-hover:scale-110" />
     </SliderPrimitive.Root>
   )
 })

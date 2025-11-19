@@ -2,21 +2,37 @@
 
 import React from 'react'
 
-import { ArrowDownIcon, CheckCircleIcon, GaugeIcon, SparkleIcon, TimerIcon } from '@/components/icons'
+import { ArrowDownIcon, CheckCircleIcon, GaugeIcon, SparkleIcon, TimerIcon, TruckIcon, HandshakeIcon, FileTextIcon, PhoneIcon, WhatsAppLineIcon, TelegramLineIcon } from '@/components/icons'
 
 import { openCalculator } from '@/lib/openCalculator'
 import { openLeadForm } from '@/lib/openLeadForm'
 
 const FEATURES = [
-  'Аванс от 0% и одобрение в течение суток',
-  'Легковые, грузовые, спецтехника, недвижимость и оборудование для бизнеса и частных лиц',
-  '50+ банков и лизинговых компаний в одном окне',
-  'Оформление дистанционно по всей России',
+  { text: 'Аванс от 0% и одобрение в течение суток', icon: TimerIcon },
+  { text: 'Легковые, грузовые, спецтехника, недвижимость и оборудование для бизнеса и частных лиц', icon: TruckIcon },
+  { text: '50+ банков и лизинговых компаний в одном окне', icon: HandshakeIcon },
+  { text: 'Оформление дистанционно по всей России', icon: FileTextIcon },
 ] as const
 
 const CONTACT_POINTS = [
-  { label: '📞 +7 967 772 8299', description: 'Бесплатная консультация эксперта' },
-  { label: 'Устали от высоких ставок?', description: '⚡ Начните экономить на лизинге уже сегодня' },
+  {
+    icon: PhoneIcon,
+    text: '+7 967 772 8299',
+    description: 'Бесплатная консультация эксперта',
+    link: 'tel:+79677728299',
+  },
+  {
+    icon: WhatsAppLineIcon,
+    text: 'Написать в WhatsApp',
+    description: 'Сэкономьте время и начните экономить на лизинге уже сегодня',
+    link: 'https://wa.me/79677728299',
+  },
+  {
+    icon: TelegramLineIcon,
+    text: 'Написать в Telegram',
+    description: 'Быстрый ответ и удобная переписка',
+    link: 'https://t.me/dpvlen',
+  },
 ] as const
 
 const HeroSection: React.FC = () => {
@@ -70,13 +86,13 @@ const HeroSection: React.FC = () => {
               className="grid gap-3 text-sm text-white/85 opacity-0 animate-fade-up sm:grid-cols-2"
               style={{ animationDelay: '320ms' }}
             >
-              {FEATURES.map(feature => (
+              {FEATURES.map((feature, index) => (
                 <li
-                  key={feature}
+                  key={index}
                   className="flex items-center gap-2 rounded-3xl border border-white/25 bg-white/10 px-4 py-3 shadow-sm backdrop-blur transition-transform duration-300 hover:-translate-y-0.5"
                 >
-                  <CheckCircleIcon className="h-4 w-4 text-accent" aria-hidden />
-                  <span>{feature}</span>
+                  <feature.icon className="h-4 w-4 text-accent" aria-hidden />
+                  <span>{feature.text}</span>
                 </li>
               ))}
             </ul>
@@ -86,7 +102,7 @@ const HeroSection: React.FC = () => {
                 type="button"
                 onClick={() => openLeadForm?.()}
 
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-10 py-4 text-base font-semibold text-white shadow-glow transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-10 py-4 text-base font-semibold text-black shadow-glow transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-dark opacity-0 animate-fade-up animate-pulse-subtle"
 
                 style={{ animationDelay: '380ms' }}
               >
@@ -107,11 +123,22 @@ const HeroSection: React.FC = () => {
             </div>
 
             <div className="flex flex-col gap-6 text-sm text-white/70 sm:flex-row sm:flex-wrap sm:items-center">
-              {CONTACT_POINTS.map(contact => (
-                <div key={contact.label} className="text-center sm:text-left">
-                  <span className="block text-white/50">{contact.label}</span>
-                  <p className="font-medium text-white">{contact.description}</p>
-                </div>
+              {CONTACT_POINTS.map((contact, index) => (
+                <a
+                  key={index}
+                  href={contact.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3 rounded-3xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white shadow-sm backdrop-blur transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02]"
+                >
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-accent/40 bg-accent/20 transition-all duration-300 group-hover:bg-accent/30 group-hover:border-accent/60">
+                    <contact.icon className="h-5 w-5 text-accent" aria-hidden />
+                  </span>
+                  <div className="text-left">
+                    <span className="block text-white/50">{contact.text}</span>
+                    <p className="font-medium text-white">{contact.description}</p>
+                  </div>
+                </a>
               ))}
 
               <div className="flex items-center gap-3 rounded-3xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white shadow-sm backdrop-blur">
