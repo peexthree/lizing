@@ -3,6 +3,7 @@ import { IBM_Plex_Mono, Inter, Manrope } from 'next/font/google'
 import type { ReactNode } from 'react'
 
 
+import Footer from '@/components/Footer' // Импортируем футер
 import Header from '@/components/Header'
 import ScrollEffects from '@/components/ScrollEffects'
 import SplashScreen from '@/components/SplashScreen'
@@ -123,6 +124,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         <ScrollEffects />
         <Header />
         {children}
+        <Footer /> {/* Добавляем футер сюда */}
       </body>
     </html>
   )
