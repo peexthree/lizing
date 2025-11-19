@@ -39,7 +39,8 @@ const logoVariants: Variants = {
 }
 
 const NAV_LINKS = [
-  { href: '/#how', label: 'Как работает' },
+  { href: '/#why', label: 'Преимущества' },
+  { href: '/#how', label: 'Этапы' },
   { href: '/calculator', label: 'Калькулятор' },
   { href: '/#faq', label: 'FAQ' },
 ] as const
