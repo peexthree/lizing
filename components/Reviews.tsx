@@ -66,7 +66,7 @@ export default function Reviews() {
         <div className="mx-auto max-w-2xl text-center">
            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">Отзывы</span>
           <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">Что говорят наши клиенты</h2>
-          <p className="mt-2 text-lg leading-8 text-white/70">
+          <p className="mt-2 text-lg leading-8 text-white/70" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>
             Мы гордимся нашей репутацией. Вот что говорят о нас на Яндекс.Картах.
           </p>
         </div>
@@ -101,7 +101,7 @@ export default function Reviews() {
                       />
                     ))}
                   </div>
-                  <blockquote className="mt-4 text-white/90 h-16 sm:h-12">
+                  <blockquote className="mt-4 text-white/90 h-16 sm:h-12" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>
                     <div dangerouslySetInnerHTML={{ __html: reviews[activeIndex].content }} />
                   </blockquote>
                   <div className="mt-4 text-xs text-white/50">

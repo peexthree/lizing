@@ -24,7 +24,7 @@ export default function PrivacyPage() {
         </div>
 
         {/* Main Content */}
-        <div className="prose prose-invert mt-12 max-w-none prose-headings:font-semibold prose-headings:text-white prose-h2:border-l-4 prose-h2:border-accent/80 prose-h2:pl-4 prose-h2:text-2xl prose-h2:font-bold prose-a:text-accent prose-a:transition-colors hover:prose-a:text-accent-alt prose-strong:text-slate-100 prose-ul:space-y-2">
+        <div className="prose prose-invert mt-12 max-w-none prose-headings:font-semibold prose-headings:text-white prose-h2:border-l-4 prose-h2:border-accent/80 prose-h2:pl-4 prose-h2:text-2xl prose-h2:font-bold prose-a:text-accent prose-a:transition-colors hover:prose-a:text-accent-alt prose-strong:text-slate-100 prose-ul:space-y-2 bg-white/5 border border-white/20 rounded-2xl p-8 md:p-12 shadow-soft-lg backdrop-blur-2xl">
           <p style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>
             Эта Политика объясняет, как мы обращаемся с вашими данными. Мы работаем в
             соответствии с законами России, включая ФЗ «О персональных данных» и ФЗ «О

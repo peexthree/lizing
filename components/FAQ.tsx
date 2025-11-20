@@ -70,11 +70,11 @@ const FAQ: React.FC = () => {
                         FAQ
                     </span>
                     <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-text sm:text-4xl">Вопросы и ответы</h2>
-                    <p className="mt-4 max-w-2xl mx-auto text-lg text-muted">
+                    <p className="mt-4 max-w-2xl mx-auto text-lg text-muted" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>
                         Здесь мы собрали ответы на самые популярные вопросы, которые помогут вам принять верное решение.
                     </p>
                 </div>
-                <div className="mt-12">
+                <div className="mt-12 bg-white/5 border border-white/20 rounded-2xl p-8 md:p-12 shadow-soft-lg backdrop-blur-2xl">
                     {faqData.map((faq, index) => (
                         <AccordionItem
                             key={index}
@@ -86,7 +86,7 @@ const FAQ: React.FC = () => {
                     ))}
                 </div>
                  <div className="mt-12 text-center">
-                    <p className="text-lg text-muted">Не нашли ответа на свой вопрос?</p>
+                    <p className="text-lg text-muted" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>Не нашли ответа на свой вопрос?</p>
                     <a href="#lead-form" className="mt-4 inline-block font-semibold text-accent hover:text-accent/90 transition-colors">Свяжитесь с нами</a>
                 </div>
             </div>

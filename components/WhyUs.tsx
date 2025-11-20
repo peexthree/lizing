@@ -10,9 +10,9 @@ export default function WhyUs() {
             { title: 'Минимальный аванс', text: 'В т.ч. первый платёж вместо аванса — по подходящим программам' },
             { title: 'Прозрачность', text: 'Примеры сделок и расчёты до заявки, без обязательств' },
           ].map((b) => (
-            <div key={b.title} className="rounded-2xl border border-white/10 bg-surface/80 p-6 shadow-soft-lg backdrop-blur-2xl">
+            <div key={b.title} className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-soft-lg backdrop-blur-2xl">
               <h3 className="font-semibold text-text">{b.title}</h3>
-              <p className="mt-2 text-sm text-muted">{b.text}</p>
+              <p className="mt-2 text-sm text-muted" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>{b.text}</p>
             </div>
           ))}
         </div>

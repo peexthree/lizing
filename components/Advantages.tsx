@@ -34,7 +34,7 @@ export default function Advantages() {
         <div className="mx-auto max-w-3xl text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">Преимущества</span>
               <h2 className="glass-title glass-title--light mt-4 text-3xl font-bold text-white md:text-4xl">Цифры, подтверждающие наш опыт</h2>
-          <p className="mt-4 text-lg text-white/70">
+          <p className="mt-4 text-lg text-white/70" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>
             Команда, которая ведёт переговоры с лизинговыми компаниями, контролирует договоры и помогает быстро выходить на технику без переплат.
           </p>
         </div>
@@ -54,7 +54,7 @@ export default function Advantages() {
                   <span className="text-3xl font-mono font-bold text-white md:text-4xl">{value}</span>
                   <span className="text-sm font-semibold uppercase tracking-[0.3em] text-white/50">{label}</span>
                 </div>
-                <p className="text-sm leading-relaxed text-white/70">{description}</p>
+                <p className="text-sm leading-relaxed text-white/70" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>{description}</p>
               </div>
             </div>
           ))}
@@ -62,8 +62,8 @@ export default function Advantages() {
 
         <div className="mt-14 grid gap-4 rounded-[2.5rem] border border-white/10 bg-white/5 p-8 text-left shadow-glow backdrop-blur-2xl md:grid-cols-[1.1fr_minmax(0,1fr)]">
           <div className="space-y-2 text-sm text-white/70">
-            <h3 className="text-lg font-semibold text-white">Сфокусированы на выгоде клиента</h3>
-            <p>
+            <h3 className="text-lg font-semibold text-white" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>Сфокусированы на выгоде клиента</h3>
+            <p style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>
               Анализируем рынок, проверяем условия у партнёров и сопровождаем сделку на каждом этапе, чтобы вы получили оптимальную ставку и защитили инвестиции.
             </p>
           </div>

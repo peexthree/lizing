@@ -42,7 +42,7 @@ const HowItWorks: React.FC = () => {
           <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Всего 5 шагов до вашей новой техники
           </h2>
-          <p className="mt-4 max-w-3xl mx-auto text-lg text-white/70">
+          <p className="mt-4 max-w-3xl mx-auto text-lg text-white/70" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>
             Мы сделали процесс получения лизинга максимально простым и прозрачным для вас.
           </p>
         </div>
@@ -69,7 +69,7 @@ const HowItWorks: React.FC = () => {
                     <step.icon className="h-6 w-6" />
                   </div>
                   <h3 className="mt-4 text-xl font-semibold text-white">{step.title}</h3>
-                  <p className="mt-3 text-base text-white/70">{step.description}</p>
+                  <p className="mt-3 text-base text-white/70" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>{step.description}</p>
                 </div>
               </div>
             </RevealOnScroll>
