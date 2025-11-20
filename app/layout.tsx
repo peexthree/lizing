@@ -109,13 +109,13 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#F7FAFF', // Обновляем theme-color на новый фон
+  themeColor: '#080d1e', // Обновляем theme-color на новый фон
 }
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="ru" className={`${inter.variable} ${manrope.variable} ${ibmPlexMono.variable}`}>
-      <body className={`${inter.className} bg-background text-text`}> {/* Используем классы из новой дизайн-системы */}
+      <body className={`${inter.className} text-text`}>
         <ScrollEffects />
         <Header />
         {children}

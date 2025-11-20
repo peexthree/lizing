@@ -10,27 +10,31 @@
   body {
     @apply bg-background text-text antialiased;
     font-feature-settings: 'rlig' 1, 'calt' 1;
+    background: radial-gradient(circle at 18% 18%, rgba(0, 206, 209, 0.12), transparent 58%),
+                radial-gradient(circle at 78% 24%, rgba(0, 163, 166, 0.16), transparent 60%),
+                linear-gradient(150deg, rgba(6, 6, 10, 0.92), rgba(12, 12, 20, 0.82));
+    background-color: #080d1e; /* Глубокий тёмно-синий как запасной вариант */
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading font-bold text-text;
   }
 
-  /* Стили для скроллбара под новую светлую тему */
+  /* Стили для скроллбара под новую темную тему */
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-slate-100;
+    @apply bg-surface/50;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-300 rounded-full;
+    @apply bg-surface-muted rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-400;
+    @apply bg-muted;
   }
 }
