@@ -32,24 +32,24 @@ const Calculator: FC = () => {
     <section id="calculator" className="relative overflow-hidden py-20">
       <div className="mx-auto max-w-4xl px-4">
         <div className="text-center">
-            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-muted">
+            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">
                 Калькулятор
             </span>
-            <h2 className="glass-title mt-4 text-3xl font-bold text-text md:text-4xl">
+            <h2 className="glass-title mt-4 text-3xl font-bold text-white md:text-4xl">
                 Калькулятор лизинга
             </h2>
-             <p className="mt-4 text-lg text-text/80">
+             <p className="mt-4 text-lg text-white/80">
                 Рассчитайте примерный платёж и оставьте заявку — подберём для вас лучшие условия.
             </p>
         </div>
 
-        <div className="relative mt-12 rounded-3xl border border-white/10 bg-surface/80 p-8 shadow-soft-lg backdrop-blur-2xl">
+        <div className="relative mt-12 rounded-3xl border border-white/10 bg-white/5 p-8 shadow-soft-lg backdrop-blur-2xl">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="space-y-3">
-              <label className="text-sm font-semibold text-muted">
+              <label className="text-sm font-semibold text-white/50">
                 Стоимость техники
               </label>
-              <p className="text-3xl font-bold text-text">
+              <p className="text-3xl font-bold text-white">
                 {cost.toLocaleString()}&nbsp;₽
               </p>
               <Slider
@@ -61,10 +61,10 @@ const Calculator: FC = () => {
               />
             </div>
             <div className="space-y-3">
-              <label className="text-sm font-semibold text-muted">
+              <label className="text-sm font-semibold text-white/50">
                 Аванс ({initialFee}%)
               </label>
-              <p className="text-3xl font-bold text-text">
+              <p className="text-3xl font-bold text-white">
                 {Math.round((cost * initialFee) / 100).toLocaleString()}&nbsp;₽
               </p>
               <Slider
@@ -76,10 +76,10 @@ const Calculator: FC = () => {
               />
             </div>
             <div className="space-y-3">
-              <label className="text-sm font-semibold text-muted">
+              <label className="text-sm font-semibold text-white/50">
                 Срок лизинга
               </label>
-              <p className="text-3xl font-bold text-text">{term} мес.</p>
+              <p className="text-3xl font-bold text-white">{term} мес.</p>
               <Slider
                 value={[term]}
                 onValueChange={(value) => setTerm(value[0])}
@@ -89,14 +89,14 @@ const Calculator: FC = () => {
               />
             </div>
           </div>
-          <div className="mt-8 rounded-2xl border border-accent/20 bg-accent/10 p-6 text-center">
-            <p className="text-sm font-semibold text-accent/80">
+          <div className="mt-8 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-6 text-center">
+            <p className="text-sm font-semibold text-emerald-400/80">
               Ежемесячный платёж:
             </p>
             <p className="mt-2 text-4xl font-extrabold text-white">
               {monthlyPayment.toLocaleString()}&nbsp;₽
             </p>
-            <p className="mt-2 text-xs text-accent/60">
+            <p className="mt-2 text-xs text-emerald-400/60">
               Расчёт является предварительным
             </p>
           </div>

@@ -30,11 +30,11 @@ const Benefits: React.FC = () => {
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="lg:max-w-lg">
             <RevealOnScroll className="flex h-full flex-col justify-center">
-                <span className="text-xs font-semibold uppercase tracking-[0.35em] text-muted">
+                <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">
                     Преимущества
                 </span>
-              <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-text sm:text-4xl">Быстро. Удобно. Выгодно.</h2>
-              <p className="mt-4 text-lg text-muted">
+              <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">Быстро. Удобно. Выгодно.</h2>
+              <p className="mt-4 text-lg text-white/70">
                 Мы создали сервис, который помогает бизнесу и частным лицам получать лучшие условия по лизингу без лишних усилий.
               </p>
             </RevealOnScroll>
@@ -42,12 +42,12 @@ const Benefits: React.FC = () => {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
             {benefits.map((benefit, index) => (
               <RevealOnScroll key={benefit.name} delay={index * 0.1} className="h-full">
-                <div className="h-full rounded-3xl border border-white/10 bg-surface/80 p-6 shadow-soft-lg backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1">
+                <div className="h-full rounded-3xl border border-white/10 bg-white/5 p-6 shadow-soft-lg backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1">
                   <div className="flex items-center gap-3">
-                    <CheckCircleIcon className="h-7 w-7 text-accent flex-shrink-0" />
-                    <h3 className="text-lg font-semibold text-text">{benefit.name}</h3>
+                    <CheckCircleIcon className="h-7 w-7 text-emerald-400 flex-shrink-0" />
+                    <h3 className="text-lg font-semibold text-white">{benefit.name}</h3>
                   </div>
-                  <p className="mt-3 text-base text-muted">{benefit.description}</p>
+                  <p className="mt-3 text-base text-white/70">{benefit.description}</p>
                 </div>
               </RevealOnScroll>
             ))}

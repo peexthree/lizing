@@ -10,10 +10,7 @@
   body {
     @apply bg-background text-text antialiased;
     font-feature-settings: 'rlig' 1, 'calt' 1;
-    background: radial-gradient(circle at 18% 18%, rgba(0, 206, 209, 0.12), transparent 58%),
-                radial-gradient(circle at 78% 24%, rgba(0, 163, 166, 0.16), transparent 60%),
-                linear-gradient(150deg, rgba(6, 6, 10, 0.92), rgba(12, 12, 20, 0.82));
-    background-color: #080d1e; /* Глубокий тёмно-синий как запасной вариант */
+    background: linear-gradient(to bottom, #000000, #008080, #000000);
   }
 
   h1, h2, h3, h4, h5, h6 {

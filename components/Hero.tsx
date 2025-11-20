@@ -6,7 +6,6 @@ import { openLeadForm } from '@/lib/openLeadForm'
 export default function Hero() {
   return (
     <section className="relative flex h-[80vh] min-h-[600px] w-full items-center justify-center overflow-hidden text-center text-white sm:h-screen sm:min-h-[700px]">
-      <div className="absolute left-0 top-0 -z-20 h-full w-full bg-black" />
       <video
         className="absolute left-0 top-0 -z-10 h-full w-full object-cover opacity-30"
         autoPlay
