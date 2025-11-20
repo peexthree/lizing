@@ -12,7 +12,7 @@ const reviews = [
       <p>Отличная компания, быстро и качественно выполняют свою работу. Лучшие условия на рынке. Однозначно рекомендую!</p>
     `,
     author: 'Алексей К.',
-    avatar: '/avatars/avatar-1.png',
+    avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Алексей%20К.',
     source: 'Яндекс.Карты'
   },
   {
@@ -22,7 +22,7 @@ const reviews = [
       <p>Отличная компания, быстрое оформление, минимум документов, по сравнению с другими лизинговыми компаниями.</p>
     `,
     author: 'Виктор',
-    avatar: '/avatars/avatar-2.png',
+    avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Виктор',
     source: 'Яндекс.Карты'
   },
   {
@@ -32,7 +32,7 @@ const reviews = [
       <p>Отличная компания, минимум валакиты с документами, специалисты всегда на связи, все очень быстро и качественно!</p>
     `,
     author: 'Максим',
-    avatar: '/avatars/avatar-3.png',
+    avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Максим',
     source: 'Яндекс.Карты'
   },
   {
@@ -42,7 +42,7 @@ const reviews = [
       <p>Очень хорошая компания, сотрудники очень вежливые, находят быстрое решение всех вопросов.</p>
     `,
     author: 'Анна',
-    avatar: '/avatars/avatar-4.png',
+    avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Анна',
     source: 'Яндекс.Карты'
   },
   {
@@ -52,7 +52,7 @@ const reviews = [
       <p>Лучшая лизинговая компания, все быстро, четко, без лишних вопросов. Рекомендую!</p>
     `,
     author: 'Игорь',
-    avatar: '/avatars/avatar-5.png',
+    avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Игорь',
     source: 'Яндекс.Карты'
   },
 ]
