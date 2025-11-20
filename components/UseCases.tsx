@@ -59,7 +59,7 @@ const UseCases: React.FC = () => {
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {useCases.map((useCase, index) => (
             <RevealOnScroll key={useCase.title} delay={index * 0.1} className="h-full">
-              <div className="h-full rounded-3xl border border-white/10 bg-surface/80 p-8 shadow-soft-lg backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1">
+              <div className="carbon-card">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-surface">
                   <useCase.icon className="h-7 w-7 text-accent" />
                 </div>
