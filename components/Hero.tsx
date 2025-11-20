@@ -13,8 +13,10 @@ export default function Hero() {
         loop
         muted
         playsInline
-        src="/videos/hero-bg.mp4"
-      />
+      >
+        <source src="/herobg.webm" type="video/webm" />
+        <source src="/herobg.mp4" type="video/mp4" />
+      </video>
 
       <div className="relative z-10 mx-auto max-w-3xl animate-fade-in-up px-4" style={{ animationDelay: '0.2s' }}>
         <h1 className="text-4xl font-black leading-tight text-white sm:text-5xl md:text-6xl">
