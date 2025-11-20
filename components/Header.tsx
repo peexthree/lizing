@@ -29,10 +29,11 @@ const Header: React.FC = () => {
 
     const scrollTo = useCallback((e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
         e.preventDefault();
+        const targetId = href.substring(1);
+
         if (pathname !== '/') {
-            router.push(`/${href}` as any);
+            router.push(`/#${targetId}`);
         } else {
-            const targetId = href.substring(1);
             const targetElement = document.getElementById(targetId);
             if (targetElement) {
                 window.scrollTo({

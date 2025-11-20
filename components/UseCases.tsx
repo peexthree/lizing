@@ -46,7 +46,7 @@ const useCases = [
 
 const UseCases: React.FC = () => {
   return (
-    <section className="py-16 sm:py-24">
+    <section id="use-cases" className="py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
             <span className="text-xs font-semibold uppercase tracking-[0.35em] text-muted">
