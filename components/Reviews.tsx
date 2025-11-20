@@ -37,28 +37,27 @@ export default function Reviews() {
     setActiveIndex((prev) => (prev + 1) % reviews.length)
   }, []);
 
+  const stopAutoScroll = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
+
   const startAutoScroll = useCallback(() => {
     stopAutoScroll();
-    intervalRef.current = setInterval(handleNext, 7000) // Switch every 7 seconds
-  }, [handleNext]);
-
-  const stopAutoScroll = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current)
-    }
-  }
+    intervalRef.current = setInterval(handleNext, 4000) // Switch every 4 seconds
+  }, [handleNext, stopAutoScroll]);
 
   useEffect(() => {
     startAutoScroll();
     return () => stopAutoScroll();
-  }, [startAutoScroll]);
+  }, [startAutoScroll, stopAutoScroll]);
 
   const handleManualSelect = (index: number) => {
-    stopAutoScroll();
     setActiveIndex(index);
     startAutoScroll();
   };
-
 
   return (
     <div className="py-24 sm:py-32" onMouseEnter={stopAutoScroll} onMouseLeave={startAutoScroll}>
