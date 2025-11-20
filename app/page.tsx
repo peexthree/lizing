@@ -4,11 +4,11 @@ import FAQ from '@/components/FAQ'
 import HeroSection from '@/components/Hero'
 import HowItWorks from '@/components/HowItWorks'
 import LeadForm from '@/components/LeadForm'
-import Testimonials from '@/components/Testimonials'
 import Benefits from '@/components/Benefits'
 import UseCases from '@/components/UseCases'
 import Cases from '@/components/Cases'
 import Calculator from '@/components/Calculator'
+import Reviews from '@/components/Reviews'
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -55,7 +55,7 @@ const Page = () => {
         <Benefits />
         <UseCases />
         <Cases />
-        <Testimonials />
+        <Reviews />
         <HowItWorks />
         <FAQ />
         <LeadForm />
