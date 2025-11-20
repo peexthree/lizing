@@ -8,6 +8,7 @@ import './globals.css'
 
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import Hyperspeed from '@/components/Hyperspeed'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#0D1117',
+  themeColor: '#000000',
 }
 
 export default function RootLayout({ children, }: {
@@ -26,7 +27,8 @@ export default function RootLayout({ children, }: {
 }) {
   return (
     <html lang="ru">
-       <body className={`${inter.className} bg-[#011a15] bg-gradient-to-b from-black via-[#011a15] to-emerald-950 text-gray-300`}>
+       <body className={`${inter.className} bg-black text-gray-300`}>
+        <Hyperspeed />
         <Header />
         <main>{children}</main>
         <Footer />
