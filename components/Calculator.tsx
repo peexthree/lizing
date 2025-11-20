@@ -12,7 +12,8 @@ const Calculator: FC = () => {
   const monthlyPayment = useMemo(() => {
     if (term === 0) return 0;
     const principal = cost - (cost * initialFee) / 100;
-    const monthlyRate = 0.15 / 12;
+    const annualRate = 0.20; // Примерная годовая ставка 20%
+    const monthlyRate = annualRate / 12;
     const payment =
       principal *
       (monthlyRate * Math.pow(1 + monthlyRate, term)) /
@@ -28,19 +29,28 @@ const Calculator: FC = () => {
   };
 
   return (
-    <section id="calculator" className="py-12 md:py-20">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
-          Калькулятор лизинга
-        </h2>
-        <div className="max-w-4xl mx-auto bg-surface p-8 rounded-lg shadow-soft-lg">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <label className="block text-lg font-medium mb-2">
+    <section id="calculator" className="relative overflow-hidden py-20">
+      <div className="mx-auto max-w-4xl px-4">
+        <div className="text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-muted">
+                Калькулятор
+            </span>
+            <h2 className="glass-title mt-4 text-3xl font-bold text-text md:text-4xl">
+                Калькулятор лизинга
+            </h2>
+             <p className="mt-4 text-lg text-text/80">
+                Рассчитайте примерный платёж и оставьте заявку — подберём для вас лучшие условия.
+            </p>
+        </div>
+
+        <div className="relative mt-12 rounded-3xl border border-white/10 bg-surface/80 p-8 shadow-soft-lg backdrop-blur-2xl">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div className="space-y-3">
+              <label className="text-sm font-semibold text-muted">
                 Стоимость техники
               </label>
-              <p className="text-2xl font-bold">
-                {cost.toLocaleString()} ₽
+              <p className="text-3xl font-bold text-text">
+                {cost.toLocaleString()}&nbsp;₽
               </p>
               <Slider
                 value={[cost]}
@@ -48,15 +58,14 @@ const Calculator: FC = () => {
                 max={20000000}
                 min={500000}
                 step={100000}
-                className="mt-4"
               />
             </div>
-            <div>
-              <label className="block text-lg font-medium mb-2">
+            <div className="space-y-3">
+              <label className="text-sm font-semibold text-muted">
                 Аванс ({initialFee}%)
               </label>
-              <p className="text-2xl font-bold">
-                {Math.round((cost * initialFee) / 100).toLocaleString()} ₽
+              <p className="text-3xl font-bold text-text">
+                {Math.round((cost * initialFee) / 100).toLocaleString()}&nbsp;₽
               </p>
               <Slider
                 value={[initialFee]}
@@ -64,36 +73,38 @@ const Calculator: FC = () => {
                 max={49}
                 min={0}
                 step={1}
-                className="mt-4"
               />
             </div>
-            <div>
-              <label className="block text-lg font-medium mb-2">
+            <div className="space-y-3">
+              <label className="text-sm font-semibold text-muted">
                 Срок лизинга
               </label>
-              <p className="text-2xl font-bold">{term} мес.</p>
+              <p className="text-3xl font-bold text-text">{term} мес.</p>
               <Slider
                 value={[term]}
                 onValueChange={(value) => setTerm(value[0])}
                 max={60}
                 min={6}
                 step={1}
-                className="mt-4"
               />
             </div>
           </div>
-          <div className="text-center bg-surface-muted p-6 rounded-lg">
-            <p className="text-lg mb-2">Ваш ежемесячный платёж:</p>
-            <p className="text-4xl font-extrabold text-accent">
-              {monthlyPayment.toLocaleString()} ₽
+          <div className="mt-8 rounded-2xl border border-accent/20 bg-accent/10 p-6 text-center">
+            <p className="text-sm font-semibold text-accent/80">
+              Ежемесячный платёж:
             </p>
-            <p className="text-sm text-muted mt-2">
-              Расчёт является предварительным.
+            <p className="mt-2 text-4xl font-extrabold text-white">
+              {monthlyPayment.toLocaleString()}&nbsp;₽
             </p>
-            <Button variant="glow" className="mt-6" onClick={handleOpenLeadForm}>
-              Оставить заявку
-            </Button>
+            <p className="mt-2 text-xs text-accent/60">
+              Расчёт является предварительным
+            </p>
           </div>
+           <div className="mt-6 text-center">
+             <Button variant="glow" size="lg" onClick={handleOpenLeadForm}>
+                Получить точный расчёт
+            </Button>
+           </div>
         </div>
       </div>
     </section>

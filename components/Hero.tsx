@@ -9,20 +9,6 @@ import { openLeadForm } from '@/lib/openLeadForm'
 const HeroSection: React.FC = () => {
   return (
     <section className="relative overflow-hidden py-24 sm:py-32 lg:py-40">
-      <div className="absolute inset-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 z-0 h-full w-full object-cover brightness-50"
-        >
-          <source src="/herobg.webm" type="video/webm" />
-          <source src="/herobg.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/50 to-transparent" aria-hidden />
-        <div className="absolute inset-0 z-20 bg-hero-grid opacity-30 mix-blend-screen" aria-hidden />
-      </div>
 
       <div className="relative z-30 mx-auto max-w-4xl px-4 text-center">
         <div className="grid gap-8">
