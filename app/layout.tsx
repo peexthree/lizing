@@ -1,128 +1,38 @@
-import type { Metadata, Viewport } from 'next'
-import { IBM_Plex_Mono, Inter, Manrope } from 'next/font/google'
-import type { ReactNode } from 'react'
 
-import Footer from '@/components/Footer'
-import Header from '@/components/Header'
-import ScrollEffects from '@/components/ScrollEffects'
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/react';
+
+import type { Metadata, Viewport } from 'next'
+import { Inter } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-  variable: '--font-inter',
-})
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
-const manrope = Manrope({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['600', '700', '800'],
-  display: 'swap',
-  variable: '--font-manrope',
-})
-
-const ibmPlexMono = IBM_Plex_Mono({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-  variable: '--font-plex-mono',
-})
-
-const metadataTitle =
-  'Лизинг и точка — лизинг авто и спецтехники: одобрение за 1 день, аванс от 0%'
-const metadataDescription =
-  'Лизинг авто и спецтехники по всей России. Быстрое одобрение, индивидуальные условия и сопровождение на каждом этапе сделки.'
-
-const metadataBase = (() => {
-  const fallbackUrl = 'http://localhost:3000'
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim()
-
-  if (!baseUrl) {
-    return new URL(fallbackUrl)
-  }
-
-  try {
-    return new URL(baseUrl)
-  } catch (initialError) {
-    try {
-      return new URL(`https://${baseUrl}`)
-    } catch (normalizedError) {
-      console.warn(
-        '[metadata] Failed to parse NEXT_PUBLIC_SITE_URL, falling back to localhost:',
-        { initialError, normalizedError },
-      )
-      return new URL(fallbackUrl)
-    }
-  }
-})()
+const inter = Inter({ subsets: ['latin'], featureSettings: "'ss04'" })
 
 export const metadata: Metadata = {
-  metadataBase,
-  title: metadataTitle,
-  description: metadataDescription,
-  keywords: [
-    'лизинг',
-    'лизинг авто',
-    'лизинг грузовиков',
-    'лизинг спецтехники',
-    'лизинг для бизнеса',
-    'лизинговая компания',
-  ],
-  openGraph: {
-    type: 'website',
-    locale: 'ru_RU',
-    url: '/',
-    title: metadataTitle,
-    description: metadataDescription,
-    siteName: 'Лизинг и точка',
-    images: [
-      {
-        url: '/og.jpg',
-        width: 1200,
-        height: 630,
-        alt: metadataTitle,
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: metadataTitle,
-    description: metadataDescription,
-    images: ['/og.jpg'],
-  },
-  alternates: {
-    canonical: '/',
-  },
-  icons: {
-    icon: [
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
-      { url: '/favicon.ico', sizes: 'any' },
-    ],
-    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
-  },
-  manifest: '/site.webmanifest',
-  robots: {
-    index: true,
-    follow: true,
-  },
+  title: 'Лизинг и точка — выгодный лизинг для вашего бизнеса',
+  description: 'Подбор лучших лизинговых программ в Краснодаре и по всей России. Автолизинг, лизинг спецтехники, оборудования и недвижимости. Рассчитайте ваш ежемесячный платеж онлайн.',
+  metadataBase: new URL('https://lizing.peex.threee')
 }
 
 export const viewport: Viewport = {
-  themeColor: '#080d1e', // Обновляем theme-color на новый фон
+  themeColor: '#0D1117',
 }
 
-const RootLayout = ({ children }: { children: ReactNode }) => {
+export default function RootLayout({ children, }: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="ru" className={`${inter.variable} ${manrope.variable} ${ibmPlexMono.variable}`}>
-      <body className={`${inter.className} text-text`}>
-        <ScrollEffects />
+    <html lang="ru">
+       <body className={`${inter.className} bg-[#071319] bg-gradient-to-br from-[#071319] via-[#010609] to-[#071319] text-gray-300`}>
         <Header />
-        {children}
+        <main>{children}</main>
         <Footer />
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   )
 }
-
-export default RootLayout
