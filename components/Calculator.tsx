@@ -2,6 +2,7 @@
 import { FC, useState, useMemo } from "react";
 import Slider from "@/components/ui/Slider";
 import { Button } from "@/components/ui/Button";
+import { openLeadForm } from "@/lib/openLeadForm";
 
 const Calculator: FC = () => {
   const [cost, setCost] = useState(3000000);
@@ -18,6 +19,13 @@ const Calculator: FC = () => {
       (Math.pow(1 + monthlyRate, term) - 1);
     return Math.round(payment);
   }, [cost, initialFee, term]);
+
+  const handleOpenLeadForm = () => {
+    const calcSummary = `Стоимость техники: ${cost.toLocaleString()} ₽; Аванс: ${Math.round(
+      (cost * initialFee) / 100
+    ).toLocaleString()} ₽ (${initialFee}%); Срок: ${term} мес.; Ежемесячный платёж: ${monthlyPayment.toLocaleString()} ₽`;
+    openLeadForm({ calcSummary });
+  };
 
   return (
     <section id="calculator" className="py-12 md:py-20 bg-gray-50">
@@ -82,8 +90,8 @@ const Calculator: FC = () => {
             <p className="text-sm text-gray-600 mt-2">
               Расчёт является предварительным.
             </p>
-            <Button asChild variant="glow" className="mt-6">
-                <a href="#hero">Оставить заявку</a>
+            <Button variant="glow" className="mt-6" onClick={handleOpenLeadForm}>
+              Оставить заявку
             </Button>
           </div>
         </div>
