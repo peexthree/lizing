@@ -2,13 +2,20 @@ import { FC } from 'react';
 
 const TermsPage: FC = () => {
   return (
-    <main className="bg-gray-900 text-white">
+    <main className="relative overflow-hidden pt-24 text-slate-200">
+      {/* Background Gradients */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_18%,rgba(0,206,209,0.12),transparent_58%),radial-gradient(circle_at_88%_22%,rgba(0,163,166,0.16),transparent_62%),linear-gradient(160deg,rgba(6,6,10,0.9),rgba(12,12,20,0.82))]" />
+        <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-[140%] -translate-x-1/2 bg-gradient-to-b from-black/50 to-transparent" />
+        <div className="floating-orb left-[10%] top-[20rem] hidden h-[260px] w-[260px] bg-white/10 blur-3xl md:block" />
+        <div className="floating-orb right-[6%] top-[40rem] hidden h-[320px] w-[320px] bg-accent/25 blur-3xl lg:block" />
+      </div>
       <div className="container mx-auto px-4 py-16 sm:py-24 lg:py-32">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 glass-title">
             Пользовательское соглашение
           </h1>
-          <div className="prose prose-invert prose-lg max-w-none bg-white/5 border border-white/20 rounded-2xl p-8 md:p-12 shadow-soft-lg backdrop-blur-2xl">
+          <div className="prose prose-invert prose-lg max-w-none bg-transparent border border-white/20 rounded-2xl p-8 md:p-12 shadow-soft-lg backdrop-blur-2xl">
             <section id="general">
               <h2>1. Общие положения</h2>
               <p style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>

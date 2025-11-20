@@ -38,11 +38,11 @@ const HowItWorks: React.FC = () => {
     <section id="how-it-works" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">Процесс</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50 text-glow">Процесс</span>
           <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Всего 5 шагов до вашей новой техники
           </h2>
-          <p className="mt-4 max-w-3xl mx-auto text-lg text-white/70" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>
+          <p className="mt-4 max-w-3xl mx-auto text-lg text-white/70 text-glow-subtle">
             Мы сделали процесс получения лизинга максимально простым и прозрачным для вас.
           </p>
         </div>
@@ -56,7 +56,7 @@ const HowItWorks: React.FC = () => {
             >
               <div
                 style={{ transformStyle: 'preserve-3d' }}
-                className="group relative h-full rounded-3xl border border-white/10 bg-white/5 p-6 shadow-soft-lg backdrop-blur-2xl transition-all duration-300 hover:border-emerald-400/50 hover:bg-emerald-400/10"
+                className="group relative h-full glass-pane transition-all duration-300 hover:border-emerald-400/50 hover:bg-emerald-400/10"
               >
                 <div
                   style={{ transform: 'translateZ(-1px)' }}
@@ -68,8 +68,8 @@ const HowItWorks: React.FC = () => {
                   <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-400/10 text-emerald-400">
                     <step.icon className="h-6 w-6" />
                   </div>
-                  <h3 className="mt-4 text-xl font-semibold text-white">{step.title}</h3>
-                  <p className="mt-3 text-base text-white/70" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>{step.description}</p>
+                  <h3 className="mt-4 text-xl font-semibold text-white text-glow">{step.title}</h3>
+                  <p className="mt-3 text-base text-white/70 text-glow-subtle">{step.description}</p>
                 </div>
               </div>
             </RevealOnScroll>

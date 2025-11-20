@@ -315,15 +315,15 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
     <section id="lead-form" className={clsx('relative overflow-hidden py-20', className)}>
       <div className="mx-auto max-w-4xl px-4 text-white">
         <RevealOnScroll className="mx-auto max-w-2xl text-center">
-          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/70">Заявка</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/70 text-glow">Заявка</span>
           <h2 className="glass-title mt-4 text-3xl font-bold text-white md:text-4xl">Получите персональный расчёт под ваш проект</h2>
-          <p className="mt-4 text-lg text-white/80">
+          <p className="mt-4 text-lg text-white/80 text-glow-subtle">
             Мы перезвоним в течение 15 минут в рабочее время, уточним детали и предложим лучшие варианты от партнёров.
           </p>
         </RevealOnScroll>
 
-        <RevealOnScroll className="mt-12 mx-auto max-w-xl rounded-[2.5rem] border border-white/10 bg-white/5 p-8 text-center text-white/80 shadow-lg backdrop-blur-2xl">
-          <p className="text-base">
+        <RevealOnScroll className="mt-12 mx-auto max-w-xl rounded-[2.5rem] glass-pane text-center text-white/80">
+          <p className="text-base text-glow-subtle">
             Заявка откроется во всплывающем окне: оставьте имя и телефон, и менеджер свяжется с вами удобным способом.
           </p>
           <button
@@ -333,7 +333,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
           >
             Оставить заявку
           </button>
-          <div className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] text-white/70">
+          <div className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] text-white/70 text-glow">
             Или напишите напрямую
           </div>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
@@ -372,15 +372,15 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
     <section
       id="lead-form"
       className={clsx(
-        'relative overflow-hidden rounded-[2.5rem] border border-white/15 bg-white/5 p-6 shadow-lg backdrop-blur-xl sm:p-8',
+        'relative overflow-hidden rounded-[2.5rem] glass-pane',
         className
       )}
     >
       <div className="relative flex flex-col gap-6">
         <div className="space-y-3">
-          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/60">Персональный расчёт</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/60 text-glow">Персональный расчёт</span>
           <h2 className="glass-title text-2xl font-semibold text-white sm:text-3xl">Получите предложение под вашу технику</h2>
-          <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+          <p className="text-sm leading-relaxed text-white/70 sm:text-base text-glow-subtle">
             Оставьте контакты — подготовим несколько сценариев финансирования и отправим расчёт удобным способом.
           </p>
         </div>
@@ -403,15 +403,15 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
                 <item.Icon className="h-5 w-5" aria-hidden />
               </span>
               <div>
-                <div className="font-semibold text-white">{item.title}</div>
-                <p className="mt-1 leading-relaxed">{item.description}</p>
+                <div className="font-semibold text-white text-glow">{item.title}</div>
+                <p className="mt-1 leading-relaxed text-glow-subtle">{item.description}</p>
               </div>
             </div>
           ))}
         </div>
 
         <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
-          <span>Или напишите напрямую</span>
+          <span className="text-glow">Или напишите напрямую</span>
           <div className="flex flex-wrap gap-2">
             {messengerLinks.map(link => (
               <a
@@ -453,7 +453,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
         onClick={handleOverlayClick}
       >
         <div
-          className={`relative w-full max-w-xl overflow-hidden rounded-[2.5rem] border border-white/10 bg-gray-900/90 shadow-lg backdrop-blur transition-all duration-200 ${isOpen ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
+          className={`relative w-full max-w-xl overflow-hidden rounded-[2.5rem] glass-pane transition-all duration-200 ${isOpen ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
             }`}
         >
           <button
@@ -467,20 +467,20 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
 
           <form onSubmit={onSubmit} className="space-y-6 px-6 pb-8 pt-14 sm:px-8 sm:pt-16">
             <h2 className="glass-title text-2xl font-semibold text-white">Оставьте заявку</h2>
-            <p className="text-sm text-white/80">
+            <p className="text-sm text-white/80 text-glow-subtle">
               Мы позвоним или напишем в мессенджер в течение 15 минут в рабочее время.
             </p>
 
             {form.calc && (
               <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-left text-sm text-white/80 shadow-inner">
-                <div className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-400/80">Расчёт из калькулятора</div>
-                <p className="mt-2 leading-relaxed">{form.calc}</p>
+                <div className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-400/80 text-glow">Расчёт из калькулятора</div>
+                <p className="mt-2 leading-relaxed text-glow-subtle">{form.calc}</p>
               </div>
             )}
 
             <div className="grid gap-4">
               <div className="space-y-2">
-                <label htmlFor="modal-name" className="text-sm font-semibold text-white">
+                <label htmlFor="modal-name" className="text-sm font-semibold text-white text-glow">
                   Имя
                 </label>
                 <input
@@ -495,7 +495,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="modal-phone" className="text-sm font-semibold text-white">
+                <label htmlFor="modal-phone" className="text-sm font-semibold text-white text-glow">
                   Телефон
                 </label>
                 <input
@@ -518,7 +518,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
                   checked={agree}
                   onChange={event => setAgree(event.currentTarget.checked)}
                 />
-                <span>
+                <span className="text-glow-subtle">
                   Согласен с{' '}
                   <a
                     href="/privacy"
@@ -541,7 +541,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
             </div>
 
             <div className="space-y-3">
-              <div className="text-xs font-semibold uppercase tracking-[0.3em] text-white/70">Или напишите напрямую</div>
+              <div className="text-xs font-semibold uppercase tracking-[0.3em] text-white/70 text-glow">Или напишите напрямую</div>
               <div className="flex flex-wrap gap-3">
                 {messengerLinks.map(link => (
                   <a

@@ -12,6 +12,8 @@ const buttonVariants = cva(
         default:
           "bg-transparent text-white hover:bg-white/10",
         glow: "bg-gradient-to-r from-accent via-accent-alt to-accent text-black shadow-glow hover:scale-[1.02]",
+        "glow-subtle":
+          "border border-emerald-400/30 bg-transparent text-emerald-300 hover:bg-emerald-400/10",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",

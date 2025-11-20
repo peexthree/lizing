@@ -35,7 +35,7 @@ const AccordionItem: React.FC<{ question: string; answer: string; isOpen: boolea
     return (
         <div className="border-b border-white/10 py-6">
             <button onClick={onClick} className="w-full flex justify-between items-center text-left">
-                <h3 className="text-lg font-medium text-text">{question}</h3>
+                <h3 className="text-lg font-medium text-text text-glow">{question}</h3>
                 <ChevronDownIcon className={`w-6 h-6 text-accent transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
             </button>
             <AnimatePresence initial={false}>
@@ -47,7 +47,7 @@ const AccordionItem: React.FC<{ question: string; answer: string; isOpen: boolea
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                         className="overflow-hidden"
                     >
-                        <p className="text-base text-slate-300/90" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>{answer}</p>
+                        <p className="text-base text-slate-300/90 text-glow-subtle">{answer}</p>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -66,15 +66,15 @@ const FAQ: React.FC = () => {
         <section id="faq" className="py-16 sm:py-24">
             <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
-                     <span className="text-xs font-semibold uppercase tracking-[0.35em] text-muted">
+                     <span className="text-xs font-semibold uppercase tracking-[0.35em] text-muted text-glow">
                         FAQ
                     </span>
                     <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-text sm:text-4xl">Вопросы и ответы</h2>
-                    <p className="mt-4 max-w-2xl mx-auto text-lg text-muted" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>
+                    <p className="mt-4 max-w-2xl mx-auto text-lg text-muted text-glow-subtle">
                         Здесь мы собрали ответы на самые популярные вопросы, которые помогут вам принять верное решение.
                     </p>
                 </div>
-                <div className="mt-12 bg-white/5 border border-white/20 rounded-2xl p-8 md:p-12 shadow-soft-lg backdrop-blur-2xl">
+                <div className="mt-12 glass-pane">
                     {faqData.map((faq, index) => (
                         <AccordionItem
                             key={index}
@@ -86,8 +86,8 @@ const FAQ: React.FC = () => {
                     ))}
                 </div>
                  <div className="mt-12 text-center">
-                    <p className="text-lg text-muted" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>Не нашли ответа на свой вопрос?</p>
-                    <a href="#lead-form" className="mt-4 inline-block font-semibold text-accent hover:text-accent/90 transition-colors">Свяжитесь с нами</a>
+                    <p className="text-lg text-muted text-glow-subtle">Не нашли ответа на свой вопрос?</p>
+                    <a href="#lead-form" className="mt-4 inline-block font-semibold text-accent hover:text-accent/90 transition-colors text-glow">Свяжитесь с нами</a>
                 </div>
             </div>
         </section>

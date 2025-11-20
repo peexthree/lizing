@@ -6,7 +6,7 @@ import { openLeadForm } from '@/lib/openLeadForm'
 export default function Hero() {
   return (
     <section className="relative flex h-[80vh] min-h-[600px] w-full items-center justify-center overflow-hidden text-center text-white sm:h-screen sm:min-h-[700px]">
-      <div className="absolute inset-0 z-10 bg-black/60"></div>
+      <div className="absolute inset-0 z-10 bg-black/60 backdrop-blur-sm"></div>
       <video
         className="absolute left-0 top-0 z-0 h-full w-full object-cover"
         autoPlay
@@ -19,13 +19,13 @@ export default function Hero() {
       </video>
 
       <div className="relative z-20 mx-auto max-w-3xl animate-fade-in-up px-4" style={{ animationDelay: '0.2s' }}>
-        <h1 className="text-4xl font-black leading-tight text-white sm:text-5xl md:text-6xl [text-shadow:0_2px_4px_rgba(0,0,0,0.5)]">
+        <h1 className="text-4xl font-black leading-tight text-white sm:text-5xl md:text-6xl text-glow">
           Лизинг для вашего бизнеса
         </h1>
-        <p className="mt-4 text-lg font-semibold text-white/90 sm:text-xl [text-shadow:0_1px_2px_rgba(0,0,0,0.4)]">
+        <p className="mt-4 text-lg font-semibold text-white/90 sm:text-xl text-glow-subtle">
           Авто | Спецтехника | Оборудование | Недвижимость
         </p>
-        <p className="mt-6 max-w-xl mx-auto text-lg text-white/80 sm:text-xl [text-shadow:0_1px_2px_rgba(0,0,0,0.4)]">
+        <p className="mt-6 max-w-xl mx-auto text-lg text-white/80 sm:text-xl text-glow-subtle">
           50+ банков конкурируют за вашу заявку. <br/> Лучшие условия лизинга за 24 часа.
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">

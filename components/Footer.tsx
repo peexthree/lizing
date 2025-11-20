@@ -46,7 +46,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-4">
             <Logo className="h-12 w-auto text-text" />
-            <p className="mt-4 text-base text-muted">
+            <p className="mt-4 text-base text-muted text-glow-subtle">
               Лизинг автомобилей и спецтехники по всей России. Быстрое одобрение и гибкие условия для вашего бизнеса.
             </p>
           </div>
@@ -54,11 +54,11 @@ const Footer: React.FC = () => {
           <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-8">
             {NAV_SECTIONS.map(section => (
               <div key={section.title}>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-text">{section.title}</h3>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-text text-glow">{section.title}</h3>
                 <ul className="mt-4 space-y-3">
                   {section.links.map(link => (
                     <li key={link.label}>
-                      <a href={link.href} onClick={e => scrollTo(e, link.href)} className="text-base text-muted hover:text-accent transition-colors">
+                      <a href={link.href} onClick={e => scrollTo(e, link.href)} className="text-base text-muted hover:text-accent transition-colors text-glow">
                           {link.label}
                       </a>
                     </li>
@@ -67,18 +67,18 @@ const Footer: React.FC = () => {
               </div>
             ))}
             <div>
-                 <h3 className="text-sm font-semibold uppercase tracking-wider text-text">Контакты</h3>
+                 <h3 className="text-sm font-semibold uppercase tracking-wider text-text text-glow">Контакты</h3>
                  <ul className="mt-4 space-y-3">
-                     <li><a href="tel:+79991234567" className="text-base text-muted hover:text-accent transition-colors">+7 (999) 123-45-67</a></li>
-                     <li><a href="mailto:info@lizing-tochka.ru" className="text-base text-muted hover:text-accent transition-colors">info@lizing-tochka.ru</a></li>
+                     <li><a href="tel:+79991234567" className="text-base text-muted hover:text-accent transition-colors text-glow">+7 (999) 123-45-67</a></li>
+                     <li><a href="mailto:info@lizing-tochka.ru" className="text-base text-muted hover:text-accent transition-colors text-glow">info@lizing-tochka.ru</a></li>
                  </ul>
             </div>
           </div>
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-sm text-muted">&copy; {currentYear} Лизинг и точка. Все права защищены.</p>
-          <p className="text-sm text-muted mt-4 sm:mt-0">Разработано с ❤️</p>
+          <p className="text-sm text-muted text-glow-subtle">&copy; {currentYear} Лизинг и точка. Все права защищены.</p>
+          <p className="text-sm text-muted mt-4 sm:mt-0 text-glow-subtle">Разработано с ❤️</p>
         </div>
       </div>
     </footer>

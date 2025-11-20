@@ -8,6 +8,7 @@ import Benefits from '@/components/Benefits'
 import UseCases from '@/components/UseCases'
 import Calculator from '@/components/Calculator'
 import Reviews from '@/components/Reviews'
+import SectionSeparator from '@/components/SectionSeparator'
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -50,6 +51,7 @@ const Page = () => {
 
       <main>
         <HeroSection />
+        <SectionSeparator />
         <Calculator />
         <Benefits />
         <UseCases />
