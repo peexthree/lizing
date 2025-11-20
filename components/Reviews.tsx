@@ -38,11 +38,11 @@ function classNames(...classes: string[]) {
 
 export default function Reviews() {
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Отзывы наших клиентов</h2>
-          <p className="mt-2 text-lg leading-8 text-gray-600">
+          <h2 className="text-3xl font-bold tracking-tight text-text sm:text-4xl">Отзывы наших клиентов</h2>
+          <p className="mt-2 text-lg leading-8 text-muted">
             Мы гордимся нашей репутацией. Вот что говорят о нас на Яндекс.Картах.
           </p>
         </div>
@@ -50,26 +50,26 @@ export default function Reviews() {
           <div className="-mt-8 sm:-mx-4 sm:columns-2 sm:text-[0] lg:columns-3">
             {reviews.map((review) => (
               <div key={review.id} className="pt-8 sm:inline-block sm:w-full sm:px-4">
-                <figure className="rounded-2xl bg-gray-50 p-8 text-sm leading-6">
+                <figure className="rounded-2xl bg-surface p-8 text-sm leading-6 shadow-soft-lg">
                   <div className="flex items-center">
                     {[0, 1, 2, 3, 4].map((rating) => (
                       <StarIcon
                         key={rating}
                         className={classNames(
-                          review.rating > rating ? 'text-yellow-400' : 'text-gray-300',
+                          review.rating > rating ? 'text-yellow-400' : 'text-surface-muted',
                           'h-5 w-5 flex-shrink-0'
                         )}
                         aria-hidden="true"
                       />
                     ))}
                   </div>
-                  <blockquote className="mt-6 text-gray-900">
+                  <blockquote className="mt-6 text-text/90">
                     <div dangerouslySetInnerHTML={{ __html: review.content }} />
                   </blockquote>
                   <figcaption className="mt-6 flex items-center gap-x-4">
                     <div>
-                      <div className="font-semibold text-gray-900">{review.author}</div>
-                      <div className="text-gray-600">{`Источник: ${review.source}`}</div>
+                      <div className="font-semibold text-text">{review.author}</div>
+                      <div className="text-muted">{`Источник: ${review.source}`}</div>
                     </div>
                   </figcaption>
                 </figure>
@@ -78,7 +78,7 @@ export default function Reviews() {
           </div>
 
            <div className="mt-16 text-center">
-             <a href="https://yandex.ru/maps/org/lizing_i_tochka/9071444776/reviews/?ll=39.019842%2C45.034929&z=16" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-white bg-accent hover:bg-accent/90 transition-colors">
+             <a href="https://yandex.ru/maps/org/lizing_i_tochka/9071444776/reviews/?ll=39.019842%2C45.034929&z=16" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-white bg-accent hover:bg-accent-alt transition-colors">
                 Читать все отзывы на Яндекс.Картах
             </a>
           </div>

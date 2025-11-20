@@ -28,12 +28,12 @@ const Calculator: FC = () => {
   };
 
   return (
-    <section id="calculator" className="py-12 md:py-20 bg-gray-50">
+    <section id="calculator" className="py-12 md:py-20">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
           Калькулятор лизинга
         </h2>
-        <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <div className="max-w-4xl mx-auto bg-surface p-8 rounded-lg shadow-soft-lg">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
               <label className="block text-lg font-medium mb-2">
@@ -82,12 +82,12 @@ const Calculator: FC = () => {
               />
             </div>
           </div>
-          <div className="text-center bg-green-100 p-6 rounded-lg">
+          <div className="text-center bg-surface-muted p-6 rounded-lg">
             <p className="text-lg mb-2">Ваш ежемесячный платёж:</p>
-            <p className="text-4xl font-extrabold text-green-700">
+            <p className="text-4xl font-extrabold text-accent">
               {monthlyPayment.toLocaleString()} ₽
             </p>
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="text-sm text-muted mt-2">
               Расчёт является предварительным.
             </p>
             <Button variant="glow" className="mt-6" onClick={handleOpenLeadForm}>
