@@ -14,7 +14,7 @@ export default function Hero() {
         muted
         playsInline
       >
-        <source src="/herobg.webm" type="video/webm" />
+        <source src="/herobg2.webm" type="video/webm" />
         <source src="/herobg.mp4" type="video/mp4" />
       </video>
 
