@@ -17,13 +17,7 @@ const Logo: FC<LogoProps> = ({ className }) => {
         src="/logos/logotype-dark.png"
         alt="Лизинг и точка"
         fill
-        className="object-contain dark:hidden"
-      />
-      <Image
-        src="/logos/logotype-light.png"
-        alt="Лизинг и точка"
-        fill
-        className="object-contain hidden dark:block"
+        className="object-contain"
       />
     </Link>
   )
