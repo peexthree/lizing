@@ -33,7 +33,7 @@ const faqData = [
 
 const AccordionItem: React.FC<{ question: string; answer: string; isOpen: boolean; onClick: () => void; }> = ({ question, answer, isOpen, onClick }) => {
     return (
-        <div className="border-b border-slate-200 py-6">
+        <div className="border-b border-white/10 py-6">
             <button onClick={onClick} className="w-full flex justify-between items-center text-left">
                 <h3 className="text-lg font-medium text-text">{question}</h3>
                 <ChevronDownIcon className={`w-6 h-6 text-accent transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
@@ -63,10 +63,13 @@ const FAQ: React.FC = () => {
     }
 
     return (
-        <section id="faq" className="py-16 sm:py-24 bg-background">
+        <section id="faq" className="py-16 sm:py-24">
             <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
-                    <h2 className="text-3xl font-bold tracking-tight text-text sm:text-4xl">Вопросы и ответы</h2>
+                     <span className="text-xs font-semibold uppercase tracking-[0.35em] text-muted">
+                        FAQ
+                    </span>
+                    <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-text sm:text-4xl">Вопросы и ответы</h2>
                     <p className="mt-4 max-w-2xl mx-auto text-lg text-muted">
                         Здесь мы собрали ответы на самые популярные вопросы, которые помогут вам принять верное решение.
                     </p>
