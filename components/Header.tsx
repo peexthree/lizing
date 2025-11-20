@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { motion, AnimatePresence } from 'framer-motion'
 import Logomark from '@/components/Logomark'
@@ -16,17 +16,8 @@ const navLinks = [
 
 const Header: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
     const pathname = usePathname();
     const router = useRouter();
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 10);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     const handleNavClick = useCallback((href: string) => {
         const targetId = href.substring(1);
@@ -44,7 +35,7 @@ const Header: React.FC = () => {
     }, [pathname, router]);
 
     return (
-        <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'emerald-glass-header' : 'bg-transparent'}`}>
+        <header className="sticky top-0 z-50 transition-all duration-300 emerald-glass-header">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-20 items-center justify-between">
                     <div className="flex-shrink-0">
