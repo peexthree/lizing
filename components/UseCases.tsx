@@ -46,18 +46,21 @@ const useCases = [
 
 const UseCases: React.FC = () => {
   return (
-    <section className="py-16 sm:py-24 bg-white">
+    <section className="py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-text sm:text-4xl">Когда лизинг — лучшее решение</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted">Лизинг — это гибкий инструмент, который решает множество бизнес-задач. Вот лишь несколько ситуаций, когда он особенно полезен.</p>
+            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-muted">
+                Кейсы
+            </span>
+          <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-text sm:text-4xl">Когда лизинг — лучшее решение</h2>
+          <p className="mt-4 max-w-3xl mx-auto text-lg text-muted">Лизинг — это гибкий инструмент, который решает множество бизнес-задач. Вот лишь несколько ситуаций, когда он особенно полезен.</p>
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {useCases.map((useCase, index) => (
-            <RevealOnScroll key={useCase.title} delay={index * 0.1}>
-              <div className="p-8 rounded-2xl bg-background shadow-soft-sm transition-all duration-300 hover:shadow-soft-md">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white">
+            <RevealOnScroll key={useCase.title} delay={index * 0.1} className="h-full">
+              <div className="h-full rounded-3xl border border-white/10 bg-surface/80 p-8 shadow-soft-lg backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-surface">
                   <useCase.icon className="h-7 w-7 text-accent" />
                 </div>
                 <h3 className="mt-5 text-xl font-semibold text-text">{useCase.title}</h3>

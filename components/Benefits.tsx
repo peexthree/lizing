@@ -25,12 +25,15 @@ const benefits = [
 
 const Benefits: React.FC = () => {
   return (
-    <section className="py-16 sm:py-24 bg-white">
+    <section id="benefits" className="py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="lg:max-w-lg">
-            <RevealOnScroll>
-              <h2 className="text-3xl font-bold tracking-tight text-text sm:text-4xl">Быстро. Удобно. Выгодно.</h2>
+            <RevealOnScroll className="flex h-full flex-col justify-center">
+                <span className="text-xs font-semibold uppercase tracking-[0.35em] text-muted">
+                    Преимущества
+                </span>
+              <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-text sm:text-4xl">Быстро. Удобно. Выгодно.</h2>
               <p className="mt-4 text-lg text-muted">
                 Мы создали сервис, который помогает бизнесу и частным лицам получать лучшие условия по лизингу без лишних усилий.
               </p>
@@ -38,8 +41,8 @@ const Benefits: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
             {benefits.map((benefit, index) => (
-              <RevealOnScroll key={benefit.name} delay={index * 0.1}>
-                <div className="rounded-2xl p-6 bg-background shadow-soft-sm transition-all duration-300 hover:shadow-soft-md">
+              <RevealOnScroll key={benefit.name} delay={index * 0.1} className="h-full">
+                <div className="h-full rounded-3xl border border-white/10 bg-surface/80 p-6 shadow-soft-lg backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1">
                   <div className="flex items-center gap-3">
                     <CheckCircleIcon className="h-7 w-7 text-accent flex-shrink-0" />
                     <h3 className="text-lg font-semibold text-text">{benefit.name}</h3>

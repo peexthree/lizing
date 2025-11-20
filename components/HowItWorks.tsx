@@ -55,26 +55,29 @@ const timelineVariants = {
 
 const HowItWorks: React.FC = () => {
   return (
-    <section id="how-it-works" className="py-16 sm:py-24 bg-white">
+    <section id="how-it-works" className="py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-text sm:text-4xl">
+            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-muted">
+                Процесс
+            </span>
+          <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-text sm:text-4xl">
             Всего 5 шагов до вашей новой техники
           </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted">
+          <p className="mt-4 max-w-3xl mx-auto text-lg text-muted">
             Мы сделали процесс получения лизинга максимально простым и прозрачным для вас.
           </p>
         </div>
 
         <motion.div
-          className="relative mt-14"
+          className="relative mt-20"
           variants={timelineVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
         >
           <div
-            className="absolute left-1/2 top-0 w-0.5 h-full bg-slate-200 origin-top"
+            className="absolute left-1/2 top-0 w-0.5 h-full bg-white/10 origin-top"
             style={{ height: 'var(--line-height)' }}
           />
           <div className="space-y-12">
@@ -82,24 +85,24 @@ const HowItWorks: React.FC = () => {
               <RevealOnScroll key={step.title} delay={index * 0.15}>
                 <div className="flex items-start md:gap-x-8">
                   <div
-                    className={`flex-shrink-0 w-full md:w-1/2 ${index % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8 md:order-2'}`}
-                  >
-                    <div
-                      className={`inline-block p-5 rounded-2xl bg-background shadow-soft-sm ${index % 2 === 0 ? 'md:float-right' : 'md:float-left'}`}
-                    >
-                      <div className="flex items-center gap-x-4">
-                        <div className="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-lg bg-accent/10 text-accent">
-                          <step.icon className="h-6 w-6" />
+                    className={`flex-shrink-0 w-full md:w-1/2 ${index % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8 md:order-2'}`}>
+                     <div className={`inline-block w-full max-w-md ${index % 2 === 0 ? 'md:float-right' : 'md:float-left'}`}>
+                      <div
+                          className={`relative rounded-3xl border border-white/10 bg-surface/80 p-6 shadow-soft-lg backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1 w-full`}>
+                          <div className="flex items-center gap-x-4">
+                            <div className="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-lg bg-accent/10 text-accent">
+                              <step.icon className="h-6 w-6" />
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-semibold text-text">{step.title}</h3>
+                            </div>
+                          </div>
+                          <p className="mt-3 text-base text-muted">{step.description}</p>
                         </div>
-                        <div>
-                          <h3 className="text-xl font-semibold text-text">{step.title}</h3>
-                        </div>
-                      </div>
-                      <p className="mt-3 text-base text-muted">{step.description}</p>
-                    </div>
+                     </div>
                   </div>
                   <div className="hidden md:flex w-1/2 items-center justify-center">
-                    <div className="absolute flex h-8 w-8 items-center justify-center rounded-full bg-accent text-white font-bold">
+                    <div className="absolute flex h-10 w-10 items-center justify-center rounded-full bg-accent text-white font-bold text-lg ring-8 ring-background/80 backdrop-blur-lg">
                       {index + 1}
                     </div>
                   </div>
