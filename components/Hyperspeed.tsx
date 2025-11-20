@@ -1,78 +1,96 @@
+
 'use client'
 
-import { useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react';
 
 const Hyperspeed = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+    const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
 
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
 
-    let stars: { x: number; y: number; z: number }[] = []
-    const numStars = 1000
-    let speed = 5
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
 
-    const setup = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-      stars = []
-      for (let i = 0; i < numStars; i++) {
-        stars.push({
-          x: Math.random() * canvas.width - canvas.width / 2,
-          y: Math.random() * canvas.height - canvas.height / 2,
-          z: Math.random() * canvas.width,
-        })
-      }
-    }
+        const numStars = 500;
+        const stars: any[] = [];
+        const speed = 7;
 
-    const draw = () => {
-      ctx.fillStyle = '#000'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
-      ctx.save()
-      ctx.translate(canvas.width / 2, canvas.height / 2)
-
-      for (let i = 0; i < stars.length; i++) {
-        const star = stars[i]
-        star.z -= speed
-
-        if (star.z <= 0) {
-          star.x = Math.random() * canvas.width - canvas.width / 2
-          star.y = Math.random() * canvas.height - canvas.height / 2
-          star.z = canvas.width
+        for (let i = 0; i < numStars; i++) {
+            stars.push({
+                x: Math.random() * width - width / 2,
+                y: Math.random() * height - height / 2,
+                z: Math.random() * width,
+                pz: Math.random() * width,
+            });
         }
 
-        const k = 128 / star.z
-        const px = star.x * k
-        const py = star.y * k
-        const size = (1 - star.z / canvas.width) * 3
+        let animationFrameId: number;
 
-        ctx.beginPath()
-        ctx.arc(px, py, size, 0, Math.PI * 2)
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'
-        ctx.fill()
-      }
-      ctx.restore()
-      requestAnimationFrame(draw)
-    }
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, width, height);
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
 
-    const handleResize = () => {
-      setup()
-    }
+            for (let i = 0; i < stars.length; i++) {
+                const star = stars[i];
+                star.z -= speed;
 
-    window.addEventListener('resize', handleResize)
-    setup()
-    draw()
+                if (star.z < 1) {
+                    star.x = Math.random() * width - width / 2;
+                    star.y = Math.random() * height - height / 2;
+                    star.z = width;
+                    star.pz = width;
+                }
 
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
+                const k = 128.0 / star.z;
+                const px = star.x * k + width / 2;
+                const py = star.y * k + height / 2;
 
-  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-50" />
-}
+                if (px >= 0 && px <= width && py >= 0 && py <= height) {
+                    const size = (1 - star.z / width) * 5;
+                    const shade = parseInt((1 - star.z / width) * 255 as any);
+                    ctx.fillStyle = `rgb(${shade},${shade},${shade})`;
+                    ctx.beginPath();
+                    ctx.arc(px, py, size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
 
-export default Hyperspeed
+            }
+            ctx.restore();
+            animationFrameId = requestAnimationFrame(draw);
+        };
+
+        draw();
+
+        const handleResize = () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            cancelAnimationFrame(animationFrameId);
+            window.removeEventListener('resize', handleResize);
+        };
+
+    }, []);
+
+    return (
+        <div className="hyperspeed-wrapper">
+            <canvas ref={canvasRef} id="hyperspeed-canvas" className="hyperspeed-canvas"></canvas>
+        </div>
+    );
+};
+
+export default Hyperspeed;
