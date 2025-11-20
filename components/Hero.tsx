@@ -24,7 +24,7 @@ export default function Hero() {
           Подберём лучшие условия от 50+ лизинговых компаний. Одобрение в течение дня. Работаем по всей России.
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button variant="glow" size="lg" onClick={() => openLeadForm({ title: 'Заявка с главного экрана' })}>
+          <Button variant="glow" size="lg" onClick={() => openLeadForm({ fields: { title: 'Заявка с главного экрана' } })}>
             Получить лучшие условия
           </Button>
         </div>
