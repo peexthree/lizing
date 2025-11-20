@@ -48,7 +48,7 @@ const Header: React.FC = () => {
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-20 items-center justify-between">
                     <div className="flex-shrink-0">
-                        <Logomark className="h-10 w-auto" />
+                        <Logomark className="h-10 w-40" />
                     </div>
                     <nav className="hidden md:block">
                         <ul className="flex items-center space-x-8">
@@ -89,7 +89,7 @@ const Header: React.FC = () => {
                             <div className="px-5 pt-5 pb-6">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <Logomark className="h-10 w-auto" />
+                                        <Logomark className="h-10 w-40" />
                                     </div>
                                     <div className="-mr-2">
                                         <button
