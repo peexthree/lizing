@@ -17,13 +17,7 @@ const Logomark: FC<LogomarkProps> = ({ className }) => {
         src="/logos/logomark-dark.png"
         alt="Лизинг и точка"
         fill
-        className="object-contain dark:hidden"
-      />
-      <Image
-        src="/logos/logomark-light.png"
-        alt="Лизинг и точка"
-        fill
-        className="object-contain hidden dark:block"
+        className="object-contain"
       />
     </Link>
   )
