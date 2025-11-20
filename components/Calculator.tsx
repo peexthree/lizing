@@ -93,7 +93,7 @@ const Calculator: FC = () => {
             <p className="text-sm font-semibold text-emerald-400/80">
               Ежемесячный платёж:
             </p>
-            <p className="mt-2 text-4xl font-extrabold text-white">
+            <p className="mt-2 text-3xl font-extrabold text-white sm:text-4xl">
               {monthlyPayment.toLocaleString()}&nbsp;₽
             </p>
             <p className="mt-2 text-xs text-emerald-400/60">
