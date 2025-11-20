@@ -6,7 +6,6 @@ import HowItWorks from '@/components/HowItWorks'
 import LeadForm from '@/components/LeadForm'
 import Benefits from '@/components/Benefits'
 import UseCases from '@/components/UseCases'
-import Cases from '@/components/Cases'
 import Calculator from '@/components/Calculator'
 import Reviews from '@/components/Reviews'
 
@@ -54,7 +53,6 @@ const Page = () => {
         <Calculator />
         <Benefits />
         <UseCases />
-        <Cases />
         <Reviews />
         <HowItWorks />
         <FAQ />

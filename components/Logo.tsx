@@ -11,7 +11,7 @@ const Logo: FC<LogoProps> = ({ className }) => {
     <Link
       href="/"
       aria-label="На главную"
-      className={`relative block h-20 w-auto ${className}`}
+      className={`relative block ${className}`}
     >
       <Image
         src="/logos/logotype-dark.png"
