@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -33,13 +33,14 @@ export default function Reviews() {
   const [activeIndex, setActiveIndex] = useState(0)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % reviews.length)
-  }
+  }, []);
 
-  const startAutoScroll = () => {
+  const startAutoScroll = useCallback(() => {
+    stopAutoScroll();
     intervalRef.current = setInterval(handleNext, 7000) // Switch every 7 seconds
-  }
+  }, [handleNext]);
 
   const stopAutoScroll = () => {
     if (intervalRef.current) {
@@ -48,9 +49,16 @@ export default function Reviews() {
   }
 
   useEffect(() => {
-    startAutoScroll()
-    return () => stopAutoScroll()
-  }, [])
+    startAutoScroll();
+    return () => stopAutoScroll();
+  }, [startAutoScroll]);
+
+  const handleManualSelect = (index: number) => {
+    stopAutoScroll();
+    setActiveIndex(index);
+    startAutoScroll();
+  };
+
 
   return (
     <div className="py-24 sm:py-32" onMouseEnter={stopAutoScroll} onMouseLeave={startAutoScroll}>
@@ -105,7 +113,7 @@ export default function Reviews() {
           </div>
           <div className="mt-8 flex flex-wrap justify-center gap-2">
             {reviews.map((_, index) => (
-              <button key={index} onClick={() => setActiveIndex(index)} className={`h-2 w-2 rounded-full transition ${activeIndex === index ? 'bg-emerald-400 scale-125' : 'bg-white/30'}`}></button>
+              <button key={index} onClick={() => handleManualSelect(index)} className={`h-2 w-2 rounded-full transition ${activeIndex === index ? 'bg-emerald-400 scale-125' : 'bg-white/30'}`}></button>
             ))}
           </div>
            <div className="mt-16 text-center">
