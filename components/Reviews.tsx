@@ -6,6 +6,7 @@ import { StarIcon } from '@heroicons/react/20/solid'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const reviews = [
+  { id: 19, rating: 5, date: '21 мая 2024', content: `<p>Будь готов рискнуть всем, если ты искренне веришь в свою цель.</p>`, author: 'Илон Маск', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Илон%20Маск', source: 'Цитата' },
   { id: 1, rating: 5, date: '14 мая 2024', content: `<p>Отличная компания, быстро и качественно выполняют свою работу. Лучшие условия на рынке. Однозначно рекомендую!</p>`, author: 'Алексей К.', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Алексей%20К.', source: 'Яндекс.Карты' },
   { id: 2, rating: 5, date: '11 мая 2024', content: `<p>Отличная компания, быстрое оформление, минимум документов, по сравнению с другими лизинговыми компаниями.</p>`, author: 'Виктор', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Виктор', source: 'Яндекс.Карты' },
   { id: 3, rating: 5, date: '5 мая 2024', content: `<p>Отличная компания, минимум валакиты с документами, специалисты всегда на связи, все очень быстро и качественно!</p>`, author: 'Максим', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Максим', source: 'Яндекс.Карты' },
