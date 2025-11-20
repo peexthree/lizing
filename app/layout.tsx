@@ -9,7 +9,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
-const inter = Inter({ subsets: ['latin'], featureSettings: "'ss04'" })
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Лизинг и точка — выгодный лизинг для вашего бизнеса',
