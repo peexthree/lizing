@@ -6,9 +6,9 @@ import { openLeadForm } from '@/lib/openLeadForm'
 export default function Hero() {
   return (
     <section className="relative flex h-[80vh] min-h-[600px] w-full items-center justify-center overflow-hidden text-center text-white sm:h-screen sm:min-h-[700px]">
-      <div className="absolute inset-0 bg-black/60 z-0"></div>
+      <div className="absolute inset-0 z-10 bg-black/60"></div>
       <video
-        className="absolute left-0 top-0 -z-10 h-full w-full object-cover"
+        className="absolute left-0 top-0 z-0 h-full w-full object-cover"
         autoPlay
         loop
         muted
@@ -18,7 +18,7 @@ export default function Hero() {
         <source src="/herobg.mp4" type="video/mp4" />
       </video>
 
-      <div className="relative z-10 mx-auto max-w-3xl animate-fade-in-up px-4" style={{ animationDelay: '0.2s' }}>
+      <div className="relative z-20 mx-auto max-w-3xl animate-fade-in-up px-4" style={{ animationDelay: '0.2s' }}>
         <h1 className="text-4xl font-black leading-tight text-white sm:text-5xl md:text-6xl [text-shadow:0_2px_4px_rgba(0,0,0,0.5)]">
           Лизинг для вашего бизнеса
         </h1>
