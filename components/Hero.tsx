@@ -5,7 +5,7 @@ import { openLeadForm } from '@/lib/openLeadForm'
 
 export default function Hero() {
   return (
-    <section className="relative flex h-[80vh] min-h-[600px] w-full items-center justify-center overflow-hidden text-center text-white sm:h-screen sm:min-h-[700px]">
+    <section className="relative flex h-screen min-h-[700px] w-full items-center justify-center overflow-hidden text-center text-white">
       <div className="absolute inset-0 z-10 bg-black/60"></div>
       <video
         className="absolute left-0 top-0 z-0 h-full w-full object-cover"
@@ -34,7 +34,6 @@ export default function Hero() {
           </Button>
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 w-full h-[200px] bg-gradient-to-t from-black to-transparent z-10" />
     </section>
   )
 }
