@@ -38,22 +38,21 @@ export default function Reviews() {
     setActiveIndex((prev) => (prev + 1) % reviews.length)
   }, []);
 
-  const stopAutoScroll = useCallback(() => {
+  const startAutoScroll = useCallback(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
-      intervalRef.current = null;
     }
-  }, []);
-
-  const startAutoScroll = useCallback(() => {
-    stopAutoScroll();
     intervalRef.current = setInterval(handleNext, 4000) // Switch every 4 seconds
-  }, [handleNext, stopAutoScroll]);
+  }, [handleNext]);
 
   useEffect(() => {
     startAutoScroll();
-    return () => stopAutoScroll();
-  }, [startAutoScroll, stopAutoScroll]);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [startAutoScroll]);
 
   const handleManualSelect = (index: number) => {
     setActiveIndex(index);
@@ -61,7 +60,7 @@ export default function Reviews() {
   };
 
   return (
-    <div className="py-24 sm:py-32" onMouseEnter={stopAutoScroll} onMouseLeave={startAutoScroll}>
+    <div className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">Отзывы</span>
