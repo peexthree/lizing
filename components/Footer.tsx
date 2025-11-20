@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
   }, [])
 
   return (
-    <footer className="bg-white border-t border-slate-200">
+    <footer className="border-t border-white/10 mt-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-4">
@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
                 <ul className="mt-4 space-y-3">
                   {section.links.map(link => (
                     <li key={link.label}>
-                      <a href={link.href} onClick={e => scrollTo(e, link.href)} className="text-base text-muted hover:text-primary transition-colors">
+                      <a href={link.href} onClick={e => scrollTo(e, link.href)} className="text-base text-muted hover:text-accent transition-colors">
                           {link.label}
                       </a>
                     </li>
@@ -69,14 +69,14 @@ const Footer: React.FC = () => {
             <div>
                  <h3 className="text-sm font-semibold uppercase tracking-wider text-text">Контакты</h3>
                  <ul className="mt-4 space-y-3">
-                     <li><a href="tel:+79991234567" className="text-base text-muted hover:text-primary transition-colors">+7 (999) 123-45-67</a></li>
-                     <li><a href="mailto:info@lizing-tochka.ru" className="text-base text-muted hover:text-primary transition-colors">info@lizing-tochka.ru</a></li>
+                     <li><a href="tel:+79991234567" className="text-base text-muted hover:text-accent transition-colors">+7 (999) 123-45-67</a></li>
+                     <li><a href="mailto:info@lizing-tochka.ru" className="text-base text-muted hover:text-accent transition-colors">info@lizing-tochka.ru</a></li>
                  </ul>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 border-t border-slate-200 pt-8 flex flex-col sm:flex-row justify-between items-center">
+        <div className="mt-12 border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-sm text-muted">&copy; {currentYear} Лизинг и точка. Все права защищены.</p>
           <p className="text-sm text-muted mt-4 sm:mt-0">Разработано с ❤️</p>
         </div>

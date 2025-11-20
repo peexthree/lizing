@@ -41,7 +41,8 @@ export default function Reviews() {
     <div className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-text sm:text-4xl">Отзывы наших клиентов</h2>
+           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-muted">Отзывы</span>
+          <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-text sm:text-4xl">Что говорят наши клиенты</h2>
           <p className="mt-2 text-lg leading-8 text-muted">
             Мы гордимся нашей репутацией. Вот что говорят о нас на Яндекс.Картах.
           </p>
@@ -50,7 +51,7 @@ export default function Reviews() {
           <div className="-mt-8 sm:-mx-4 sm:columns-2 sm:text-[0] lg:columns-3">
             {reviews.map((review) => (
               <div key={review.id} className="pt-8 sm:inline-block sm:w-full sm:px-4">
-                <figure className="rounded-2xl bg-surface p-8 text-sm leading-6 shadow-soft-lg">
+                <figure className="rounded-3xl border border-white/10 bg-surface/80 p-8 text-sm leading-6 shadow-soft-lg backdrop-blur-2xl">
                   <div className="flex items-center">
                     {[0, 1, 2, 3, 4].map((rating) => (
                       <StarIcon
