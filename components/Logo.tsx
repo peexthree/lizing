@@ -14,7 +14,7 @@ const Logo: FC<LogoProps> = ({ className }) => {
       className={`relative block h-20 w-auto ${className}`}
     >
       <Image
-        src="/logo.svg"
+        src="/logo_big.webp"
         alt="Лизинг и точка"
         fill
         className="object-contain"
