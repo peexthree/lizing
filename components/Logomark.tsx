@@ -14,7 +14,7 @@ const Logomark: FC<LogomarkProps> = ({ className }) => {
       className={`relative block ${className}`}
     >
       <Image
-        src="/logos/logomark-dark.png"
+        src="/logos/logomark-light.png"
         alt="Лизинг и точка"
         fill
         className="object-contain"
