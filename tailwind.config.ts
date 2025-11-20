@@ -12,17 +12,15 @@ export default {
     },
     extend: {
       colors: {
-        primary: '#1A1A1A', // Черный
-        background: '#FFFFFF', // Белый
-        accent: '#00A651', // Зеленый
-        'accent-alt': '#008C43', // Темно-зеленый
-        success: '#10B981',
-        text: '#000000', // Черный
-        muted: '#555555', // Серый
-        dark: '#000000',
-        surface: '#F5F5F5', // Светло-серый
-        'surface-muted': '#EAEAEA',
-        bgsoft: '#121212' // Очень темный серый
+        background: '#050505',      // Абсолютно черный фон
+        text: '#F5F5F5',             // Очень светло-серый (почти белый) для основного текста
+        muted: '#737373',            // Приглушенный серый для вторичного текста
+        surface: '#1B1B1B',          // Темно-серый для поверхностей (карточек, плашек)
+        'surface-muted': '#272727',   // Чуть более светлый серый для акцентов на поверхностях
+        accent: '#00A651',           // Фирменный зеленый, как на логотипе
+        'accent-alt': '#008C43',      // Более темный оттенок зеленого для ховеров
+        primary: '#FFFFFF',         // Белый как основной для кнопок и контрастных элементов
+        dark: '#FFFFFF'              // Белый, для соответствия темной теме
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
@@ -51,7 +49,7 @@ export default {
         glow: '0 8px 40px -15px rgba(0, 166, 81, 0.45)'
       },
       backgroundImage: {
-        'hero-grid': 'radial-gradient(circle at 20% 20%, rgba(0, 166, 81, 0.15), transparent 45%)'
+        'hero-grid': 'radial-gradient(circle at 20% 20%, rgba(0, 166, 81, 0.1), transparent 45%), radial-gradient(circle at 80% 90%, rgba(255, 255, 255, 0.03), transparent 55%)'
       },
       keyframes: {
         'fade-up': {
