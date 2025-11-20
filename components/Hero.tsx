@@ -8,7 +8,7 @@ export default function Hero() {
     <section className="relative flex h-[80vh] min-h-[600px] w-full items-center justify-center overflow-hidden text-center text-white sm:h-screen sm:min-h-[700px]">
       <div className="absolute inset-0 bg-black/50 z-0"></div>
       <video
-        className="absolute left-0 top-0 -z-10 h-full w-full object-cover opacity-70"
+        className="absolute left-0 top-0 -z-10 h-full w-full object-cover opacity-60"
         autoPlay
         loop
         muted
