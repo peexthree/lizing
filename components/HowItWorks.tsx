@@ -2,14 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-
-import {
-  FileTextIcon,
-  MessageIcon,
-  CheckCircleIcon,
-  SignatureIcon,
-  TruckIcon,
-} from '@/components/icons'
+import { FileTextIcon, MessageIcon, CheckCircleIcon, SignatureIcon, TruckIcon } from '@/components/icons'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 const steps = [
@@ -40,27 +33,12 @@ const steps = [
   },
 ]
 
-const timelineVariants = {
-  hidden: { '--line-height': '0%' },
-  visible: {
-    '--line-height': '100%',
-    transition: {
-      type: 'spring',
-      stiffness: 80,
-      damping: 20,
-      duration: 1,
-    },
-  },
-}
-
 const HowItWorks: React.FC = () => {
   return (
-    <section id="how-it-works" className="py-16 sm:py-24">
+    <section id="how-it-works" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">
-                Процесс
-            </span>
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">Процесс</span>
           <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Всего 5 шагов до вашей новой техники
           </h2>
@@ -69,48 +47,34 @@ const HowItWorks: React.FC = () => {
           </p>
         </div>
 
-        <motion.div
-          className="relative mt-20"
-          variants={timelineVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
-        >
-          <div
-            className="absolute left-1/2 top-0 w-0.5 h-full bg-white/10 origin-top"
-            style={{ height: 'var(--line-height)' }}
-          />
-          <div className="space-y-12">
-            {steps.map((step, index) => (
-              <RevealOnScroll key={step.title} delay={index * 0.15}>
-                <div className="flex items-start md:gap-x-8">
-                  <div
-                    className={`flex-shrink-0 w-full md:w-1/2 ${index % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8 md:order-2'}`}>
-                     <div className={`inline-block w-full max-w-md ${index % 2 === 0 ? 'md:float-right' : 'md:float-left'}`}>
-                      <div
-                          className={`relative rounded-3xl border border-white/10 bg-white/5 p-6 shadow-soft-lg backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1 w-full`}>
-                          <div className="flex items-center gap-x-4">
-                            <div className="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-lg bg-emerald-400/10 text-emerald-400">
-                              <step.icon className="h-6 w-6" />
-                            </div>
-                            <div>
-                              <h3 className="text-xl font-semibold text-white">{step.title}</h3>
-                            </div>
-                          </div>
-                          <p className="mt-3 text-base text-white/70">{step.description}</p>
-                        </div>
-                     </div>
-                  </div>
-                  <div className="hidden md:flex w-1/2 items-center justify-center">
-                    <div className="absolute flex h-10 w-10 items-center justify-center rounded-full bg-emerald-400 text-white font-bold text-lg ring-8 ring-transparent backdrop-blur-lg">
-                      {index + 1}
-                    </div>
-                  </div>
+        <div className="mt-20 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-6">
+          {steps.map((step, index) => (
+            <RevealOnScroll
+              key={step.title}
+              delay={index * 0.1}
+              className={index < 2 ? "lg:col-span-3" : "lg:col-span-2"}
+            >
+              <div
+                style={{ transformStyle: 'preserve-3d' }}
+                className="group relative h-full rounded-3xl border border-white/10 bg-white/5 p-6 shadow-soft-lg backdrop-blur-2xl transition-all duration-300 hover:border-emerald-400/50 hover:bg-emerald-400/10"
+              >
+                <div
+                  style={{ transform: 'translateZ(-1px)' }}
+                  className="absolute top-4 right-6 text-7xl font-black text-white/5 transition-colors group-hover:text-emerald-400/20 -z-10"
+                >
+                  0{index + 1}
                 </div>
-              </RevealOnScroll>
-            ))}
-          </div>
-        </motion.div>
+                <div className="relative">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-400/10 text-emerald-400">
+                    <step.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-4 text-xl font-semibold text-white">{step.title}</h3>
+                  <p className="mt-3 text-base text-white/70">{step.description}</p>
+                </div>
+              </div>
+            </RevealOnScroll>
+          ))}
+        </div>
       </div>
     </section>
   )
