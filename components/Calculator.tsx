@@ -55,7 +55,7 @@ const Calculator: FC = () => {
               <Slider
                 value={[cost]}
                 onValueChange={(value) => setCost(value[0])}
-                max={20000000}
+                max={150000000}
                 min={500000}
                 step={100000}
               />
