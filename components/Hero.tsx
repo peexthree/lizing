@@ -31,14 +31,14 @@ const HeroSection: React.FC = () => {
               className="text-balance text-4xl font-bold leading-tight text-white opacity-0 animate-fade-up sm:text-5xl lg:text-6xl"
               style={{ animationDelay: '200ms' }}
             >
-              Лизинг авто и техники за 24 часа
+              50+ банков конкурируют за вашу заявку. Лучшие условия лизинга за 24 часа
             </h1>
 
             <p
               className="mx-auto max-w-2xl text-lg text-white/80 opacity-0 animate-fade-up sm:text-xl"
               style={{ animationDelay: '280ms' }}
             >
-              Одобрение в день обращения. Индивидуальный график платежей. Без скрытых условий.
+              Получите лучшие предложения от лизинговых компаний и банков-партнёров на автомобили, спецтехнику, недвижимость и оборудование.
             </p>
 
             <div
