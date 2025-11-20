@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react'
-import { Bars3Icon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { motion, AnimatePresence } from 'framer-motion'
 import Logomark from '@/components/Logomark' // Используем новый компонент
 import { usePathname, useRouter } from 'next/navigation'
@@ -13,12 +13,9 @@ const navLinks = [
     { href: '#faq', label: 'Вопросы' },
 ];
 
-const leasingTypes = ['Авто', 'Оборудование', 'Недвижимость'];
-
 const Header: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const [showLeasingTypes, setShowLeasingTypes] = useState(false);
     const pathname = usePathname();
     const router = useRouter();
 
@@ -55,28 +52,6 @@ const Header: React.FC = () => {
                     </div>
                     <nav className="hidden md:block">
                         <ul className="flex items-center space-x-8">
-                            <li className="relative">
-                                <button onClick={() => setShowLeasingTypes(!showLeasingTypes)} className="font-medium text-muted hover:text-text transition-colors flex items-center">
-                                    Лизинг <ChevronDownIcon className={`w-4 h-4 ml-1 transition-transform ${showLeasingTypes ? 'rotate-180' : ''}`} />
-                                </button>
-                                <AnimatePresence>
-                                    {showLeasingTypes && (
-                                        <motion.div
-                                            initial={{ opacity: 0, y: -10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: -10 }}
-                                            className="absolute mt-2 w-48 rounded-md shadow-lg bg-background ring-1 ring-white/10">
-                                            <div className="py-1">
-                                                {leasingTypes.map(type => (
-                                                    <a key={type} href="#" className="block px-4 py-2 text-sm text-muted hover:bg-white/5 hover:text-text">
-                                                        {type}
-                                                    </a>
-                                                ))}
-                                            </div>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </li>
                             {navLinks.map(link => (
                                 <li key={link.href}>
                                     <a href={link.href} onClick={e => scrollTo(e, link.href)} className="font-medium text-muted hover:text-text transition-colors">
@@ -127,9 +102,6 @@ const Header: React.FC = () => {
                                 </div>
                                 <div className="mt-6">
                                     <nav className="grid gap-y-8">
-                                        <div className="-m-3 p-3 flex items-center rounded-md">
-                                            <span className="ml-3 text-base font-medium text-text">Лизинг: {leasingTypes.join(', ')}</span>
-                                        </div>
                                         {navLinks.map(link => (
                                             <a key={link.href} href={link.href} onClick={(e) => {scrollTo(e, link.href); setIsOpen(false) }} className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
                                                 <span className="ml-3 text-base font-medium text-text">{link.label}</span>
