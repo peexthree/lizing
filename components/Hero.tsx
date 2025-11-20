@@ -22,7 +22,7 @@ export default function Hero() {
           Лизинг авто и спецтехники для вашего бизнеса
         </h1>
         <p className="mt-6 text-lg text-text/90 sm:text-xl">
-          Подберём лучшие условия от 50+ лизинговых компаний. Одобрение в течение дня. Работаем по всей России.
+          50+ банков конкурируют за вашу заявку. <br/> Лучшие условия лизинга за 24 часа.
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Button variant="glow" size="lg" onClick={() => openLeadForm({ fields: { title: 'Заявка с главного экрана' } })}>
