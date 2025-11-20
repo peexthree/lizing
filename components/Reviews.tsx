@@ -83,7 +83,7 @@ export default function Reviews() {
               >
                 <figure className="rounded-3xl border border-white/20 bg-white/5 p-8 text-sm leading-6 shadow-soft-lg backdrop-blur-2xl">
                   <figcaption className="mb-4 flex items-center gap-x-4">
-                    <Image className="h-12 w-12 rounded-full bg-gray-800" src={reviews[activeIndex].avatar} alt={`Аватар пользователя ${reviews[activeIndex].author}`} width={48} height={48} />
+                    <Image className="h-12 w-12 rounded-full bg-gray-800" src={reviews[activeIndex].avatar} alt={`Аватар пользователя ${reviews[activeIndex].author}`} width={48} height={48} unoptimized />
                     <div>
                       <div className="font-semibold text-white">{reviews[activeIndex].author}</div>
                       <div className="text-white/70">{`Источник: ${reviews[activeIndex].source}`}</div>
