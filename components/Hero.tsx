@@ -5,7 +5,7 @@ import { openLeadForm } from '@/lib/openLeadForm'
 
 export default function Hero() {
   return (
-    <section className="relative flex h-screen min-h-[700px] w-full items-center justify-center overflow-hidden text-center text-white">
+    <section className="relative flex h-screen min-h-[667px] w-full items-center justify-center overflow-hidden text-center text-white">
       <div className="absolute inset-0 z-10 bg-black/60"></div>
       <video
         className="absolute left-0 top-0 z-0 h-full w-full object-cover"
@@ -26,7 +26,7 @@ export default function Hero() {
           Авто | Спецтехника | Оборудование | Недвижимость
         </p>
         <p className="mt-6 max-w-xl mx-auto text-lg text-white/80 sm:text-xl text-glow-subtle">
-          50+ банков конкурируют за вашу заявку. <br/> Лучшие условия лизинга за 24 часа.
+          50+ банков конкурируют за вашу заявку. Лучшие условия лизинга за 24 часа.
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Button variant="glow" size="lg" onClick={() => openLeadForm({ fields: { title: 'Заявка с главного экрана' } })}>

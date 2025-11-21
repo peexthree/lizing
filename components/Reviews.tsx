@@ -101,7 +101,7 @@ export default function Reviews() {
                       />
                     ))}
                   </div>
-                  <blockquote className="mt-4 text-white/90 h-16 sm:h-12" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>
+                  <blockquote className="mt-4 text-white/90" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>
                     <div dangerouslySetInnerHTML={{ __html: reviews[activeIndex].content }} />
                   </blockquote>
                   <div className="mt-4 text-xs text-white/50">
@@ -126,5 +126,3 @@ export default function Reviews() {
     </div>
   )
 }
-
-// Trigger deployment
