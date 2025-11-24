@@ -7,11 +7,12 @@ import Logomark from '@/components/Logomark'
 import { usePathname, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
 
+// Always link to homepage sections
 const navLinks = [
-    { href: '#benefits', label: 'Преимущества' },
-    { href: '#use-cases', label: 'Для кого' },
-    { href: '#how-it-works', label: 'Как это работает' },
-    { href: '#faq', label: 'Вопросы' },
+    { href: '/#benefits', label: 'Преимущества' },
+    { href: '/#use-cases', label: 'Для кого' },
+    { href: '/#how-it-works', label: 'Как это работает' },
+    { href: '/#faq', label: 'Вопросы' },
 ];
 
 const Header: React.FC = () => {
@@ -20,32 +21,39 @@ const Header: React.FC = () => {
     const router = useRouter();
 
     const handleNavClick = useCallback((href: string) => {
-        const targetId = href.substring(1);
-        if (pathname !== '/') {
-            router.push(`/#${targetId}`);
-        } else {
+        const targetId = href.split('#')[1];
+        // If we are on the homepage and the link has a hash, scroll smoothly
+        if (pathname === '/' && targetId) {
             const targetElement = document.getElementById(targetId);
             if (targetElement) {
                 window.scrollTo({
-                    top: targetElement.offsetTop - 80, // header height
+                    top: targetElement.offsetTop - 80, // Adjust for header height
                     behavior: 'smooth',
                 });
             }
+        } else {
+            // Otherwise, navigate to the page/section
+            router.push(href);
         }
+        setIsOpen(false); // Close mobile menu on navigation
     }, [pathname, router]);
 
     return (
         <header className="sticky top-0 z-50 transition-all duration-300 emerald-glass-header">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-20 items-center justify-between">
-                    <div className="flex-shrink-0">
+                    <a href="/" className="flex-shrink-0" aria-label="Вернуться на главную">
                         <Logomark className="h-10 w-40" />
-                    </div>
+                    </a>
                     <nav className="hidden md:block">
                         <ul className="flex items-center space-x-8">
                             {navLinks.map(link => (
                                 <li key={link.href}>
-                                    <a href={link.href} onClick={e => { e.preventDefault(); handleNavClick(link.href); }} className="font-medium text-white/70 hover:text-white transition-colors text-glow-subtle">
+                                    <a 
+                                        href={link.href} 
+                                        onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }} 
+                                        className="font-medium text-white/70 hover:text-white transition-colors text-glow-subtle"
+                                    >
                                         {link.label}
                                     </a>
                                 </li>
@@ -53,7 +61,7 @@ const Header: React.FC = () => {
                         </ul>
                     </nav>
                     <div className="hidden md:block">
-                         <Button variant="glow-subtle" size="sm" onClick={() => handleNavClick('#lead-form')}>
+                         <Button variant="glow-subtle" size="sm" onClick={() => handleNavClick('/#lead-form')}>
                             Оставить заявку
                         </Button>
                     </div>
@@ -61,6 +69,7 @@ const Header: React.FC = () => {
                         <button
                             onClick={() => setIsOpen(true)}
                             className="inline-flex items-center justify-center p-2 rounded-md text-white/70 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-400"
+                            aria-label="Открыть меню"
                         >
                             <Bars3Icon className="h-6 w-6" />
                         </button>
@@ -80,12 +89,15 @@ const Header: React.FC = () => {
                             <div className="px-5 pt-5 pb-6">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <Logomark className="h-10 w-40" />
+                                        <a href="/" aria-label="Вернуться на главную">
+                                            <Logomark className="h-10 w-40" />
+                                        </a>
                                     </div>
                                     <div className="-mr-2">
                                         <button
                                             onClick={() => setIsOpen(false)}
                                             className="inline-flex items-center justify-center p-2 rounded-md text-white/70 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-400"
+                                            aria-label="Закрыть меню"
                                         >
                                             <XMarkIcon className="h-6 w-6" />
                                         </button>
@@ -94,7 +106,12 @@ const Header: React.FC = () => {
                                 <div className="mt-6">
                                     <nav className="grid gap-y-8">
                                         {navLinks.map(link => (
-                                            <a key={link.href} href={link.href} onClick={() => { handleNavClick(link.href); setIsOpen(false); }} className="-m-3 p-3 flex items-center rounded-md hover:bg-white/5">
+                                            <a 
+                                                key={link.href} 
+                                                href={link.href} 
+                                                onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }} 
+                                                className="-m-3 p-3 flex items-center rounded-md hover:bg-white/5"
+                                            >
                                                 <span className="ml-3 text-base font-medium text-white text-glow-subtle">{link.label}</span>
                                             </a>
                                         ))}
@@ -102,7 +119,7 @@ const Header: React.FC = () => {
                                 </div>
                             </div>
                              <div className="py-6 px-5 space-y-6">
-                                 <Button variant="glow" className="w-full" onClick={() => { handleNavClick('#lead-form'); setIsOpen(false); }}>
+                                 <Button variant="glow" className="w-full" onClick={() => handleNavClick('/#lead-form')}>
                                     Оставить заявку
                                 </Button>
                             </div>

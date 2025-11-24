@@ -2,16 +2,17 @@
 
 import Link from 'next/link'
 import React, { useCallback } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import Logo from '@/components/Logo'
 
 const NAV_SECTIONS = [
   {
     title: 'Разделы',
     links: [
-      { href: '#benefits', label: 'Преимущества' },
-      { href: '#how-it-works', label: 'Как это работает' },
-      { href: '#faq', label: 'Вопросы и ответы' },
-      { href: '#lead-form', label: 'Оставить заявку' },
+      { href: '/#benefits', label: 'Преимущества' },
+      { href: '/#how-it-works', label: 'Как это работает' },
+      { href: '/#faq', label: 'Вопросы и ответы' },
+      { href: '/#lead-form', label: 'Оставить заявку' },
     ],
   },
   {
@@ -25,27 +26,39 @@ const NAV_SECTIONS = [
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear()
+  const pathname = usePathname();
+  const router = useRouter();
 
-  const scrollTo = useCallback((e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
-    if (href.startsWith('#')) {
-      e.preventDefault()
-      const targetId = href.substring(1)
-      const targetElement = document.getElementById(targetId)
+  const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.split('#')[1];
+
+    if (href.startsWith('/') && !href.startsWith('/#')) {
+        router.push(href);
+        return;
+    }
+
+    if (pathname === '/' && targetId) {
+      const targetElement = document.getElementById(targetId);
       if (targetElement) {
         window.scrollTo({
-          top: targetElement.offsetTop - 80,
+          top: targetElement.offsetTop - 80, // Adjust for header height
           behavior: 'smooth',
-        })
+        });
       }
+    } else {
+      router.push(`/${targetId ? '#' + targetId : ''}`);
     }
-  }, [])
+  }, [pathname, router]);
 
   return (
     <footer className="glass-footer mt-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-4">
-            <Logo className="h-32 w-64 text-text" />
+             <a href="/" aria-label="Вернуться на главную">
+                <Logo className="h-32 w-64 text-text" />
+             </a>
             <p className="mt-4 text-base text-muted text-glow-subtle">
               Ваш надёжный партнёр в мире лизинга. Предлагаем лучшие условия и быстрое оформление для роста вашего бизнеса по всей России.
             </p>
@@ -58,9 +71,13 @@ const Footer: React.FC = () => {
                 <ul className="mt-4 space-y-3">
                   {section.links.map(link => (
                     <li key={link.label}>
-                      <a href={link.href} onClick={e => scrollTo(e, link.href)} className="text-base text-muted hover:text-accent transition-colors text-glow">
+                       <a 
+                         href={link.href} 
+                         onClick={(e) => handleNavClick(e, link.href)} 
+                         className="text-base text-muted hover:text-accent transition-colors text-glow"
+                       >
                           {link.label}
-                      </a>
+                       </a>
                     </li>
                   ))}
                 </ul>
