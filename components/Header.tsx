@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useCallback } from 'react'
+import Link from 'next/link'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { motion, AnimatePresence } from 'framer-motion'
 import Logomark from '@/components/Logomark'
@@ -42,9 +43,9 @@ const Header: React.FC = () => {
         <header className="sticky top-0 z-50 transition-all duration-300 emerald-glass-header">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-20 items-center justify-between">
-                    <a href="/" className="flex-shrink-0" aria-label="Вернуться на главную">
+                    <Link href="/" className="flex-shrink-0" aria-label="Вернуться на главную">
                         <Logomark className="h-10 w-40" />
-                    </a>
+                    </Link>
                     <nav className="hidden md:block">
                         <ul className="flex items-center space-x-8">
                             {navLinks.map(link => (
@@ -89,9 +90,9 @@ const Header: React.FC = () => {
                             <div className="px-5 pt-5 pb-6">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <a href="/" aria-label="Вернуться на главную">
+                                        <Link href="/" aria-label="Вернуться на главную">
                                             <Logomark className="h-10 w-40" />
-                                        </a>
+                                        </Link>
                                     </div>
                                     <div className="-mr-2">
                                         <button

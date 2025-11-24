@@ -56,9 +56,9 @@ const Footer: React.FC = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-4">
-             <a href="/" aria-label="Вернуться на главную">
+             <Link href="/" aria-label="Вернуться на главную">
                 <Logo className="h-32 w-64 text-text" />
-             </a>
+             </Link>
             <p className="mt-4 text-base text-muted text-glow-subtle">
               Ваш надёжный партнёр в мире лизинга. Предлагаем лучшие условия и быстрое оформление для роста вашего бизнеса по всей России.
             </p>

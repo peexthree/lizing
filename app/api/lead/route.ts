@@ -398,7 +398,7 @@ const pushMetaLine = (label: string, value: string) => {
 
   try {
 
- const delivered = await onLeadSubmit(leadPayload, ['erevakshin@lizing-i-tochka.ru', 'dpalenov@lizing-i-tochka.ru'])
+ const delivered = await onLeadSubmit(leadPayload)
     return NextResponse.json({ success: true, delivered })
 
   } catch (error) {
