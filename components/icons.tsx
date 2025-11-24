@@ -208,3 +208,9 @@ export const ArrowUpRightIcon = (props: IconProps) => (
     <path d="M9 7h8v8" />
   </IconBase>
 )
+
+export const CheckIcon = (props: IconProps) => (
+  <IconBase {...props}>
+    <path d="M20 6 9 17l-5-5" />
+  </IconBase>
+)
