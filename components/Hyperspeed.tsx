@@ -99,6 +99,8 @@ const defaultOptions: HyperspeedOptions = {
   }
 };
 
+const TIME_SCALE = 0.25;
+
 function nsin(val: number) {
   return Math.sin(val) * 0.5 + 0.5;
 }
@@ -1134,8 +1136,8 @@ class App {
   update(delta: number) {
     const lerpPercentage = Math.exp(-(-60 * Math.log2(1 - 0.1)) * delta);
     this.speedUp += lerp(this.speedUp, this.speedUpTarget, lerpPercentage, 0.00001);
-    this.timeOffset += this.speedUp * delta;
-    const time = this.clock.elapsedTime + this.timeOffset;
+    this.timeOffset += this.speedUp * delta * TIME_SCALE;
+    const time = this.clock.elapsedTime * TIME_SCALE + this.timeOffset;
 
     this.rightCarLights.update(time);
     this.leftCarLights.update(time);
