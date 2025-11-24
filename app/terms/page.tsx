@@ -105,7 +105,9 @@ const TermsPage: FC = () => {
                 </li>
                 <li>
                   <strong>Контактный e-mail для обращений:</strong>{' '}
-                  <a href="mailto:dpalenov@lizing-i-tochka.ru">
+                  <a href="mailto:erevakshin@lizing-i-tochka.ru">
+                    erevakshin@lizing-i-tochka.ru
+                  </a> или <a href="mailto:dpalenov@lizing-i-tochka.ru">
                     dpalenov@lizing-i-tochka.ru
                   </a>
                 </li>

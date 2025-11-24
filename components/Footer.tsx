@@ -87,7 +87,7 @@ const Footer: React.FC = () => {
                  <h3 className="text-sm font-semibold uppercase tracking-wider text-text text-glow">Контакты</h3>
                  <ul className="mt-4 space-y-3">
                      <li><a href="tel:+79991234567" className="text-base text-muted hover:text-accent transition-colors text-glow">+7 (999) 123-45-67</a></li>
-                     <li><a href="mailto:info@lizing-tochka.ru" className="text-base text-muted hover:text-accent transition-colors text-glow">info@lizing-tochka.ru</a></li>
+                     <li><a href="mailto:erevakshin@lizing-i-tochka.ru" className="text-base text-muted hover:text-accent transition-colors text-glow">erevakshin@lizing-i-tochka.ru</a></li>
                  </ul>
             </div>
           </div>

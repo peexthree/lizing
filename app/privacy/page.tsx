@@ -46,7 +46,9 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong>По любым вопросам:</strong>{' '}
-                <a href="mailto:dpalenov@lizing-i-tochka.ru">
+                <a href="mailto:erevakshin@lizing-i-tochka.ru">
+                  erevakshin@lizing-i-tochka.ru
+                </a> или <a href="mailto:dpalenov@lizing-i-tochka.ru">
                   dpalenov@lizing-i-tochka.ru
                 </a>
               </li>
@@ -132,9 +134,11 @@ export default function PrivacyPage() {
               Вы можете в любой момент запросить доступ к своим данным, попросить их
               изменить или удалить, а также отозвать согласие на обработку. Просто
               напишите нам на{' '}
-              <a href="mailto:dpalenov@lizing-i-tochka.ru">
-                dpalenov@lizing-i-tochka.ru
-              </a>
+              <a href="mailto:erevakshin@lizing-i-tochka.ru">
+                erevakshin@lizing-i-tochka.ru
+              </a> или <a href="mailto:dpalenov@lizing-i-tochka.ru">
+                  dpalenov@lizing-i-tochka.ru
+                </a>
               .
             </p>
           </section>
