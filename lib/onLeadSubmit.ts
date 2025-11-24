@@ -59,6 +59,9 @@ type TelegramResponse = {
 
 const TELEGRAM_TIMEOUT = 10_000
 
+const TELEGRAM_RETRY_BASE_DELAY = 500
+const TELEGRAM_RETRY_MAX_ATTEMPTS = 3
+
 const TELEGRAM_API_BASE = 'https://api.telegram.org'
 
 const normalizeHtmlMessage = (html: string) =>
@@ -71,6 +74,14 @@ const safeParseNumber = (value: string | undefined) => {
   const parsed = Number(value)
   return Number.isFinite(parsed) ? parsed : undefined
 }
+
+const sleep = (ms: number) =>
+  new Promise<void>((resolve) => {
+    setTimeout(resolve, ms)
+  })
+
+const getErrorMessage = (error: unknown) =>
+  error instanceof Error ? error.message : 'Unknown Telegram error'
 
 export async function onLeadSubmit(data: LeadSubmitPayload): Promise<boolean> {
   const botToken = process.env.TELEGRAM_BOT_TOKEN?.trim()
@@ -140,27 +151,67 @@ export async function onLeadSubmit(data: LeadSubmitPayload): Promise<boolean> {
         ...(typeof resolvedThreadId === 'number' ? { message_thread_id: resolvedThreadId } : {}),
       }
 
-      try {
-        await sendTelegramMessage(payload)
-      } catch (error) {
-        const isLeadSubmitError = error instanceof LeadSubmitError
-        const threadNotFound =
-          isLeadSubmitError &&
-          error.code === 'telegram-error' &&
-          typeof resolvedThreadId === 'number' &&
-          error.message.toLowerCase().includes('message thread not found')
+      let attempt = 1
+      let lastError: unknown
 
-        if (!threadNotFound) {
-          throw error
-        }
+      while (attempt <= TELEGRAM_RETRY_MAX_ATTEMPTS) {
+        const delayMs = attempt === 1 ? 0 : TELEGRAM_RETRY_BASE_DELAY * 2 ** (attempt - 2)
+        const reason =
+          attempt === 1 ? 'initial attempt' : `retry after error: ${getErrorMessage(lastError)}`
 
-        console.warn('Telegram thread not found for chat, retrying without thread id', {
+        console.info('Sending Telegram message', {
           chatId: telegramChatId,
-          threadId: resolvedThreadId,
+          attempt,
+          delayMs,
+          reason,
         })
 
-        const { message_thread_id: _ignored, ...fallbackPayload } = payload
-        await sendTelegramMessage(fallbackPayload)
+        if (delayMs > 0) {
+          await sleep(delayMs)
+        }
+
+        try {
+          await sendTelegramMessage(payload)
+          break
+        } catch (error) {
+          const isLeadSubmitError = error instanceof LeadSubmitError
+
+          if (isLeadSubmitError && error.code === 'missing-config') {
+            throw error
+          }
+
+          const threadNotFound =
+            isLeadSubmitError &&
+            error.code === 'telegram-error' &&
+            typeof resolvedThreadId === 'number' &&
+            error.message.toLowerCase().includes('message thread not found')
+
+          if (threadNotFound) {
+            console.warn('Telegram thread not found for chat, retrying without thread id', {
+              chatId: telegramChatId,
+              threadId: resolvedThreadId,
+            })
+
+            const { message_thread_id: _ignored, ...fallbackPayload } = payload
+            await sendTelegramMessage(fallbackPayload)
+            break
+          }
+
+          lastError = error
+
+          if (attempt >= TELEGRAM_RETRY_MAX_ATTEMPTS) {
+            throw error
+          }
+
+          console.warn('Telegram send attempt failed, scheduling retry', {
+            chatId: telegramChatId,
+            attempt,
+            delayMs,
+            reason: getErrorMessage(error),
+          })
+
+          attempt += 1
+        }
       }
     }
   } catch (error) {
