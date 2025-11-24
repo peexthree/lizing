@@ -3,7 +3,7 @@
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useCallback, useEffect, useState, type ChangeEvent, type FormEvent, type MouseEvent } from 'react'
-import { CloseIcon, HandshakeIcon, TimerIcon } from '@/components/icons'
+import { CloseIcon, HandshakeIcon, TimerIcon, CheckIcon } from '@/components/icons' // Added CheckIcon
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { DEFAULT_ERROR_MESSAGE, DEFAULT_WARNING_MESSAGE, parseLeadResponse } from '@/lib/leadResponse'
 import type { LeadFormPrefill } from '@/lib/openLeadForm'
@@ -104,7 +104,6 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
     setSending(false)
     setAgree(false)
     setIsOpen(true)
-
   }, [])
 
   const closeModal = useCallback(() => {
@@ -139,9 +138,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
           summary = window.localStorage.getItem('calc') ?? ''
         } catch (storageError) {
           console.warn('Не удалось получить сохранённый расчёт', storageError)
-
         }
-
       }
       setForm(prev => (prev.calc === summary ? prev : { ...prev, calc: summary }))
     }
@@ -286,19 +283,6 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
         setStatus('ok')
         setFeedbackMessage(null)
       }
-      setAgree(false)
-      setForm(prev => ({
-        ...prev,
-        name: '',
-        phone: '',
-        calc: prev.calc,
-        utm_source: prev.utm_source,
-        utm_medium: prev.utm_medium,
-        utm_campaign: prev.utm_campaign,
-        utm_content: prev.utm_content,
-        referrer: prev.referrer
-      }))
-      setExtraFields({})
     } catch {
       setStatus('err')
       setFeedbackMessage(DEFAULT_ERROR_MESSAGE)
@@ -438,6 +422,153 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
       </div>
     </section>
   )
+  
+  const ModalContent = () => {
+    if (status === 'ok') {
+      return (
+        <div className="flex flex-col items-center justify-center px-6 pb-8 pt-14 text-center sm:px-8 sm:pt-16">
+          <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-green-500/10">
+            <CheckIcon className="h-8 w-8 text-green-400" />
+          </div>
+          <h2 className="glass-title mt-6 text-2xl font-semibold text-white">Заявка отправлена!</h2>
+          <p className="mt-2 text-sm text-white/80 text-glow-subtle">
+            Наш менеджер свяжется с вами в течение 15 минут в рабочее время.
+          </p>
+          <button
+            type="button"
+            onClick={closeModal}
+            className="mt-8 inline-flex w-full max-w-xs items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 px-8 py-3 text-base font-semibold text-black shadow-lg transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400"
+          >
+            Отлично!
+          </button>
+        </div>
+      )
+    }
+
+    return (
+      <form onSubmit={onSubmit} className="space-y-6 px-6 pb-8 pt-14 sm:px-8 sm:pt-16">
+        <h2 className="glass-title text-2xl font-semibold text-white">Оставьте заявку</h2>
+        <p className="text-sm text-white/80 text-glow-subtle">
+          Мы позвоним или напишем в мессенджер в течение 15 минут в рабочее время.
+        </p>
+
+        {form.calc && (
+          <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-left text-sm text-white/80 shadow-inner">
+            <div className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-400/80 text-glow">Расчёт из калькулятора</div>
+            <p className="mt-2 leading-relaxed text-glow-subtle">{form.calc}</p>
+          </div>
+        )}
+
+        <div className="grid gap-4">
+          <div className="space-y-2">
+            <label htmlFor="modal-name" className="text-sm font-semibold text-white text-glow">
+              Имя
+            </label>
+            <input
+              id="modal-name"
+              name="name"
+              className="w-full rounded-2xl border border-white/10 bg-gray-800/50 p-3 text-sm text-white shadow-inner transition focus:border-emerald-400/60 focus:outline-none focus:ring-2 focus:ring-emerald-400/30"
+              placeholder="Как к вам обращаться"
+              value={form.name}
+              onChange={handleChange('name')}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="modal-phone" className="text-sm font-semibold text-white text-glow">
+              Телефон
+            </label>
+            <input
+              id="modal-phone"
+              name="phone"
+              className="w-full rounded-2xl border border-white/10 bg-gray-800/50 p-3 text-sm text-white shadow-inner transition focus:border-emerald-400/60 focus:outline-none focus:ring-2 focus:ring-emerald-400/30"
+              placeholder="+7 (___) ___-__-__"
+              value={form.phone}
+              onChange={handlePhone}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="space-y-4 text-sm text-white/80">
+          <label className="flex items-start gap-3">
+            <input
+              type="checkbox"
+              className="mt-1 accent-emerald-400"
+              checked={agree}
+              onChange={event => setAgree(event.currentTarget.checked)}
+            />
+            <span className="text-glow-subtle">
+              Согласен с{' '}
+              <a
+                href="/privacy"
+                className="font-semibold text-emerald-400 underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                политикой обработки персональных данных
+              </a>
+            </span>
+          </label>
+
+          <button
+            type="submit"
+            disabled={sending || !agree}
+            className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 px-8 py-3 text-base font-semibold text-black shadow-lg transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {sending ? 'Отправляем…' : 'Отправить заявку'}
+          </button>
+        </div>
+
+        <div className="space-y-3">
+          <div className="text-xs font-semibold uppercase tracking-[0.3em] text-white/70 text-glow">Или напишите напрямую</div>
+          <div className="flex flex-wrap gap-3">
+            {messengerLinks.map(link => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400"
+                style={{
+                  color: link.color,
+                  backgroundColor: link.background,
+                  borderColor: link.border
+                }}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="flex h-8 w-8 items-center justify-center">
+                  <Image
+                    src={link.logoSrc}
+                    alt={link.logoAlt}
+                    width={32}
+                    height={32}
+                    className="h-8 w-8"
+                  />
+                </span>
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {(status === 'warn' || status === 'err') && (
+          <div className="space-y-2 text-sm" aria-live="polite">
+            {status === 'warn' && (
+              <p className="rounded-2xl bg-amber-500/10 px-4 py-3 text-amber-200">
+                {feedbackMessage ?? DEFAULT_WARNING_MESSAGE}
+              </p>
+            )}
+            {status === 'err' && (
+              <p className="rounded-2xl bg-red-500/10 px-4 py-3 text-red-300">
+                {feedbackMessage ?? DEFAULT_ERROR_MESSAGE}
+              </p>
+            )}
+          </div>
+        )}
+      </form>
+    )
+  }
 
   return (
     <>
@@ -459,136 +590,14 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
           <button
             type="button"
             onClick={closeModal}
-            className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white shadow transition hover:text-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
+            className="absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white shadow transition hover:text-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
             aria-label="Закрыть форму"
           >
             <CloseIcon className="h-5 w-5" aria-hidden />
           </button>
+          
+          <ModalContent />
 
-          <form onSubmit={onSubmit} className="space-y-6 px-6 pb-8 pt-14 sm:px-8 sm:pt-16">
-            <h2 className="glass-title text-2xl font-semibold text-white">Оставьте заявку</h2>
-            <p className="text-sm text-white/80 text-glow-subtle">
-              Мы позвоним или напишем в мессенджер в течение 15 минут в рабочее время.
-            </p>
-
-            {form.calc && (
-              <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-left text-sm text-white/80 shadow-inner">
-                <div className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-400/80 text-glow">Расчёт из калькулятора</div>
-                <p className="mt-2 leading-relaxed text-glow-subtle">{form.calc}</p>
-              </div>
-            )}
-
-            <div className="grid gap-4">
-              <div className="space-y-2">
-                <label htmlFor="modal-name" className="text-sm font-semibold text-white text-glow">
-                  Имя
-                </label>
-                <input
-                  id="modal-name"
-                  name="name"
-                  className="w-full rounded-2xl border border-white/10 bg-gray-800/50 p-3 text-sm text-white shadow-inner transition focus:border-emerald-400/60 focus:outline-none focus:ring-2 focus:ring-emerald-400/30"
-                  placeholder="Как к вам обращаться"
-                  value={form.name}
-                  onChange={handleChange('name')}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="modal-phone" className="text-sm font-semibold text-white text-glow">
-                  Телефон
-                </label>
-                <input
-                  id="modal-phone"
-                  name="phone"
-                  className="w-full rounded-2xl border border-white/10 bg-gray-800/50 p-3 text-sm text-white shadow-inner transition focus:border-emerald-400/60 focus:outline-none focus:ring-2 focus:ring-emerald-400/30"
-                  placeholder="+7 (___) ___-__-__"
-                  value={form.phone}
-                  onChange={handlePhone}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="space-y-4 text-sm text-white/80">
-              <label className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  className="mt-1 accent-emerald-400"
-                  checked={agree}
-                  onChange={event => setAgree(event.currentTarget.checked)}
-                />
-                <span className="text-glow-subtle">
-                  Согласен с{' '}
-                  <a
-                    href="/privacy"
-                    className="font-semibold text-emerald-400 underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    политикой обработки персональных данных
-                  </a>
-                </span>
-              </label>
-
-              <button
-                type="submit"
-                disabled={sending || !agree}
-                className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 px-8 py-3 text-base font-semibold text-black shadow-lg transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {sending ? 'Отправляем…' : 'Отправить заявку'}
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              <div className="text-xs font-semibold uppercase tracking-[0.3em] text-white/70 text-glow">Или напишите напрямую</div>
-              <div className="flex flex-wrap gap-3">
-                {messengerLinks.map(link => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold shadow-sm transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400"
-                    style={{
-                      color: link.color,
-                      backgroundColor: link.background,
-                      borderColor: link.border
-                    }}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span className="flex h-8 w-8 items-center justify-center">
-                      <Image
-                        src={link.logoSrc}
-                        alt={link.logoAlt}
-                        width={32}
-                        height={32}
-                        className="h-8 w-8"
-                      />
-                    </span>
-                    {link.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-2 text-sm" aria-live="polite">
-              {status === 'ok' && (
-                <p className="rounded-2xl bg-green-500/10 px-4 py-3 text-green-300">
-                  Спасибо! Менеджер свяжется в течение 15 минут в рабочее время.
-                </p>
-              )}
-              {status === 'warn' && (
-                <p className="rounded-2xl bg-amber-500/10 px-4 py-3 text-amber-200">
-                  {feedbackMessage ?? DEFAULT_WARNING_MESSAGE}
-                </p>
-              )}
-              {status === 'err' && (
-                <p className="rounded-2xl bg-red-500/10 px-4 py-3 text-red-300">
-                  {feedbackMessage ?? DEFAULT_ERROR_MESSAGE}
-                </p>
-              )}
-            </div>
-          </form>
         </div>
       </div>
     </>
