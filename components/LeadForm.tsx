@@ -3,7 +3,7 @@
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useCallback, useEffect, useState, type ChangeEvent, type FormEvent, type MouseEvent } from 'react'
-import { CloseIcon, HandshakeIcon, TimerIcon, CheckIcon } from '@/components/icons' // Added CheckIcon
+import { CloseIcon, HandshakeIcon, TimerIcon, CheckIcon } from '@/components/icons'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
 import { DEFAULT_ERROR_MESSAGE, DEFAULT_WARNING_MESSAGE, parseLeadResponse } from '@/lib/leadResponse'
 import type { LeadFormPrefill } from '@/lib/openLeadForm'
@@ -205,11 +205,27 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
   }
 
   const handlePhone = (event: ChangeEvent<HTMLInputElement>) => {
-    const digits = event.target.value.replace(/\D/g, '').slice(0, 11)
-    setForm(prev => ({ ...prev, phone: formatPhone(digits) }))
-    setStatus('idle')
-    setFeedbackMessage(null)
-  }
+    let input = event.target.value.replace(/\D/g, '');
+    if (input.startsWith('7') || input.startsWith('8')) {
+      input = input.slice(1);
+    }
+    let formatted = '+7';
+    if (input.length > 0) {
+      formatted += ` (${input.slice(0, 3)}`
+    }
+    if (input.length >= 4) {
+      formatted += `) ${input.slice(3, 6)}`
+    }
+    if (input.length >= 7) {
+      formatted += `-${input.slice(6, 8)}`
+    }
+    if (input.length >= 9) {
+      formatted += `-${input.slice(8, 10)}`
+    }
+    setForm(prev => ({ ...prev, phone: formatted }))
+    setStatus('idle');
+    setFeedbackMessage(null);
+  };
 
   const normalizePhone = (value: string) => {
     let digits = value.replace(/\D/g, '')
@@ -228,7 +244,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
     const name = form.name.trim()
     const phoneDigits = normalizePhone(form.phone)
 
-    if (!agree || name.length < 2 || phoneDigits.length < 10) {
+    if (!agree || name.length < 2 || phoneDigits.length < 11) { // Changed to 11 to ensure full number
       setStatus('err')
       setFeedbackMessage('Проверьте поля и подтвердите согласие, затем попробуйте ещё раз.')
       return
@@ -472,6 +488,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
               value={form.name}
               onChange={handleChange('name')}
               required
+              minLength={2}
             />
           </div>
 
@@ -482,11 +499,13 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
             <input
               id="modal-phone"
               name="phone"
+              type="tel" // Use type="tel" for phone numbers
               className="w-full rounded-2xl border border-white/10 bg-gray-800/50 p-3 text-sm text-white shadow-inner transition focus:border-emerald-400/60 focus:outline-none focus:ring-2 focus:ring-emerald-400/30"
               placeholder="+7 (___) ___-__-__"
               value={form.phone}
               onChange={handlePhone}
               required
+              maxLength={18} // +7 (XXX) XXX-XX-XX is 18 chars
             />
           </div>
         </div>
@@ -602,29 +621,4 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
       </div>
     </>
   )
-}
-
-export function formatPhone(digits: string) {
-  if (!digits) return ''
-
-  let normalized = digits
-  if (normalized.startsWith('8')) normalized = `7${normalized.slice(1)}`
-  if (normalized.length > 11) normalized = normalized.slice(0, 11)
-  if (!normalized.startsWith('7')) normalized = `7${normalized.slice(0, 10)}`
-
-  const part1 = normalized.slice(1, 4)
-  const part2 = normalized.slice(4, 7)
-  const part3 = normalized.slice(7, 9)
-  const part4 = normalized.slice(9, 11)
-
-  let result = '+7'
-  if (part1) {
-    result += ` (${part1}`
-    if (part1.length === 3) result += ')'
-  }
-  if (part2) result += ` ${part2}`
-  if (part3) result += `-${part3}`
-  if (part4) result += `-${part4}`
-
-  return result
 }
