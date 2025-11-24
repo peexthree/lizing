@@ -1,6 +1,7 @@
 'use client';
 import { FC, useState, useMemo } from "react";
 import Slider from "@/components/ui/Slider";
+import FormattedInput from "@/components/ui/FormattedInput"; // Импортируем новый компонент
 import { Button } from "@/components/ui/Button";
 import { openLeadForm } from "@/lib/openLeadForm";
 
@@ -11,20 +12,18 @@ const Calculator: FC = () => {
 
   const monthlyPayment = useMemo(() => {
     if (term === 0) return 0;
-    const principal = cost - (cost * initialFee) / 100;
-    const annualRate = 0.20; // Примерная годовая ставка 20%
-    const monthlyRate = annualRate / 12;
-    const payment =
-      principal *
-      (monthlyRate * Math.pow(1 + monthlyRate, term)) /
-      (Math.pow(1 + monthlyRate, term) - 1);
+    const financedAmount = cost - (cost * initialFee) / 100;
+    const annualAppreciationRate = 0.07; // Ставка удорожания 7% в год
+    const totalAppreciation = financedAmount * annualAppreciationRate * (term / 12);
+    const totalCost = financedAmount + totalAppreciation;
+    const payment = totalCost / term;
     return Math.round(payment);
   }, [cost, initialFee, term]);
 
   const handleOpenLeadForm = () => {
-    const calcSummary = `Стоимость техники: ${cost.toLocaleString()} ₽; Аванс: ${Math.round(
+    const calcSummary = `Стоимость: ${cost.toLocaleString()} ₽; Аванс: ${Math.round(
       (cost * initialFee) / 100
-    ).toLocaleString()} ₽ (${initialFee}%); Срок: ${term} мес.; Ежемесячный платёж: ${monthlyPayment.toLocaleString()} ₽`;
+    ).toLocaleString()} ₽ (${initialFee}%); Срок: ${term} мес.; Платёж: ${monthlyPayment.toLocaleString()} ₽`;
     openLeadForm({ calcSummary });
   };
 
@@ -47,11 +46,13 @@ const Calculator: FC = () => {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="space-y-3">
               <label className="text-sm font-semibold text-white/50 text-glow">
-                Стоимость техники
+                Стоимость имущества
               </label>
-              <p className="text-3xl font-bold text-white text-glow">
-                {cost.toLocaleString()}&nbsp;₽
-              </p>
+              <FormattedInput
+                value={cost}
+                onChange={setCost}
+                className="w-full bg-transparent text-3xl font-bold text-white text-glow focus:outline-none focus:ring-0 border-none p-0"
+              />
               <Slider
                 value={[cost]}
                 onValueChange={(value) => setCost(value[0])}
@@ -69,7 +70,7 @@ const Calculator: FC = () => {
               </p>
               <Slider
                 value={[initialFee]}
-                onValueChange={(value) => setInitialFee(value[0])}
+                onValue-change={(value) => setInitialFee(value[0])}
                 max={49}
                 min={0}
                 step={1}
@@ -83,7 +84,7 @@ const Calculator: FC = () => {
               <Slider
                 value={[term]}
                 onValueChange={(value) => setTerm(value[0])}
-                max={60}
+                max={120} // Увеличиваем максимальный срок до 10 лет
                 min={6}
                 step={1}
               />
