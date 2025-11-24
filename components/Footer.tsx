@@ -44,8 +44,8 @@ const Footer: React.FC = () => {
     <footer className="glass-footer mt-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          <div className="md:col-span-4 flex flex-col items-center text-center md:items-start md:text-left">
-            <Logo className="h-32 md:h-48 w-auto text-text" />
+          <div className="md:col-span-4">
+            <Logo className="h-32 w-64 text-text" />
             <p className="mt-4 text-base text-muted text-glow-subtle">
               Ваш надёжный партнёр в мире лизинга. Предлагаем лучшие условия и быстрое оформление для роста вашего бизнеса по всей России.
             </p>
@@ -77,8 +77,8 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-sm text-muted text-glow-subtle text-center sm:text-left">&copy; {currentYear} Лизинг и точка. Все права защищены.</p>
-          <p className="text-sm text-muted mt-4 sm:mt-0 text-glow-subtle text-center sm:text-right">Разработано с ❤️</p>
+          <p className="text-sm text-muted text-glow-subtle">&copy; {currentYear} Лизинг и точка. Все права защищены.</p>
+          <p className="text-sm text-muted mt-4 sm:mt-0 text-glow-subtle">Разработано с ❤️</p>
         </div>
       </div>
     </footer>
