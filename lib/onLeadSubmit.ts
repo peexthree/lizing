@@ -92,9 +92,6 @@ export async function onLeadSubmit(data: LeadSubmitPayload): Promise<boolean> {
     return false
   }
 
-  const controller = new AbortController()
-  const timeout = setTimeout(() => controller.abort(), TELEGRAM_TIMEOUT)
-
   const payloadBase = {
     text: normalizeHtmlMessage(data.html),
     parse_mode: 'HTML' as const,
@@ -105,27 +102,34 @@ export async function onLeadSubmit(data: LeadSubmitPayload): Promise<boolean> {
 
   const resolvedThreadId = safeParseNumber(threadId)
 
- const sendTelegramMessage = async (payloadToSend: TelegramSendMessagePayload) => {
-    const response = await fetch(`${TELEGRAM_API_BASE}/bot${botToken}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify(payloadToSend),
-      signal: controller.signal,
-    })
-    let json: TelegramResponse | undefined
-    try {
-      json = (await response.json()) as TelegramResponse
-    } catch (parseError) {
-      if (response.ok) {
-        throw new LeadSubmitError('Telegram response parsing failed', 'telegram-error')
-      }
-    }
+  const sendTelegramMessage = async (payloadToSend: TelegramSendMessagePayload) => {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), TELEGRAM_TIMEOUT)
 
-    if (!response.ok || !json?.ok) {
-      const description = json?.description || response.statusText
-      throw new LeadSubmitError(`Telegram sendMessage failed: ${description}`, 'telegram-error')
+    try {
+      const response = await fetch(`${TELEGRAM_API_BASE}/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payloadToSend),
+        signal: controller.signal,
+      })
+      let json: TelegramResponse | undefined
+      try {
+        json = (await response.json()) as TelegramResponse
+      } catch (parseError) {
+        if (response.ok) {
+          throw new LeadSubmitError('Telegram response parsing failed', 'telegram-error')
+        }
+      }
+
+      if (!response.ok || !json?.ok) {
+        const description = json?.description || response.statusText
+        throw new LeadSubmitError(`Telegram sendMessage failed: ${description}`, 'telegram-error')
+      }
+    } finally {
+      clearTimeout(timeout)
     }
- }
+  }
 
   try {
     for (const id of chatIds) {
@@ -168,8 +172,6 @@ export async function onLeadSubmit(data: LeadSubmitPayload): Promise<boolean> {
     }
     const message = error instanceof Error ? error.message : 'Unknown Telegram error'
     throw new LeadSubmitError(message, 'telegram-error')
-  } finally {
-    clearTimeout(timeout)
   }
 
   return true
