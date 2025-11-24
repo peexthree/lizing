@@ -145,11 +145,9 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
 
     updateSummary()
     document.addEventListener('calc-summary', updateSummary as EventListener)
-    window.addEventListener('focus', updateSummary)
 
     return () => {
       document.removeEventListener('calc-summary', updateSummary as EventListener)
-      window.removeEventListener('focus', updateSummary)
     }
   }, [])
 
