@@ -1,7 +1,7 @@
 'use client';
 import { FC, useState, useMemo } from "react";
 import Slider from "@/components/ui/Slider";
-import FormattedInput from "@/components/ui/FormattedInput"; // Импортируем новый компонент
+import FormattedInput from "@/components/ui/FormattedInput";
 import { Button } from "@/components/ui/Button";
 import { openLeadForm } from "@/lib/openLeadForm";
 
@@ -55,7 +55,7 @@ const Calculator: FC = () => {
               />
               <Slider
                 value={[cost]}
-                onValueChange={(value) => setCost(value[0])}
+                onValueChange={(value: number[]) => setCost(value[0])}
                 max={150000000}
                 min={500000}
                 step={100000}
@@ -70,7 +70,7 @@ const Calculator: FC = () => {
               </p>
               <Slider
                 value={[initialFee]}
-                onValue-change={(value) => setInitialFee(value[0])}
+                onValueChange={(value: number[]) => setInitialFee(value[0])}
                 max={49}
                 min={0}
                 step={1}
@@ -83,7 +83,7 @@ const Calculator: FC = () => {
               <p className="text-3xl font-bold text-white text-glow">{term} мес.</p>
               <Slider
                 value={[term]}
-                onValueChange={(value) => setTerm(value[0])}
+                onValueChange={(value: number[]) => setTerm(value[0])}
                 max={120} // Увеличиваем максимальный срок до 10 лет
                 min={6}
                 step={1}
