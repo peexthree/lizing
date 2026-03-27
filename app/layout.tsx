@@ -31,8 +31,7 @@ export default function RootLayout({ children, }: {
 }) {
   return (
     <html lang="ru">
-       <body className={`${inter.className} bg-black text-gray-300`}>
-        <Metrika />
+      <head>
 
         {/* Yandex.Metrika counter */}
         <Script id="yandex-metrika" strategy="afterInteractive">
@@ -55,6 +54,9 @@ export default function RootLayout({ children, }: {
         </Script>
         <noscript><div><img src="https://mc.yandex.ru/watch/108276915" style={{ position: 'absolute', left: '-9999px' }} alt="" /></div></noscript>
         {/* /Yandex.Metrika counter */}
+      </head>
+       <body className={`${inter.className} bg-black text-gray-300`}>
+        <Metrika />
 
         <Hyperspeed />
         <CustomCursor />
