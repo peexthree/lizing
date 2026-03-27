@@ -4,6 +4,10 @@
 @tailwind utilities;
 
 @layer base {
+    html, body {
+        overflow-x: hidden;
+    }
+
     body {
         font-feature-settings: "kern" 1, "ss04" 1;
         line-height: 1.5;
