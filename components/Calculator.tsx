@@ -44,7 +44,7 @@ const Calculator: FC = () => {
             </p>
         </div>
 
-        <div className="relative mt-12 glass-pane p-8">
+        <div className="relative mt-12 glass-pane p-8 md:p-12 shadow-[0_0_50px_rgba(16,185,129,0.1)] border border-emerald-500/20">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="space-y-3">
               <label className="text-sm font-semibold text-white/50 text-glow">
@@ -53,7 +53,7 @@ const Calculator: FC = () => {
               <FormattedInput
                 value={cost}
                 onChange={setCost}
-                className="w-full bg-transparent text-3xl font-bold text-white text-glow focus:outline-none focus:ring-0 border-none p-0"
+                className="w-full bg-black/40 rounded-xl px-4 py-3 text-3xl font-bold text-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 border border-emerald-500/20 transition-all duration-300 shadow-inner"
               />
               <Slider
                 value={[cost]}
@@ -67,7 +67,7 @@ const Calculator: FC = () => {
               <label className="text-sm font-semibold text-white/50 text-glow">
                 Аванс ({initialFee}%)
               </label>
-              <p className="text-3xl font-bold text-white text-glow">
+              <p className="text-3xl font-bold text-emerald-50 bg-black/40 rounded-xl px-4 py-3 border border-emerald-500/20 shadow-inner inline-block min-w-full">
                 {Math.round((cost * initialFee) / 100).toLocaleString()}&nbsp;₽
               </p>
               <Slider
@@ -82,7 +82,7 @@ const Calculator: FC = () => {
               <label className="text-sm font-semibold text-white/50 text-glow">
                 Срок лизинга
               </label>
-              <p className="text-3xl font-bold text-white text-glow">{term} мес.</p>
+              <p className="text-3xl font-bold text-emerald-50 bg-black/40 rounded-xl px-4 py-3 border border-emerald-500/20 shadow-inner inline-block min-w-full">{term} мес.</p>
               <Slider
                 value={[term]}
                 onValueChange={(value: number[]) => setTerm(value[0])}
@@ -92,11 +92,13 @@ const Calculator: FC = () => {
               />
             </div>
           </div>
-          <div className="mt-8 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-6 text-center">
+          <div className="mt-12 rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-950/80 to-teal-950/80 p-8 text-center relative overflow-hidden shadow-[0_0_30px_rgba(52,211,153,0.15)]">
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent pointer-events-none" />
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-emerald-500/20 rounded-full blur-[50px] pointer-events-none" />
             <p className="text-sm font-semibold text-emerald-400/80 text-glow">
               Ежемесячный платёж:
             </p>
-            <p className="mt-2 text-3xl font-extrabold text-white sm:text-4xl text-glow">
+            <p className="relative z-10 mt-3 text-4xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-emerald-200 sm:text-5xl drop-shadow-[0_0_15px_rgba(52,211,153,0.5)]">
               {monthlyPayment.toLocaleString()}&nbsp;₽
             </p>
             <p className="mt-2 text-xs text-emerald-400/60 text-glow-subtle">

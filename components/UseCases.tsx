@@ -46,7 +46,10 @@ const useCases = [
 
 const UseCases: React.FC = () => {
   return (
-    <section id="use-cases" className="py-16 sm:py-24">
+    <section id="use-cases" className="relative py-16 sm:py-32 overflow-hidden">
+      {/* Background Glow Blobs */}
+      <div className="absolute top-1/2 left-0 w-[40rem] h-[40rem] bg-emerald-900/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none -translate-y-1/2 -translate-x-1/2" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-teal-900/20 rounded-full blur-[100px] mix-blend-screen pointer-events-none" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
             <span className="text-xs font-semibold uppercase tracking-[0.35em] text-muted">

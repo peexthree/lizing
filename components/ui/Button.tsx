@@ -5,15 +5,14 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-semibold transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-semibold tracking-wide transition-all duration-300 hover:-translate-y-1 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-black disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
           "bg-transparent text-white hover:bg-white/10",
         glow: "bg-gradient-to-r from-accent via-accent-alt to-accent text-black shadow-glow hover:scale-[1.02]",
-        "glow-subtle":
-          "border border-emerald-400/30 bg-transparent text-emerald-300 hover:bg-emerald-400/10",
+        "glow-subtle": "relative overflow-hidden border border-emerald-500/30 bg-black/40 backdrop-blur-md text-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.1)] hover:border-emerald-400/60 hover:text-emerald-300 hover:shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:bg-emerald-400/10 active:scale-[0.98] transition-all duration-300",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",

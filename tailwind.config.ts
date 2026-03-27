@@ -1,10 +1,17 @@
-
 import type { Config } from 'tailwindcss'
 
 export default {
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
   darkMode: 'class',
   theme: {
+    letterSpacing: {
+      tighter: "-0.04em",
+      tight: "-0.02em",
+      normal: "0",
+      wide: "0.02em",
+      wider: "0.04em",
+      widest: "0.08em",
+    },
     screens: {
       md: '768px',
       lg: '1024px',
@@ -12,19 +19,15 @@ export default {
     },
     extend: {
       colors: {
-        background: '#050505',      // Абсолютно черный фон
-        // text: '#F5F5F5',             // Очень светло-серый (почти белый) для основного текста
+        background: '#050505',
         text: '#FFFFFF',
-        // muted: '#737373',            // Приглушенный серый для вторичного текста
         muted: '#A3A3A3',
-        surface: '#1B1B1B',          // Темно-серый для поверхностей (карточек, плашек)
-        'surface-muted': '#272727',   // Чуть более светлый серый для акцентов на поверхностях
-        // accent: '#00A651',           // Фирменный зеленый, как на логотипе
+        surface: '#1B1B1B',
+        'surface-muted': '#272727',
         accent: '#00D166',
-        // 'accent-alt': '#008C43',      // Более темный оттенок зеленого для ховеров
         'accent-alt': '#00B859',
-        primary: '#FFFFFF',         // Белый как основной для кнопок и контрастных элементов
-        dark: '#FFFFFF'              // Белый, для соответствия темной теме
+        primary: '#FFFFFF',
+        dark: '#FFFFFF'
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
@@ -56,6 +59,10 @@ export default {
         'hero-grid': 'radial-gradient(circle at 20% 20%, rgba(0, 166, 81, 0.1), transparent 45%), radial-gradient(circle at 80% 90%, rgba(255, 255, 255, 0.03), transparent 55%)'
       },
       keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
         'fade-up': {
           '0%': { opacity: '0', transform: 'translate3d(0, 16px, 0)' },
           '100%': { opacity: '1', transform: 'translate3d(0, 0, 0)' }
@@ -66,6 +73,7 @@ export default {
         }
       },
       animation: {
+        marquee: 'marquee 40s linear infinite',
         'fade-up': 'fade-up 0.6s ease-out forwards',
         'fade-in': 'fade-in 0.8s ease-out forwards'
       }

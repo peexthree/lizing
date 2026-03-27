@@ -1,128 +1,83 @@
+
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import { StarIcon } from '@heroicons/react/20/solid'
-import { motion, AnimatePresence } from 'framer-motion'
+import { buttonVariants } from '@/components/ui/Button'
 
 const reviews = [
-  { id: 19, rating: 5, date: '21 мая 2024', content: `<p>Будь готов рискнуть всем, если ты искренне веришь в свою цель.</p>`, author: 'Илон Маск', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Илон%20Маск', source: 'Цитата' },
-  { id: 1, rating: 5, date: '14 мая 2024', content: `<p>Отличная компания, быстро и качественно выполняют свою работу. Лучшие условия на рынке. Однозначно рекомендую!</p>`, author: 'Алексей К.', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Алексей%20К.', source: 'Яндекс.Карты' },
-  { id: 2, rating: 5, date: '11 мая 2024', content: `<p>Отличная компания, быстрое оформление, минимум документов, по сравнению с другими лизинговыми компаниями.</p>`, author: 'Виктор', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Виктор', source: 'Яндекс.Карты' },
-  { id: 3, rating: 5, date: '5 мая 2024', content: `<p>Отличная компания, минимум валакиты с документами, специалисты всегда на связи, все очень быстро и качественно!</p>`, author: 'Максим', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Максим', source: 'Яндекс.Карты' },
-  { id: 4, rating: 5, date: '28 апреля 2024', content: `<p>Очень хорошая компания, сотрудники очень вежливые, находят быстрое решение всех вопросов.</p>`, author: 'Анна', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Анна', source: 'Яндекс.Карты' },
-  { id: 5, rating: 5, date: '21 апреля 2024', content: `<p>Лучшая лизинговая компания, все быстро, четко, без лишних вопросов. Рекомендую!</p>`, author: 'Игорь', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Игорь', source: 'Яндекс.Карты' },
-  { id: 6, rating: 5, date: '15 апреля 2024', content: `<p>Профессионалы своего дела. Всегда на связи, оперативно решают любые вопросы. Условия одни из лучших.</p>`, author: 'Дмитрий', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Дмитрий', source: 'Яндекс.Карты' },
-  { id: 7, rating: 5, date: '9 апреля 2024', content: `<p>Очень доволен сотрудничеством. Все прозрачно и понятно. Рекомендую.</p>`, author: 'Сергей', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Сергей', source: 'Яндекс.Карты' },
-  { id: 8, rating: 5, date: '2 апреля 2024', content: `<p>Отличный сервис. Помогли подобрать оптимальные условия. Буду обращаться еще.</p>`, author: 'Ольга', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Ольга', source: 'Яндекс.Карты' },
-  { id: 9, rating: 5, date: '25 марта 2024', content: `<p>Быстро, профессионально, качественно. Отличная команда.</p>`, author: 'Елена', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Елена', source: 'Яндекс.Карты' },
-  { id: 10, rating: 5, date: '19 марта 2024', content: `<p>Сотрудничаем не первый год. Всегда все на высшем уровне.</p>`, author: 'Константин', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Константин', source: 'Яндекс.Карты' },
-  { id: 11, rating: 5, date: '12 марта 2024', content: `<p>Лучшие на рынке! Индивидуальный подход и выгодные условия.</p>`, author: 'Мария', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Мария', source: 'Яндекс.Карты' },
-  { id: 12, rating: 5, date: '5 марта 2024', content: `<p>Все сделали в срок, как и обещали. Приятно иметь дело с профессионалами.</p>`, author: 'Павел', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Павел', source: 'Яндекс.Карты' },
-  { id: 13, rating: 5, date: '27 февраля 2024', content: `<p>Отличная компания! Рекомендую.</p>`, author: 'Артем', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Артем', source: 'Яндекс.Карты' },
-  { id: 14, rating: 5, date: '20 февраля 2024', content: `<p>Надежный партнер. Ни разу не подвели.</p>`, author: 'Андрей', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Андрей', source: 'Яндекс.Карты' },
-  { id: 15, rating: 5, date: '13 февраля 2024', content: `<p>Высокий уровень сервиса и гибкие условия. Очень доволен.</p>`, author: 'Роман', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Роман', source: 'Яндекс.Карты' },
-  { id: 16, rating: 5, date: '6 февраля 2024', content: `<p>Помогли с финансированием, когда другие отказали. Спасибо!</p>`, author: 'Николай', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Николай', source: 'Яндекс.Карты' },
-  { id: 17, rating: 5, date: '30 января 2024', content: `<p>Всегда идут навстречу клиенту. Приятно работать.</p>`, author: 'Светлана', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Светлана', source: 'Яндекс.Карты' },
-  { id: 18, rating: 5, date: '23 января 2024', content: `<p>Быстрое одобрение и минимум документов. То, что нужно для бизнеса.</p>`, author: 'Татьяна', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Татьяна', source: 'Яндекс.Карты' }
+  { id: 19, rating: 5, date: '21 мая 2024', content: "<p>Будь готов рискнуть всем, если ты искренне веришь в свою цель.</p>", author: 'Илон Маск', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Илон%20Маск', source: 'Цитата' },
+  { id: 1, rating: 5, date: '14 мая 2024', content: "<p>Отличная компания, быстро и качественно выполняют свою работу. Лучшие условия на рынке. Однозначно рекомендую!</p>", author: 'Алексей К.', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Алексей%20К.', source: 'Яндекс.Карты' },
+  { id: 2, rating: 5, date: '11 мая 2024', content: "<p>Отличная компания, быстрое оформление, минимум документов, по сравнению с другими лизинговыми компаниями.</p>", author: 'Виктор', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Виктор', source: 'Яндекс.Карты' },
+  { id: 3, rating: 5, date: '5 мая 2024', content: "<p>Отличная компания, минимум валакиты с документами, специалисты всегда на связи, все очень быстро и качественно!</p>", author: 'Максим', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Максим', source: 'Яндекс.Карты' },
+  { id: 4, rating: 5, date: '28 апреля 2024', content: "<p>Очень хорошая компания, сотрудники очень вежливые, находят быстрое решение всех вопросов.</p>", author: 'Анна', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Анна', source: 'Яндекс.Карты' },
+  { id: 5, rating: 5, date: '21 апреля 2024', content: "<p>Лучшая лизинговая компания, все быстро, четко, без лишних вопросов. Рекомендую!</p>", author: 'Игорь', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Игорь', source: 'Яндекс.Карты' },
+  { id: 6, rating: 5, date: '15 апреля 2024', content: "<p>Профессионалы своего дела. Всегда на связи, оперативно решают любые вопросы. Условия одни из лучших.</p>", author: 'Дмитрий', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Дмитрий', source: 'Яндекс.Карты' }
 ]
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
+const duplicatedReviews = [...reviews, ...reviews]
 
 export default function Reviews() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
-
-  const handleNext = useCallback(() => {
-    setActiveIndex((prev) => (prev + 1) % reviews.length)
-  }, []);
-
-  const startAutoScroll = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    intervalRef.current = setInterval(handleNext, 4000) // Switch every 4 seconds
-  }, [handleNext]);
-
-  useEffect(() => {
-    startAutoScroll();
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [startAutoScroll]);
-
-  const handleManualSelect = (index: number) => {
-    setActiveIndex(index);
-    startAutoScroll();
-  };
-
   return (
-    <div className="py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section className="py-24 sm:py-32 relative overflow-hidden bg-black">
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60rem] h-[20rem] bg-emerald-900/10 rounded-[100%] blur-[120px] pointer-events-none" />
+
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 mb-16 relative z-10">
         <div className="mx-auto max-w-2xl text-center">
            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">Отзывы</span>
           <h2 className="glass-title mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">Что говорят наши клиенты</h2>
-          <p className="mt-2 text-lg leading-8 text-white/70" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>
+          <p className="mt-4 text-lg text-white/70 text-glow-subtle">
             Мы гордимся нашей репутацией. Вот что говорят о нас на Яндекс.Картах.
           </p>
         </div>
-        <div className="mx-auto mt-16 max-w-2xl lg:max-w-4xl">
-          <div className="relative">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="pt-8 sm:inline-block sm:w-full"
-              >
-                <figure className="rounded-3xl border border-white/20 bg-white/5 p-8 text-sm leading-6 shadow-soft-lg backdrop-blur-2xl">
-                  <figcaption className="mb-4 flex items-center gap-x-4">
-                    <Image className="h-12 w-12 rounded-full bg-gray-800" src={reviews[activeIndex].avatar} alt={`Аватар пользователя ${reviews[activeIndex].author}`} width={48} height={48} unoptimized />
+      </div>
+
+      <div className="relative flex overflow-x-hidden group">
+        <div className="animate-marquee flex whitespace-nowrap py-4 items-stretch hover:[animation-play-state:paused]">
+          {duplicatedReviews.map((review, index) => (
+            <div key={`${review.id}-${index}`} className="w-[350px] md:w-[450px] flex-none mx-4">
+              <div className="h-full carbon-card !p-6 flex flex-col justify-between whitespace-normal">
+                <div>
+                  <div className="flex items-center gap-x-4 mb-4">
+                    <Image className="h-12 w-12 rounded-full bg-gray-800 object-cover" src={review.avatar} alt={`Аватар пользователя ${review.author}`} width={48} height={48} unoptimized />
                     <div>
-                      <div className="font-semibold text-white">{reviews[activeIndex].author}</div>
-                      <div className="text-white/70">{`Источник: ${reviews[activeIndex].source}`}</div>
+                      <div className="font-semibold text-white tracking-wide">{review.author}</div>
+                      <div className="text-xs text-emerald-400">{review.source}</div>
                     </div>
-                  </figcaption>
-                  <div className="flex items-center">
+                  </div>
+                  <div className="flex items-center mb-4">
                     {[0, 1, 2, 3, 4].map((rating) => (
                       <StarIcon
                         key={rating}
-                        className={classNames(
-                          reviews[activeIndex].rating > rating ? 'text-yellow-400' : 'text-gray-600',
-                          'h-5 w-5 flex-shrink-0'
-                        )}
+                        className={`${review.rating > rating ? 'text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]' : 'text-gray-700'} h-5 w-5 flex-shrink-0`}
                         aria-hidden="true"
                       />
                     ))}
                   </div>
-                  <blockquote className="mt-4 text-white/90" style={{ textShadow: '0 0 8px rgba(175, 238, 238, 0.3)' }}>
-                    <div dangerouslySetInnerHTML={{ __html: reviews[activeIndex].content }} />
+                  <blockquote className="text-white/80 text-sm leading-[1.5]">
+                    <div dangerouslySetInnerHTML={{ __html: review.content }} />
                   </blockquote>
-                  <div className="mt-4 text-xs text-white/50">
-                    {reviews[activeIndex].date}
-                  </div>
-                </figure>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-          <div className="mt-8 flex flex-wrap justify-center gap-2">
-            {reviews.map((_, index) => (
-              <button key={index} onClick={() => handleManualSelect(index)} className={`h-2 w-2 rounded-full transition ${activeIndex === index ? 'bg-emerald-400 scale-125' : 'bg-white/30'}`}></button>
-            ))}
-          </div>
-           <div className="mt-16 text-center">
-             <a href="https://yandex.ru/maps/org/lizing_i_tochka/9071444776/reviews/?ll=39.019842%2C45.034929&z=16" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-black bg-gradient-to-r from-emerald-400 to-teal-400 hover:opacity-90 transition-opacity">
-                Читать все отзывы на Яндекс.Картах
-            </a>
-          </div>
+                </div>
+                <div className="mt-6 text-xs text-white/40 tracking-wider">
+                  {review.date}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </div>
+
+      {/* Gradient Fades for Marquee */}
+      <div className="absolute top-0 bottom-0 left-0 w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
+      <div className="absolute top-0 bottom-0 right-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
+
+      <div className="mt-16 text-center relative z-10">
+        <a href="https://yandex.ru/maps/org/lizing_i_tochka/9071444776/reviews/?ll=39.019842%2C45.034929&z=16" target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "glow" })}>
+          Читать все отзывы на Яндекс.Картах
+        </a>
+      </div>
+    </section>
   )
 }
