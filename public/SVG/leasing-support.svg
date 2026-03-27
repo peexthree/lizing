@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 32 32" width="100%" height="100%" style="--speed: 2.5s; transition: all 0.3s ease; overflow: visible;">
+                        <defs>
+                            <filter id="glow-radar" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="1.5" result="blur"></feGaussianBlur>
+                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                            </filter>
+                        </defs>
+                        <style>
+                            .radar-wave1 { transform-origin: center; animation: wave var(--speed) cubic-bezier(0.2, 0, 0.8, 1) infinite; }
+                            .radar-wave2 { transform-origin: center; animation: wave var(--speed) cubic-bezier(0.2, 0, 0.8, 1) infinite; animation-delay: calc(var(--speed) * -0.5); }
+                            .radar-mic { animation: micPulse calc(var(--speed) * 0.5) ease-in-out infinite alternate; }
+                            @keyframes wave { 0% { transform: scale(0.5); opacity: 1; stroke-width: 1.5; } 100% { transform: scale(1.5); opacity: 0; stroke-width: 0.5; } }
+                            @keyframes micPulse { 0% { opacity: 0.7; } 100% { opacity: 1; filter: drop-shadow(0 0 3px #66FCF1); } }
+                        </style>
+                        <g stroke="#66FCF1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-radar)">
+                            <circle cx="12" cy="12" r="8" stroke="#45A29E" class="radar-wave1" style="transform-origin: 12px 12px;"></circle>
+                            <circle cx="12" cy="12" r="8" stroke="#45A29E" class="radar-wave2" style="transform-origin: 12px 12px;"></circle>
+                            <path d="M20 12a8 8 0 0 0-16 0v2a2 2 0 0 0 2 2h1v-4a5 5 0 0 1 10 0v4h1a2 2 0 0 0 2-2v-2z"></path>
+                            <path d="M19 16v2a2 2 0 0 1-2 2h-2" class="radar-mic"></path>
+                            <circle cx="12" cy="12" r="1.5" fill="#66FCF1" class="radar-mic"></circle>
+                        </g>
+                    </svg>
