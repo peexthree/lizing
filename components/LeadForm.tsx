@@ -612,8 +612,64 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
 
   return (
     <>
+      {variant === 'compact' ? (
+        <section className={clsx("relative overflow-hidden rounded-[2.5rem] glass-pane", className)}>
+          <div className="relative flex flex-col gap-6 text-center">
+            <div className="space-y-3">
+              <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/60 text-glow">Связаться с нами</span>
+              <h2 className="glass-title text-2xl font-semibold text-white sm:text-3xl">Получите предложение под вашу технику</h2>
+              <p className="text-sm leading-relaxed text-white/70 sm:text-base text-glow-subtle">
+                Позвоните нам — подготовим несколько сценариев финансирования и отправим расчёт удобным способом.
+              </p>
+            </div>
+            <a href="tel:+79677728299" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 px-8 py-3 text-sm font-semibold text-black shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400">
+              Позвонить нам
+            </a>
+            <div className="flex flex-col items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-white/60 mt-4">
+              <span className="text-glow">Или напишите напрямую</span>
+              <div className="flex flex-wrap justify-center gap-2">
+                {messengerLinks.map(link => (
+                  <a key={link.href} href={link.href} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/80 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400" target="_blank" rel="noopener noreferrer">
+                    <span className="flex h-7 w-7 items-center justify-center">
+                      <Image src={link.logoSrc} alt={link.logoAlt} width={28} height={28} className="h-7 w-7" />
+                    </span>
+                    {link.shortLabel}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : (
+        <section className={clsx("relative overflow-hidden py-20", className)}>
+          <div className="mx-auto max-w-4xl px-4 text-white">
+            <RevealOnScroll className="mx-auto max-w-2xl text-center">
+              <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/70 text-glow">Связаться с нами</span>
+              <h2 className="glass-title mt-4 text-3xl font-bold text-white md:text-4xl">Свяжитесь с нами для расчёта</h2>
+              <p className="mt-4 text-lg text-white/80 text-glow-subtle">Позвоните нам или напишите в мессенджер, и мы предложим лучшие варианты от партнёров.</p>
+            </RevealOnScroll>
+            <RevealOnScroll className="mt-12 mx-auto max-w-xl rounded-[2.5rem] glass-pane text-center text-white/80">
+              <p className="text-base text-glow-subtle">Мы готовы проконсультировать вас в любое удобное время.</p>
+              <a href="tel:+79677728299" className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 px-8 py-3 text-base font-semibold text-black shadow-lg transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400">
+                Позвонить нам
+              </a>
+              <div className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] text-white/70 text-glow">Или напишите напрямую</div>
+              <div className="mt-4 flex flex-wrap justify-center gap-3">
+                {messengerLinks.map(link => (
+                  <a key={link.href} href={link.href} className="inline-flex items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold shadow-sm transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400" style={{ color: link.color, backgroundColor: link.background, borderColor: link.border }} target="_blank" rel="noopener noreferrer">
+                    <span className="flex h-8 w-8 items-center justify-center">
+                      <Image src={link.logoSrc} alt={link.logoAlt} width={32} height={32} className="h-8 w-8" />
+                    </span>
+                    {link.shortLabel}
+                  </a>
+                ))}
+              </div>
+            </RevealOnScroll>
+          </div>
+        </section>
+      )}
+      {/*
       {variant === 'compact' ? compactVariant : defaultVariant}
-
       <div
         className={`fixed inset-0 z-[90] flex items-center justify-center bg-black/80 px-4 py-6 sm:px-6 sm:py-10 backdrop-blur-sm transition-opacity duration-200 ${isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
           }`}
@@ -651,6 +707,7 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
 
         </div>
       </div>
+      */}
     </>
   )
 }

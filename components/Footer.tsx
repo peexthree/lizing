@@ -12,7 +12,8 @@ const NAV_SECTIONS = [
       { href: '/#benefits', label: 'Преимущества' },
       { href: '/#how-it-works', label: 'Как это работает' },
       { href: '/#faq', label: 'Вопросы и ответы' },
-      { href: '/#lead-form', label: 'Оставить заявку' },
+      // { href: '/#lead-form', label: 'Оставить заявку' },
+      { href: 'tel:+79677728299', label: 'Позвонить нам' },
     ],
   },
   {

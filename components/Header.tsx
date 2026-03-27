@@ -6,7 +6,8 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { motion, AnimatePresence } from 'framer-motion'
 import Logomark from '@/components/Logomark'
 import { usePathname, useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/Button'
+/* import { Button } from '@/components/ui/Button' */
+import { buttonVariants } from '@/components/ui/Button'
 
 // Always link to homepage sections
 const navLinks = [
@@ -62,9 +63,12 @@ const Header: React.FC = () => {
                         </ul>
                     </nav>
                     <div className="hidden md:block">
-                         <Button variant="glow-subtle" size="sm" onClick={() => handleNavClick('/#lead-form')}>
+                         {/* <Button variant="glow-subtle" size="sm" onClick={() => handleNavClick('/#lead-form')}>
                             Оставить заявку
-                        </Button>
+                        </Button> */}
+                        <a className={buttonVariants({ variant: "glow-subtle", size: "sm" })} href="tel:+79677728299">
+                            Позвонить нам
+                        </a>
                     </div>
                     <div className="-mr-2 flex md:hidden">
                         <button
@@ -120,9 +124,12 @@ const Header: React.FC = () => {
                                 </div>
                             </div>
                              <div className="py-6 px-5 space-y-6">
-                                 <Button variant="glow" className="w-full" onClick={() => handleNavClick('/#lead-form')}>
+                                 {/* <Button variant="glow" className="w-full" onClick={() => handleNavClick('/#lead-form')}>
                                     Оставить заявку
-                                </Button>
+                                </Button> */}
+                                <a className={buttonVariants({ variant: "glow", className: "w-full" })} href="tel:+79677728299">
+                                    Позвонить нам
+                                </a>
                             </div>
                         </div>
                     </motion.div>
