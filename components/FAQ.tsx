@@ -87,7 +87,8 @@ const FAQ: React.FC = () => {
                 </div>
                  <div className="mt-12 text-center">
                     <p className="text-lg text-muted text-glow-subtle">Не нашли ответа на свой вопрос?</p>
-                    <a href="#lead-form" className="mt-4 inline-block font-semibold text-accent hover:text-accent/90 transition-colors text-glow">Свяжитесь с нами</a>
+                    {/* <a href="#lead-form" className="mt-4 inline-block font-semibold text-accent hover:text-accent/90 transition-colors text-glow">Свяжитесь с нами</a> */}
+                    <a href="tel:+79677728299" className="mt-4 inline-block font-semibold text-accent hover:text-accent/90 transition-colors text-glow">Позвонить нам</a>
                 </div>
             </div>
         </section>

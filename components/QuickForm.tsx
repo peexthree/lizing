@@ -136,7 +136,8 @@ export default function QuickForm() {
     }
   }
 
-  return (
+  return null;
+  /* return (
     <form onSubmit={onSubmit} className="space-y-4 rounded-2xl bg-white p-6 shadow">
       <div>
         <label htmlFor="q-name" className="text-sm font-medium">
@@ -242,7 +243,7 @@ export default function QuickForm() {
         )}
       </div>
     </form>
-  )
+  ) */
 }
 
 function normalizePhone(value: string) {

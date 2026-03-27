@@ -5,7 +5,18 @@
 
 @layer base {
     body {
-        font-feature-settings: "ss04";
+        font-feature-settings: "kern" 1, "ss04" 1;
+        line-height: 1.5;
+        letter-spacing: 0.01em;
+    }
+
+    h1, h2, h3, h4, h5, h6, .glass-title {
+        line-height: 1.2;
+        letter-spacing: -0.015em;
+    }
+
+    p, span, div, a, li {
+        line-height: 1.5;
     }
 
     .glass-title {

@@ -1,7 +1,8 @@
 'use client'
 
-import { Button } from '@/components/ui/Button'
-import { openLeadForm } from '@/lib/openLeadForm'
+/* import { Button } from '@/components/ui/Button' */
+import { buttonVariants } from '@/components/ui/Button'
+/* import { openLeadForm } from '@/lib/openLeadForm' */
 
 export default function Hero() {
   return (
@@ -29,9 +30,12 @@ export default function Hero() {
           50+ банков конкурируют за вашу заявку. Лучшие условия лизинга за 24 часа.
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button variant="glow" size="lg" onClick={() => openLeadForm({ fields: { title: 'Заявка с главного экрана' } })}>
+          {/* <Button variant="glow" size="lg" onClick={() => openLeadForm({ fields: { title: 'Заявка с главного экрана' } })}>
             Получить лучшие условия
-          </Button>
+          </Button> */}
+          <a className={buttonVariants({ variant: "glow", size: "lg" })} href="tel:+79677728299">
+            Позвонить нам
+          </a>
         </div>
       </div>
     </section>
