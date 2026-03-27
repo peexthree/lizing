@@ -1,44 +1,77 @@
 'use client'
 
 import React from 'react'
-import {
-  RocketLaunchIcon,
-  ArrowTrendingUpIcon,
-  CalendarDaysIcon,
-  UserGroupIcon,
-  BuildingOffice2Icon,
-  ShieldCheckIcon,
-} from '@heroicons/react/24/outline'
+// import {
+//   RocketLaunchIcon,
+//   ArrowTrendingUpIcon,
+//   CalendarDaysIcon,
+//   UserGroupIcon,
+//   BuildingOffice2Icon,
+//   ShieldCheckIcon,
+// } from '@heroicons/react/24/outline'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+
+// const useCases = [
+//   {
+//     icon: RocketLaunchIcon,
+//     title: 'Запуск нового направления',
+//     description: 'Когда нужно быстро стартовать, а свободных средств не хватает. Лизинг — это ваш шанс обогнать конкурентов, не замораживая оборотные средства.',
+//   },
+//   {
+//     icon: ArrowTrendingUpIcon,
+//     title: 'Расширение автопарка',
+//     description: 'Ваш бизнес растёт, и вам требуется больше техники. Мы поможем получить её на выгодных условиях, чтобы вы могли выполнять больше заказов.',
+//   },
+//   {
+//     icon: CalendarDaysIcon,
+//     title: 'Сезонные работы',
+//     description: 'Нужна техника на определённый срок? Подберём для вас лизинговую программу с удобным графиком платежей, который учтёт сезонность вашего бизнеса.',
+//   },
+//   {
+//     icon: UserGroupIcon,
+//     title: 'Для новых ИП и ООО',
+//     description: 'Даже если ваша компания только начала свой путь, у нас есть решения. Поможем получить финансирование, когда банки отказывают.',
+//   },
+//   {
+//     icon: BuildingOffice2Icon,
+//     title: 'Обновление оборудования',
+//     description: 'Старая техника требует постоянных вложений? Обновите её без крупных единовременных затрат и повысьте эффективность своего производства.',
+//   },
+//   {
+//     icon: ShieldCheckIcon,
+//     title: 'Возвратный лизинг',
+//     description: 'Срочно нужны деньги на развитие? Продайте ваше имущество лизинговой компании и сразу же возьмите его в аренду. Вы продолжаете работать и получаете средства.',
+//   },
+// ]
 
 const useCases = [
   {
-    icon: RocketLaunchIcon,
+    icon: '/cases/case-1-start.svg',
     title: 'Запуск нового направления',
     description: 'Когда нужно быстро стартовать, а свободных средств не хватает. Лизинг — это ваш шанс обогнать конкурентов, не замораживая оборотные средства.',
   },
   {
-    icon: ArrowTrendingUpIcon,
+    icon: '/cases/case-2-fleet.svg',
     title: 'Расширение автопарка',
     description: 'Ваш бизнес растёт, и вам требуется больше техники. Мы поможем получить её на выгодных условиях, чтобы вы могли выполнять больше заказов.',
   },
   {
-    icon: CalendarDaysIcon,
+    icon: '/cases/case-3-season.svg',
     title: 'Сезонные работы',
     description: 'Нужна техника на определённый срок? Подберём для вас лизинговую программу с удобным графиком платежей, который учтёт сезонность вашего бизнеса.',
   },
   {
-    icon: UserGroupIcon,
+    icon: '/cases/case-4-startup.svg',
     title: 'Для новых ИП и ООО',
     description: 'Даже если ваша компания только начала свой путь, у нас есть решения. Поможем получить финансирование, когда банки отказывают.',
   },
   {
-    icon: BuildingOffice2Icon,
+    icon: '/cases/case-5-equipment.svg',
     title: 'Обновление оборудования',
     description: 'Старая техника требует постоянных вложений? Обновите её без крупных единовременных затрат и повысьте эффективность своего производства.',
   },
   {
-    icon: ShieldCheckIcon,
+    icon: '/cases/case-6-return.svg',
     title: 'Возвратный лизинг',
     description: 'Срочно нужны деньги на развитие? Продайте ваше имущество лизинговой компании и сразу же возьмите его в аренду. Вы продолжаете работать и получаете средства.',
   },
@@ -64,7 +97,8 @@ const UseCases: React.FC = () => {
             <RevealOnScroll key={useCase.title} delay={index * 0.1} className="h-full">
               <div className="carbon-card">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-surface">
-                  <useCase.icon className="h-7 w-7 text-accent" />
+                  {/* <useCase.icon className="h-7 w-7 text-accent" /> */}
+                  <img src={useCase.icon} alt={useCase.title} className="h-7 w-7" />
                 </div>
                 <h3 className="mt-5 text-xl font-semibold text-text">{useCase.title}</h3>
                 <p className="mt-2 text-base text-muted">{useCase.description}</p>

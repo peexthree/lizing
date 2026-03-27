@@ -2,32 +2,60 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { FileTextIcon, MessageIcon, CheckCircleIcon, SignatureIcon, TruckIcon } from '@/components/icons'
+// import { FileTextIcon, MessageIcon, CheckCircleIcon, SignatureIcon, TruckIcon } from '@/components/icons'
 import RevealOnScroll from '@/components/ui/RevealOnScroll'
+
+// const steps = [
+//   {
+//     icon: FileTextIcon,
+//     title: 'Оставляете заявку',
+//     description: 'Передаёте информацию о технике и вашей компании любым удобным способом — онлайн, по телефону или в мессенджере.',
+//   },
+//   {
+//     icon: MessageIcon,
+//     title: 'Консультация и сбор документов',
+//     description: 'Мы связываемся, уточняем детали, помогаем собрать необходимые документы и выбираем лучшие условия.',
+//   },
+//   {
+//     icon: CheckCircleIcon,
+//     title: 'Получение одобрения',
+//     description: 'В течение 24 часов вы получаете предварительное решение с полным расчётом платежей.',
+//   },
+//   {
+//     icon: SignatureIcon,
+//     title: 'Подписание договора',
+//     description: 'Готовим и согласовываем договор лизинга, спецификации и график платежей. Всё прозрачно и понятно.',
+//   },
+//   {
+//     icon: TruckIcon,
+//     title: 'Выдача техники',
+//     description: 'После подписания документов мы организуем получение и доставку техники в ваш регион.',
+//   },
+// ]
 
 const steps = [
   {
-    icon: FileTextIcon,
+    icon: '/cases/step-1-request.svg',
     title: 'Оставляете заявку',
     description: 'Передаёте информацию о технике и вашей компании любым удобным способом — онлайн, по телефону или в мессенджере.',
   },
   {
-    icon: MessageIcon,
+    icon: '/cases/step-2-consult.svg',
     title: 'Консультация и сбор документов',
     description: 'Мы связываемся, уточняем детали, помогаем собрать необходимые документы и выбираем лучшие условия.',
   },
   {
-    icon: CheckCircleIcon,
+    icon: '/cases/step-3-approval.svg',
     title: 'Получение одобрения',
     description: 'В течение 24 часов вы получаете предварительное решение с полным расчётом платежей.',
   },
   {
-    icon: SignatureIcon,
+    icon: '/cases/step-4-contract.svg',
     title: 'Подписание договора',
     description: 'Готовим и согласовываем договор лизинга, спецификации и график платежей. Всё прозрачно и понятно.',
   },
   {
-    icon: TruckIcon,
+    icon: '/cases/step-5-delivery.svg',
     title: 'Выдача техники',
     description: 'После подписания документов мы организуем получение и доставку техники в ваш регион.',
   },
@@ -70,7 +98,8 @@ const HowItWorks: React.FC = () => {
 
                     <div className={`flex items-center gap-4 mb-4 ${index % 2 === 0 ? 'md:flex-row-reverse' : 'flex-row'}`}>
                         <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-black/50 border border-emerald-500/20 text-emerald-400 group-hover:scale-110 group-hover:text-emerald-300 transition-all duration-300 shadow-[0_0_15px_rgba(52,211,153,0.1)]">
-                          <step.icon className="h-7 w-7" />
+                          {/* <step.icon className="h-7 w-7" /> */}
+                          <img src={step.icon} alt={step.title} className="h-7 w-7" />
                         </div>
                         <h3 className="text-xl font-bold tracking-wide text-white group-hover:text-emerald-50 transition-colors">{step.title}</h3>
                     </div>
