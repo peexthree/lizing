@@ -668,46 +668,6 @@ export default function LeadForm({ variant = 'default', className }: LeadFormPro
           </div>
         </section>
       )}
-      {/*
-      {variant === 'compact' ? compactVariant : defaultVariant}
-      <div
-        className={`fixed inset-0 z-[90] flex items-center justify-center bg-black/80 px-4 py-6 sm:px-6 sm:py-10 backdrop-blur-sm transition-opacity duration-200 ${isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
-          }`}
-        role={isOpen ? 'dialog' : undefined}
-        aria-modal={isOpen ? true : undefined}
-        aria-label="Оставить заявку"
-        aria-hidden={isOpen ? undefined : "true"}
-        onClick={handleOverlayClick}
-      >
-        <div
-          className={`relative w-full max-w-xl overflow-hidden rounded-[2.5rem] glass-pane transition-all duration-200 ${isOpen ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
-            }`}
-        >
-          <button
-            type="button"
-            onClick={closeModal}
-            className="absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white shadow transition hover:text-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
-            aria-label="Закрыть форму"
-          >
-            <CloseIcon className="h-5 w-5" aria-hidden />
-          </button>
-
-          <ModalContent
-            status={status}
-            closeModal={closeModal}
-            onSubmit={onSubmit}
-            form={form}
-            handleChange={handleChange}
-            handlePhone={handlePhone}
-            agree={agree}
-            setAgree={setAgree}
-            sending={sending}
-            feedbackMessage={feedbackMessage}
-          />
-
-        </div>
-      </div>
-      */}
     </>
   )
 }

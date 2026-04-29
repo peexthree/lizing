@@ -953,10 +953,11 @@ class App {
 
     this.renderer = new THREE.WebGLRenderer({
       antialias: false,
-      alpha: true
+      alpha: true,
+      powerPreference: 'high-performance'
     });
     this.renderer.setSize(container.offsetWidth, container.offsetHeight, false);
-    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     this.composer = new EffectComposer(this.renderer);
     container.appendChild(this.renderer.domElement);
@@ -1028,29 +1029,35 @@ class App {
   }
 
   initPasses() {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
     this.renderPass = new RenderPass(this.scene, this.camera);
     this.bloomPass = new EffectPass(
       this.camera,
       new BloomEffect({
         luminanceThreshold: 0.2,
         luminanceSmoothing: 0,
-        resolutionScale: 1
+        resolutionScale: isMobile ? 0.5 : 1
       })
     );
 
-    const smaaPass = new EffectPass(
-      this.camera,
-      new SMAAEffect({
-        preset: SMAAPreset.MEDIUM
-      })
-    );
     this.renderPass.renderToScreen = false;
-    this.bloomPass.renderToScreen = false;
-    smaaPass.renderToScreen = true;
-
     this.composer.addPass(this.renderPass);
     this.composer.addPass(this.bloomPass);
-    this.composer.addPass(smaaPass);
+
+    if (!isMobile) {
+      const smaaPass = new EffectPass(
+        this.camera,
+        new SMAAEffect({
+          preset: SMAAPreset.MEDIUM
+        })
+      );
+      this.bloomPass.renderToScreen = false;
+      smaaPass.renderToScreen = true;
+      this.composer.addPass(smaaPass);
+    } else {
+      this.bloomPass.renderToScreen = true;
+    }
   }
 
   loadAssets(): Promise<void> {

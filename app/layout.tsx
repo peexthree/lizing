@@ -14,12 +14,47 @@ import CustomCursor from '@/components/CustomCursor'
 import { Metrika } from '@/components/Metrika'
 import Script from 'next/script'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin', 'cyrillic'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'Лизинг и точка — выгодный лизинг для вашего бизнеса',
   description: 'Подбор лучших лизинговых программ в Краснодаре и по всей России. Автолизинг, лизинг спецтехники, оборудования и недвижимости. Рассчитайте ваш ежемесячный платеж онлайн.',
-  metadataBase: new URL('https://lizing.peex.threee')
+  metadataBase: new URL('https://lizing-i-tochka.ru'),
+  openGraph: {
+    title: 'Лизинг и точка — выгодный лизинг для вашего бизнеса',
+    description: 'Подбор лучших лизинговых программ в Краснодаре и по всей России. Автолизинг, лизинг спецтехники, оборудования и недвижимости.',
+    url: 'https://lizing-i-tochka.ru',
+    siteName: 'Лизинг и точка',
+    locale: 'ru_RU',
+    type: 'website',
+    images: [
+      {
+        url: '/og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Лизинг и точка',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Лизинг и точка — выгодный лизинг для вашего бизнеса',
+    description: 'Подбор лучших лизинговых программ в Краснодаре и по всей России.',
+    images: ['/og.jpg'],
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/favicon-48x48.png' },
+    ],
+  },
 }
 
 export const viewport: Viewport = {
@@ -31,35 +66,12 @@ export default function RootLayout({ children, }: {
 }) {
   return (
     <html lang="ru">
-      <head>
-
-        {/* Yandex.Metrika counter */}
-        <Script id="yandex-metrika" strategy="afterInteractive">
-          {`
-            (function(m,e,t,r,i,k,a){
-                m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-                m[i].l=1*new Date();
-                for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-                k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-            })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=108276915', 'ym');
-
-            ym(108276915, 'init', {
-                defer: true,
-                clickmap: true,
-                trackLinks: true,
-                accurateTrackBounce: true,
-                webvisor: true
-            });
-          `}
-        </Script>
-        <noscript><div><img src="https://mc.yandex.ru/watch/108276915" style={{ position: 'absolute', left: '-9999px' }} alt="" /></div></noscript>
-        {/* /Yandex.Metrika counter */}
-      </head>
+      <head />
        <body className={`${inter.className} bg-black text-gray-300`}>
         <Metrika />
 
         <Hyperspeed />
-        <CustomCursor />
+        {/* <CustomCursor /> */}
         <Header />
         <main>{children}</main>
         <Footer />

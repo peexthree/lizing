@@ -10,8 +10,10 @@
 
     body {
         font-feature-settings: "kern" 1, "ss04" 1;
-        line-height: 1.5;
-        letter-spacing: 0.01em;
+        line-height: 1.4;
+        letter-spacing: -0.011em;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
 
     h1, h2, h3, h4, h5, h6, .glass-title {
