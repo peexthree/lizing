@@ -2,9 +2,7 @@
 import { FC, useState, useMemo } from "react";
 import Slider from "@/components/ui/Slider";
 import FormattedInput from "@/components/ui/FormattedInput";
-/* import { Button } from "@/components/ui/Button"; */
 import { buttonVariants } from "@/components/ui/Button";
-/* import { openLeadForm } from "@/lib/openLeadForm"; */
 
 const Calculator: FC = () => {
   const [cost, setCost] = useState(3000000);
@@ -20,14 +18,6 @@ const Calculator: FC = () => {
     const payment = totalCost / term;
     return Math.round(payment);
   }, [cost, initialFee, term]);
-
-  /* const handleOpenLeadForm = () => {
-    const calcSummary = `Стоимость: ${cost.toLocaleString()} ₽; Аванс: ${Math.round(
-      (cost * initialFee) / 100
-    ).toLocaleString()} ₽ (${initialFee}%); Срок: ${term} мес.; Платёж: ${monthlyPayment.toLocaleString()} ₽`;
-    openLeadForm({ calcSummary });
-  };
- */
 
   return (
     <section id="calculator" className="relative overflow-hidden py-20">
@@ -106,10 +96,11 @@ const Calculator: FC = () => {
             </p>
           </div>
            <div className="mt-6 text-center">
-             {/* <Button variant="glow" size="lg" onClick={handleOpenLeadForm}>
-                Получить точный расчёт
-            </Button> */}
-            <a className={buttonVariants({ variant: "glow", size: "lg" })} href="tel:+79677728299">
+            <a
+              className={buttonVariants({ variant: "glow", size: "lg" })}
+              href="tel:+79677728299"
+              aria-label="Позвонить нам для точного расчёта"
+            >
                 Позвонить нам
             </a>
            </div>
