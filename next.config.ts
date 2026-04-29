@@ -14,7 +14,7 @@ if (process.env.HTTPS_PROXY) {
 }
 
 const nextConfig: NextConfig = {
-  typedRoutes: true,
+  typedRoutes: false,
   images: {
     remotePatterns: [
       {
@@ -24,7 +24,11 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'plus.unsplash.com',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.dicebear.com',
+      },
     ],
   },
 }

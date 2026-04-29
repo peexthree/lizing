@@ -10,7 +10,6 @@ import '../components/Hyperspeed.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Hyperspeed from '@/components/Hyperspeed'
-import CustomCursor from '@/components/CustomCursor'
 import { Metrika } from '@/components/Metrika'
 import Script from 'next/script'
 
@@ -71,7 +70,6 @@ export default function RootLayout({ children, }: {
         <Metrika />
 
         <Hyperspeed />
-        {/* <CustomCursor /> */}
         <Header />
         <main>{children}</main>
         <Footer />
