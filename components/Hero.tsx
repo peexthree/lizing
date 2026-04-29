@@ -17,8 +17,7 @@ export default function Hero() {
         muted
         playsInline
       >
-        <source src="/herobg2.webm" type="video/webm" />
-        <source src="/herobg.mp4" type="video/mp4" />
+        <source src="/Branded_race_car_drives_fast_202604291548 (online-video-cutter.com).mp4" type="video/mp4" />
       </video>
 
       <div className="relative z-20 mx-auto max-w-3xl animate-fade-in-up px-4" style={{ animationDelay: '0.2s' }}>
